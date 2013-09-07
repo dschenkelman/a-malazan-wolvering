@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PhoneTicket.Android/PhoneTicket.Android.iml" filepath="$PROJECT_DIR$/PhoneTicket.Android/PhoneTicket.Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PhoneTicket.AndroidProject.iml" filepath="$PROJECT_DIR$/PhoneTicket.AndroidProject.iml" />
+    </modules>
+  </component>
+</project>
+
