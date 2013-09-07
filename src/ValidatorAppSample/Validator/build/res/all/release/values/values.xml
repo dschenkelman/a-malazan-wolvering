@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/E:/Workspace%20-%20Android/MyApplicationProject/Validator/res/values/attrs.xml -->
+    <declare-styleable name="OkCancelBar">
+        <attr name="okLabel" format="string" localization="suggested" />
+        <attr name="cancelLabel" format="string" localization="suggested" />
+    </declare-styleable>
+    <!-- From: file:/E:/Workspace%20-%20Android/MyApplicationProject/Validator/res/values/strings.xml -->
+    <string name="app_name">Android-Validator</string>
+    <string name="global_about">About</string>
+    <string name="global_accept">Accept</string>
+    <string name="global_address">Address</string>
+    <string name="global_cancel">Cancel</string>
+    <string name="global_email">Email</string>
+    <string name="global_name">Name</string>
+    <string name="global_password">Password</string>
+    <string name="global_phone">Phone</string>
+    <string name="global_submit">Submit</string>
+    <string name="global_website">Web Site</string>
+    <string name="validator_alnum">alnum</string>
+    <string name="validator_confirm">Confirm</string>
+    <string name="validator_email">email</string>
+    <string name="validator_empty">Empty Field</string>
+    <string name="validator_phone">phone</string>
+    <string name="validator_regexp">regex</string>
+    <string name="validator_url">url</string>
+    <!-- From: file:/E:/Workspace%20-%20Android/MyApplicationProject/Validator/res/values/themes.xml -->
+    <style name="Validator.Light" parent="@android:style/Theme.Light" />
+
+</resources>

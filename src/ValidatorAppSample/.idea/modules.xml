@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Validator/Validator.iml" filepath="$PROJECT_DIR$/Validator/Validator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ValidatorAppSample/ValidatorAppSample.iml" filepath="$PROJECT_DIR$/ValidatorAppSample/ValidatorAppSample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ValidatorAppSampleProject.iml" filepath="$PROJECT_DIR$/ValidatorAppSampleProject.iml" />
+    </modules>
+  </component>
+</project>
+
