@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="E:\Workspace - Android\MyApplicationProject\Validator\res" >
+            <file
+                name="ic_explain_about"
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\drawable-hdpi\ic_explain_about.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\drawable-hdpi\ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\drawable-ldpi\ic_launcher.png"
+                qualifiers="ldpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\drawable-mdpi\ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\drawable-xhdpi\ic_launcher.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="main"
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\layout\main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="widget_ok_cancel_bar"
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\layout\widget_ok_cancel_bar.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\values\attrs.xml"
+                qualifiers="" >
+                <declare-styleable name="OkCancelBar" >
+                    <attr
+                        name="okLabel"
+                        format="string"
+                        localization="suggested" />
+                    <attr
+                        name="cancelLabel"
+                        format="string"
+                        localization="suggested" />
+                </declare-styleable>
+            </file>
+            <file
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\values\strings.xml"
+                qualifiers="" >
+                <string name="validator_confirm" >Confirm
+                </string>
+                <string name="global_email" >Email
+                </string>
+                <string name="validator_regexp" >regex
+                </string>
+                <string name="global_name" >Name
+                </string>
+                <string name="validator_url" >url
+                </string>
+                <string name="validator_phone" >phone
+                </string>
+                <string name="global_address" >Address
+                </string>
+                <string name="global_submit" >Submit
+                </string>
+                <string name="validator_empty" >Empty Field
+                </string>
+                <string name="global_about" >About
+                </string>
+                <string name="global_website" >Web Site
+                </string>
+                <string name="validator_alnum" >alnum
+                </string>
+                <string name="global_cancel" >Cancel
+                </string>
+                <string name="app_name" >Android-Validator
+                </string>
+                <string name="global_password" >Password
+                </string>
+                <string name="global_phone" >Phone
+                </string>
+                <string name="validator_email" >email
+                </string>
+                <string name="global_accept" >Accept
+                </string>
+            </file>
+            <file
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\values\themes.xml"
+                qualifiers="" >
+
+                <style
+                    name="Validator.Light"
+                    parent="@android:style/Theme.Light" />
+            </file>
+            <file
+                path="E:\Workspace - Android\MyApplicationProject\Validator\res\values-v11\themes.xml"
+                qualifiers="v11" >
+
+                <style
+                    name="Validator.Light"
+                    parent="@android:style/Theme.Light" />
+            </file>
+        </source>
+        <source path="E:\Workspace - Android\MyApplicationProject\Validator\build\res\rs\release" />
+    </dataSet>
+    <dataSet config="release" >
+        <source path="E:\Workspace - Android\MyApplicationProject\Validator\src\release\res" />
+    </dataSet>
+
+</merger>
