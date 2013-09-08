@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="loginInputEmail">E-mail</string>
+    <string name="loginInputPassword">Password</string>
+    <string name="loginLoginButton">Ingresar</string>
+    <string name="loginRegisterButton">Registrarse</string>
+    
+</resources>
