@@ -4,9 +4,9 @@ import com.throrinstudio.android.common.libs.validator.AbstractValidate;
 import com.throrinstudio.android.common.libs.validator.Form;
 import com.throrinstudio.android.common.libs.validator.Validate;
 import com.throrinstudio.android.common.libs.validator.validate.ConfirmValidate;
-import com.throrinstudio.android.common.libs.validator.validate.OrTwoRequiredValidate;
 import com.throrinstudio.android.common.libs.validator.validator.EmailValidator;
 import com.throrinstudio.android.common.libs.validator.validator.NotEmptyValidator;
+import com.throrinstudio.android.common.libs.validator.validator.PhoneOrEmptyValidator;
 
 import phoneticket.android.R;
 import android.os.Bundle;
@@ -25,10 +25,10 @@ public class RegisterUserActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_user);
 		
-		createForm();
+		createValidationForm();
 	}
 	
-	private void createForm() {
+	private void createValidationForm() {
         Validate nameField              = new Validate((EditText)findViewById(R.id.inputFirstName));
         Validate lastNameField       	= new Validate((EditText)findViewById(R.id.inputLastName));
         Validate emailField             = new Validate((EditText)findViewById(R.id.inputEmail));
@@ -58,9 +58,9 @@ public class RegisterUserActivity extends Activity {
 
         emailField.addValidator(new EmailValidator(context));
 
-        /*
+        
         phoneField.addValidator(new PhoneOrEmptyValidator(context));
-        cellPhoneField.addValidator(new PhoneOrEmptyValidator(context));*/
+        cellPhoneField.addValidator(new PhoneOrEmptyValidator(context));
 
         registerForm = new Form();
         registerForm.addValidates(nameField);
