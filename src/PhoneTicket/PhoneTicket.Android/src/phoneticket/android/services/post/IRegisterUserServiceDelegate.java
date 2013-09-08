@@ -5,6 +5,6 @@ import phoneticket.android.model.IUser;
 public interface IRegisterUserServiceDelegate {
 
 	void registerUserFinish(IRegisterUserService service, IUser user);
-	void registerUserFinishWithError(IRegisterUserService service);
+	void registerUserFinishWithError(IRegisterUserService service, String errorMessage);
 
 }
