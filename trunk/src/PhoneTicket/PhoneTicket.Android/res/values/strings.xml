@@ -7,4 +7,8 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_register_user">RegisterUserActivity</string>
 
+    
+    <string name="mainActionTextMessage">Acción que requiere login:</string>
+    <string name="mainActionButton">Realizar acción</string>
+    
 </resources>

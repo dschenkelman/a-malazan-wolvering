@@ -18,70 +18,70 @@
 			android:id="@+id/inputFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre *"
+            android:hint="@string/registerUserInputFirstName"
             android:inputType="textPersonName" />
 		
 		<EditText
 			android:id="@+id/inputLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Apellido *"
+            android:hint="@string/registerUserInputLastName"
             android:inputType="textPersonName" />
 		
 		<EditText
 			android:id="@+id/inputEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="E-mail *"
+            android:hint="@string/registerUserInputEmail"
             android:inputType="textEmailAddress" />
 		
 		<EditText
 			android:id="@+id/inputDNI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="D.N.I. *"
+            android:hint="@string/registerUserInputDNI"
             android:inputType="text" />
 
 		<EditText
 			android:id="@+id/inputBirthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha de nacimiento"
+            android:hint="@string/registerUserInputBirthday"
             android:inputType="date" />		
 		
 		<EditText
 			android:id="@+id/inputPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Teléfono"
+            android:hint="@string/registerUserInputPhone"
             android:inputType="phone" />
 				
 		<EditText
 			android:id="@+id/inputCellPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Teléfono celular"
+            android:hint="@string/registerUserInputCellPhone"
             android:inputType="phone" />
 				
 		<EditText
 			android:id="@+id/inputPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password *"
+            android:hint="@string/registerUserInputPassword"
             android:inputType="textPassword" />
 		
 		<EditText
 			android:id="@+id/inputConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirmar password *"
+            android:hint="@string/registerUserInputConfirmPassword"
             android:inputType="textPassword" />
  	                
 		<Button 
 		    android:id="@+id/registerButton"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:text="Registrarse"
+		    android:text="@string/registerUserRegisterButton"
 		    android:onClick="onRegisterButtonAction" />
       
   	</LinearLayout>

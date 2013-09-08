@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="registerUserInputFirstName">Nombre *</string>
+    <string name="registerUserInputLastName">Apellido *</string>
+    <string name="registerUserInputEmail">E-mail *</string>
+    <string name="registerUserInputDNI">D.N.I. *</string>
+    <string name="registerUserInputBirthday">Fecha de nacimiento</string>
+    <string name="registerUserInputPhone">Teléfono</string>
+    <string name="registerUserInputCellPhone">Teléfono celular</string>
+    <string name="registerUserInputPassword">Contraseña *</string>
+    <string name="registerUserInputConfirmPassword">Confirmar contraseña *</string>
+    <string name="registerUserRegisterButton">Registrarse</string>
+    
+</resources>

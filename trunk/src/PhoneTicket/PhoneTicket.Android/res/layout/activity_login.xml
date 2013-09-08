@@ -18,28 +18,28 @@
 			android:id="@+id/inputEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="E-mail"
+            android:hint="@string/loginInputEmail"
             android:inputType="textEmailAddress" />
 		
 		<EditText
 			android:id="@+id/inputPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/loginInputPassword"
             android:inputType="textPassword" />
  	                
 		<Button 
 		    android:id="@+id/loginButton"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:text="Ingresar"
+		    android:text="@string/loginLoginButton"
 		    android:onClick="onLoginButtonAction" />
 
 		<Button 
 		    android:id="@+id/registerButton"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
-		    android:text="Registrarse"
+		    android:text="@string/loginRegisterButton"
 		    android:onClick="onRegisterButtonAction" />
       
   	</LinearLayout>
