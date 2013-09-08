@@ -7,9 +7,9 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-public class ErrorDialogFragment extends DialogFragment
+public class MessageDialogFragment extends DialogFragment
 {
-	private IErrorDialogDataSource datasource;
+	private IMessageDialogDataSource datasource;
 	
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -18,8 +18,8 @@ public class ErrorDialogFragment extends DialogFragment
 
         
         
-        builder.setMessage(datasource.getErrorMessage())
-        		.setTitle(datasource.getErrorTitle())
+        builder.setMessage(datasource.getMessage())
+        		.setTitle(datasource.getMessageTitle())
         		.setPositiveButton(R.string.errorDialogContinue, null);
         return builder.create();
     }
@@ -30,18 +30,18 @@ public class ErrorDialogFragment extends DialogFragment
         super.onAttach(activity);
         try
         {
-        	datasource = (IErrorDialogDataSource)activity;
+        	datasource = (IMessageDialogDataSource)activity;
         }
         catch (ClassCastException e)
         {
             throw new ClassCastException(activity.toString()
-                    + " must implement IErrorDialogDataSource");
+                    + " must implement IMessageDialogDataSource");
         }
     }
 
-    public interface IErrorDialogDataSource
+    public interface IMessageDialogDataSource
     {
-        String getErrorMessage();
-        String getErrorTitle();
+        String getMessage();
+        String getMessageTitle();
     }
 }
