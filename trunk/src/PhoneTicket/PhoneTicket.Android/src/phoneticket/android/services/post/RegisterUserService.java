@@ -1,11 +1,9 @@
 package phoneticket.android.services.post;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import org.apache.http.client.ClientProtocolException;
 
-import phoneticket.android.model.IUser;
 import phoneticket.android.model.User;
 import phoneticket.android.utils.APIService;
 
@@ -46,7 +44,7 @@ public class RegisterUserService extends PostService implements
             }
             else
             {
-            	delegate.registerUserFinishWithError(this);
+            	delegate.registerUserFinishWithError(this, "registerUserFinishWithError");
             }
             performingRequest = false;
             delegate = null;
@@ -56,7 +54,7 @@ public class RegisterUserService extends PostService implements
     @Override
     protected void handleStatusCodeNotOk(IOException e, int statusCode)
 	{
-    	delegate.registerUserFinishWithError(this);
+    	delegate.registerUserFinishWithError(this, "handleStatusCodeNotOk");
         performingRequest = false;
         delegate = null;
 	}
@@ -64,7 +62,7 @@ public class RegisterUserService extends PostService implements
     @Override
 	protected void handleClientProtocolException(ClientProtocolException e)
 	{
-    	delegate.registerUserFinishWithError(this);
+    	delegate.registerUserFinishWithError(this, "handleClientProtocolException");
         performingRequest = false;
         delegate = null;
 	}

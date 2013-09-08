@@ -9,21 +9,25 @@ import com.throrinstudio.android.common.libs.validator.validator.NotEmptyValidat
 import com.throrinstudio.android.common.libs.validator.validator.PhoneOrEmptyValidator;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.dialog.ErrorDialogFragment;
+import phoneticket.android.activities.dialog.ErrorDialogFragment.IErrorDialogDataSource;
 import phoneticket.android.model.IUser;
 import phoneticket.android.model.User;
 import phoneticket.android.services.factories.ServicesFactory;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.IRegisterUserServiceDelegate;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-public class RegisterUserActivity extends Activity implements IRegisterUserServiceDelegate {
+public class RegisterUserActivity extends FragmentActivity implements 
+	IRegisterUserServiceDelegate, IErrorDialogDataSource {
 
 	private Form registerForm;
+	private String lastErrorMesage;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,14 +106,23 @@ public class RegisterUserActivity extends Activity implements IRegisterUserServi
 	@Override
 	public void registerUserFinish(IRegisterUserService service, IUser user) {
 		// TODO Auto-generated method stub
-
 		Log.d("PhoneTicket", "registerUserFinish");
 	}
 
 	@Override
-	public void registerUserFinishWithError(IRegisterUserService service) {
-		// TODO Auto-generated method stub
+	public void registerUserFinishWithError(IRegisterUserService service, String errorMessage) {
+		lastErrorMesage = errorMessage;
+		ErrorDialogFragment dialog = new ErrorDialogFragment();
+    	dialog.show(getSupportFragmentManager(), "error");
+	}
 
-		Log.d("PhoneTicket", "registerUserFinishWithError");
+	@Override
+	public String getErrorMessage() {
+		return lastErrorMesage;
+	}
+
+	@Override
+	public String getErrorTitle() {
+		return "Error";
 	}
 }

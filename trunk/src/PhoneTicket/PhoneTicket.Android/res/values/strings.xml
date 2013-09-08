@@ -8,4 +8,6 @@
     <string name="mainActionTextMessage">Acción que requiere login:</string>
     <string name="mainActionButton">Realizar acción</string>
     
+    <string name="errorDialogContinue">Continuar</string>
+    
 </resources>
