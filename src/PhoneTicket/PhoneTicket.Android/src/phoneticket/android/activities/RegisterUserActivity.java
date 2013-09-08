@@ -9,6 +9,11 @@ import com.throrinstudio.android.common.libs.validator.validator.NotEmptyValidat
 import com.throrinstudio.android.common.libs.validator.validator.PhoneOrEmptyValidator;
 
 import phoneticket.android.R;
+import phoneticket.android.model.IUser;
+import phoneticket.android.model.User;
+import phoneticket.android.services.factories.ServicesFactory;
+import phoneticket.android.services.post.IRegisterUserService;
+import phoneticket.android.services.post.IRegisterUserServiceDelegate;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-public class RegisterUserActivity extends Activity {
+public class RegisterUserActivity extends Activity implements IRegisterUserServiceDelegate {
 
 	private Form registerForm;
 	
@@ -39,10 +44,6 @@ public class RegisterUserActivity extends Activity {
         Validate passwordField          = new Validate((EditText)findViewById(R.id.inputPassword));
         Validate confirmPasswordField   = new Validate((EditText)findViewById(R.id.inputConfirmPassword));
 
-        /*
-        AbstractValidate phonesFields = new OrTwoRequiredValidate(
-                (EditText)findViewById(R.id.inputPhone),
-                (EditText)findViewById(R.id.inputCellPhone));*/
         AbstractValidate confirmFields = new ConfirmValidate(
                 (EditText)findViewById(R.id.inputPassword),
                 (EditText)findViewById(R.id.inputConfirmPassword));
@@ -77,9 +78,38 @@ public class RegisterUserActivity extends Activity {
 
 	public void onRegisterButtonAction(View sender) {
 		if(registerForm.validate()) {
-			Log.d("PhoneTicket", "form is valid");
-		} else {
-			Log.d("PhoneTicket", "form is not valid");
+			User user = generateUser();
+			IRegisterUserService service = ServicesFactory.createRegisterUserService();
+			service.registerUser(user, this);
 		}
+	}
+	
+	private User generateUser() {
+        String name = ((EditText)findViewById(R.id.inputFirstName)).getText().toString();
+        String lastName = ((EditText)findViewById(R.id.inputLastName)).getText().toString();
+        String email = ((EditText)findViewById(R.id.inputEmail)).getText().toString();
+        String dni = ((EditText)findViewById(R.id.inputDNI)).getText().toString();
+        String birthday = ((EditText)findViewById(R.id.inputBirthday)).getText().toString();
+        String phone = ((EditText)findViewById(R.id.inputPhone)).getText().toString();
+        String cellPhone = ((EditText)findViewById(R.id.inputCellPhone)).getText().toString();
+        String password = ((EditText)findViewById(R.id.inputPassword)).getText().toString();
+        
+        User user = new User(name, lastName, email, Integer.parseInt(dni), 
+        		birthday, phone, cellPhone, password);
+        return user;
+	}
+
+	@Override
+	public void registerUserFinish(IRegisterUserService service, IUser user) {
+		// TODO Auto-generated method stub
+
+		Log.d("PhoneTicket", "registerUserFinish");
+	}
+
+	@Override
+	public void registerUserFinishWithError(IRegisterUserService service) {
+		// TODO Auto-generated method stub
+
+		Log.d("PhoneTicket", "registerUserFinishWithError");
 	}
 }
