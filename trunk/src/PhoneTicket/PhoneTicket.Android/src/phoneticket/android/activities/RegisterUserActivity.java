@@ -9,6 +9,8 @@ import com.throrinstudio.android.common.libs.validator.validator.NotEmptyValidat
 import com.throrinstudio.android.common.libs.validator.validator.PhoneOrEmptyValidator;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.dialog.ConfirmUserRegisterDialogFragment.IConfirmUserRegisterDialogDelegate;
+import phoneticket.android.activities.dialog.ConfirmUserRegisterDialogFragment;
 import phoneticket.android.activities.dialog.MessageDialogFragment;
 import phoneticket.android.activities.dialog.MessageDialogFragment.IMessageDialogDataSource;
 import phoneticket.android.model.IUser;
@@ -16,17 +18,16 @@ import phoneticket.android.model.User;
 import phoneticket.android.services.factories.ServicesFactory;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.IRegisterUserServiceDelegate;
-import android.net.Uri;
 import android.os.Bundle;
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 public class RegisterUserActivity extends FragmentActivity implements 
-	IRegisterUserServiceDelegate, IMessageDialogDataSource {
+	IRegisterUserServiceDelegate, IMessageDialogDataSource,
+	IConfirmUserRegisterDialogDelegate{
 
 	private Form registerForm;
 	private String lastMesage;
@@ -108,11 +109,8 @@ public class RegisterUserActivity extends FragmentActivity implements
 
 	@Override
 	public void registerUserFinish(IRegisterUserService service, IUser user) {
-		/*
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-		startActivity(browserIntent);*/
-		lastMesage = "Se le ha enviado un e-mail a la casilla de correo. Haga click en el link para confirmar su cuenta.";
-		lastMessageTitle = "Confirme su cuenta";
+    	ConfirmUserRegisterDialogFragment dialog = new ConfirmUserRegisterDialogFragment();
+    	dialog.show(getSupportFragmentManager(), "dialog.confirmuser");
 	}
 
 	@Override
@@ -120,7 +118,7 @@ public class RegisterUserActivity extends FragmentActivity implements
 		lastMesage = errorMessage;
 		lastMessageTitle = "Error";
 		MessageDialogFragment dialog = new MessageDialogFragment();
-    	dialog.show(getSupportFragmentManager(), "error");
+    	dialog.show(getSupportFragmentManager(), "dialog.error");
 	}
 
 	@Override
@@ -131,5 +129,10 @@ public class RegisterUserActivity extends FragmentActivity implements
 	@Override
 	public String getMessageTitle() {
 		return lastMessageTitle;
+	}
+
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		onBackPressed();
 	}
 }
