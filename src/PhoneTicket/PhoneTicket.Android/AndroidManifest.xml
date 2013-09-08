@@ -7,16 +7,19 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-    <instrumentation android:targetPackage="phoneticket.android" android:name="android.test.InstrumentationTestRunner"></instrumentation>
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="phoneticket.android" >
+    </instrumentation>
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
-    	<uses-library android:name="android.test.runner" />
-    
+        <uses-library android:name="android.test.runner" />
+
         <activity
             android:name="phoneticket.android.activities.MainActivity"
             android:label="@string/app_name" >
@@ -29,6 +32,10 @@
         <activity
             android:name="phoneticket.android.activities.LoginActivity"
             android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name="phoneticket.android.activities.RegisterUserActivity"
+            android:label="@string/title_activity_register_user" >
         </activity>
     </application>
 

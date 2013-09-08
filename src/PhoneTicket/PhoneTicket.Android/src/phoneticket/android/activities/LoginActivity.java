@@ -4,6 +4,7 @@ import phoneticket.android.R;
 import android.os.Bundle;
 import android.view.View;
 import android.app.Activity;
+import android.content.Intent;
 
 public class LoginActivity extends Activity {
 
@@ -18,6 +19,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	public void onRegisterButtonAction(View sender) {
-		
+		Intent intent = new Intent(this, RegisterUserActivity.class);
+        startActivity(intent);
 	}
 }
