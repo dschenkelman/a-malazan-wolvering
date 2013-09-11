@@ -1,5 +1,6 @@
 package phoneticket.android.activities;
 
+import com.google.inject.Inject;
 import com.throrinstudio.android.common.libs.validator.Form;
 import com.throrinstudio.android.common.libs.validator.Validate;
 import com.throrinstudio.android.common.libs.validator.validator.EmailValidator;
@@ -9,19 +10,19 @@ import phoneticket.android.R;
 import phoneticket.android.activities.dialog.MessageDialogFragment;
 import phoneticket.android.activities.dialog.MessageDialogFragment.IMessageDialogDataSource;
 import phoneticket.android.model.LoginUser;
-import phoneticket.android.services.factories.ServicesFactory;
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IAuthServiceDelegate;
+import roboguice.activity.RoboFragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.content.Context;
 import android.content.Intent;
 
-public class LoginActivity extends FragmentActivity implements 
+public class LoginActivity extends RoboFragmentActivity implements 
 	IAuthServiceDelegate, IMessageDialogDataSource {
 
+	@Inject private IAuthService service;
 	private Form loginForm;
 	private String lastMesage;
 	private String lastMessageTitle;
@@ -30,7 +31,6 @@ public class LoginActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
 		createLoginForm();
 	}
 	
@@ -53,7 +53,6 @@ public class LoginActivity extends FragmentActivity implements
 	public void onLoginButtonAction(View sender) {
 		if(loginForm.validate()) {
 			LoginUser loginUser = createLoginUser();
-			IAuthService service = ServicesFactory.createAuthService();
 			service.authUser(this, loginUser);
 		}
 	}
