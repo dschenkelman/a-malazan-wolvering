@@ -1,7 +1,6 @@
 package phoneticket.android.activities;
 
 import com.google.inject.Inject;
-import com.throrinstudio.android.common.libs.validator.Form;
 import com.throrinstudio.android.common.libs.validator.Validate;
 import com.throrinstudio.android.common.libs.validator.validator.EmailValidator;
 import com.throrinstudio.android.common.libs.validator.validator.NotEmptyValidator;
@@ -12,6 +11,7 @@ import phoneticket.android.activities.dialog.MessageDialogFragment.IMessageDialo
 import phoneticket.android.model.LoginUser;
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IAuthServiceDelegate;
+import phoneticket.android.validator.IFormValidator;
 import roboguice.activity.RoboFragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +23,7 @@ public class LoginActivity extends RoboFragmentActivity implements
 	IAuthServiceDelegate, IMessageDialogDataSource {
 
 	@Inject private IAuthService service;
-	private Form loginForm;
+	@Inject private IFormValidator loginForm;
 	private String lastMesage;
 	private String lastMessageTitle;
 	
@@ -45,7 +45,6 @@ public class LoginActivity extends RoboFragmentActivity implements
 
         emailField.addValidator(new EmailValidator(context));
         
-		loginForm = new Form();
 		loginForm.addValidates(emailField);
 		loginForm.addValidates(passwordField);
 	}
