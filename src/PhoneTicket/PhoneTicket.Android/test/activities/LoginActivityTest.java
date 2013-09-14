@@ -10,7 +10,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.ShadowPreferenceManager;
 
+import android.content.SharedPreferences;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -18,6 +20,7 @@ import phoneticket.android.R;
 import phoneticket.android.activities.LoginActivity;
 import phoneticket.android.model.LoginUser;
 import phoneticket.android.services.post.IAuthService;
+import phoneticket.android.utils.UserManager;
 import phoneticket.android.validator.IFormValidator;
 
 @RunWith(RobolectricTestRunner.class)
@@ -46,14 +49,18 @@ public class LoginActivityTest {
 		user.setText("gfesta@gmail.com");
 		password = (EditText) activity.findViewById(R.id.inputPassword);
 		password.setText("password");
+		SharedPreferences sharedPreferences = ShadowPreferenceManager
+				.getDefaultSharedPreferences(Robolectric.application
+						.getApplicationContext());
+		UserManager.initialize(sharedPreferences);
 	}
 
 	@Test
-	public void loginActivityCallFormValidator(){
+	public void loginActivityCallFormValidator() {
 		login.performClick();
-		Mockito.verify(formValidator,Mockito.times(1)).validate();
+		Mockito.verify(formValidator, Mockito.times(1)).validate();
 	}
-	
+
 	@Test
 	public void loginActivityCallAuthService() {
 		Mockito.when(formValidator.validate()).thenReturn(true);
