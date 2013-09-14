@@ -38,7 +38,7 @@ public class AuthService extends PostService implements IAuthService {
 						statusLine.getStatusCode() + "");
 			} else {
 				int id = Integer.parseInt(result);
-				UserManager.getInstance().createUserWithId(id,true);
+				UserManager.getInstance().loginUserWithId(id,true);
 				delegate.authServiceDelegateFinish(this, postBodyObject);
 			}
 			performingRequest = false;
