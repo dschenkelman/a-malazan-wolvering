@@ -2,7 +2,7 @@ package phoneticket.android.utils;
 
 public class APIService {
 	
-	static private String host = "https://Damian-PC";
+	static private String host = "https://192.168.1.36";
 	static private int port = 44300;
 	
 	public static String baseAPIURL() {
@@ -14,8 +14,7 @@ public class APIService {
 	}
 
 	public static String getAuthServicePostURL() {
-		// TODO the url
-		return baseAPIURL() + "superuri";
+		return baseAPIURL() + "users/auth";
 	}
 
 }

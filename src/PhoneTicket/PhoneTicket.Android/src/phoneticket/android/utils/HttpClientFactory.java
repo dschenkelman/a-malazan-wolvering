@@ -39,6 +39,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 
 public class HttpClientFactory
@@ -47,10 +48,9 @@ public class HttpClientFactory
 	{
 		DefaultHttpClient client = getHttpClient();
 		CredentialsProvider provider = new BasicCredentialsProvider();
-		// TODO credentials
-		Credentials credentials = new UsernamePasswordCredentials("a", "a");
-				/*Settings.getInstance().getUser(),
-				Settings.getInstance().getPassword());*/
+		Credentials credentials = new UsernamePasswordCredentials(
+				UserManager.getInstance().getEmailAddressCredential(),
+				UserManager.getInstance().getPasswordCredential());
 		provider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT), credentials);
 		client.setCredentialsProvider(provider);
 		return client;
@@ -101,6 +101,7 @@ public class HttpClientFactory
 
 	    private static final TrustAllSSLSocketFactory DEFAULT_FACTORY = new TrustAllSSLSocketFactory();
 	
+	    @Suppress
 	    public static TrustAllSSLSocketFactory getSocketFactory() {
 	        return DEFAULT_FACTORY;
 	    }

@@ -14,6 +14,7 @@ import phoneticket.android.model.LoginUser;
 import phoneticket.android.services.factories.ServicesFactory;
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IAuthServiceDelegate;
+import phoneticket.android.utils.UserManager;
 import phoneticket.android.validator.IFormValidator;
 import roboguice.activity.RoboFragmentActivity;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class LoginActivity extends RoboFragmentActivity implements
 	private IFormValidator loginForm;
 	private String lastMesage;
 	private String lastMessageTitle;
-	
+
 	private ProgressDialogFragment progressDialog;
 
 	@Override
@@ -63,21 +64,22 @@ public class LoginActivity extends RoboFragmentActivity implements
 		if (loginForm.validate()) {
 			showProgressDialog();
 			LoginUser loginUser = createLoginUser();
+			UserManager.getInstance().setCredentials(loginUser.getEmail(),
+					loginUser.getPassword());
 			service = ServicesFactory.createAuthService();
 			service.authUser(this, loginUser);
 		}
 	}
 
 	private void showProgressDialog() {
-		if(null == progressDialog)
+		if (null == progressDialog)
 			progressDialog = new ProgressDialogFragment();
 		progressDialog.show(getSupportFragmentManager(), "dialog.progress");
 	}
-	
+
 	private void hideProgressDialog() {
 		progressDialog.dismiss();
 	}
-	
 
 	private LoginUser createLoginUser() {
 		String email = ((EditText) findViewById(R.id.inputEmail)).getText()
@@ -121,8 +123,7 @@ public class LoginActivity extends RoboFragmentActivity implements
 
 	@Override
 	public String getProgressMessageTitle() {
-		// TODO Auto-generated method stub
-		return "mes";
+		return "Espera un momento";
 	}
 
 }
