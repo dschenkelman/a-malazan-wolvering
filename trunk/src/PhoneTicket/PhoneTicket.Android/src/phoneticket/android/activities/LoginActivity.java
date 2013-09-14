@@ -21,6 +21,7 @@ import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectResource;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.content.Context;
 import android.content.Intent;
@@ -73,12 +74,21 @@ public class LoginActivity extends RoboFragmentActivity implements
 
 	public void onLoginButtonAction(View sender) {
 		if (loginForm.validate()) {
+			hideKeyboard();
 			showProgressDialog();
 			LoginUser loginUser = createLoginUser();
 			UserManager.getInstance().setCredentials(loginUser.getEmail(),
 					loginUser.getPassword());
 			service.authUser(this, loginUser);
 		}
+	}
+
+	private void hideKeyboard() {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		EditText field = (EditText) findViewById(R.id.inputEmail);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
+		field = (EditText) findViewById(R.id.inputPassword);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
 	}
 
 	private void showProgressDialog() {
