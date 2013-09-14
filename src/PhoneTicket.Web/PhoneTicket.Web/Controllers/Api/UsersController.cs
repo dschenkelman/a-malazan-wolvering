@@ -4,29 +4,35 @@
     using System.Net;
     using System.Net.Http;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
 
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
 
+    [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
+        private readonly IUserService userService;
+
         private readonly ITemporaryUserService temporaryUserService;
 
-        public UsersController(ITemporaryUserService temporaryUserService)
+        public UsersController(IUserService userService, ITemporaryUserService temporaryUserService)
         {
+            this.userService = userService;
             this.temporaryUserService = temporaryUserService;
         }
 
-        public async Task<HttpResponseMessage> Post(NewUserViewModel user)
+        [HttpPost("")]
+        public async Task<HttpResponseMessage> Create(NewUserViewModel user)
         {
             await this.temporaryUserService.CreateUser(user);
 
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
-        [HttpGet]
+        [HttpGet("{id}/confirm")]
         public async Task<HttpResponseMessage> Confirm(int id, Guid secret)
         {
             if (await this.temporaryUserService.IsSecretValid(id, secret))
@@ -43,6 +49,13 @@
             }
 
             throw new HttpResponseException(HttpStatusCode.NotFound);
+        }
+
+        [Authorize]
+        [HttpPost("auth")]
+        public async Task<int> Auth()
+        {
+            return await this.userService.GetId(Thread.CurrentPrincipal.Identity.Name);
         }
     }
 }
