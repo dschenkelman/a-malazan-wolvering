@@ -18,7 +18,8 @@
  		    android:id="@+id/personalDataTitle"
  		    android:layout_width="wrap_content"
  		    android:layout_height="wrap_content"
- 		    android:text="@string/registerUserDataTitle" />
+ 		    android:text="@string/registerUserDataTitle"
+ 		    android:textAppearance="?android:attr/textAppearanceLarge" />
  	    
 		<EditText
 			android:id="@+id/inputFirstName"
@@ -59,7 +60,8 @@
 		    android:id="@+id/accountDataTitle"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:text="@string/registerUserAccountTitle" />
+		    android:text="@string/registerUserAccountTitle"
+ 		    android:textAppearance="?android:attr/textAppearanceLarge" />
 
 		<EditText
 		    android:id="@+id/inputEmail"
@@ -67,10 +69,7 @@
 		    android:layout_height="wrap_content"
 		    android:ems="10"
 		    android:hint="@string/registerUserInputEmail"
-		    android:inputType="textEmailAddress" >
-
-		    <requestFocus />
-		</EditText>
+		    android:inputType="textEmailAddress" />
 				
 		<EditText
 			android:id="@+id/inputPassword"

@@ -1,24 +1,52 @@
 package phoneticket.android.services.post.impl;
 
+import com.google.gson.Gson;
+
 import phoneticket.android.model.User;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.IRegisterUserServiceDelegate;
+import phoneticket.android.services.post.PostService;
+import phoneticket.android.utils.APIService;
 
-public class RegisterUserService implements IRegisterUserService {
+public class RegisterUserService extends PostService implements
+		IRegisterUserService {
+
+	private User postObject;
+	private IRegisterUserServiceDelegate delegate;
+
+	public RegisterUserService() {
+		performingRequest = false;
+	}
+
 	@Override
 	public void registerUser(User user, IRegisterUserServiceDelegate delegate) {
-		if (user.getEmail().equals("mservetto@gmail.com")
-				|| user.getEmail().equals("srodriguez@gmail.com")
-				|| user.getEmail().equals("dschenkelman@gmail.com")
-				|| user.getEmail().equals("gfesta@gmail.com")) {
-			delegate.registerUserFinishWithError(this, "E-mail en uso.");
+		if (true == performingRequest)
 			return;
-		}
-		if (1111 == user.getDni()) {
-			delegate.registerUserFinishWithError(this, "La persona con DNI "
-					+ user.getDni() + " ya posee cuenta");
+		if (null == delegate || null == user)
 			return;
+		performingRequest = true;
+		this.delegate = delegate;
+		postObject = user;
+		execute(APIService.getRegisterUserPostURL());
+	}
+
+	@Override
+	protected void onPostExecute(String result) {
+		super.onPostExecute(result);
+		if (performingRequest) {
+			if (201 != statusLine.getStatusCode()) {
+				delegate.registerUserFinishWithError(this, "Error");
+			} else {
+				delegate.registerUserFinish(this, postObject);
+			}
+			performingRequest = false;
+			delegate = null;
 		}
-		delegate.registerUserFinish(this, user);
+	}
+
+	@Override
+	protected String generatePostBodyObject() {
+		String jsonString = new Gson().toJson(postObject, User.class);
+		return jsonString;
 	}
 }

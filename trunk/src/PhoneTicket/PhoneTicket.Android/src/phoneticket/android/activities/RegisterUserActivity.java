@@ -22,6 +22,7 @@ import roboguice.activity.RoboFragmentActivity;
 import android.os.Bundle;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -105,13 +106,15 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 
 	@Override
 	public void registerUserFinish(IRegisterUserService service, IUser user) {
-    	ConfirmUserRegisterDialogFragment dialog = new ConfirmUserRegisterDialogFragment();
+    	Log.d("PhoneTicket", "registerUserFinish");
+		ConfirmUserRegisterDialogFragment dialog = new ConfirmUserRegisterDialogFragment();
     	dialog.show(getSupportFragmentManager(), "dialog.confirmuser");
 	}
 
 	@Override
 	public void registerUserFinishWithError(IRegisterUserService service, String errorMessage) {
-		lastMesage = errorMessage;
+    	Log.d("PhoneTicket", "registerUserFinishWithError");
+    	lastMesage = errorMessage;
 		lastMessageTitle = "Error";
 		MessageDialogFragment dialog = new MessageDialogFragment();
     	dialog.show(getSupportFragmentManager(), "dialog.error");
