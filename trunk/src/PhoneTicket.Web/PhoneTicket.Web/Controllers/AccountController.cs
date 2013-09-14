@@ -17,6 +17,7 @@ namespace PhoneTicket.Web.Controllers
 
     [Authorize]
     [InitializeSimpleMembership]
+    [RequireHttps]
     public class AccountController : Controller
     {
         //

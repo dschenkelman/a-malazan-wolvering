@@ -1,11 +1,13 @@
 ﻿namespace PhoneTicket.Web.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Data;
+    using PhoneTicket.Web.Models;
 
     public class UserService : IUserService, IDisposable
     {
@@ -19,6 +21,11 @@
         public Task<int> GetId(string email)
         {
             return this.db.Users.Where(u => u.EmailAddress == email).Select(u => u.Id).FirstAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            return await this.db.Users.ToListAsync();
         }
 
         public void Dispose()

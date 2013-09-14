@@ -1,4 +1,4 @@
-﻿namespace PhoneTicket.Web.Tests.Controllers
+﻿namespace PhoneTicket.Web.Tests.Controllers.Api
 {
     using System;
     using System.Net;
@@ -11,7 +11,7 @@
 
     using Moq;
 
-    using PhoneTicket.Web.Controllers;
+    using PhoneTicket.Web.Controllers.Api;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
 

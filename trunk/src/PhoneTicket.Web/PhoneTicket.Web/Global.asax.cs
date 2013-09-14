@@ -25,6 +25,7 @@
             var resolver = new UnityResolverConfigurator().Configure(container);
 
             GlobalConfiguration.Configuration.DependencyResolver = resolver;
+            DependencyResolver.SetResolver(resolver);
 
             GlobalConfiguration.Configuration.MessageHandlers.Add(new RequireHttpsMessageHandler());
         }

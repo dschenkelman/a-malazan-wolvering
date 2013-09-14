@@ -4,7 +4,6 @@
 
     using Microsoft.Practices.Unity;
 
-    using PhoneTicket.Web.Controllers;
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Services;
 
@@ -14,7 +13,9 @@
         {
             container.RegisterType<ITemporaryUserService, TemporaryUserService>();
             container.RegisterType<IUserService, UserService>();
-            container.RegisterType<UsersController>();
+            
+            container.RegisterType<PhoneTicket.Web.Controllers.Api.UsersController>();
+            container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();
             container.RegisterType<PhoneTicketContext>();
 
             var resolver = new UnityDependencyResolver(container);

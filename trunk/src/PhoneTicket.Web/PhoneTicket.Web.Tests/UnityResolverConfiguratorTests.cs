@@ -9,7 +9,7 @@
     using Moq;
 
     using PhoneTicket.Web;
-    using PhoneTicket.Web.Controllers;
+    using PhoneTicket.Web.Controllers.Api;
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Services;
 
