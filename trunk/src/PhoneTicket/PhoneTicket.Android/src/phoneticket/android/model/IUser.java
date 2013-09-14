@@ -7,7 +7,6 @@ public interface IUser {
 	String getEmail();
 	int getDni();
 	String getBirthday();
-	String getPhone();
 	String getCellPhone();
 	String getPassword();
 }
