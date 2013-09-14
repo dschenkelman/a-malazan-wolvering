@@ -12,10 +12,11 @@ import phoneticket.android.R;
 import phoneticket.android.activities.dialog.ConfirmUserRegisterDialogFragment.IConfirmUserRegisterDialogDelegate;
 import phoneticket.android.activities.dialog.ConfirmUserRegisterDialogFragment;
 import phoneticket.android.activities.dialog.MessageDialogFragment;
+import phoneticket.android.activities.dialog.ProgressDialogFragment;
 import phoneticket.android.activities.dialog.MessageDialogFragment.IMessageDialogDataSource;
+import phoneticket.android.activities.dialog.ProgressDialogFragment.IProgressDialogDataSource;
 import phoneticket.android.model.IUser;
 import phoneticket.android.model.User;
-import phoneticket.android.services.factories.ServicesFactory;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.IRegisterUserServiceDelegate;
 import phoneticket.android.validator.IFormValidator;
@@ -29,7 +30,7 @@ import android.widget.EditText;
 
 public class RegisterUserActivity extends RoboFragmentActivity implements
 		IRegisterUserServiceDelegate, IMessageDialogDataSource,
-		IConfirmUserRegisterDialogDelegate {
+		IConfirmUserRegisterDialogDelegate, IProgressDialogDataSource {
 
 	@Inject
 	private IFormValidator registerForm;
@@ -37,6 +38,8 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 	private IRegisterUserService service;
 	private String lastMesage;
 	private String lastMessageTitle;
+
+	private ProgressDialogFragment progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +96,20 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 
 	public void onRegisterButtonAction(View sender) {
 		if (registerForm.validate()) {
+			showProgressDialog();
 			User user = generateUser();
-			service = ServicesFactory.createRegisterUserService();
 			service.registerUser(user, this);
 		}
+	}
+
+	private void showProgressDialog() {
+		if (null == progressDialog)
+			progressDialog = new ProgressDialogFragment();
+		progressDialog.show(getSupportFragmentManager(), "dialog.progress");
+	}
+
+	private void hideProgressDialog() {
+		progressDialog.dismiss();
 	}
 
 	private User generateUser() {
@@ -123,6 +136,7 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 	@Override
 	public void registerUserFinish(IRegisterUserService service, IUser user) {
 		Log.d("PhoneTicket", "registerUserFinish");
+		hideProgressDialog();
 		ConfirmUserRegisterDialogFragment dialog = new ConfirmUserRegisterDialogFragment();
 		dialog.show(getSupportFragmentManager(), "dialog.confirmuser");
 	}
@@ -131,6 +145,7 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 	public void registerUserFinishWithError(IRegisterUserService service,
 			String errorMessage) {
 		Log.d("PhoneTicket", "registerUserFinishWithError");
+		hideProgressDialog();
 		lastMesage = errorMessage;
 		lastMessageTitle = "Error";
 		MessageDialogFragment dialog = new MessageDialogFragment();
@@ -150,5 +165,10 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
 		onBackPressed();
+	}
+
+	@Override
+	public String getProgressMessageTitle() {
+		return "Espera un momento";
 	}
 }

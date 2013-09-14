@@ -11,7 +11,6 @@ import phoneticket.android.activities.dialog.ProgressDialogFragment;
 import phoneticket.android.activities.dialog.MessageDialogFragment.IMessageDialogDataSource;
 import phoneticket.android.activities.dialog.ProgressDialogFragment.IProgressDialogDataSource;
 import phoneticket.android.model.LoginUser;
-import phoneticket.android.services.factories.ServicesFactory;
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IAuthServiceDelegate;
 import phoneticket.android.utils.UserManager;
@@ -66,7 +65,6 @@ public class LoginActivity extends RoboFragmentActivity implements
 			LoginUser loginUser = createLoginUser();
 			UserManager.getInstance().setCredentials(loginUser.getEmail(),
 					loginUser.getPassword());
-			service = ServicesFactory.createAuthService();
 			service.authUser(this, loginUser);
 		}
 	}
@@ -96,7 +94,6 @@ public class LoginActivity extends RoboFragmentActivity implements
 
 	@Override
 	public void authServiceDelegateFinish(IAuthService service, LoginUser user) {
-		// TODO Auto-generated method stub
 		hideProgressDialog();
 		onBackPressed();
 	}

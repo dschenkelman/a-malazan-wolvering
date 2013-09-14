@@ -34,6 +34,10 @@ public class MainActivityTest {
 	@Test
 	public void buttonShouldBeVisible() throws Exception {
 		assertThat(login.getVisibility(), equalTo(View.VISIBLE));
+	}
+	
+	@Test
+	public void shouldGenerateIntentToLoginActivityClass() throws Exception {
 		login.performClick();
 		ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
 		Intent intent = shadowActivity.getNextStartedActivity();
