@@ -35,7 +35,7 @@ public class AuthService extends PostService implements IAuthService {
 		if (connectionSuccess) {
 			if (statusLine.getStatusCode() >= 400) {
 				delegate.authServiceDelegateFinishWithError(this,
-						statusLine.getStatusCode() + "");
+						statusLine.getStatusCode());
 			} else {
 				int id = Integer.parseInt(result);
 				UserManager.getInstance().loginUserWithId(id,true);
@@ -44,7 +44,7 @@ public class AuthService extends PostService implements IAuthService {
 			performingRequest = false;
 			delegate = null;
 		} else {
-			delegate.authServiceDelegateFinishWithError(this, "Error");
+			delegate.authServiceDelegateFinishWithError(this, 0);
 		}
 	}
 

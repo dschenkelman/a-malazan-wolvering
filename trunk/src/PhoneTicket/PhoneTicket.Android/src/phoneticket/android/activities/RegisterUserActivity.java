@@ -1,5 +1,7 @@
 package phoneticket.android.activities;
 
+import java.util.Arrays;
+
 import com.google.inject.Inject;
 import com.throrinstudio.android.common.libs.validator.AbstractValidate;
 import com.throrinstudio.android.common.libs.validator.Validate;
@@ -21,6 +23,7 @@ import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.IRegisterUserServiceDelegate;
 import phoneticket.android.validator.IFormValidator;
 import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectResource;
 import android.os.Bundle;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
@@ -36,8 +39,16 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 	private IFormValidator registerForm;
 	@Inject
 	private IRegisterUserService service;
+
+	@InjectResource(R.string.defaulErrorMessage)
 	private String lastMesage;
 	private String lastMessageTitle;
+
+	@InjectResource(R.array.codes)
+	private String[] codes;
+
+	@InjectResource(R.array.codesNames)
+	private String[] codesNames;
 
 	private ProgressDialogFragment progressDialog;
 
@@ -143,11 +154,14 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 
 	@Override
 	public void registerUserFinishWithError(IRegisterUserService service,
-			String errorMessage) {
+			Integer errorCode) {
 		Log.d("PhoneTicket", "registerUserFinishWithError");
 		hideProgressDialog();
-		lastMesage = errorMessage;
-		lastMessageTitle = "Error";
+		Integer index = Arrays.asList(codes).indexOf(errorCode.toString());
+		if (index != null)
+			lastMesage = codesNames[index];
+		else
+			lastMesage = getResources().getString(R.string.defaulErrorMessage);
 		MessageDialogFragment dialog = new MessageDialogFragment();
 		dialog.show(getSupportFragmentManager(), "dialog.error");
 	}
