@@ -9,6 +9,7 @@
     using System.Web.Http;
 
     using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.Templates;
     using PhoneTicket.Web.ViewModels;
 
     [RoutePrefix("api/users")]
@@ -18,16 +19,26 @@
 
         private readonly ITemporaryUserService temporaryUserService;
 
-        public UsersController(IUserService userService, ITemporaryUserService temporaryUserService)
+        private IEmailService emailService;
+
+        public UsersController(IUserService userService, ITemporaryUserService temporaryUserService, IEmailService emailService)
         {
             this.userService = userService;
             this.temporaryUserService = temporaryUserService;
+            this.emailService = emailService;
         }
 
         [HttpPost("")]
-        public async Task<HttpResponseMessage> Create(NewUserViewModel user)
+        public async Task<HttpResponseMessage> Create(NewUserViewModel userViewModel)
         {
-            await this.temporaryUserService.CreateUser(user);
+            var secret = await this.temporaryUserService.CreateUser(userViewModel);
+
+            var user = userViewModel.ToUser();
+            EmailTemplate template = new EmailTemplate(user, secret);
+
+            var confirmationMail = emailService.CreateMessage("[PhoneTicket] Confirmar registracion", template.TransformText(), user.EmailAddress);
+
+            await emailService.SendAsync(confirmationMail);
 
             return new HttpResponseMessage(HttpStatusCode.Created);
         }

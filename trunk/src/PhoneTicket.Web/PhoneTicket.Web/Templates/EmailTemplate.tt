@@ -1,0 +1,14 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<body>
+
+<h3>Estimado <#=this.User.FirstName#> <#=this.User.LastName#> </h3>
+
+<p>Su solicitud de registro ha sido procesada exitosamente. Para activar su cuenta por favor haga click 
+<a href="https://damian-pc:44300/api/users/<#=this.User.Id#>/confirm?secret=<#=this.Secret.ToString()#>">aqui</a>.  <p>
+
+</body>

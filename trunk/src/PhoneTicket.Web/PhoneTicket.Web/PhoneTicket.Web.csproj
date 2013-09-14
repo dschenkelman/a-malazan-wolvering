@@ -216,9 +216,17 @@
     <Compile Include="Models\TemporaryUser.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\TemporaryUserService.cs" />
+    <Compile Include="Templates\EmailTemplate.Context.cs" />
+    <Compile Include="Templates\EmailTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="UnityDependencyResolver.cs" />
     <Compile Include="UnityResolverConfigurator.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -340,12 +348,19 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Templates\EmailTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>EmailTemplate.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -116,7 +116,7 @@
         
         private UsersController CreateController()
         {
-            return new UsersController(this.userService.Object, this.temporaryUserService.Object);
+            return new UsersController(this.userService.Object, this.temporaryUserService.Object, null);
         }
     }
 }
