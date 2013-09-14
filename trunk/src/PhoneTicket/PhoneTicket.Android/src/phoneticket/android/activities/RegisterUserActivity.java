@@ -179,6 +179,7 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 			Integer errorCode) {
 		Log.d("PhoneTicket", "registerUserFinishWithError");
 		hideProgressDialog();
+		lastMessageTitle = "Error";
 		Integer index = Arrays.asList(codes).indexOf(errorCode.toString());
 		if (index != null)
 			lastMesage = codesNames[index];
