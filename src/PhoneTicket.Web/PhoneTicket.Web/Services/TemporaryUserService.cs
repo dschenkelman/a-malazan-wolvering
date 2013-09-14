@@ -23,7 +23,7 @@
             var secret = Guid.NewGuid();
 
             this.db.TemporaryUser.Add(
-                new TemporaryUser { Id = user.Id, Secret = secret, RegistrationDate = DateTime.Now });
+                new TemporaryUser { Id = user.Dni, Secret = secret, RegistrationDate = DateTime.Now });
 
             await this.db.SaveChangesAsync();
 

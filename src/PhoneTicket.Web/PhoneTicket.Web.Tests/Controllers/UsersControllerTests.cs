@@ -2,6 +2,8 @@
 {
     using System;
     using System.Net;
+    using System.Security.Principal;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
 
@@ -9,8 +11,7 @@
 
     using Moq;
 
-    using PhoneTicket.Web.Controllers.Api;
-    using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.Controllers;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
 
@@ -21,28 +22,31 @@
 
         private Mock<ITemporaryUserService> temporaryUserService;
 
+        private Mock<IUserService> userService;
+
         [TestInitialize]
         public void Initialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Default);
             this.temporaryUserService = this.mockRepository.Create<ITemporaryUserService>();
+            this.userService = this.mockRepository.Create<IUserService>();
         }
 
         [TestMethod]
-        public async Task ShouldCallTemporaryUserServiceToAddUserInformationWhenPostIsCalled()
+        public async Task ShouldCallTemporaryUserServiceToAddUserInformationWhenCreateIsCalled()
         {
             var user = new NewUserViewModel();
 
             this.temporaryUserService.Setup(tus => tus.CreateUser(user)).Returns(Task.FromResult(Guid.NewGuid())).Verifiable();
 
             var controller = this.CreateController();
-            await controller.Post(user);
+            await controller.Create(user);
 
             this.temporaryUserService.Verify(tus => tus.CreateUser(user), Times.Once());
         }
 
         [TestMethod]
-        public async Task ShouldReturn201CreateWhenPostIsCalledIfNoErrorsOccur()
+        public async Task ShouldReturn201CreateWhenCreateIsCalledIfNoErrorsOccur()
         {
             var user = new NewUserViewModel();
 
@@ -50,7 +54,7 @@
 
             var controller = this.CreateController();
             
-            var response = await controller.Post(user);
+            var response = await controller.Create(user);
             
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
         }
@@ -88,10 +92,31 @@
             var controller = this.CreateController();
             await controller.Confirm(UserId, secret);
         }
+
+        [TestMethod]
+        public async Task ShouldReturnUserIdBasedOnUserFromCurrentPrincipalIdentityWhenAuthIsCalled()
+        {
+            const int Id = 1;
+            const string Email = "e@mail.com";
+            var controller = this.CreateController();
+
+            this.userService.Setup(us => us.GetId(Email)).Returns(Task.FromResult(Id)).Verifiable();
+
+            var oldPrincipal = Thread.CurrentPrincipal;
+
+            var identity = new GenericIdentity(Email);
+            Thread.CurrentPrincipal = new GenericPrincipal(identity, null);
+
+            Assert.AreEqual(Id, await controller.Auth());
+
+            Thread.CurrentPrincipal = oldPrincipal;
+
+            this.userService.Verify(us => us.GetId(Email), Times.Once);
+        }
         
         private UsersController CreateController()
         {
-            return new UsersController(this.temporaryUserService.Object);
+            return new UsersController(this.userService.Object, this.temporaryUserService.Object);
         }
     }
 }
