@@ -29,6 +29,7 @@ import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 public class RegisterUserActivity extends RoboFragmentActivity implements
@@ -107,12 +108,33 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 
 	public void onRegisterButtonAction(View sender) {
 		if (registerForm.validate()) {
+			hideKeyboard();
 			showProgressDialog();
 			User user = generateUser();
 			service.registerUser(user, this);
 		}
 	}
-
+	
+	private void hideKeyboard() {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		EditText field = (EditText) findViewById(R.id.inputBirthday);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
+		field = (EditText) findViewById(R.id.inputCellPhone);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
+		field = (EditText) findViewById(R.id.inputConfirmPassword);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
+		field = (EditText) findViewById(R.id.inputDNI);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
+		field = (EditText) findViewById(R.id.inputEmail);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
+		field = (EditText) findViewById(R.id.inputLastName);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
+		field = (EditText) findViewById(R.id.inputFirstName);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
+		field = (EditText) findViewById(R.id.inputPassword);
+		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
+	}
+	
 	private void showProgressDialog() {
 		if (null == progressDialog)
 			progressDialog = new ProgressDialogFragment();
