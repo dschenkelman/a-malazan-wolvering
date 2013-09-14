@@ -132,9 +132,6 @@ public class User implements IUser {
 
 	@Override
 	public String toString() {
-		return "User [firstName=" + firstName + ", lastName=" + lastName
-				+ ", emailAddress=" + emailAddress + ", dni=" + dni
-				+ ", birthDate=" + birthDate + ", cellPhoneNumber="
-				+ cellPhoneNumber + ", password=" + password + "]";
+		return "Usuario: \n Email: " + emailAddress;
 	}
 }

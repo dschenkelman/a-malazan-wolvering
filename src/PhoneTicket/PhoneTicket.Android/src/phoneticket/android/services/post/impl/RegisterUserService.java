@@ -36,12 +36,13 @@ public class RegisterUserService extends PostService implements
 		super.onPostExecute(result);
 		if (connectionSuccess) {
 			if (201 != statusLine.getStatusCode()) {
-				delegate.registerUserFinishWithError(this, "Error");
+				delegate.registerUserFinishWithError(this,
+						statusLine.getStatusCode());
 			} else {
 				delegate.registerUserFinish(this, postObject);
 			}
 		} else {
-			delegate.registerUserFinishWithError(this, "Error");
+			delegate.registerUserFinishWithError(this, 0);
 		}
 		performingRequest = false;
 		delegate = null;
