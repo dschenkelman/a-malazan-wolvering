@@ -11,6 +11,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import phoneticket.android.utils.HttpClientFactory;
+
 import android.os.AsyncTask;
 
 public abstract class PostService extends AsyncTask<String, String, String> {
@@ -22,7 +24,7 @@ public abstract class PostService extends AsyncTask<String, String, String> {
 	@Override
 	protected String doInBackground(String... uri) {
 		connectionSuccess = false;
-		HttpClient httpclient = new DefaultHttpClient();//HttpClientFactory.createClient();
+		HttpClient httpclient = HttpClientFactory.createClient();
 		HttpPost httppost = new HttpPost(uri[0]);
 		HttpResponse response = null;
 		try {

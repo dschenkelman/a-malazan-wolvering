@@ -2,16 +2,16 @@ package phoneticket.android.model;
 
 public class LoginUser {
 
-	private String email;
+	private String emailAddress;
 	private String password;
 	
 	public LoginUser(String email, String password) {
-		this.email = email;
+		this.emailAddress = email;
 		this.password = password;
 	}
 
 	public String getEmail() {
-		return email;
+		return emailAddress;
 	}
 	
 	public String getPassword() {
@@ -21,14 +21,14 @@ public class LoginUser {
 	
 	@Override
 	public String toString() {
-		return "LoginUser [email=" + email + ", password=" + password + "]";
+		return "LoginUser [email=" + emailAddress + ", password=" + password + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((emailAddress == null) ? 0 : emailAddress.hashCode());
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
 		return result;
@@ -43,10 +43,10 @@ public class LoginUser {
 		if (getClass() != obj.getClass())
 			return false;
 		LoginUser other = (LoginUser) obj;
-		if (email == null) {
-			if (other.email != null)
+		if (emailAddress == null) {
+			if (other.emailAddress != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!emailAddress.equals(other.emailAddress))
 			return false;
 		if (password == null) {
 			if (other.password != null)
