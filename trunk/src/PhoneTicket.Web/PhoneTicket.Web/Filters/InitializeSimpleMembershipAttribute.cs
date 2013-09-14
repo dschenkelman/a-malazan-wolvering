@@ -1,13 +1,16 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Threading;
-using System.Web.Mvc;
-using WebMatrix.WebData;
-using PhoneTicket.Web.Models;
-
-namespace PhoneTicket.Web.Filters
+﻿namespace PhoneTicket.Web.Filters
 {
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    using System.Threading;
+    using System.Web.Mvc;
+
+    using PhoneTicket.Web.Data;
+    using PhoneTicket.Web.Models;
+
+    using WebMatrix.WebData;
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class InitializeSimpleMembershipAttribute : ActionFilterAttribute
     {
@@ -25,11 +28,11 @@ namespace PhoneTicket.Web.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+                Database.SetInitializer<PhoneTicketContext>(null);
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new PhoneTicketContext())
                     {
                         if (!context.Database.Exists())
                         {

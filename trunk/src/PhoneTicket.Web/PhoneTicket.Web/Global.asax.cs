@@ -5,6 +5,8 @@
     using System.Web.Optimization;
     using System.Web.Routing;
 
+    using Microsoft.Practices.Unity;
+
     using PhoneTicket.Web.Handlers;
 
     public class MvcApplication : System.Web.HttpApplication
@@ -18,6 +20,11 @@
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            var container = new UnityContainer();
+            var resolver = new UnityResolverConfigurator().Configure(container);
+
+            GlobalConfiguration.Configuration.DependencyResolver = resolver;
 
             GlobalConfiguration.Configuration.MessageHandlers.Add(new RequireHttpsMessageHandler());
         }
