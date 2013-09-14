@@ -1,16 +1,19 @@
-﻿@model IEnumerable<PhoneTicket.Web.ViewModels.ListUserViewModel>
+﻿@model PagedList.IPagedList<PhoneTicket.Web.ViewModels.ListUserViewModel>
+@using PagedList.Mvc; 
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 <h2>Usuarios</h2>
 
 <table>
     <tr>
-        <th>DNI</th>
         <th>E-mail</th>
+        <th>DNI</th>
         <th>Nombre</th>
         <th>Apellido</th>
         <th>Celular</th>
@@ -39,5 +42,8 @@
         </td>
     </tr>
 }
-
 </table>
+<br />
+Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

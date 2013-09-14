@@ -4,6 +4,8 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
+    using PagedList;
+
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
 
@@ -11,6 +13,8 @@
     [RequireHttps]
     public class UsersController : Controller
     {
+        private const int PageSize = 1;
+
         private readonly IUserService userService;
 
         public UsersController(IUserService userService)
@@ -18,10 +22,11 @@
             this.userService = userService;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
             var users = await this.userService.GetUsers();
-            return this.View(users.Select(ListUserViewModel.FromUser));
+            var userViewModels = users.Select(ListUserViewModel.FromUser);
+            return this.View(userViewModels.ToPagedList(page ?? 1, PageSize));
         }
     }
 }

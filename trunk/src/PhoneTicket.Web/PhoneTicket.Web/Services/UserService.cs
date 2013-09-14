@@ -25,7 +25,7 @@
 
         public async Task<IEnumerable<User>> GetUsers()
         {
-            return await this.db.Users.ToListAsync();
+            return await this.db.Users.Where(u => !this.db.TemporaryUser.Any(tu => tu.Id == u.Id)).ToListAsync();
         }
 
         public void Dispose()
