@@ -17,7 +17,7 @@
 
         protected override bool CheckPassword(string emailAddress, string password)
         {
-            var user = this.db.Users.FirstOrDefault(u => u.EmailAddress == emailAddress);
+            var user = this.db.Users.Where(u => !this.db.TemporaryUser.Any(tu => tu.Id == u.Id)).FirstOrDefault(u => u.EmailAddress == emailAddress);
 
             if (user == null)
             {
