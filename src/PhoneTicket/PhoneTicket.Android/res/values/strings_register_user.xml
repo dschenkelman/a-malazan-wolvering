@@ -17,4 +17,6 @@
     <string name="registerUserDataTitle">Datos personales:</string>
     <string name="registerUserAccountTitle">Datos de cuenta:</string>
     
+    <string name="registerUserServiceErrorMessage">Error en la registración.</string>
+    
 </resources>

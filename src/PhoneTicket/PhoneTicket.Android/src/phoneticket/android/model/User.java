@@ -4,20 +4,20 @@ public class User implements IUser {
 
 	private String firstName;
 	private String lastName;
-	private String email;
+	private String emailAddress;
 	private int dni;
-	private String birthday;
-	private String cellPhone;
+	private String birthDate;
+	private String cellPhoneNumber;
 	private String password;
 	
 	public User(String name, String lastName, String email, int dni, 
 			String birthday, String cellPhone, String password) {
 		firstName = name;
 		this.lastName = lastName;
-		this.email = email;
+		this.emailAddress = email;
 		this.dni = dni;
-		this.birthday = birthday;
-		this.cellPhone = cellPhone;
+		this.birthDate = birthday;
+		this.cellPhoneNumber = cellPhone;
 		this.password = password;
 	}
 
@@ -33,7 +33,7 @@ public class User implements IUser {
 
 	@Override
 	public String getEmail() {
-		return email;
+		return emailAddress;
 	}
 
 	@Override
@@ -43,12 +43,12 @@ public class User implements IUser {
 
 	@Override
 	public String getBirthday() {
-		return birthday;
+		return birthDate;
 	}
 
 	@Override
 	public String getCellPhone() {
-		return cellPhone;
+		return cellPhoneNumber;
 	}
 
 	@Override
