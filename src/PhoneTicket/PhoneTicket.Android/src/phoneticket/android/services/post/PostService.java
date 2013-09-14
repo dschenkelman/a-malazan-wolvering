@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -22,7 +21,8 @@ public abstract class PostService extends AsyncTask<String, String, String> {
 
 	@Override
 	protected String doInBackground(String... uri) {
-		HttpClient httpclient = new DefaultHttpClient();
+		connectionSuccess = false;
+		HttpClient httpclient = new DefaultHttpClient();//HttpClientFactory.createClient();
 		HttpPost httppost = new HttpPost(uri[0]);
 		HttpResponse response = null;
 		try {
