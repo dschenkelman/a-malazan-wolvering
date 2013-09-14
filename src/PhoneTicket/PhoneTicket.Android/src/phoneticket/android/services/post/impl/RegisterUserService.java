@@ -27,21 +27,24 @@ public class RegisterUserService extends PostService implements
 		performingRequest = true;
 		this.delegate = delegate;
 		postObject = user;
+		connectionSuccess = false;
 		execute(APIService.getRegisterUserPostURL());
 	}
 
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		if (performingRequest) {
+		if (connectionSuccess) {
 			if (201 != statusLine.getStatusCode()) {
 				delegate.registerUserFinishWithError(this, "Error");
 			} else {
 				delegate.registerUserFinish(this, postObject);
 			}
-			performingRequest = false;
-			delegate = null;
+		} else {
+			delegate.registerUserFinishWithError(this, "Error");
 		}
+		performingRequest = false;
+		delegate = null;
 	}
 
 	@Override
