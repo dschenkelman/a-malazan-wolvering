@@ -8,7 +8,7 @@
 
     public class NewUserViewModel
     {
-        public int Id { get; set; }
+        public int Dni { get; set; }
 
         public string EmailAddress { get; set; }
 
@@ -20,17 +20,18 @@
 
         public string CellPhoneNumber { get; set; }
 
-        public DateTime? BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
         public User ToUser()
         {
             var passwordHash = new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(this.Password));
+            var birthDate = DateTime.ParseExact(this.BirthDate, "yyyy/MM/dd", null);
 
             return new User
                        {
-                           BirthDate = this.BirthDate, 
+                           BirthDate = birthDate, 
                            CellPhoneNumber = this.CellPhoneNumber, 
-                           Id = this.Id,
+                           Id = this.Dni,
                            FirstName = this.FirstName,
                            LastName = this.LastName, 
                            EmailAddress = this.EmailAddress,

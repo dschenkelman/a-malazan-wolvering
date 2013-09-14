@@ -14,6 +14,7 @@
         [TestMethod]
         public void ShouldSetAllPropertiesToUserWhenToUserIsCalledUsingSHAForPasswordHash()
         {
+            var birthDateString = "1990/09/09";
             var birthDate = new DateTime(1990, 9, 9);
             var emailAddress = "email@email.com";
             var cellPhone = "1153224411";
@@ -24,12 +25,12 @@
 
             var viewModel = new NewUserViewModel
                                 {
-                                    BirthDate = birthDate,
+                                    BirthDate = birthDateString,
                                     CellPhoneNumber = cellPhone,
                                     EmailAddress = emailAddress,
                                     FirstName = firstName,
                                     LastName = lastName,
-                                    Id = dni,
+                                    Dni = dni,
                                     Password = password
                                 };
 

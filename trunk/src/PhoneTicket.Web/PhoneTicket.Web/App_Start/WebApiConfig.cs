@@ -9,10 +9,7 @@
     {
         public static void Register(HttpConfiguration config)
         {
-            config.Routes.MapHttpRoute(
-                name: "NestedUserAssets",
-                routeTemplate: "api/users/{id}/{action}",
-                defaults: new { controller = "users" });
+            config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
