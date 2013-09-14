@@ -15,24 +15,25 @@ import phoneticket.android.activities.dialog.MessageDialogFragment;
 import phoneticket.android.activities.dialog.MessageDialogFragment.IMessageDialogDataSource;
 import phoneticket.android.model.IUser;
 import phoneticket.android.model.User;
-import phoneticket.android.services.factories.ServicesFactory;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.IRegisterUserServiceDelegate;
 import phoneticket.android.validator.IFormValidator;
+import roboguice.activity.RoboFragmentActivity;
 import android.os.Bundle;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.EditText;
 
-public class RegisterUserActivity extends FragmentActivity implements 
+public class RegisterUserActivity extends RoboFragmentActivity implements 
 	IRegisterUserServiceDelegate, IMessageDialogDataSource,
 	IConfirmUserRegisterDialogDelegate{
 
 	@Inject private IFormValidator registerForm;
+	@Inject private IRegisterUserService service;
 	private String lastMesage;
 	private String lastMessageTitle;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,6 @@ public class RegisterUserActivity extends FragmentActivity implements
 	public void onRegisterButtonAction(View sender) {
 		if(registerForm.validate()) {
 			User user = generateUser();
-			IRegisterUserService service = ServicesFactory.createRegisterUserService();
 			service.registerUser(user, this);
 		}
 	}

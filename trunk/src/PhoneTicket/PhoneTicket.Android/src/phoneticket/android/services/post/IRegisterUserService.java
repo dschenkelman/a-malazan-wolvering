@@ -4,6 +4,6 @@ import phoneticket.android.model.User;
 
 public interface IRegisterUserService {
 
-	void registerUser(User user, IRegisterUserServiceDelegate delegate);
+	public void registerUser(User user, IRegisterUserServiceDelegate delegate);
 
 }

@@ -4,7 +4,7 @@ import phoneticket.android.model.LoginUser;
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IAuthServiceDelegate;
 
-public class AuthServiceImpl implements IAuthService{
+public class AuthService implements IAuthService{
 
 	@Override
 	public void authUser(IAuthServiceDelegate delegate, LoginUser user) {
