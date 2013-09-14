@@ -48,7 +48,6 @@ public class RegisterUserActivity extends FragmentActivity implements
         Validate emailField             = new Validate((EditText)findViewById(R.id.inputEmail));
         Validate dniField           	= new Validate((EditText)findViewById(R.id.inputDNI));
         Validate birthdayField        	= new Validate((EditText)findViewById(R.id.inputBirthday));
-        Validate phoneField             = new Validate((EditText)findViewById(R.id.inputPhone));
         Validate cellPhoneField         = new Validate((EditText)findViewById(R.id.inputCellPhone));
         Validate passwordField          = new Validate((EditText)findViewById(R.id.inputPassword));
         Validate confirmPasswordField   = new Validate((EditText)findViewById(R.id.inputConfirmPassword));
@@ -69,7 +68,6 @@ public class RegisterUserActivity extends FragmentActivity implements
         emailField.addValidator(new EmailValidator(context));
 
         
-        phoneField.addValidator(new PhoneOrEmptyValidator(context));
         cellPhoneField.addValidator(new PhoneOrEmptyValidator(context));
 
         registerForm.addValidates(nameField);
@@ -77,7 +75,6 @@ public class RegisterUserActivity extends FragmentActivity implements
         registerForm.addValidates(emailField);
         registerForm.addValidates(dniField);
         registerForm.addValidates(birthdayField);
-        registerForm.addValidates(phoneField);
         registerForm.addValidates(cellPhoneField);
         registerForm.addValidates(passwordField);
         registerForm.addValidates(confirmPasswordField);
@@ -98,12 +95,11 @@ public class RegisterUserActivity extends FragmentActivity implements
         String email = ((EditText)findViewById(R.id.inputEmail)).getText().toString();
         String dni = ((EditText)findViewById(R.id.inputDNI)).getText().toString();
         String birthday = ((EditText)findViewById(R.id.inputBirthday)).getText().toString();
-        String phone = ((EditText)findViewById(R.id.inputPhone)).getText().toString();
         String cellPhone = ((EditText)findViewById(R.id.inputCellPhone)).getText().toString();
         String password = ((EditText)findViewById(R.id.inputPassword)).getText().toString();
         
         User user = new User(name, lastName, email, Integer.parseInt(dni), 
-        		birthday, phone, cellPhone, password);
+        		birthday, cellPhone, password);
         return user;
 	}
 

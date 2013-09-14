@@ -14,4 +14,7 @@
     <string name="registerUserInputConfirmPassword">Confirmar contraseña *</string>
     <string name="registerUserRegisterButton">Registrarse</string>
     
+    <string name="registerUserDataTitle">Datos personales:</string>
+    <string name="registerUserAccountTitle">Datos de cuenta:</string>
+    
 </resources>
