@@ -1,10 +1,10 @@
 package phoneticket.android.validator;
 
-import com.throrinstudio.android.common.libs.validator.Validate;
+import com.throrinstudio.android.common.libs.validator.AbstractValidate;
 
 public interface IFormValidator {
 
-	public void addValidates(Validate validate);
+	public void addValidates(AbstractValidate confirmFields);
 
 	public boolean validate();
 

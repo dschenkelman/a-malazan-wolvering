@@ -1,7 +1,7 @@
 package phoneticket.android.validator;
 
+import com.throrinstudio.android.common.libs.validator.AbstractValidate;
 import com.throrinstudio.android.common.libs.validator.Form;
-import com.throrinstudio.android.common.libs.validator.Validate;
 
 public class FormValidatorImpl implements IFormValidator {
 	private Form form;
@@ -11,7 +11,7 @@ public class FormValidatorImpl implements IFormValidator {
 	}
 
 	@Override
-	public void addValidates(Validate validate) {
+	public void addValidates(AbstractValidate validate) {
 		this.form.addValidates(validate);
 	}
 

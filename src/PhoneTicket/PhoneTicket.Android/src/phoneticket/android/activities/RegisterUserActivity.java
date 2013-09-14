@@ -1,7 +1,7 @@
 package phoneticket.android.activities;
 
+import com.google.inject.Inject;
 import com.throrinstudio.android.common.libs.validator.AbstractValidate;
-import com.throrinstudio.android.common.libs.validator.Form;
 import com.throrinstudio.android.common.libs.validator.Validate;
 import com.throrinstudio.android.common.libs.validator.validate.ConfirmValidate;
 import com.throrinstudio.android.common.libs.validator.validator.EmailValidator;
@@ -18,6 +18,7 @@ import phoneticket.android.model.User;
 import phoneticket.android.services.factories.ServicesFactory;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.IRegisterUserServiceDelegate;
+import phoneticket.android.validator.IFormValidator;
 import android.os.Bundle;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
@@ -29,7 +30,7 @@ public class RegisterUserActivity extends FragmentActivity implements
 	IRegisterUserServiceDelegate, IMessageDialogDataSource,
 	IConfirmUserRegisterDialogDelegate{
 
-	private Form registerForm;
+	@Inject private IFormValidator registerForm;
 	private String lastMesage;
 	private String lastMessageTitle;
 	
@@ -71,7 +72,6 @@ public class RegisterUserActivity extends FragmentActivity implements
         phoneField.addValidator(new PhoneOrEmptyValidator(context));
         cellPhoneField.addValidator(new PhoneOrEmptyValidator(context));
 
-        registerForm = new Form();
         registerForm.addValidates(nameField);
         registerForm.addValidates(lastNameField);
         registerForm.addValidates(emailField);
