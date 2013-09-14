@@ -38,4 +38,8 @@ public class UserManager {
 	public User getLogedUser() {
 		return user;
 	}
+
+	public void createUserWithId(int id, boolean usingCredentials) {
+		user = new User(id, emailCredential, passwordCredential);
+	}
 }
