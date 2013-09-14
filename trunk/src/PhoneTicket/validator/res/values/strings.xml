@@ -16,7 +16,7 @@
     <string name="validator_confirm">Las contraseñas no coinciden</string> 
     <string name="validator_alnum">El campo es inválido</string> 
     <string name="validator_email">El e-mail no es válido</string> 
-    <string name="validator_empty">Campo obligatorio esta vacío</string> 
+    <string name="validator_empty">Campo obligatorio está vacío</string> 
     <string name="validator_phone">Teléfono inválido</string> 
     <string name="validator_url">URL inválida</string> 
     <string name="validator_regexp">El valor ingresado es inválido</string> 
