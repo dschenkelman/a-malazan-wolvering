@@ -9,15 +9,25 @@ public class User implements IUser {
 	private String birthDate;
 	private String cellPhoneNumber;
 	private String password;
-	
-	public User(String name, String lastName, String email, int dni, 
+
+	public User(String name, String lastName, String email, int dni,
 			String birthday, String cellPhone, String password) {
 		firstName = name;
 		this.lastName = lastName;
-		this.emailAddress = email;
+		emailAddress = email;
 		this.dni = dni;
 		this.birthDate = birthday;
 		this.cellPhoneNumber = cellPhone;
+		this.password = password;
+	}
+
+	public User(int id, String email, String password) {
+		firstName = "";
+		lastName = "";
+		emailAddress = email;
+		dni = id;
+		birthDate = "";
+		cellPhoneNumber = "";
 		this.password = password;
 	}
 
@@ -127,6 +137,4 @@ public class User implements IUser {
 				+ ", birthDate=" + birthDate + ", cellPhoneNumber="
 				+ cellPhoneNumber + ", password=" + password + "]";
 	}
-	
-	
 }

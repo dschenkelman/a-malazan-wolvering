@@ -7,6 +7,7 @@ import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IAuthServiceDelegate;
 import phoneticket.android.services.post.PostService;
 import phoneticket.android.utils.APIService;
+import phoneticket.android.utils.UserManager;
 
 public class AuthService extends PostService implements IAuthService {
 
@@ -36,6 +37,8 @@ public class AuthService extends PostService implements IAuthService {
 				delegate.authServiceDelegateFinishWithError(this,
 						statusLine.getStatusCode() + "");
 			} else {
+				int id = Integer.parseInt(result);
+				UserManager.getInstance().createUserWithId(id,true);
 				delegate.authServiceDelegateFinish(this, postBodyObject);
 			}
 			performingRequest = false;
