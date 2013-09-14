@@ -18,6 +18,10 @@
             container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();
             container.RegisterType<PhoneTicketContext>();
 
+            var emailService = new EmailService("smtp.gmail.com", 587, "wolveringticket@gmail.com", "wolvering", true, true);
+
+            container.RegisterInstance<IEmailService>(emailService);
+
             var resolver = new UnityDependencyResolver(container);
 
             return resolver;
