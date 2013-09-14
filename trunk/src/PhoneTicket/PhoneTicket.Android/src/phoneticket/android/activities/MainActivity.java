@@ -15,8 +15,8 @@ public class MainActivity extends Activity {
 	}
 
 	public void onActionButtonTapped(View sender) {
-     	Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
 	}
 
 }

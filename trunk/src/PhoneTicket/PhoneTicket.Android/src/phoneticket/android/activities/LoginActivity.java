@@ -7,8 +7,11 @@ import com.throrinstudio.android.common.libs.validator.validator.NotEmptyValidat
 
 import phoneticket.android.R;
 import phoneticket.android.activities.dialog.MessageDialogFragment;
+import phoneticket.android.activities.dialog.ProgressDialogFragment;
 import phoneticket.android.activities.dialog.MessageDialogFragment.IMessageDialogDataSource;
+import phoneticket.android.activities.dialog.ProgressDialogFragment.IProgressDialogDataSource;
 import phoneticket.android.model.LoginUser;
+import phoneticket.android.services.factories.ServicesFactory;
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IAuthServiceDelegate;
 import phoneticket.android.validator.IFormValidator;
@@ -19,67 +22,91 @@ import android.widget.EditText;
 import android.content.Context;
 import android.content.Intent;
 
-public class LoginActivity extends RoboFragmentActivity implements 
-	IAuthServiceDelegate, IMessageDialogDataSource {
+public class LoginActivity extends RoboFragmentActivity implements
+		IAuthServiceDelegate, IMessageDialogDataSource,
+		IProgressDialogDataSource {
 
-	@Inject private IAuthService service;
-	@Inject private IFormValidator loginForm;
+	@Inject
+	private IAuthService service;
+	@Inject
+	private IFormValidator loginForm;
 	private String lastMesage;
 	private String lastMessageTitle;
 	
+	private ProgressDialogFragment progressDialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		createLoginForm();
 	}
-	
+
 	private void createLoginForm() {
-        Validate emailField		= new Validate((EditText)findViewById(R.id.inputEmail));
-        Validate passwordField  = new Validate((EditText)findViewById(R.id.inputPassword));
+		Validate emailField = new Validate(
+				(EditText) findViewById(R.id.inputEmail));
+		Validate passwordField = new Validate(
+				(EditText) findViewById(R.id.inputPassword));
 
-        Context context = getApplicationContext();
-        
-        emailField.addValidator(new NotEmptyValidator(context));
-        passwordField.addValidator(new NotEmptyValidator(context));
+		Context context = getApplicationContext();
 
-        emailField.addValidator(new EmailValidator(context));
-        
+		emailField.addValidator(new NotEmptyValidator(context));
+		passwordField.addValidator(new NotEmptyValidator(context));
+
+		emailField.addValidator(new EmailValidator(context));
+
 		loginForm.addValidates(emailField);
 		loginForm.addValidates(passwordField);
 	}
 
 	public void onLoginButtonAction(View sender) {
-		if(loginForm.validate()) {
+		if (loginForm.validate()) {
+			showProgressDialog();
 			LoginUser loginUser = createLoginUser();
+			service = ServicesFactory.createAuthService();
 			service.authUser(this, loginUser);
 		}
 	}
+
+	private void showProgressDialog() {
+		if(null == progressDialog)
+			progressDialog = new ProgressDialogFragment();
+		progressDialog.show(getSupportFragmentManager(), "dialog.progress");
+	}
 	
+	private void hideProgressDialog() {
+		progressDialog.dismiss();
+	}
+	
+
 	private LoginUser createLoginUser() {
-        String email = ((EditText)findViewById(R.id.inputEmail)).getText().toString();
-        String password = ((EditText)findViewById(R.id.inputPassword)).getText().toString();
+		String email = ((EditText) findViewById(R.id.inputEmail)).getText()
+				.toString();
+		String password = ((EditText) findViewById(R.id.inputPassword))
+				.getText().toString();
 		return new LoginUser(email, password);
 	}
 
 	public void onRegisterButtonAction(View sender) {
 		Intent intent = new Intent(this, RegisterUserActivity.class);
-        startActivity(intent);
+		startActivity(intent);
 	}
 
 	@Override
 	public void authServiceDelegateFinish(IAuthService service, LoginUser user) {
 		// TODO Auto-generated method stub
+		hideProgressDialog();
 		onBackPressed();
 	}
 
 	@Override
 	public void authServiceDelegateFinishWithError(IAuthService service,
 			String errorMessage) {
+		hideProgressDialog();
 		lastMesage = errorMessage;
 		lastMessageTitle = "Error";
 		MessageDialogFragment dialog = new MessageDialogFragment();
-    	dialog.show(getSupportFragmentManager(), "dialog.error");
+		dialog.show(getSupportFragmentManager(), "dialog.error");
 	}
 
 	@Override
@@ -90,6 +117,12 @@ public class LoginActivity extends RoboFragmentActivity implements
 	@Override
 	public String getMessageTitle() {
 		return lastMessageTitle;
+	}
+
+	@Override
+	public String getProgressMessageTitle() {
+		// TODO Auto-generated method stub
+		return "mes";
 	}
 
 }
