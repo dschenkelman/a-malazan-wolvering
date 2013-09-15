@@ -13,7 +13,7 @@
     [RequireHttps]
     public class UsersController : Controller
     {
-        private const int PageSize = 1;
+        private const int PageSize = 20;
 
         private readonly IUserService userService;
 
