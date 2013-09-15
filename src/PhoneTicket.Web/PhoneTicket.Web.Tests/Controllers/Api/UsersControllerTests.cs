@@ -214,6 +214,27 @@
             this.emailService.Verify(es => es.SendAsync(mailMessage), Times.Once());
         }
 
+        [TestMethod]
+        public async Task ShouldUpdateIsValidPropertyWhenEditIsInvoked()
+        {
+            const int Id = 351231;
+            var viewModel = new EditUserViewModel { IsValid = false };
+            var user = new User { IsValid = true };
+
+            this.userService.Setup(us => us.GetUserAsync(Id)).Returns(Task.FromResult(user)).Verifiable();
+
+            this.userService.Setup(us => us.UpdateAsync(user)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            var controller = this.CreateController();
+
+            await controller.Edit(Id, viewModel);
+
+            this.userService.Verify(us => us.GetUserAsync(Id), Times.Once());
+            this.userService.Verify(us => us.UpdateAsync(user), Times.Once());
+
+            Assert.IsFalse(user.IsValid);
+        }
+
         private UsersController CreateController()
         {
             return new UsersController(this.userService.Object, this.temporaryUserService.Object, this.emailService.Object);
