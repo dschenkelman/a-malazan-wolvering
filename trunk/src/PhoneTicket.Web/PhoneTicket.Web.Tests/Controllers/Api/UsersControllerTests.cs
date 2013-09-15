@@ -2,7 +2,10 @@
 {
     using System;
     using System.Net;
+    using System.Net.Mail;
+    using System.Security.Cryptography;
     using System.Security.Principal;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
@@ -12,6 +15,7 @@
     using Moq;
 
     using PhoneTicket.Web.Controllers.Api;
+    using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
 
@@ -24,37 +28,92 @@
 
         private Mock<IUserService> userService;
 
+        private Mock<IEmailService> emailService;
+
         [TestInitialize]
         public void Initialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Default);
             this.temporaryUserService = this.mockRepository.Create<ITemporaryUserService>();
             this.userService = this.mockRepository.Create<IUserService>();
+            this.emailService = this.mockRepository.Create<IEmailService>();
         }
 
         [TestMethod]
         public async Task ShouldCallTemporaryUserServiceToAddUserInformationWhenCreateIsCalled()
         {
-            var user = new NewUserViewModel();
+            const string FirstName = "first";
+            const string LastName = "last";
+            const string Password = "password";
+            var birthDate = new DateTime(1989, 3, 2);
+            const string CellPhoneNumber = "1536548978";
+            const int Id = 1231;
+            const string Email = "e@mail.com";
 
-            this.temporaryUserService.Setup(tus => tus.CreateUser(user)).Returns(Task.FromResult(Guid.NewGuid())).Verifiable();
+            var userViewModel = new NewUserViewModel()
+                                    {
+                                        BirthDate = birthDate.ToString("yyyy/MM/dd"),
+                                        CellPhoneNumber = CellPhoneNumber,
+                                        Dni = Id,
+                                        EmailAddress = Email,
+                                        FirstName = FirstName,
+                                        LastName = LastName,
+                                        Password = Password
+                                    };
+
+            this.temporaryUserService.Setup(
+                tus =>
+                tus.CreateUser(
+                    It.Is<User>(
+                        u => u.BirthDate == birthDate && u.EmailAddress == Email && u.FirstName == FirstName
+                             && u.LastName == LastName && u.Id == Id && u.CellPhoneNumber == CellPhoneNumber
+                             && Encoding.UTF8.GetString(u.PasswordHash) == Encoding.UTF8.GetString(new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(Password))))))
+                .Returns(Task.FromResult(Guid.NewGuid()))
+                .Verifiable();
+
+            this.emailService.Setup(es => es.SendAsync(It.IsAny<MailMessage>())).Returns(Task.FromResult<object>(null));
 
             var controller = this.CreateController();
-            await controller.Create(user);
+            await controller.Create(userViewModel);
 
-            this.temporaryUserService.Verify(tus => tus.CreateUser(user), Times.Once());
+            this.temporaryUserService.Verify(
+                tus =>
+                tus.CreateUser(It.Is<User>(
+                        u => u.BirthDate == birthDate && u.EmailAddress == Email && u.FirstName == FirstName
+                             && u.LastName == LastName && u.Id == Id && u.CellPhoneNumber == CellPhoneNumber
+                             && Encoding.UTF8.GetString(u.PasswordHash) == Encoding.UTF8.GetString(new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(Password))))),
+                Times.Once());
         }
 
         [TestMethod]
         public async Task ShouldReturn201CreateWhenCreateIsCalledIfNoErrorsOccur()
         {
-            var user = new NewUserViewModel();
+            const string FirstName = "first";
+            const string LastName = "last";
+            const string Password = "password";
+            var birthDate = new DateTime(1989, 3, 2);
+            const string CellPhoneNumber = "1536548978";
+            const int Id = 1231;
+            const string Email = "e@mail.com";
 
-            this.temporaryUserService.Setup(tus => tus.CreateUser(user)).Returns(Task.FromResult(Guid.NewGuid())).Verifiable();
+            var userViewModel = new NewUserViewModel()
+            {
+                BirthDate = birthDate.ToString("yyyy/MM/dd"),
+                CellPhoneNumber = CellPhoneNumber,
+                Dni = Id,
+                EmailAddress = Email,
+                FirstName = FirstName,
+                LastName = LastName,
+                Password = Password
+            };
+
+            this.temporaryUserService.Setup(tus => tus.CreateUser(It.IsAny<User>())).Returns(Task.FromResult(Guid.NewGuid())).Verifiable();
+
+            this.emailService.Setup(es => es.SendAsync(It.IsAny<MailMessage>())).Returns(Task.FromResult<object>(null));
 
             var controller = this.CreateController();
-            
-            var response = await controller.Create(user);
+
+            var response = await controller.Create(userViewModel);
             
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
         }
@@ -113,10 +172,51 @@
 
             this.userService.Verify(us => us.GetId(Email), Times.Once);
         }
-        
+
+        [TestMethod]
+        public async Task ShouldSendEmailWithConfirmationLinkIncludingSecretAndUserIdWhenRegistering()
+        {
+            var secret = Guid.NewGuid();
+            const int UserId = 12345678;
+            const string UserEmail = "e@mail.com";
+            var expectedLink = string.Format("https://damian-pc:44300/api/users/{0}/confirm?secret={1}", UserId, secret);
+            var mailMessage = new MailMessage();
+
+            var controller = this.CreateController();
+
+            this.temporaryUserService.Setup(tus => tus.CreateUser(It.IsAny<User>()))
+                .Returns(Task.FromResult(secret))
+                .Verifiable();
+
+            this.emailService.Setup(
+                es => es.CreateMessage(It.IsAny<string>(), It.Is<string>(b => b.Contains(expectedLink)), UserEmail))
+                .Returns(mailMessage)
+                .Verifiable();
+
+            this.emailService.Setup(es => es.SendAsync(mailMessage)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            await
+                controller.Create(
+                    new NewUserViewModel
+                        {
+                            Dni = UserId,
+                            EmailAddress = UserEmail,
+                            Password = "password",
+                            BirthDate = "2013/05/04",
+                            FirstName = "First",
+                            LastName = "Last"
+                        });
+
+            this.emailService.Verify(
+                es => es.CreateMessage(It.IsAny<string>(), It.Is<string>(b => b.Contains(expectedLink)), UserEmail),
+                Times.Once());
+
+            this.emailService.Verify(es => es.SendAsync(mailMessage), Times.Once());
+        }
+
         private UsersController CreateController()
         {
-            return new UsersController(this.userService.Object, this.temporaryUserService.Object, null);
+            return new UsersController(this.userService.Object, this.temporaryUserService.Object, this.emailService.Object);
         }
     }
 }

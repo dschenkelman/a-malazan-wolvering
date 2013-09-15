@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using PhoneTicket.Web.Properties;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.Templates;
     using PhoneTicket.Web.ViewModels;
@@ -31,14 +32,15 @@
         [HttpPost("")]
         public async Task<HttpResponseMessage> Create(NewUserViewModel userViewModel)
         {
-            var secret = await this.temporaryUserService.CreateUser(userViewModel);
-
             var user = userViewModel.ToUser();
-            EmailTemplate template = new EmailTemplate(user, secret);
 
-            var confirmationMail = emailService.CreateMessage("[PhoneTicket] Confirmar registracion", template.TransformText(), user.EmailAddress);
+            var secret = await this.temporaryUserService.CreateUser(user);
+            
+            var template = new EmailTemplate(user, secret);
 
-            await emailService.SendAsync(confirmationMail);
+            var confirmationMail = this.emailService.CreateMessage(Resources.ConfirmationEmailSubject, template.TransformText(), user.EmailAddress);
+
+            await this.emailService.SendAsync(confirmationMail);
 
             return new HttpResponseMessage(HttpStatusCode.Created);
         }

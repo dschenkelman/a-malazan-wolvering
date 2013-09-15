@@ -16,14 +16,14 @@
             this.db = db;
         }
 
-        public async Task<Guid> CreateUser(NewUserViewModel user)
+        public async Task<Guid> CreateUser(User user)
         {
-            this.db.Users.Add(user.ToUser());
+            this.db.Users.Add(user);
 
             var secret = Guid.NewGuid();
 
             this.db.TemporaryUser.Add(
-                new TemporaryUser { Id = user.Dni, Secret = secret, RegistrationDate = DateTime.Now });
+                new TemporaryUser { Id = user.Id, Secret = secret, RegistrationDate = DateTime.Now });
 
             await this.db.SaveChangesAsync();
 
