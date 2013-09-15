@@ -40,7 +40,7 @@
 
     $(document).ready(function() {
         var controller = createUserController();
-        $("#invalidate").one('click', controller.invalidateUser);
-        $("#validate").one('click', controller.validateUser);
+        $(".invalidate").one('click', controller.invalidateUser);
+        $(".validate").one('click', controller.validateUser);
     });
 }());
