@@ -12,6 +12,7 @@ namespace PhoneTicket.Web.Templates
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
+    using PhoneTicket.Web.Properties;
     using System;
     
     /// <summary>
@@ -28,7 +29,7 @@ namespace PhoneTicket.Web.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n<body>\r\n\r\n<h3>Estimado ");
+            this.Write("\r\n<body>\r\n<h3>Estimado ");
             
             #line 9 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\EmailTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.User.FirstName));
@@ -42,22 +43,15 @@ namespace PhoneTicket.Web.Templates
             
             #line default
             #line hidden
-            this.Write(" </h3>\r\n\r\n<p>Su solicitud de registro ha sido procesada exitosamente. Para activa" +
-                    "r su cuenta por favor haga click \r\n<a href=\"https://damian-pc:44300/api/users/");
+            this.Write(" </h3>\r\n<p>Su solicitud de registro ha sido procesada exitosamente. Para activar " +
+                    "su cuenta por favor haga click \r\n<a href=\"");
             
-            #line 12 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\EmailTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.User.Id));
-            
-            #line default
-            #line hidden
-            this.Write("/confirm?secret=");
-            
-            #line 12 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\EmailTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.Secret.ToString()));
+            #line 11 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\EmailTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(string.Format(Resources.ConfirmationLinkFormat, this.User.Id, this.Secret)));
             
             #line default
             #line hidden
-            this.Write("\">aqui</a>.  <p>\r\n\r\n</body>");
+            this.Write("\">aqui</a>.</p>\r\n</body>");
             return this.GenerationEnvironment.ToString();
         }
     }
