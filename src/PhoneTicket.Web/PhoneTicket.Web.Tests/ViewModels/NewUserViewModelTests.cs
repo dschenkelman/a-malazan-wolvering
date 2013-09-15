@@ -47,5 +47,31 @@
 
             Assert.AreEqual(Encoding.UTF8.GetString(hash), Encoding.UTF8.GetString(user.PasswordHash));
         }
+
+        [TestMethod]
+        public void ShouldCreateNewUserWithIsValidTrue()
+        {
+            var birthDateString = "1990/09/09";
+            var birthDate = new DateTime(1990, 9, 9);
+            var emailAddress = "email@email.com";
+            var cellPhone = "1153224411";
+            var firstName = "John";
+            var lastName = "Doe";
+            var dni = 35111889;
+            var password = "password";
+
+            var viewModel = new NewUserViewModel
+            {
+                BirthDate = birthDateString,
+                CellPhoneNumber = cellPhone,
+                EmailAddress = emailAddress,
+                FirstName = firstName,
+                LastName = lastName,
+                Dni = dni,
+                Password = password
+            };
+
+            Assert.IsTrue(viewModel.ToUser().IsValid);
+        }
     }
 }

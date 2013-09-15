@@ -1,0 +1,7 @@
+﻿tr.valid {
+    color: green;
+}
+
+tr.invalid {
+    color: red;
+}

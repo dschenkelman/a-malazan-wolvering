@@ -18,14 +18,24 @@
             this.db = db;
         }
 
-        public Task<int> GetId(string email)
+        public Task<int> GetIdAsync(string email)
         {
             return this.db.Users.Where(u => u.EmailAddress == email).Select(u => u.Id).FirstAsync();
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<IEnumerable<User>> GetUsersAsync()
         {
             return await this.db.Users.Where(u => !this.db.TemporaryUser.Any(tu => tu.Id == u.Id)).ToListAsync();
+        }
+
+        public Task<User> GetUserAsync(int id)
+        {
+            return this.db.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public Task UpdateAsync(User user)
+        {
+            return this.db.SaveChangesAsync();
         }
 
         public void Dispose()

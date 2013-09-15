@@ -63,7 +63,7 @@
 
             this.temporaryUserService.Setup(
                 tus =>
-                tus.CreateUser(
+                tus.CreateUserAsync(
                     It.Is<User>(
                         u => u.BirthDate == birthDate && u.EmailAddress == Email && u.FirstName == FirstName
                              && u.LastName == LastName && u.Id == Id && u.CellPhoneNumber == CellPhoneNumber
@@ -78,7 +78,7 @@
 
             this.temporaryUserService.Verify(
                 tus =>
-                tus.CreateUser(It.Is<User>(
+                tus.CreateUserAsync(It.Is<User>(
                         u => u.BirthDate == birthDate && u.EmailAddress == Email && u.FirstName == FirstName
                              && u.LastName == LastName && u.Id == Id && u.CellPhoneNumber == CellPhoneNumber
                              && Encoding.UTF8.GetString(u.PasswordHash) == Encoding.UTF8.GetString(new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(Password))))),
@@ -107,7 +107,7 @@
                 Password = Password
             };
 
-            this.temporaryUserService.Setup(tus => tus.CreateUser(It.IsAny<User>())).Returns(Task.FromResult(Guid.NewGuid())).Verifiable();
+            this.temporaryUserService.Setup(tus => tus.CreateUserAsync(It.IsAny<User>())).Returns(Task.FromResult(Guid.NewGuid())).Verifiable();
 
             this.emailService.Setup(es => es.SendAsync(It.IsAny<MailMessage>())).Returns(Task.FromResult<object>(null));
 
@@ -159,7 +159,7 @@
             const string Email = "e@mail.com";
             var controller = this.CreateController();
 
-            this.userService.Setup(us => us.GetId(Email)).Returns(Task.FromResult(Id)).Verifiable();
+            this.userService.Setup(us => us.GetIdAsync(Email)).Returns(Task.FromResult(Id)).Verifiable();
 
             var oldPrincipal = Thread.CurrentPrincipal;
 
@@ -170,7 +170,7 @@
 
             Thread.CurrentPrincipal = oldPrincipal;
 
-            this.userService.Verify(us => us.GetId(Email), Times.Once);
+            this.userService.Verify(us => us.GetIdAsync(Email), Times.Once);
         }
 
         [TestMethod]
@@ -184,7 +184,7 @@
 
             var controller = this.CreateController();
 
-            this.temporaryUserService.Setup(tus => tus.CreateUser(It.IsAny<User>()))
+            this.temporaryUserService.Setup(tus => tus.CreateUserAsync(It.IsAny<User>()))
                 .Returns(Task.FromResult(secret))
                 .Verifiable();
 

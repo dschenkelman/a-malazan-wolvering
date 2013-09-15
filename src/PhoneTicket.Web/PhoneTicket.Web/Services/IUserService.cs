@@ -7,8 +7,12 @@
 
     public interface IUserService
     {
-        Task<int> GetId(string email);
+        Task<int> GetIdAsync(string email);
 
-        Task<IEnumerable<User>> GetUsers();
+        Task<IEnumerable<User>> GetUsersAsync();
+
+        Task<User> GetUserAsync(int id);
+
+        Task UpdateAsync(User user);
     }
 }

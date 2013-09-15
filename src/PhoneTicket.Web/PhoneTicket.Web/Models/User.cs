@@ -19,5 +19,7 @@
         public string CellPhoneNumber { get; set; }
 
         public DateTime? BirthDate { get; set; }
+
+        public bool IsValid { get; set; }
     }
 }
