@@ -60,11 +60,11 @@ else {
                 <td>
                     @if (item.IsValid)
                     {
-                        <input type="button" id="invalidate" data-user-id="@item.Id" value="Invalidar"/>
+                        <input type="button" class="invalidate" data-user-id="@item.Id" value="Invalidar"/>
                     }
                     else
                     {
-                        <input type="button" id="validate" data-user-id="@item.Id" value="Validar"/>
+                        <input type="button" class="validate" data-user-id="@item.Id" value="Validar"/>
                     }
                 </td>
             </tr>

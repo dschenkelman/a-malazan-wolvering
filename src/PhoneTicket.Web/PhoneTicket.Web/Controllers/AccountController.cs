@@ -1,23 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Transactions;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-using DotNetOpenAuth.AspNet;
-using Microsoft.Web.WebPages.OAuth;
-using WebMatrix.WebData;
-using PhoneTicket.Web.Filters;
-using PhoneTicket.Web.Models;
-
-namespace PhoneTicket.Web.Controllers
+﻿namespace PhoneTicket.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Transactions;
+    using System.Web;
+    using System.Web.Mvc;
+    using System.Web.Security;
+
+    using DotNetOpenAuth.AspNet;
+
+    using Microsoft.Web.WebPages.OAuth;
+
     using PhoneTicket.Web.Data;
+    using PhoneTicket.Web.Filters;
+    using PhoneTicket.Web.Handlers;
+    using PhoneTicket.Web.Models;
+
+    using WebMatrix.WebData;
 
     [Authorize]
     [InitializeSimpleMembership]
-    [RequireHttps]
+    [RequireSsl]
     public class AccountController : Controller
     {
         //

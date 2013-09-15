@@ -7,12 +7,13 @@
 
     using PagedList;
 
+    using PhoneTicket.Web.Handlers;
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
 
     [Authorize]
-    [RequireHttps]
+    [RequireSsl]
     public class UsersController : Controller
     {
         private const int PageSize = 20;
