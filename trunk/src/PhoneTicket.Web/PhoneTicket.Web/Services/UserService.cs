@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Data;
@@ -23,9 +24,23 @@
             return this.db.Users.Where(u => u.EmailAddress == email).Select(u => u.Id).FirstAsync();
         }
 
-        public async Task<IEnumerable<User>> GetUsersAsync()
+        public Task<IEnumerable<User>> GetUsersAsync()
         {
-            return await this.db.Users.Where(u => !this.db.TemporaryUser.Any(tu => tu.Id == u.Id)).ToListAsync();
+            return this.GetUsersAsync(null);
+        }
+
+        public async Task<IEnumerable<User>> GetUsersAsync(Expression<Func<User, bool>> filter)
+        {
+            var confirmedUsers = this.db.Users.Where(u => !this.db.TemporaryUser.Any(tu => tu.Id == u.Id));
+
+            var finalUsers = confirmedUsers;
+
+            if (filter != null)
+            {
+                finalUsers = confirmedUsers.Where(filter);
+            }
+
+            return await finalUsers.ToListAsync();
         }
 
         public Task<User> GetUserAsync(int id)

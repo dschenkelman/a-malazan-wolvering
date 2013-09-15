@@ -56,7 +56,7 @@
 
             var controller = this.CreateController();
 
-            var result = (ViewResult)await controller.Index(null);
+            var result = (ViewResult)await controller.Index(string.Empty, null);
 
             var pagedList = (IPagedList<ListUserViewModel>)result.ViewData.Model;
 
@@ -95,7 +95,7 @@
 
             var controller = this.CreateController();
 
-            var result = (ViewResult)await controller.Index(PageNumber);
+            var result = (ViewResult)await controller.Index(string.Empty, PageNumber);
 
             var pagedList = (IPagedList<ListUserViewModel>)result.ViewData.Model;
 
