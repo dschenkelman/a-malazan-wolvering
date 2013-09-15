@@ -32,6 +32,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onActionButtonTapped" />
+        
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onLogoutButtonTapped"
+            android:text="@string/mainLogoutButton" />
+        
     </LinearLayout>
 
 </ScrollView>

@@ -5,6 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="mainActionTextMessage">Acción que requiere login:</string>
     <string name="mainActionButton">Realizar acción</string>
+    <string name="mainLogoutButton">Cerrar sesión</string>
     <string name="errorDialogContinue">Continuar</string>
     <string name="defaulErrorMessage">Error al comunicarse con el Servidor</string>
 

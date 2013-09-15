@@ -66,10 +66,15 @@ public class UserManager {
 	}
 	
 	public void logoutUser() {
+		user = null;
 		SharedPreferences.Editor editor = sharePreferences.edit();
 		editor.remove(kSharePreferencesUserIdCredential);
 		editor.remove(kSharePreferencesEmailAddressCredential);
 		editor.remove(kSharePreferencesPasswordCredential);
 		editor.commit();
+	}
+
+	public boolean isUserLoged() {
+		return null != user;
 	}
 }
