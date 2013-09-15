@@ -35,7 +35,8 @@
                            FirstName = this.FirstName,
                            LastName = this.LastName, 
                            EmailAddress = this.EmailAddress,
-                           PasswordHash = passwordHash
+                           PasswordHash = passwordHash,
+                           IsValid = true,
                        };
         }
     }

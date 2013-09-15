@@ -1,7 +1,6 @@
 ﻿namespace PhoneTicket.Web.Tests.Controllers
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Threading.Tasks;
@@ -53,7 +52,7 @@
                         });
             }
 
-            this.usersService.Setup(us => us.GetUsers()).Returns(Task.FromResult((IEnumerable<User>)users)).Verifiable();
+            this.usersService.Setup(us => us.GetUsersAsync()).Returns(Task.FromResult((IEnumerable<User>)users)).Verifiable();
 
             var controller = this.CreateController();
 
@@ -92,7 +91,7 @@
                     });
             }
 
-            this.usersService.Setup(us => us.GetUsers()).Returns(Task.FromResult((IEnumerable<User>)users)).Verifiable();
+            this.usersService.Setup(us => us.GetUsersAsync()).Returns(Task.FromResult((IEnumerable<User>)users)).Verifiable();
 
             var controller = this.CreateController();
 

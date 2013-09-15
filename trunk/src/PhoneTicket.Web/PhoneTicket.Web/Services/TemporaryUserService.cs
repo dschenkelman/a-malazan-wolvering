@@ -5,7 +5,6 @@
 
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
-    using PhoneTicket.Web.ViewModels;
 
     public class TemporaryUserService : ITemporaryUserService, IDisposable
     {
@@ -16,7 +15,7 @@
             this.db = db;
         }
 
-        public async Task<Guid> CreateUser(User user)
+        public async Task<Guid> CreateUserAsync(User user)
         {
             this.db.Users.Add(user);
 

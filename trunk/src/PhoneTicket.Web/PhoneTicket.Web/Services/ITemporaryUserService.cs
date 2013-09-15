@@ -7,7 +7,7 @@
 
     public interface ITemporaryUserService
     {
-        Task<Guid> CreateUser(User user);
+        Task<Guid> CreateUserAsync(User user);
 
         Task<bool> IsSecretValid(int userId, Guid secret);
 

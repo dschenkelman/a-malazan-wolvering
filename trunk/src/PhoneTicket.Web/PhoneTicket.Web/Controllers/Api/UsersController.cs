@@ -34,7 +34,7 @@
         {
             var user = userViewModel.ToUser();
 
-            var secret = await this.temporaryUserService.CreateUser(user);
+            var secret = await this.temporaryUserService.CreateUserAsync(user);
             
             var template = new EmailTemplate(user, secret);
 
@@ -68,7 +68,18 @@
         [HttpPost("auth")]
         public async Task<int> Auth()
         {
-            return await this.userService.GetId(Thread.CurrentPrincipal.Identity.Name);
+            return await this.userService.GetIdAsync(Thread.CurrentPrincipal.Identity.Name);
+        }
+
+        [Authorize(Users = "admin")]
+        [HttpPut("{id}")]
+        public async Task<HttpResponseMessage> Edit(int id, EditUserViewModel viewModel)
+        {
+            var user = await this.userService.GetUserAsync(id);
+            user.IsValid = viewModel.IsValid;
+            await this.userService.UpdateAsync(user);
+
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
     }
 }

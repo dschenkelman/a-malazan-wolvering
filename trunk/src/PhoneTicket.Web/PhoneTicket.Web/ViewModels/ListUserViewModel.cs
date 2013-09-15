@@ -22,6 +22,8 @@
 
         public string BirthDate { get; set; }
 
+        public bool IsValid { get; set; }
+
         public static ListUserViewModel FromUser(User user)
         {
             var vm = new ListUserViewModel
@@ -31,7 +33,8 @@
                              FirstName = user.FirstName,
                              EmailAddress = user.EmailAddress,
                              CellPhoneNumber = user.CellPhoneNumber,
-                             BirthDate = user.BirthDate.HasValue ? user.BirthDate.Value.ToString("yyyy-MM-dd") : string.Empty
+                             BirthDate = user.BirthDate.HasValue ? user.BirthDate.Value.ToString("yyyy-MM-dd") : string.Empty,
+                             IsValid = user.IsValid
                          };
 
             return vm;

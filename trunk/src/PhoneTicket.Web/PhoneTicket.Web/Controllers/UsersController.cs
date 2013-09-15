@@ -24,7 +24,7 @@
 
         public async Task<ActionResult> Index(int? page)
         {
-            var users = await this.userService.GetUsers();
+            var users = await this.userService.GetUsersAsync();
             var userViewModels = users.Select(ListUserViewModel.FromUser);
             return this.View(userViewModels.ToPagedList(page ?? 1, PageSize));
         }
