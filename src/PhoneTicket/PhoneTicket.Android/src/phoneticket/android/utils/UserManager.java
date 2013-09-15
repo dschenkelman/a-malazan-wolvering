@@ -43,11 +43,11 @@ public class UserManager {
 	}
 
 	public String getEmailAddressCredential() {
-		return this.emailCredential;
+		return null == this.emailCredential ? "" : this.emailCredential;
 	}
 
 	public String getPasswordCredential() {
-		return this.passwordCredential;
+		return null == this.passwordCredential ? "" : this.passwordCredential;
 	}
 
 	public User getLogedUser() {
@@ -67,6 +67,8 @@ public class UserManager {
 	
 	public void logoutUser() {
 		user = null;
+		emailCredential = "";
+		passwordCredential = "";
 		SharedPreferences.Editor editor = sharePreferences.edit();
 		editor.remove(kSharePreferencesUserIdCredential);
 		editor.remove(kSharePreferencesEmailAddressCredential);
