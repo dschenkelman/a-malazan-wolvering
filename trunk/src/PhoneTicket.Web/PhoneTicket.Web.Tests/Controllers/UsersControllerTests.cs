@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
@@ -106,6 +107,33 @@
             Assert.IsTrue(pagedList.HasPreviousPage);
             Assert.AreEqual(PageNumber, pagedList.PageNumber);
             Assert.AreEqual(pages, pagedList.PageCount);
+        }
+
+        [TestMethod]
+        public async Task ShouldProvideEmailFilterToUserServiceIfEmailSearchIsProvided()
+        {
+            var users = new List<User>();
+            const int PageNumber = 1;
+
+            this.usersService.Setup(
+                us =>
+                us.GetUsersAsync(
+                    It.Is<Expression<Func<User, bool>>>(
+                        e =>
+                        e.Compile().Invoke(new User { EmailAddress = "d@d.com" })
+                        && !e.Compile().Invoke(new User { EmailAddress = "e@d.kom" }))))
+                .Returns(Task.FromResult((IEnumerable<User>)users)).Verifiable();
+
+            var controller = this.CreateController();
+
+            await controller.Index(".c", PageNumber);
+
+            this.usersService.Verify(us => us.GetUsersAsync(
+                    It.Is<Expression<Func<User, bool>>>(
+                        e =>
+                        e.Compile().Invoke(new User { EmailAddress = "d@d.com" })
+                        && !e.Compile().Invoke(new User { EmailAddress = "e@d.kom" }))), Times.Once());
+
         }
 
         private UsersController CreateController()
