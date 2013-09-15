@@ -1,11 +1,13 @@
 ﻿namespace PhoneTicket.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
     using PagedList;
 
+    using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
 
@@ -22,9 +24,19 @@
             this.userService = userService;
         }
 
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(string emailSearch, int? page)
         {
-            var users = await this.userService.GetUsersAsync();
+            IEnumerable<User> users; 
+            
+            if (string.IsNullOrEmpty(emailSearch))
+            {
+                users = await this.userService.GetUsersAsync();
+            }
+            else
+            {
+                users = await this.userService.GetUsersAsync(u => u.EmailAddress.Contains(emailSearch));
+            }
+
             var userViewModels = users.Select(ListUserViewModel.FromUser);
             return this.View(userViewModels.ToPagedList(page ?? 1, PageSize));
         }
