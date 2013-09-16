@@ -14,6 +14,7 @@
         <item>401</item>
         <item>404</item>
         <item>408</item>
+        <item>409</item>
         <item>500</item>
     </string-array>
     <string-array name="codesNames">
@@ -21,6 +22,7 @@
         <item>Credenciales Inválidas</item>
         <item>@string/defaulErrorMessage</item>
         <item>@string/defaulErrorMessage</item>
+        <item>El e-mail o el DNI ya poseen una cuenta</item>
         <item>Error en el Servidor</item>
     </string-array>
 
