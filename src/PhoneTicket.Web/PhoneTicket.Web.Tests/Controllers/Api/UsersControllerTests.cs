@@ -2,6 +2,7 @@
 {
     using System;
     using System.Net;
+    using System.Net.Http;
     using System.Net.Mail;
     using System.Security.Cryptography;
     using System.Security.Principal;
@@ -61,6 +62,8 @@
                                         Password = Password
                                     };
 
+            this.userService.Setup(us => us.HasConflict(It.IsAny<User>())).Returns(Task.FromResult(false));
+
             this.temporaryUserService.Setup(
                 tus =>
                 tus.CreateUserAsync(
@@ -106,6 +109,8 @@
                 LastName = LastName,
                 Password = Password
             };
+
+            this.userService.Setup(us => us.HasConflict(It.IsAny<User>())).Returns(Task.FromResult(false));
 
             this.temporaryUserService.Setup(tus => tus.CreateUserAsync(It.IsAny<User>())).Returns(Task.FromResult(Guid.NewGuid())).Verifiable();
 
@@ -179,10 +184,12 @@
             var secret = Guid.NewGuid();
             const int UserId = 12345678;
             const string UserEmail = "e@mail.com";
-            var expectedLink = string.Format("https://damian-pc:44300/api/users/{0}/confirm?secret={1}", UserId, secret);
+            var expectedLink = string.Format("https://phoneticket.apphb.com/api/users/{0}/confirm?secret={1}", UserId, secret);
             var mailMessage = new MailMessage();
 
             var controller = this.CreateController();
+
+            this.userService.Setup(us => us.HasConflict(It.IsAny<User>())).Returns(Task.FromResult(false));
 
             this.temporaryUserService.Setup(tus => tus.CreateUserAsync(It.IsAny<User>()))
                 .Returns(Task.FromResult(secret))
@@ -233,6 +240,38 @@
             this.userService.Verify(us => us.UpdateAsync(user), Times.Once());
 
             Assert.IsFalse(user.IsValid);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturn409IfUserServiceReturnsThatThereIsAConflictWithTheUserInfo()
+        {
+            const string FirstName = "first";
+            const string LastName = "last";
+            const string Password = "password";
+            var birthDate = new DateTime(1989, 3, 2);
+            const string CellPhoneNumber = "1536548978";
+            const int Id = 1231;
+            const string Email = "e@mail.com";
+
+            var userViewModel = new NewUserViewModel()
+            {
+                BirthDate = birthDate.ToString("yyyy/MM/dd"),
+                CellPhoneNumber = CellPhoneNumber,
+                Dni = Id,
+                EmailAddress = Email,
+                FirstName = FirstName,
+                LastName = LastName,
+                Password = Password
+            };
+
+            this.userService.Setup(us => us.HasConflict(It.IsAny<User>())).Returns(Task.FromResult(true)).Verifiable();
+
+            var controller = this.CreateController();
+            var response = await controller.Create(userViewModel);
+
+            Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode);
+
+            this.userService.Verify(us => us.HasConflict(It.IsAny<User>()), Times.Once());
         }
 
         private UsersController CreateController()

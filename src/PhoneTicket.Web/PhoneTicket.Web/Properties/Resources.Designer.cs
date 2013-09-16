@@ -70,7 +70,7 @@ namespace PhoneTicket.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://damian-pc:44300/api/users/{0}/confirm?secret={1}.
+        ///   Looks up a localized string similar to https://phoneticket.apphb.com/api/users/{0}/confirm?secret={1}.
         /// </summary>
         internal static string ConfirmationLinkFormat {
             get {

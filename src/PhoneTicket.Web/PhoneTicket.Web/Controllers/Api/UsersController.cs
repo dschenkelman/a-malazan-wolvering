@@ -34,6 +34,11 @@
         {
             var user = userViewModel.ToUser();
 
+            if (await this.userService.HasConflict(user))
+            {
+                return new HttpResponseMessage(HttpStatusCode.Conflict);
+            }
+
             var secret = await this.temporaryUserService.CreateUserAsync(user);
             
             var template = new EmailTemplate(user, secret);
