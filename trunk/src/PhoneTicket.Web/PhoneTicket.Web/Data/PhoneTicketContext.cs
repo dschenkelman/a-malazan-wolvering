@@ -2,6 +2,7 @@
 {
     using System.Data.Entity;
 
+    using PhoneTicket.Web.Migrations;
     using PhoneTicket.Web.Models;
 
     public class PhoneTicketContext : DbContext
@@ -15,5 +16,10 @@
         public DbSet<TemporaryUser> TemporaryUser { get; set; }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<PhoneTicketContext, Configuration>());
+        }
     }
 }

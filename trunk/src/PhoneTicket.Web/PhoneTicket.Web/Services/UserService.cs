@@ -53,6 +53,11 @@
             return this.db.SaveChangesAsync();
         }
 
+        public Task<bool> HasConflict(User user)
+        {
+            return this.db.Users.AnyAsync(u => u.Id == user.Id || u.EmailAddress == user.EmailAddress);
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
