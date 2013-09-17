@@ -37,8 +37,15 @@ public abstract class PostService extends AsyncTask<String, String, String> {
 			httppost.setEntity(se);
 			response = httpclient.execute(httppost);
 		} catch (ClientProtocolException e) {
+			e.printStackTrace();
 			handleClientProtocolException(e);
 		} catch (IOException e) {
+			e.printStackTrace();
+			handleStatusCodeNotOk(e,
+					((null == statusLine) ? -1 : statusLine.getStatusCode()));
+		} catch (RuntimeException e) {
+			// This happens on FIUBA's Wifi
+			e.printStackTrace();
 			handleStatusCodeNotOk(e,
 					((null == statusLine) ? -1 : statusLine.getStatusCode()));
 		}
@@ -58,14 +65,14 @@ public abstract class PostService extends AsyncTask<String, String, String> {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			responseMessage  = out.toString();
+			responseMessage = out.toString();
 		}
-		return responseMessage ;
+		return responseMessage;
 	}
 
 	abstract protected String generatePostBodyObject();
 
-	protected void handleStatusCodeNotOk(IOException e, int statusCode) {
+	protected void handleStatusCodeNotOk(Exception e, int statusCode) {
 		performingRequest = false;
 	}
 
