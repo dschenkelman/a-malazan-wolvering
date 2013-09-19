@@ -1,6 +1,7 @@
 ﻿namespace PhoneTicket.Web.ViewModels
 {
     using System;
+    using System.Globalization;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -25,11 +26,12 @@
         public User ToUser()
         {
             var passwordHash = new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(this.Password));
-            var birthDate = DateTime.ParseExact(this.BirthDate, "yyyy/MM/dd", null);
+            DateTime parsed;
+            bool result = DateTime.TryParseExact(this.BirthDate, "yyyy/MM/dd", null, DateTimeStyles.None, out parsed);
 
             return new User
                        {
-                           BirthDate = birthDate, 
+                           BirthDate = result ? parsed : (DateTime?)null, 
                            CellPhoneNumber = this.CellPhoneNumber, 
                            Id = this.Dni,
                            FirstName = this.FirstName,

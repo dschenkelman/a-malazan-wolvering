@@ -73,5 +73,86 @@
 
             Assert.IsTrue(viewModel.ToUser().IsValid);
         }
+
+        [TestMethod]
+        public void ShouldSetDateToNullIfBirthDateIsNotValid()
+        {
+            var birthDateString = "invalid/09/09";
+            var emailAddress = "email@email.com";
+            var cellPhone = "1153224411";
+            var firstName = "John";
+            var lastName = "Doe";
+            var dni = 35111889;
+            var password = "password";
+
+            var viewModel = new NewUserViewModel
+            {
+                BirthDate = birthDateString,
+                CellPhoneNumber = cellPhone,
+                EmailAddress = emailAddress,
+                FirstName = firstName,
+                LastName = lastName,
+                Dni = dni,
+                Password = password
+            };
+
+            var user = viewModel.ToUser();
+
+            Assert.AreEqual(null, user.BirthDate);
+        }
+
+        [TestMethod]
+        public void ShouldSetDateToNullIfBirthDateIsEmpty()
+        {
+            var birthDateString = string.Empty;
+            var emailAddress = "email@email.com";
+            var cellPhone = "1153224411";
+            var firstName = "John";
+            var lastName = "Doe";
+            var dni = 35111889;
+            var password = "password";
+
+            var viewModel = new NewUserViewModel
+            {
+                BirthDate = birthDateString,
+                CellPhoneNumber = cellPhone,
+                EmailAddress = emailAddress,
+                FirstName = firstName,
+                LastName = lastName,
+                Dni = dni,
+                Password = password
+            };
+
+            var user = viewModel.ToUser();
+
+            Assert.AreEqual(null, user.BirthDate);
+        }
+
+        [TestMethod]
+        public void ShouldSetDateToNullIfBirthDateIsNull()
+        {
+            string birthDateString = null;
+            var emailAddress = "email@email.com";
+            var cellPhone = "1153224411";
+            var firstName = "John";
+            var lastName = "Doe";
+            var dni = 35111889;
+            var password = "password";
+
+            var viewModel = new NewUserViewModel
+            {
+                BirthDate = birthDateString,
+                CellPhoneNumber = cellPhone,
+                EmailAddress = emailAddress,
+                FirstName = firstName,
+                LastName = lastName,
+                Dni = dni,
+                Password = password
+            };
+
+            var user = viewModel.ToUser();
+
+            Assert.AreEqual(null, user.BirthDate);
+        }
     }
 }
