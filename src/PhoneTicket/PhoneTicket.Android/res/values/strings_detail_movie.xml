@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="title_activity_detail_movie">Película</string>
+    <string name="title_activity_movie_list">Películas</string>
     <string name="detailMovieImageDescription">Poster de la película</string>
     <string name="watchOnYoutube">Ver en Youtube</string>
-    
-    
     <string name="detailMovieGendreStartText">Género: </string>
     <string name="detailMovieDurationStartText">Duración: </string>
     <string name="detailMovieDurationEndText"> minutos</string>
     <string name="detailMovieClasificationStartText">Clasificación: </string>
-
     <string name="detailMovieDefaultTitle">Pelicula: -</string>
     <string name="detailMovieDefaultGendre">Género: -</string>
     <string name="detailMovieDefaultDuration">Duración: -</string>
     <string name="detailMovieDefaultClasification">Clasificación: -</string>
     <string name="detailMovieDefaultSynopsis">Sinopsis</string>
-    
+
 </resources>

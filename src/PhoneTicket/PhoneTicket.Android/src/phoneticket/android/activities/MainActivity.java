@@ -48,6 +48,11 @@ public class MainActivity extends FragmentActivity implements
 		((TextView) findViewById(R.id.loginUser)).setText("");
 	}
 	
+	public void onMovieListButtonTapped(View sender){
+		Intent intent = new Intent(this, MovieListActivity.class);
+		startActivity(intent);
+	}
+	
 	public void onMockMovieButtonTapped(View sender) {
 		int mockMovieID = 1;
 		Intent intent = new Intent(this, DetailMovieActivity.class);

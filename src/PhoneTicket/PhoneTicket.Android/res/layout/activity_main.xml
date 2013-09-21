@@ -32,21 +32,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onActionButtonTapped" />
-        
+
         <Button
             android:id="@+id/logoutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onLogoutButtonTapped"
             android:text="@string/mainLogoutButton" />
-        
-		<Button
+
+        <Button
             android:id="@+id/mockMovieButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onMockMovieButtonTapped"
             android:text="@string/mainMockMovieButton" />
-        
+
+        <Button
+            android:id="@+id/movieListButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onMovieListButtonTapped"
+            android:text="@string/movieListButton" />
     </LinearLayout>
 
 </ScrollView>

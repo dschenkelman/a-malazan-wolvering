@@ -47,6 +47,10 @@
             android:name="phoneticket.android.activities.DetailMovieActivity"
             android:label="@string/title_activity_detail_movie" >
         </activity>
+        <activity
+            android:name="phoneticket.android.activities.MovieListActivity"
+            android:label="@string/title_activity_movie_list" >
+        </activity>
     </application>
 
 </manifest>
