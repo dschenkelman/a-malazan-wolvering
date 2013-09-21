@@ -39,22 +39,23 @@ public class RetrieveMovieListService extends GetService implements
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		Collection<IMovieListItem> toilets = new ArrayList<IMovieListItem>();
+		Collection<IMovieListItem> movieList = new ArrayList<IMovieListItem>();
 		if (null != result) {
 			try {
-				JSONArray jsonToilets = new JSONArray(result);
-				for (int i = 0; i < jsonToilets.length(); i++) {
-					JSONObject jsonToilet = jsonToilets.getJSONObject(i);
-					IMovieListItem toilet = new Gson().fromJson(
-							jsonToilet.toString(), MovieListItem.class);
-					if (null != toilet) {
-						toilets.add(toilet);
+				JSONArray jsonMovieListItems = new JSONArray(result);
+				for (int i = 0; i < jsonMovieListItems.length(); i++) {
+					JSONObject jsonMovieListItem = jsonMovieListItems
+							.getJSONObject(i);
+					IMovieListItem moviewList = new Gson().fromJson(
+							jsonMovieListItem.toString(), MovieListItem.class);
+					if (null != moviewList) {
+						movieList.add(moviewList);
 					}
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			delegate.retrieveMovieListFinish(this, toilets);
+			delegate.retrieveMovieListFinish(this, movieList);
 		} else {
 			delegate.retrieveMovieListFinishWithError(this, 1);
 		}
