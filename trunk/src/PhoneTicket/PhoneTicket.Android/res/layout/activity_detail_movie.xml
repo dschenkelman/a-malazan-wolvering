@@ -9,48 +9,59 @@
     tools:context=".DetailMovieActivity" >
 
     <LinearLayout
-    	android:layout_width="wrap_content"
+    	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:orientation="vertical" >
         
 	    <LinearLayout
-	    	android:layout_width="wrap_content"
+	    	android:layout_width="fill_parent"
 	    	android:layout_height="wrap_content"
 	    	android:orientation="horizontal" >
 	        
-			<View
-	       		android:layout_width="60dp"
-	        	android:layout_height="80dp" 
-	        	android:background="@android:color/holo_green_dark"/>
+	    <ImageView
+	        android:id="@+id/movieImage"
+	        android:contentDescription="@string/detailMovieImageDescription"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/default_movie_poster" />
 			
 		    <LinearLayout
-		    	android:layout_width="wrap_content"
+		    	android:layout_width="fill_parent"
 		    	android:layout_height="wrap_content"
 		    	android:orientation="vertical" >
 		        
 				<TextView
+	       			android:id="@+id/movieTitleText"
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
+        			android:layout_margin="4dp"
 		        	android:text="El Conjuro" />
 
-					<View
-						android:layout_width="fill_parent"
-						android:layout_height="2dp" 
-						android:background="@android:color/black"/>
+				<View
+					android:layout_width="fill_parent"
+					android:layout_height="2dp" 
+					android:layout_margin="4dp"
+					android:background="@android:color/black"/>
 					
 				<TextView
+				    android:id="@+id/movieGendreText"
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
+		        	android:layout_margin="4dp"
 		        	android:text="Género: Terror" />
 
 				<TextView
+				    android:id="@+id/movieDurationText"
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
+		        	android:layout_margin="4dp"
 		        	android:text="Duración: 112 minutos" />
 				
 				<TextView
+				    android:id="@+id/movieClasificationText"
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
+		        	android:layout_margin="4dp"
 		        	android:text="Clasificación: P16" />
 		            
 		    </LinearLayout>
@@ -60,9 +71,12 @@
 		<View
 			android:layout_width="fill_parent"
 			android:layout_height="2dp" 
+			android:layout_marginTop="4dp"
+			android:layout_marginBottom="4dp"
 			android:background="@android:color/black"/>
 	
 		<TextView
+		    android:id="@+id/movieSynopsisText"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="El conjuro se basa en los sucesos sobrenaturales que ocurrieron en la casa de Rhode Island de la familia Perron y que investigaron Ed y Lorraine Warren, expertos en actividades paranormales" />
@@ -70,12 +84,16 @@
 		<View
 			android:layout_width="fill_parent"
 			android:layout_height="2dp" 
+			android:layout_marginTop="4dp"
+			android:layout_marginBottom="4dp"
 			android:background="@android:color/black"/>
 		
 		<Button 
+		    android:id="@+id/watchTrailerButton"
        		android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
-        	android:text="Ver en Youtube"/>
+        	android:text="@string/watchOnYoutube"
+        	android:onClick="onWatchTrailerButtonAction"/>
 		
     </LinearLayout>
 
