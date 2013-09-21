@@ -2,5 +2,13 @@
 <resources>
     
     <string name="title_activity_detail_movie">Película</string>
+    <string name="detailMovieImageDescription">Poster de la película</string>
+    <string name="watchOnYoutube">Ver en Youtube</string>
     
+    
+    <string name="detailMovieGendreStartText">Género: </string>
+    <string name="detailMovieDurationStartText">Duración: </string>
+    <string name="detailMovieDurationEndText"> minutos</string>
+    <string name="detailMovieClasificationStartText">Clasificación: </string>
+
 </resources>
