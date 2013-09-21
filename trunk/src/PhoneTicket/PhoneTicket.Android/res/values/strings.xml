@@ -6,6 +6,7 @@
     <string name="mainActionTextMessage">Acción que requiere login:</string>
     <string name="mainActionButton">Realizar acción</string>
     <string name="mainMockMovieButton">Mirar película mockeada</string>
+    <string name="movieListButton">Ver lista de peliculas</string>
     <string name="mainLogoutButton">Cerrar sesión</string>
     <string name="errorDialogContinue">Continuar</string>
     <string name="defaulErrorMessage">Error al comunicarse con el Servidor</string>
