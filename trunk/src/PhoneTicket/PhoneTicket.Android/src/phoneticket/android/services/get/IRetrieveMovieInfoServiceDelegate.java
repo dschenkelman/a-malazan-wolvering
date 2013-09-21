@@ -1,11 +1,11 @@
 package phoneticket.android.services.get;
 
-import android.graphics.Movie;
+import phoneticket.android.model.IMovie;
 
 public interface IRetrieveMovieInfoServiceDelegate {
 	
-	void retrieveMovieInfoServiceFinish(IRetrieveMovieInfoService service,
-			Movie movie);
+	void retrieveMovieInfoFinish(IRetrieveMovieInfoService service,
+			IMovie movie);
 
 	void retrieveMovieInfoFinishWithError(IRetrieveMovieInfoService service,
 			Integer errorMessage);
