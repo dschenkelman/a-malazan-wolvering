@@ -25,7 +25,8 @@ public class MockRetrieveMovieInfoService extends
 				movieId,
 				"El Conjuro",
 				"El conjuro se basa en los sucesos sobrenaturales que ocurrieron en la casa de Rhode Island de la familia Perron y que investigaron Ed y Lorraine Warren, expertos en actividades paranormales",
-				"", "P16", 112, "Terror",
+				"http://www.hoyts.com.ar/files/movies/picture/HO00001296.jpg",
+				"P16", 112, "Terror",
 				"http://www.youtube.com/watch?v=OJgDCNyfWfQ");
 	}
 
@@ -39,7 +40,7 @@ public class MockRetrieveMovieInfoService extends
 
 		return "";
 	}
-	
+
 	@Override
 	protected void onPostExecute(String result) {
 		if (0 < movieId)

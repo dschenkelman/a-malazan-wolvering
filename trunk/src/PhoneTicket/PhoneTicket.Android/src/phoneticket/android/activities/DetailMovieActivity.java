@@ -6,11 +6,13 @@ import phoneticket.android.R;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.IRetrieveMovieInfoServiceDelegate;
+import phoneticket.android.utils.ImageDownloader;
 import roboguice.activity.RoboFragmentActivity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
 
@@ -58,6 +60,11 @@ public class DetailMovieActivity extends RoboFragmentActivity implements
 		duration.setText(durationString);
 		clasification.setText(clasificationString);
 		synopsis.setText(movie.getSynopsis());
+
+		ImageView poster = (ImageView) findViewById(R.id.movieImage);
+		ImageDownloader downloader = new ImageDownloader(movie.getImageURL(),
+				poster, null, null);
+		downloader.execute();
 	}
 
 	public void onWatchTrailerButtonAction(View sender) {
