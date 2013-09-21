@@ -11,4 +11,10 @@
     <string name="detailMovieDurationEndText"> minutos</string>
     <string name="detailMovieClasificationStartText">Clasificación: </string>
 
+    <string name="detailMovieDefaultTitle">Pelicula: -</string>
+    <string name="detailMovieDefaultGendre">Género: -</string>
+    <string name="detailMovieDefaultDuration">Duración: -</string>
+    <string name="detailMovieDefaultClasification">Clasificación: -</string>
+    <string name="detailMovieDefaultSynopsis">Sinopsis</string>
+    
 </resources>

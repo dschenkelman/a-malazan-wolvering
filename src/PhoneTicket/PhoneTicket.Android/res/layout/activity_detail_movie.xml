@@ -35,7 +35,7 @@
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
         			android:layout_margin="4dp"
-		        	android:text="Título" />
+		        	android:text="@string/detailMovieDefaultTitle" />
 
 				<View
 					android:layout_width="fill_parent"
@@ -48,21 +48,21 @@
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
 		        	android:layout_margin="4dp"
-		        	android:text="Género: -" />
+		        	android:text="@string/detailMovieDefaultGendre" />
 
 				<TextView
 				    android:id="@+id/movieDurationText"
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
 		        	android:layout_margin="4dp"
-		        	android:text="Duración: -" />
+		        	android:text="@string/detailMovieDefaultDuration" />
 				
 				<TextView
 				    android:id="@+id/movieClasificationText"
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
 		        	android:layout_margin="4dp"
-		        	android:text="Clasificación: -" />
+		        	android:text="@string/detailMovieDefaultClasification" />
 		            
 		    </LinearLayout>
 	            
@@ -79,7 +79,7 @@
 		    android:id="@+id/movieSynopsisText"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Sinopsis" />
+			android:text="@string/detailMovieDefaultSynopsis" />
 	    			
 		<View
 			android:layout_width="fill_parent"
