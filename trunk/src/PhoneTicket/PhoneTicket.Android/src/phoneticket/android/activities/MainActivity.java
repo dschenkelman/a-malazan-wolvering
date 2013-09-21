@@ -47,6 +47,13 @@ public class MainActivity extends FragmentActivity implements
 		updateLogoutButtonVisibility();
 		((TextView) findViewById(R.id.loginUser)).setText("");
 	}
+	
+	public void onMockMovieButtonTapped(View sender) {
+		int mockMovieID = 1;
+		Intent intent = new Intent(this, DetailMovieActivity.class);
+		intent.putExtra(DetailMovieActivity.MovieToShowId, mockMovieID);
+		startActivity(intent);
+	}
 
 	@Override
 	protected void onResume() {
