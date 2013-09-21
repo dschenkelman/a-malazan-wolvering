@@ -40,6 +40,13 @@
             android:onClick="onLogoutButtonTapped"
             android:text="@string/mainLogoutButton" />
         
+		<Button
+            android:id="@+id/mockMovieButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onMockMovieButtonTapped"
+            android:text="@string/mainMockMovieButton" />
+        
     </LinearLayout>
 
 </ScrollView>
