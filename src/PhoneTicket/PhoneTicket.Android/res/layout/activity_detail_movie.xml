@@ -35,7 +35,7 @@
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
         			android:layout_margin="4dp"
-		        	android:text="El Conjuro" />
+		        	android:text="Título" />
 
 				<View
 					android:layout_width="fill_parent"
@@ -48,21 +48,21 @@
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
 		        	android:layout_margin="4dp"
-		        	android:text="Género: Terror" />
+		        	android:text="Género: -" />
 
 				<TextView
 				    android:id="@+id/movieDurationText"
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
 		        	android:layout_margin="4dp"
-		        	android:text="Duración: 112 minutos" />
+		        	android:text="Duración: -" />
 				
 				<TextView
 				    android:id="@+id/movieClasificationText"
 		       		android:layout_width="wrap_content"
 		        	android:layout_height="wrap_content"
 		        	android:layout_margin="4dp"
-		        	android:text="Clasificación: P16" />
+		        	android:text="Clasificación: -" />
 		            
 		    </LinearLayout>
 	            
@@ -79,7 +79,7 @@
 		    android:id="@+id/movieSynopsisText"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="El conjuro se basa en los sucesos sobrenaturales que ocurrieron en la casa de Rhode Island de la familia Perron y que investigaron Ed y Lorraine Warren, expertos en actividades paranormales" />
+			android:text="Sinopsis" />
 	    			
 		<View
 			android:layout_width="fill_parent"

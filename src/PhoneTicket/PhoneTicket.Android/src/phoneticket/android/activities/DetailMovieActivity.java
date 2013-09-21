@@ -1,18 +1,26 @@
 package phoneticket.android.activities;
 
+import com.google.inject.Inject;
+
 import phoneticket.android.R;
 import phoneticket.android.model.IMovie;
-import phoneticket.android.model.Movie;
+import phoneticket.android.services.get.IRetrieveMovieInfoService;
+import phoneticket.android.services.get.IRetrieveMovieInfoServiceDelegate;
+import roboguice.activity.RoboFragmentActivity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.app.Activity;
 import android.content.Intent;
 
-public class DetailMovieActivity extends Activity {
+public class DetailMovieActivity extends RoboFragmentActivity implements
+		IRetrieveMovieInfoServiceDelegate {
 
 	public static final String MovieToShowId = "DetailMovieActivity.MovieToShowId";
+
+	@Inject
+	private IRetrieveMovieInfoService service;
 
 	private IMovie movie;
 
@@ -21,17 +29,10 @@ public class DetailMovieActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail_movie);
 
-		movie = createMockMovie();
-		showMovie();
-	}
+		int movieId = getIntent().getIntExtra(
+				DetailMovieActivity.MovieToShowId, -1);
 
-	private IMovie createMockMovie() {
-		return new Movie(
-				1,
-				"El Conjuro",
-				"El conjuro se basa en los sucesos sobrenaturales que ocurrieron en la casa de Rhode Island de la familia Perron y que investigaron Ed y Lorraine Warren, expertos en actividades paranormales",
-				"", "P16", 112, "Terror",
-				"http://www.youtube.com/watch?v=OJgDCNyfWfQ");
+		service.retrieveMovieInfo(this, movieId);
 	}
 
 	private void showMovie() {
@@ -63,5 +64,21 @@ public class DetailMovieActivity extends Activity {
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(movie
 				.getYoutubeVideoURL()));
 		startActivity(browserIntent);
+	}
+
+	@Override
+	public void retrieveMovieInfoFinish(IRetrieveMovieInfoService service,
+			IMovie movie) {
+		this.movie = movie;
+		showMovie();
+	}
+
+	@Override
+	public void retrieveMovieInfoFinishWithError(
+			IRetrieveMovieInfoService service, Integer errorMessage) {
+		// TODO show a error diaog. when the dialog
+		int movieId = getIntent().getIntExtra(
+				DetailMovieActivity.MovieToShowId, -1);
+		Log.d("PhoneTicket", "Error retrieving movie info with id: " + movieId);
 	}
 }
