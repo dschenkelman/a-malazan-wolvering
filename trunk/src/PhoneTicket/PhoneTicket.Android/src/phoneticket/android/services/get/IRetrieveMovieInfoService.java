@@ -2,5 +2,6 @@ package phoneticket.android.services.get;
 
 public interface IRetrieveMovieInfoService {
 
-	void retrieveMovieInfo(IRetrieveMovieInfoServiceDelegate delegate);
+	void retrieveMovieInfo(IRetrieveMovieInfoServiceDelegate delegate,
+			int movieId);
 }
