@@ -2,12 +2,12 @@ package phoneticket.android.services.get;
 
 import java.util.Collection;
 
-import phoneticket.android.model.MovieListItem;
+import phoneticket.android.model.IMovieListItem;
 
 public interface IRetrieveMovieListServiceDelegate {
 
-	void retrieveMovieListServiceFinish(IRetrieveMovieListService service,
-			Collection<MovieListItem> movieList);
+	void retrieveMovieListFinish(IRetrieveMovieListService service,
+			Collection<IMovieListItem> movieList);
 
 	void retrieveMovieListFinishWithError(IRetrieveMovieListService service,
 			Integer errorMessage);

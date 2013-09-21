@@ -16,4 +16,8 @@ public class APIService {
 		return baseAPIURL() + "users/auth";
 	}
 
+	public static String getRetrieveMovieListServiceGetURL() {
+		return baseAPIURL() + "movielist/";
+	}
+
 }
