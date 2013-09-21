@@ -17,7 +17,11 @@ public class APIService {
 	}
 
 	public static String getRetrieveMovieListServiceGetURL() {
-		return baseAPIURL() + "movielist/";
+		return baseAPIURL() + "movielist";
+	}
+
+	public static String getRetrieveMovieGetURL(String movieID) {
+		return getRetrieveMovieListServiceGetURL() + "/" + movieID;
 	}
 
 }
