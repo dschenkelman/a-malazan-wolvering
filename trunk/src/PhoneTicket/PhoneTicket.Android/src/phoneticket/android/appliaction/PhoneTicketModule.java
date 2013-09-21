@@ -1,9 +1,9 @@
 package phoneticket.android.appliaction;
 
-import phoneticket.android.service.get.mock.RetrieveMovieListServiceMock;
 import phoneticket.android.services.get.IRetrieveMovieListService;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.mock.MockRetrieveMovieInfoService;
+import phoneticket.android.services.get.mock.MockRetrieveMovieListService;
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.impl.AuthServiceProxy;
@@ -23,7 +23,7 @@ public class PhoneTicketModule implements Module {
 				RegisterUserServiceProxy.class);
 		binder.bind(IFormValidator.class).to(FormValidatorImpl.class);
 		binder.bind(IRetrieveMovieListService.class).to(
-				RetrieveMovieListServiceMock.class);
+				MockRetrieveMovieListService.class);
 
 		binder.bind(IRetrieveMovieInfoService.class).to(
 				MockRetrieveMovieInfoService.class);
