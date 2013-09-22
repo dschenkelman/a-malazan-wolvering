@@ -5,3 +5,10 @@
 tr.invalid {
     color: red;
 }
+
+.center {
+    margin-left:auto;
+    margin-right:auto;
+    width: 95%;
+    display: block;
+}

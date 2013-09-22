@@ -9,6 +9,7 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Users.css" rel="stylesheet" type="text/css" />
 
+<div class="center">
 @using (Html.BeginForm())
 {
     <p>
@@ -75,6 +76,7 @@ else {
     <label>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</label>
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))    
 }
+</div>
 
 @section scripts
 {
