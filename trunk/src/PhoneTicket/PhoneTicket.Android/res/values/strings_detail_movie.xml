@@ -4,7 +4,7 @@
     <string name="title_activity_detail_movie">Película</string>
     <string name="title_activity_movie_list">Películas</string>
     <string name="detailMovieImageDescription">Poster de la película</string>
-    <string name="watchOnYoutube">Ver en Youtube</string>
+    <string name="watchTrailer">Ver trailer</string>
     <string name="detailMovieGendreStartText">Género: </string>
     <string name="detailMovieDurationStartText">Duración: </string>
     <string name="detailMovieDurationEndText"> minutos</string>

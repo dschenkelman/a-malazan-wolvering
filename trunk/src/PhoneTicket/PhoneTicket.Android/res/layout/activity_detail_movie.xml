@@ -92,7 +92,7 @@
 		    android:id="@+id/watchTrailerButton"
        		android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
-        	android:text="@string/watchOnYoutube"
+        	android:text="@string/watchTrailer"
         	android:onClick="onWatchTrailerButtonAction"/>
 		
     </LinearLayout>
