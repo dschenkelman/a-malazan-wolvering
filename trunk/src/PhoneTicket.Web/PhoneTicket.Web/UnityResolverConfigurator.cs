@@ -16,6 +16,7 @@
             container.RegisterType<IMovieService, MovieService>();
             
             container.RegisterType<PhoneTicket.Web.Controllers.Api.UsersController>();
+            container.RegisterType<PhoneTicket.Web.Controllers.Api.MoviesController>();
             container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.MoviesController>();
             container.RegisterType<PhoneTicketContext>();

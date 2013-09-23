@@ -6,10 +6,12 @@
     using System.Linq;
     using System.Web;
     using System.Web.Http;
+    using System.Threading.Tasks;
+
 
     using PhoneTicket.Web.Services;
-    using PhoneTicket.Web.ViewModels;
-    using System.Threading.Tasks;
+    using PhoneTicket.Web.ViewModels.Api;
+    using PhoneTicket.Web.Helpers;
 
     [Authorize]
     [RoutePrefix("api/movies")]
@@ -22,12 +24,12 @@
             this.movieService = movieService;
         }
 
-        [HttpPost("")]
-        public async Task<IEnumerable<ListMovieViewModel>> Get()
+        [HttpGet]
+        public async Task<IEnumerable<MovieListItemViewModel>> Get()
         {
             var movies = await this.movieService.GetMovies();
 
-            return movies.Select(m => ListMovieViewModel.FromUser(m));
+            return movies.Select(m => m.ToListItemViewModel());
         }
     }
 }

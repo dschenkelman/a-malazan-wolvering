@@ -201,6 +201,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
@@ -212,6 +213,7 @@
     </Compile>
     <Compile Include="Handlers\RequireHttpsMessageHandler.cs" />
     <Compile Include="Handlers\RequireSsl.cs" />
+    <Compile Include="Helpers\MovieExtensions.cs" />
     <Compile Include="HttpModules\BasicAuthHttpModule.cs" />
     <Compile Include="HttpModules\PhoneTicketBasicAuthHttpModule.cs" />
     <Compile Include="Migrations\201309150025422_InitialCreate.cs" />
@@ -251,6 +253,7 @@
     <Compile Include="UnityDependencyResolver.cs" />
     <Compile Include="UnityResolverConfigurator.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="ViewModels\Api\MovieListItemViewModel .cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\ListMovieViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
