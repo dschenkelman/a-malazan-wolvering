@@ -4,6 +4,8 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
+    using PagedList;
+
     using PhoneTicket.Web.Handlers;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
@@ -21,11 +23,13 @@
             this.movieService = movieService;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
-            var movies = await this.movieService.GetMovies();
+            var movies = await this.movieService.GetMoviesAsync();
 
-            return this.View(movies.Select(ListMovieViewModel.FromUser));
+            var moviesViewModels = movies.Select(ListMovieViewModel.FromUser);
+
+            return this.View(moviesViewModels.ToPagedList(page ?? 1, PageSize));
         }
     }
 }

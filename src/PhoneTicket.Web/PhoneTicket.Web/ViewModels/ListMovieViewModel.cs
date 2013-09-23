@@ -14,6 +14,8 @@
 
         public string Rating { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public static ListMovieViewModel FromUser(Movie movie)
         {
             var vm = new ListMovieViewModel
@@ -22,7 +24,8 @@
                 DurationInMinutes = movie.DurationInMinutes,
                 Genre = movie.Genre.Name,
                 Rating = movie.Rating.Description,
-                Title = movie.Title
+                Title = movie.Title,
+                ImageUrl = movie.ImageUrl,
             };
 
             return vm;

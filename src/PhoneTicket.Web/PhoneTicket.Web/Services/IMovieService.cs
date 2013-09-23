@@ -8,7 +8,7 @@
 
     public interface IMovieService
     {
-        Task<IEnumerable<Movie>> GetMovies();
+        Task<IEnumerable<Movie>> GetMoviesAsync();
         Task<Movie> GetMovie(int id);
     }
 }

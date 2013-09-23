@@ -1,15 +1,26 @@
-﻿@model IEnumerable<PhoneTicket.Web.ViewModels.ListMovieViewModel>
+﻿@model PagedList.IPagedList<PhoneTicket.Web.ViewModels.ListMovieViewModel>
+@using PagedList.Mvc; 
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Películas en cartelera</h2>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Movies.css" rel="stylesheet" type="text/css" />
 
-<table>
+<div class="center">
+@if (Model.Count == 0)
+{
+    <h2>No hay películas en cartelera</h2>
+}
+else { 
+    <h2>Películas en cartelera</h2>
+
+<table class="center">
     <tr>
-        <th>"Título"</th>
+        <th></th>
+        <th>Título</th>
         <th>Género</th>
         <th>Duración (min)</th>
         <th>Clasificación</th>
@@ -17,6 +28,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            <img src="@item.ImageUrl" class="thumbnail" />
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
@@ -33,3 +47,16 @@
 }
 
 </table>
+
+    <br />
+    
+    <label>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</label>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))    
+}
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/Users.js")
+}
+

@@ -17,7 +17,7 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<Movie>> GetMovies()
+        public async Task<IEnumerable<Movie>> GetMoviesAsync()
         {
             return await this.db.Movies.ToListAsync();
         }

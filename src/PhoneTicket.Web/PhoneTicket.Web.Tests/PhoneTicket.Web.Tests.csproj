@@ -113,6 +113,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\MoviesControllerTests.cs" />
     <Compile Include="Controllers\UsersControllerTests.cs" />
     <Compile Include="UnityDependencyResolverTests.cs" />
     <Compile Include="Controllers\Api\UsersControllerTests.cs" />
