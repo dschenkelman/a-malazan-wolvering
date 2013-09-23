@@ -202,6 +202,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
+    <Compile Include="Controllers\Api\ToiletViewModel.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="UnityResolverConfigurator.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\Api\MovieListItemViewModel .cs" />
+    <Compile Include="ViewModels\Api\MovieViewModel.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\ListMovieViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />

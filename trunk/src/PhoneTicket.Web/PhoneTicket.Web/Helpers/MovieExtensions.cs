@@ -22,5 +22,22 @@
 
             };
         }
+
+        public static MovieViewModel ToMovieViewModel(this Movie movie)
+        {
+            return new MovieViewModel()
+            {
+
+                Id = movie.Id,
+                Title = movie.Title,
+                Synopsis = movie.Synopsis,
+                ImageUrl = movie.ImageUrl,
+                Rating = movie.Rating.Description,
+                DurationInMinutes = movie.DurationInMinutes,
+                Genre = movie.Genre.Name,
+                TrailerUrl = movie.TrailerUrl
+
+            };
+        }
     }
 }

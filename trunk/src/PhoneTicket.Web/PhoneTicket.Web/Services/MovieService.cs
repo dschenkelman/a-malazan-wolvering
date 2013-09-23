@@ -22,6 +22,11 @@
             return await this.db.Movies.ToListAsync();
         }
 
+        public async Task<Movie> GetMovie(int id)
+        {
+            return await this.db.Movies.FindAsync(id);
+        }
+
         public void Dispose()
         {
             this.Dispose(true);

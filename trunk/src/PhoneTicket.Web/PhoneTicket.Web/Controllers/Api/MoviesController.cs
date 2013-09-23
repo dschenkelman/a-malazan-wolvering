@@ -31,5 +31,13 @@
 
             return movies.Select(m => m.ToListItemViewModel());
         }
+
+        [HttpGet("{id}")]
+        public async Task<MovieViewModel> Get(int id)
+        {
+            var movie = await this.movieService.GetMovie(id);
+
+            return movie.ToMovieViewModel();
+        }
     }
 }
