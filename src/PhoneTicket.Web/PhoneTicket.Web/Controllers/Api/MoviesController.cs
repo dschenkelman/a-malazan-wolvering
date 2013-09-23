@@ -27,7 +27,7 @@
         [HttpGet]
         public async Task<IEnumerable<MovieListItemViewModel>> Get()
         {
-            var movies = await this.movieService.GetMovies();
+            var movies = await this.movieService.GetMoviesAsync();
 
             return movies.Select(m => m.ToListItemViewModel());
         }
