@@ -16,7 +16,7 @@
     {
         private readonly IMovieService movieService;
 
-        private const int PageSize = 5;
+        private const int PageSize = 6;
 
         public MoviesController(IMovieService movieService)
         {
