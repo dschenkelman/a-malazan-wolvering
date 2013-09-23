@@ -13,9 +13,11 @@
         {
             container.RegisterType<ITemporaryUserService, TemporaryUserService>();
             container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IMovieService, MovieService>();
             
             container.RegisterType<PhoneTicket.Web.Controllers.Api.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();
+            container.RegisterType<PhoneTicket.Web.Controllers.MoviesController>();
             container.RegisterType<PhoneTicketContext>();
 
             var emailService = new EmailService("smtp.gmail.com", 587, "wolveringticket@gmail.com", "wolvering", true, true);
