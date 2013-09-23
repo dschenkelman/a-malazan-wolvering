@@ -203,6 +203,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Data\PhoneTicketContext.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -217,8 +218,15 @@
     <Compile Include="Migrations\201309150025422_InitialCreate.Designer.cs">
       <DependentUpon>201309150025422_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201309222200070_MoviesMigration.cs" />
+    <Compile Include="Migrations\201309222200070_MoviesMigration.Designer.cs">
+      <DependentUpon>201309222200070_MoviesMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\TemporaryUser.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -229,8 +237,10 @@
     </Compile>
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\IEmailService.cs" />
+    <Compile Include="Services\IMovieService.cs" />
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\MovieService.cs" />
     <Compile Include="Services\TemporaryUserService.cs" />
     <Compile Include="Templates\EmailTemplate.Context.cs" />
     <Compile Include="Templates\EmailTemplate.cs">
@@ -242,6 +252,7 @@
     <Compile Include="UnityResolverConfigurator.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
+    <Compile Include="ViewModels\ListMovieViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />
   </ItemGroup>
@@ -366,6 +377,7 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>EmailTemplate.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Movies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -379,6 +391,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201309150025422_InitialCreate.resx">
       <DependentUpon>201309150025422_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309222200070_MoviesMigration.resx">
+      <DependentUpon>201309222200070_MoviesMigration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

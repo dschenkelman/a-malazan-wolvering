@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PhoneTicket.Web.ViewModels.ListMovieViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Películas en cartelera</h2>
+
+<table>
+    <tr>
+        <th>"Título"</th>
+        <th>Género</th>
+        <th>Duración (min)</th>
+        <th>Clasificación</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DurationInMinutes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+    </tr>
+}
+
+</table>
