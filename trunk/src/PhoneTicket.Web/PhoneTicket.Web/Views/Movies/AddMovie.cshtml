@@ -1,0 +1,48 @@
+﻿@model PhoneTicket.Web.Models.Movie
+
+@{
+    var Title = "Editar Película";
+    if (Model == null)
+    {
+        Title = "Agregar Película";
+    }
+    ViewBag.Title = Title;
+}
+
+<h2>@Title</h2>
+
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Log in Form</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.Title)
+                @Html.EditorFor(m => m.Title, new { @Value = "" })
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Genre)
+                @Html.EditorFor(m => m.Genre.Name, new { @Value = "" })
+            </li>
+            <li>
+                @Html.LabelFor(m => m.DurationInMinutes)
+                @Html.EditorFor(m => m.DurationInMinutes, new { @Value = "" })
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Rating)
+                @Html.EditorFor(m => m.Rating.Description, new { @Value = "" })
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Synopsis)
+                @Html.EditorFor(m => m.Synopsis, new { @Value = "" })
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ImageUrl)
+                @Html.EditorFor(m => m.ImageUrl, new { @Value = "" })
+            </li>
+        </ol>
+        <input type="submit" value="Guardar" />
+    </fieldset>
+}

@@ -9,6 +9,7 @@
     using PhoneTicket.Web.Handlers;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
+    using PhoneTicket.Web.Models;
 
     [Authorize]
     [RequireSsl]
@@ -32,9 +33,26 @@
             return this.View(moviesViewModels.ToPagedList(page ?? 1, PageSize));
         }
 
-        public ActionResult EditMovie()
+        public async Task<ActionResult> AddMovie(int movieId)
         {
-            return View();
+            Movie movie = null;
+            if (movieId > 0)
+            {
+                movie = await this.movieService.GetMovie(movieId);
+            }
+            return this.View(movie);
         }
+
+        public ActionResult EditMovie(int movieId)
+        {
+            return RedirectToAction("AddMovie", "Movies", new { movieId = movieId });
+        }
+
+        public ActionResult DeleteMovie(int movieId)
+        {
+            //TODO - Delete movie from DB
+            return RedirectToAction("Index", "Movies", new { page = 1 });
+        }
+
     }
 }
