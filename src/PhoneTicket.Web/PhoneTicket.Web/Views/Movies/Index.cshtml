@@ -16,34 +16,40 @@
 }
 else { 
     <h2>Películas en cartelera</h2>
+    
+    <table class="center">
+        <tr>
+            <th>Título</th>
+            <th>Género</th>
+            <th>Duración</th>
+            <th>Clasificación</th>
+        </tr>
 
-<table class="center">
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        if (i % 3 == 0)
+        @for (int i = 0; i < Model.Count; i++)
         {
-            @:<tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].DurationInMinutes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].Rating)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar","EditMovie")
+                </td>
+                <td>
+                    @Html.ActionLink("Borrar","EditMovie")
+                </td>
+            </tr>
         }
-            <td>
-                <img src="@Model[i].ImageUrl" class="thumbnail" />
-            </td>
-            <td>
-                <label>Título</label>
-                @Html.DisplayFor(modelItem => Model[i].Title)
-                <label>Género</label>
-                @Html.DisplayFor(modelItem => Model[i].Genre)
-                <label>Duración (min)</label>
-                @Html.DisplayFor(modelItem => Model[i].DurationInMinutes)
-                <label>Clasificación</label>
-                @Html.DisplayFor(modelItem => Model[i].Rating)
-            </td>
-        if ((i + 1) % 3 == 0)
-        {
-            @:</tr>
-        }
-    }
 
-</table>
+    </table>
 
     <br />
     
