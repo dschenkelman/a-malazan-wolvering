@@ -41,10 +41,22 @@ else {
                     @Html.DisplayFor(modelItem => Model[i].Rating)
                 </td>
                 <td>
-                    @Html.ActionLink("Editar","EditMovie")
+                    @Html.ActionLink(
+                        linkText: "Editar",
+                        actionName: "EditMovie",
+                        controllerName: "Movies",
+                        routeValues: new {movieId = Model[i].Id},
+                        htmlAttributes: null
+                        )
                 </td>
                 <td>
-                    @Html.ActionLink("Borrar","EditMovie")
+                    @Html.ActionLink(
+                        linkText: "Borrar",
+                        actionName: "DeleteMovie",
+                        controllerName: "Movies",
+                        routeValues: new {movieId = Model[i].Id},
+                        htmlAttributes: null
+                        )
                 </td>
             </tr>
         }
