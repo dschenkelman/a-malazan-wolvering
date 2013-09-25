@@ -384,6 +384,7 @@
       <LastGenOutput>EmailTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="Views\Movies\Index.cshtml" />
+    <Content Include="Views\Movies\EditMovie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -31,5 +31,10 @@
 
             return this.View(moviesViewModels.ToPagedList(page ?? 1, PageSize));
         }
+
+        public ActionResult EditMovie()
+        {
+            return View();
+        }
     }
 }
