@@ -24,7 +24,7 @@
             </li>
             <li>
                 @Html.LabelFor(m => m.Genre)
-                @Html.EditorFor(m => m.Genre.Name, new { @Value = "" })
+                @Html.DropDownList("MovieGenreType")
             </li>
             <li>
                 @Html.LabelFor(m => m.DurationInMinutes)
@@ -32,7 +32,7 @@
             </li>
             <li>
                 @Html.LabelFor(m => m.Rating)
-                @Html.EditorFor(m => m.Rating.Description, new { @Value = "" })
+                @Html.DropDownList("MovieRatingType")
             </li>
             <li>
                 @Html.LabelFor(m => m.Synopsis)

@@ -14,7 +14,9 @@
             container.RegisterType<ITemporaryUserService, TemporaryUserService>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IMovieService, MovieService>();
-            
+            container.RegisterType<IGenreService, GenreService>();
+            container.RegisterType<IRatingService, RatingService>();
+
             container.RegisterType<PhoneTicket.Web.Controllers.Api.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.Api.MoviesController>();
             container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();

@@ -132,7 +132,7 @@
 
         private MoviesController CreateController()
         {
-            return new MoviesController(this.moviesService.Object);
+            return new MoviesController(this.moviesService.Object, null, null);
         }
     }
 }

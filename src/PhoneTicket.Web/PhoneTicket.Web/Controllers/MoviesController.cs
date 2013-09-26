@@ -10,6 +10,7 @@
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
     using PhoneTicket.Web.Models;
+    using System.Collections.Generic;
 
     [Authorize]
     [RequireSsl]
@@ -17,11 +18,19 @@
     {
         private readonly IMovieService movieService;
 
+        private readonly IGenreService genreService;
+
+        private readonly IRatingService ratingService;
+
         private const int PageSize = 6;
 
-        public MoviesController(IMovieService movieService)
+        public MoviesController(IMovieService movieService, IGenreService genreService, IRatingService ratingService)
         {
             this.movieService = movieService;
+
+            this.genreService = genreService;
+
+            this.ratingService = ratingService;
         }
 
         public async Task<ActionResult> Index(int? page)
@@ -36,10 +45,24 @@
         public async Task<ActionResult> AddMovie(int movieId)
         {
             Movie movie = null;
+            int genreId = -1;
+            int ratingId = -1;
+
             if (movieId > 0)
             {
                 movie = await this.movieService.GetMovie(movieId);
+                genreId = movie.GenreId;
+                ratingId = movie.RatingId;
             }
+
+            IEnumerable<SelectListItem> availableGenres = await this.genreService.GetGenreListAsync(genreId);
+
+            IEnumerable<SelectListItem> availableRatings = await this.ratingService.GetRatingListAsync(ratingId);
+
+            ViewBag.MovieGenreType = availableGenres;
+            ViewBag.MovieRatingType = availableRatings;
+
+            
             return this.View(movie);
         }
 

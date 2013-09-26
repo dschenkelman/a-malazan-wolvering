@@ -239,11 +239,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\GenreService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IMovieService.cs" />
+    <Compile Include="Services\IGenreService.cs" />
+    <Compile Include="Services\IRatingService.cs" />
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\MovieService.cs" />
+    <Compile Include="Services\PhonTicketContext.cs" />
+    <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\TemporaryUserService.cs" />
     <Compile Include="Templates\EmailTemplate.Context.cs" />
     <Compile Include="Templates\EmailTemplate.cs">
