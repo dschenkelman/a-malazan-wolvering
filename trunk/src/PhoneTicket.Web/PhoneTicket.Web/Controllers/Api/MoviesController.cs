@@ -13,7 +13,6 @@
     using PhoneTicket.Web.ViewModels.Api;
     using PhoneTicket.Web.Helpers;
 
-    [Authorize]
     [RoutePrefix("api/movies")]
     public class MoviesController : ApiController
     {
