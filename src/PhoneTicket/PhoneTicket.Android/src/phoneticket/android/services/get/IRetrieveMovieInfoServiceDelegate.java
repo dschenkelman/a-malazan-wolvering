@@ -8,5 +8,5 @@ public interface IRetrieveMovieInfoServiceDelegate {
 			IMovie movie);
 
 	void retrieveMovieInfoFinishWithError(IRetrieveMovieInfoService service,
-			Integer errorMessage);
+			Integer errorCode);
 }

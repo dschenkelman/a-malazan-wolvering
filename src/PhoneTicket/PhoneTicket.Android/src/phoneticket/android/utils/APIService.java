@@ -17,7 +17,7 @@ public class APIService {
 	}
 
 	public static String getRetrieveMovieListServiceGetURL() {
-		return baseAPIURL() + "movielist";
+		return baseAPIURL() + "movies";
 	}
 
 	public static String getRetrieveMovieGetURL(String movieID) {

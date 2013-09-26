@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import phoneticket.android.R;
+import phoneticket.android.activities.dialog.MessageDialogFragment;
+import phoneticket.android.activities.dialog.MessageDialogFragment.IMessageDialogDataSource;
 import phoneticket.android.adapter.StaggeredAdapter;
 import phoneticket.android.model.IMovieListItem;
 import phoneticket.android.services.get.IRetrieveMovieListService;
@@ -17,11 +19,11 @@ import com.google.inject.Inject;
 import com.origamilabs.library.views.StaggeredGridView;
 import com.origamilabs.library.views.StaggeredGridView.OnItemClickListener;
 
-import roboguice.activity.RoboActivity;
+import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 
-public class MovieListActivity extends RoboActivity implements
-		IRetrieveMovieListServiceDelegate {
+public class MovieListActivity extends RoboFragmentActivity implements
+		IRetrieveMovieListServiceDelegate, IMessageDialogDataSource {
 
 	@Inject
 	private IRetrieveMovieListService movieListService;
@@ -30,6 +32,9 @@ public class MovieListActivity extends RoboActivity implements
 	private StaggeredGridView gridView;
 
 	private StaggeredAdapter adapter;
+
+	private String messageDialogBody;
+	private String messageDialogTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +79,22 @@ public class MovieListActivity extends RoboActivity implements
 
 	@Override
 	public void retrieveMovieListFinishWithError(
-			IRetrieveMovieListService service, Integer errorMessage) {
+			IRetrieveMovieListService service, Integer errorCode) {
 
+		messageDialogBody = "asd";
+		messageDialogTitle = "Error";
+		MessageDialogFragment dialog = new MessageDialogFragment();
+		dialog.show(getSupportFragmentManager(), "dialog.error");
+	}
+
+	@Override
+	public String getMessage() {
+		return messageDialogBody;
+	}
+
+	@Override
+	public String getMessageTitle() {
+		return messageDialogTitle;
 	}
 
 }
