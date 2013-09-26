@@ -4,12 +4,12 @@ public class MovieListItem implements IMovieListItem {
 
 	private int id;
 	private String title;
-	private String imageURL;
+	private String imageUrl;
 
 	public MovieListItem(int id, String title, String imageURL) {
 		this.id = id;
 		this.title = title;
-		this.imageURL = imageURL;
+		this.imageUrl = imageURL;
 	}
 
 	@Override
@@ -24,6 +24,6 @@ public class MovieListItem implements IMovieListItem {
 
 	@Override
 	public String getImageURL() {
-		return imageURL;
+		return imageUrl;
 	}
 }

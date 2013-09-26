@@ -6,5 +6,5 @@ public interface IAuthServiceDelegate {
 	void authServiceDelegateFinish(IAuthService service, LoginUser user);
 
 	void authServiceDelegateFinishWithError(IAuthService service,
-			Integer errorMessage);
+			Integer errorCode);
 }

@@ -7,6 +7,6 @@ public interface IRegisterUserServiceDelegate {
 	void registerUserFinish(IRegisterUserService service, IUser user);
 
 	void registerUserFinishWithError(IRegisterUserService service,
-			Integer errorMessage);
+			Integer errorCode);
 
 }

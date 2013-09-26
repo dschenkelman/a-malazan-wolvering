@@ -10,5 +10,5 @@ public interface IRetrieveMovieListServiceDelegate {
 			Collection<IMovieListItem> movieList);
 
 	void retrieveMovieListFinishWithError(IRetrieveMovieListService service,
-			Integer errorMessage);
+			Integer errorCode);
 }

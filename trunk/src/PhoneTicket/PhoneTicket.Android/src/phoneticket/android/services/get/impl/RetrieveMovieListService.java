@@ -22,6 +22,8 @@ public class RetrieveMovieListService extends GetService implements
 		IRetrieveMovieListService {
 
 	private IRetrieveMovieListServiceDelegate delegate;
+	private boolean isStatusOk;
+	private boolean hasCLientProtocolRecieveException;
 
 	public RetrieveMovieListService() {
 		performingRequest = false;
@@ -29,7 +31,7 @@ public class RetrieveMovieListService extends GetService implements
 
 	@Override
 	public void retrieveMovieList(IRetrieveMovieListServiceDelegate delegate) {
-		if (true == performingRequest && null == delegate) {
+		if (true == performingRequest || null == delegate) {
 			return;
 		}
 		this.delegate = delegate;
@@ -37,10 +39,19 @@ public class RetrieveMovieListService extends GetService implements
 	}
 
 	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		isStatusOk = true;
+		hasCLientProtocolRecieveException = false;
+	}
+
+	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		Collection<IMovieListItem> movieList = new ArrayList<IMovieListItem>();
-		if (null != result) {
+		if (!isStatusOk || hasCLientProtocolRecieveException || null == result) {
+			delegate.retrieveMovieListFinishWithError(this, 1);
+		} else {
 			try {
 				JSONArray jsonMovieListItems = new JSONArray(result);
 				for (int i = 0; i < jsonMovieListItems.length(); i++) {
@@ -52,28 +63,23 @@ public class RetrieveMovieListService extends GetService implements
 						movieList.add(moviewList);
 					}
 				}
+				delegate.retrieveMovieListFinish(this, movieList);
 			} catch (JSONException e) {
 				e.printStackTrace();
+				delegate.retrieveMovieListFinishWithError(this, 2);
 			}
-			delegate.retrieveMovieListFinish(this, movieList);
-		} else {
-			delegate.retrieveMovieListFinishWithError(this, 1);
 		}
-		performingRequest = false;
 		delegate = null;
+		performingRequest = false;
 	}
 
 	@Override
 	protected void handleStatusCodeNotOk(IOException e, int statusCode) {
-		delegate.retrieveMovieListFinishWithError(this, 2);
-		performingRequest = false;
-		delegate = null;
+		isStatusOk = false;
 	}
 
 	@Override
 	protected void handleClientProtocolException(ClientProtocolException e) {
-		delegate.retrieveMovieListFinishWithError(this, 3);
-		performingRequest = false;
-		delegate = null;
+		hasCLientProtocolRecieveException = true;
 	}
 }
