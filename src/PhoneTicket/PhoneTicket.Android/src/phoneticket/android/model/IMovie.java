@@ -14,8 +14,8 @@ public interface IMovie {
 
 	int getDurationInMinutes();
 
-	String getGendre();
+	String getGenre();
 
-	String getYoutubeVideoURL();
+	String getTrailerUrl();
 
 }

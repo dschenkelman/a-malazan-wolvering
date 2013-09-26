@@ -14,52 +14,48 @@ import phoneticket.android.utils.HttpClientFactory;
 
 import android.os.AsyncTask;
 
-public class GetService extends AsyncTask<String, String, String>{
+public class GetService extends AsyncTask<String, String, String> {
 
 	protected boolean performingRequest;
 	protected StatusLine statusLine;
-	
+	protected boolean isStatusOk;
+	protected boolean hasCLientProtocolRecieveException;
+
 	@Override
-	protected String doInBackground(String... uri)
-	{
-        HttpClient httpclient = HttpClientFactory.createClient();
-        HttpResponse response;
-        String responseString = null;
-        try {
-            response = httpclient.execute(new HttpGet(uri[0]));
-            statusLine = response.getStatusLine();
-            if(statusLine.getStatusCode() == HttpStatus.SC_OK)
-            {
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                response.getEntity().writeTo(out);
-                out.close();
-                responseString = out.toString();
-            }
-            else
-            {
-                //Closes the connection.
-                response.getEntity().getContent().close();
-                throw new IOException(statusLine.getReasonPhrase());
-            }
-        }
-        catch (ClientProtocolException e)
-        {
-            handleClientProtocolException(e);
-        }
-        catch (IOException e)
-        {
-        	handleStatusCodeNotOk(e, (statusLine == null) ? -1 : statusLine.getStatusCode());
-        }
-        return responseString;
+	protected String doInBackground(String... uri) {
+		isStatusOk = true;
+		hasCLientProtocolRecieveException = false;
+
+		HttpClient httpclient = HttpClientFactory.createClient();
+		HttpResponse response;
+		String responseString = null;
+		try {
+			response = httpclient.execute(new HttpGet(uri[0]));
+			statusLine = response.getStatusLine();
+			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				response.getEntity().writeTo(out);
+				out.close();
+				responseString = out.toString();
+			} else {
+				// Closes the connection.
+				response.getEntity().getContent().close();
+				throw new IOException(statusLine.getReasonPhrase());
+			}
+		} catch (ClientProtocolException e) {
+			handleClientProtocolException(e);
+		} catch (IOException e) {
+			handleStatusCodeNotOk(e,
+					(statusLine == null) ? -1 : statusLine.getStatusCode());
+		}
+		return responseString;
 	}
 
-	protected void handleStatusCodeNotOk(IOException e, int statusCode)
-	{
-        performingRequest = false;
+	protected void handleStatusCodeNotOk(IOException e, int statusCode) {
+		performingRequest = false;
 	}
 
-	protected void handleClientProtocolException(ClientProtocolException e)
-	{
-        performingRequest = false;
+	protected void handleClientProtocolException(ClientProtocolException e) {
+		performingRequest = false;
 	}
 }

@@ -46,7 +46,7 @@ public class DetailMovieActivity extends RoboFragmentActivity implements
 
 		String gendreString = getResources().getString(
 				R.string.detailMovieGendreStartText)
-				+ movie.getGendre();
+				+ movie.getGenre();
 		String durationString = getResources().getString(
 				R.string.detailMovieDurationStartText)
 				+ movie.getDurationInMinutes()
@@ -69,7 +69,7 @@ public class DetailMovieActivity extends RoboFragmentActivity implements
 
 	public void onWatchTrailerButtonAction(View sender) {
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(movie
-				.getYoutubeVideoURL()));
+				.getTrailerUrl()));
 		startActivity(browserIntent);
 	}
 

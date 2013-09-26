@@ -22,8 +22,6 @@ public class RetrieveMovieListService extends GetService implements
 		IRetrieveMovieListService {
 
 	private IRetrieveMovieListServiceDelegate delegate;
-	private boolean isStatusOk;
-	private boolean hasCLientProtocolRecieveException;
 
 	public RetrieveMovieListService() {
 		performingRequest = false;
@@ -36,13 +34,6 @@ public class RetrieveMovieListService extends GetService implements
 		}
 		this.delegate = delegate;
 		execute(APIService.getRetrieveMovieListServiceGetURL());
-	}
-
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		isStatusOk = true;
-		hasCLientProtocolRecieveException = false;
 	}
 
 	@Override
@@ -75,11 +66,13 @@ public class RetrieveMovieListService extends GetService implements
 
 	@Override
 	protected void handleStatusCodeNotOk(IOException e, int statusCode) {
+		super.handleStatusCodeNotOk(e, statusCode);
 		isStatusOk = false;
 	}
 
 	@Override
 	protected void handleClientProtocolException(ClientProtocolException e) {
+		super.handleClientProtocolException(e);
 		hasCLientProtocolRecieveException = true;
 	}
 }

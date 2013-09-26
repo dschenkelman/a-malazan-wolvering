@@ -36,28 +36,27 @@ public class RetrieveMovieInfoService extends GetService implements
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
+
 		IMovie movie = null;
-		if (null != result) {
-			movie = new Gson().fromJson(result, Movie.class);
-		} else {
+		if (!isStatusOk || hasCLientProtocolRecieveException || null == result) {
 			delegate.retrieveMovieInfoFinishWithError(this, 1);
+		} else {
+			movie = new Gson().fromJson(result, Movie.class);
+			delegate.retrieveMovieInfoFinish(this, movie);
 		}
-		delegate.retrieveMovieInfoFinish(this, movie);
-		performingRequest = false;
 		delegate = null;
+		performingRequest = false;
 	}
 
 	@Override
 	protected void handleStatusCodeNotOk(IOException e, int statusCode) {
-		delegate.retrieveMovieInfoFinishWithError(this, 2);
-		performingRequest = false;
-		delegate = null;
+		super.handleStatusCodeNotOk(e, statusCode);
+		isStatusOk = false;
 	}
 
 	@Override
 	protected void handleClientProtocolException(ClientProtocolException e) {
-		delegate.retrieveMovieInfoFinishWithError(this, 3);
-		performingRequest = false;
-		delegate = null;
+		super.handleClientProtocolException(e);
+		hasCLientProtocolRecieveException = true;
 	}
 }
