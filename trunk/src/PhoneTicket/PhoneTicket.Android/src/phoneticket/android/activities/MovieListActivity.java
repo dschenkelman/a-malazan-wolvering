@@ -13,6 +13,7 @@ import phoneticket.android.services.get.IRetrieveMovieListServiceDelegate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.inject.Inject;
 
@@ -28,7 +29,7 @@ public class MovieListActivity extends RoboFragmentActivity implements
 	@Inject
 	private IRetrieveMovieListService movieListService;
 
-	@InjectView(R.id.staggeredGridView1)
+	@InjectView(R.id.movieListContainer)
 	private StaggeredGridView gridView;
 
 	private StaggeredAdapter adapter;
@@ -49,10 +50,22 @@ public class MovieListActivity extends RoboFragmentActivity implements
 
 		movieListService.retrieveMovieList(this);
 	}
+	
+	public void onRefreshMovieListAction(View sender) {
+		movieListService.retrieveMovieList(this);
+
+		LinearLayout errorContainer = (LinearLayout) findViewById(R.id.errorViewContainer);
+		errorContainer.setVisibility(LinearLayout.GONE);
+	}
 
 	@Override
 	public void retrieveMovieListFinish(IRetrieveMovieListService service,
 			Collection<IMovieListItem> movieList) {
+
+		LinearLayout errorContainer = (LinearLayout) findViewById(R.id.errorViewContainer);
+		errorContainer.setVisibility(LinearLayout.GONE);
+		gridView.setVisibility(StaggeredGridView.VISIBLE);
+		
 		List<IMovieListItem> movies = new ArrayList<IMovieListItem>();
 		movies.addAll(movieList);
 		adapter = new StaggeredAdapter(MovieListActivity.this,
@@ -81,6 +94,10 @@ public class MovieListActivity extends RoboFragmentActivity implements
 	public void retrieveMovieListFinishWithError(
 			IRetrieveMovieListService service, Integer errorCode) {
 
+		LinearLayout errorContainer = (LinearLayout) findViewById(R.id.errorViewContainer);
+		errorContainer.setVisibility(LinearLayout.VISIBLE);
+		gridView.setVisibility(StaggeredGridView.GONE);
+		
 		messageDialogBody = "asd";
 		messageDialogTitle = "Error";
 		MessageDialogFragment dialog = new MessageDialogFragment();

@@ -1,15 +1,40 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:staggered="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#000000"
     tools:context=".MainActivity" >
 
+    <LinearLayout 
+     	android:id="@+id/errorViewContainer"
+    	android:layout_width="match_parent"
+   		android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/error_message_activity_movie_list"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/refreshViewButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onRefreshMovieListAction"
+            android:text="@string/error_button_activity_movie_list" />
+        
+    </LinearLayout>
 
     <com.origamilabs.library.views.StaggeredGridView
-        android:id="@+id/staggeredGridView1"
+        android:id="@+id/movieListContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" /> 
+        android:layout_height="fill_parent" /> 
         
-</RelativeLayout>
+</LinearLayout>

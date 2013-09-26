@@ -5,11 +5,11 @@ public class Movie implements IMovie {
 	private int id;
 	private String title;
 	private String synopsis;
-	private String imageURL;
-	private String clasification;
+	private String imageUrl;
+	private String rating;
 	private int durationInMinutes;
-	private String gendre;
-	private String youtubeVideoURL;
+	private String genre;
+	private String trailerUrl;
 
 	public Movie(int id, String title, String synopsis, String imageURL,
 			String clasification, int durationInMinutes, String gendre,
@@ -17,11 +17,11 @@ public class Movie implements IMovie {
 		this.id = id;
 		this.title = title;
 		this.synopsis = synopsis;
-		this.imageURL = imageURL;
-		this.clasification = clasification;
+		this.imageUrl = imageURL;
+		this.rating = clasification;
 		this.durationInMinutes = durationInMinutes;
-		this.gendre = gendre;
-		this.youtubeVideoURL = youtubeVideoURL;
+		this.genre = gendre;
+		this.trailerUrl = youtubeVideoURL;
 	}
 
 	@Override
@@ -41,12 +41,12 @@ public class Movie implements IMovie {
 
 	@Override
 	public String getImageURL() {
-		return imageURL;
+		return imageUrl;
 	}
 
 	@Override
 	public String getClasification() {
-		return clasification;
+		return rating;
 	}
 
 	@Override
@@ -55,12 +55,12 @@ public class Movie implements IMovie {
 	}
 
 	@Override
-	public String getGendre() {
-		return gendre;
+	public String getGenre() {
+		return genre;
 	}
 
 	@Override
-	public String getYoutubeVideoURL() {
-		return youtubeVideoURL;
+	public String getTrailerUrl() {
+		return trailerUrl;
 	}
 }
