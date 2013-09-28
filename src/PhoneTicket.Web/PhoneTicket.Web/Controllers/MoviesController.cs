@@ -55,7 +55,7 @@
 
         public async Task<ActionResult> Add(int movieId)
         {
-            Movie movie = new Movie() { Title = "", GenreId = -1, RatingId = -1, Synopsis = "", TrailerUrl = "", DurationInMinutes = 0, ImageUrl = "" };
+            Movie movie = new Movie() { Id = -1, Title = "", GenreId = -1, RatingId = -1, Synopsis = "", TrailerUrl = "", DurationInMinutes = 0, ImageUrl = "" };
 
             await this.SetUpViewBags(movie);
             
