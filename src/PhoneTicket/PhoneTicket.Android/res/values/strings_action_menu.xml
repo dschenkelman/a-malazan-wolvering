@@ -3,6 +3,6 @@
     
     <string name="action_settings">Configuración</string>
     <string name="action_ribbon_menu">Menu</string>
-    <string name="action_default_activity_name">PhoneTicket</string>
+    <string name="action_default_title">PhoneTicket</string>
     
 </resources>

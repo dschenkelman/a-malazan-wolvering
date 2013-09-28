@@ -15,11 +15,11 @@
         android:background="@null"  />
 
     <TextView
-        android:id="@+id/actionActivityName"
+        android:id="@+id/actionTitle"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:gravity="center"
-        android:text="@string/action_default_activity_name"
+        android:text="@string/action_default_title"
         android:textColor="@android:color/white"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     
