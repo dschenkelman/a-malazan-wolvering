@@ -50,7 +50,7 @@ public class MovieListActivity extends RoboFragmentActivity implements
 
 		movieListService.retrieveMovieList(this);
 	}
-	
+
 	public void onRefreshMovieListAction(View sender) {
 		movieListService.retrieveMovieList(this);
 
@@ -65,7 +65,7 @@ public class MovieListActivity extends RoboFragmentActivity implements
 		LinearLayout errorContainer = (LinearLayout) findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(LinearLayout.GONE);
 		gridView.setVisibility(StaggeredGridView.VISIBLE);
-		
+
 		List<IMovieListItem> movies = new ArrayList<IMovieListItem>();
 		movies.addAll(movieList);
 		adapter = new StaggeredAdapter(MovieListActivity.this,
@@ -97,8 +97,8 @@ public class MovieListActivity extends RoboFragmentActivity implements
 		LinearLayout errorContainer = (LinearLayout) findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(LinearLayout.VISIBLE);
 		gridView.setVisibility(StaggeredGridView.GONE);
-		
-		messageDialogBody = "asd";
+
+		messageDialogBody = "No se pudo conectar con el servidor";
 		messageDialogTitle = "Error";
 		MessageDialogFragment dialog = new MessageDialogFragment();
 		dialog.show(getSupportFragmentManager(), "dialog.error");

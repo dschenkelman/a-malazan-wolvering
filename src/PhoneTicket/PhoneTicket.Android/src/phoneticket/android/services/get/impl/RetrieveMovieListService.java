@@ -41,7 +41,7 @@ public class RetrieveMovieListService extends GetService implements
 		super.onPostExecute(result);
 		Collection<IMovieListItem> movieList = new ArrayList<IMovieListItem>();
 		if (!isStatusOk || hasCLientProtocolRecieveException || null == result) {
-			delegate.retrieveMovieListFinishWithError(this, 1);
+			delegate.retrieveMovieListFinishWithError(this, statusLine.getStatusCode());
 		} else {
 			try {
 				JSONArray jsonMovieListItems = new JSONArray(result);
