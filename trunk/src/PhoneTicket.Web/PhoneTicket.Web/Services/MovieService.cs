@@ -36,6 +36,8 @@
 
         public async Task UpdateAsync(Movie movie)
         {
+            this.db.Entry(movie).State = EntityState.Modified;
+
             await this.db.SaveChangesAsync();
         }
 
