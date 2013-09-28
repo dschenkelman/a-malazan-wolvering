@@ -41,6 +41,13 @@
             await this.db.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(Movie movie)
+        {
+            this.db.Entry(movie).State = EntityState.Deleted;
+
+            await this.db.SaveChangesAsync();
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
