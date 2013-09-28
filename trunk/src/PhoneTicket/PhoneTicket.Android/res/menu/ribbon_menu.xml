@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
-	<item android:id="@+id/ribbon_menu_home" android:title="Películas" android:icon="@drawable/ic_launcher"></item>
-    <item android:id="@+id/ribbon_menu_home2" android:title="Complejos" android:icon="@drawable/ic_launcher"></item>
-    <item android:id="@+id/ribbon_menu_home3" android:title="Usuario" android:icon="@drawable/ic_launcher"></item>
+	<item android:id="@+id/ribbon_menu_movielist" android:title="@string/ribbon_menu_movielist" android:icon="@drawable/ic_launcher"></item>
+    <item android:id="@+id/ribbon_menu_cinemas" android:title="@string/ribbon_menu_cinemas" android:icon="@drawable/ic_launcher"></item>
+    <item android:id="@+id/ribbon_menu_user" android:title="@string/ribbon_menu_user" android:icon="@drawable/ic_launcher"></item>
 
 </menu>

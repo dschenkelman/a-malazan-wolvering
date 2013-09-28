@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/validator"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/StaggeredGridView"/>
-	<classpathentry kind="lib" path="/StaggeredGridView/libs/android-support-v4.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RibbonMenuLib"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/validator"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/StaggeredGridView"/>
+	<classpathentry exported="true" kind="lib" path="/StaggeredGridView/libs/android-support-v4.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/RibbonMenuLib"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

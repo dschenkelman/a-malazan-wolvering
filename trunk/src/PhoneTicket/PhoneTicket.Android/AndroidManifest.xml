@@ -9,8 +9,8 @@
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-  	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  	<uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
@@ -47,11 +47,18 @@
         </activity>
         <activity
             android:name="phoneticket.android.activities.DetailMovieActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_detail_movie" >
         </activity>
         <activity
             android:name="phoneticket.android.activities.MovieListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_movie_list" >
+        </activity>
+        <activity
+            android:name="phoneticket.android.activities.MasterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_master" >
         </activity>
     </application>
 
