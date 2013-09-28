@@ -2,20 +2,26 @@
 
 @{
     var Title = "Editar Película";
+    var MovieId = Model.Id;
     if (Model == null)
     {
         Title = "Agregar Película";
+        MovieId = -1;
     }
     ViewBag.Title = Title;
 }
 
 <h2>@Title</h2>
 
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+@using (Html.BeginForm("Edit","Movies")) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    
+        <div class="editor-label">
+            @Html.HiddenFor(m => m.Id, new { @Value = MovieId })
+        </div>
 
-    <fieldset>
+        <fieldset>
         <legend>Log in Form</legend>
         <ol>
             <li>
@@ -36,11 +42,15 @@
             </li>
             <li>
                 @Html.LabelFor(m => m.Synopsis)
-                @Html.EditorFor(m => m.Synopsis, new { @Value = "" })
+                @Html.TextAreaFor(m => m.Synopsis, new { @Value = "" })
             </li>
             <li>
                 @Html.LabelFor(m => m.ImageUrl)
                 @Html.EditorFor(m => m.ImageUrl, new { @Value = "" })
+            </li>
+            <li>
+                @Html.LabelFor(m => m.TrailerUrl)
+                @Html.EditorFor(m => m.TrailerUrl, new { @Value = "" })
             </li>
         </ol>
         <input type="submit" value="Guardar" />

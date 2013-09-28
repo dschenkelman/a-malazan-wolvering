@@ -36,6 +36,11 @@
                    });
         }
 
+        public async Task<Genre> Get(int ID)
+        {
+            return (await this.db.Genres.FindAsync(ID));
+        }
+
         public void Dispose()
         {
             this.Dispose(true);

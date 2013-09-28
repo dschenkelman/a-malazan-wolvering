@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.Services
 {
+    using PhoneTicket.Web.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,5 +11,7 @@
     public interface IRatingService
     {
         Task<IEnumerable<SelectListItem>> GetRatingListAsync(int? ID);
+
+        Task<Rating> Get(int ID);
     }
 }
