@@ -9,6 +9,26 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Movies.css" rel="stylesheet" type="text/css" />
 
+<header>
+    <div class="content-wrapper">
+        <div class="float-right">
+            <nav>
+                <ul id="menu">
+                    <li>@Html.ActionLink(
+                        linkText: "Agregar Película",
+                        actionName: "AddMovie",
+                        controllerName: "Movies",
+                        routeValues: new {movieId = -1},
+                        htmlAttributes: null
+                        )
+
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
 <div class="center">
 @if (Model.Count == 0)
 {

@@ -62,6 +62,7 @@
 
             ViewBag.MovieGenreType = availableGenres;
             ViewBag.MovieRatingType = availableRatings;
+            ViewBag.MovieId = movieId;
 
             
             return this.View(movie);
