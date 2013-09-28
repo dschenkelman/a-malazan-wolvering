@@ -2,11 +2,10 @@
 
 @{
     var Title = "Editar Película";
-    var MovieId = Model.Id;
+    
     if (Model == null)
     {
         Title = "Agregar Película";
-        MovieId = -1;
     }
     ViewBag.Title = Title;
 }
@@ -18,7 +17,7 @@
     @Html.ValidationSummary(true)
     
         <div class="editor-label">
-            @Html.HiddenFor(m => m.Id, new { @Value = MovieId })
+            @Html.HiddenFor(m => m.Id, new { @Value = ViewBag.MovieId })
         </div>
 
         <fieldset>
