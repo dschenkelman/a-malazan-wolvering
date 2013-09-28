@@ -52,62 +52,69 @@
             return this.View(moviesViewModels.ToPagedList(page ?? 1, PageSize));
         }
 
-        public async Task<ActionResult> AddMovie(int movieId)
+
+        public async Task<ActionResult> Add(int movieId)
         {
-            Movie movie = null;
-            int genreId = -1;
-            int ratingId = -1;
+            Movie movie = new Movie() { Title = "", GenreId = -1, RatingId = -1, Synopsis = "", TrailerUrl = "", DurationInMinutes = 0, ImageUrl = "" };
 
-            if (movieId > 0)
-            {
-                movie = await this.movieService.GetMovie(movieId);
-                genreId = movie.GenreId;
-                ratingId = movie.RatingId;
-            }
-
-            IEnumerable<SelectListItem> availableGenres = await this.genreService.GetGenreListAsync(genreId);
-
-            IEnumerable<SelectListItem> availableRatings = await this.ratingService.GetRatingListAsync(ratingId);
-
-            ViewBag.MovieGenreType = availableGenres;
-            ViewBag.MovieRatingType = availableRatings;
-            ViewBag.MovieId = movieId;
-
+            await this.SetUpViewBags(movie);
             
             return this.View(movie);
         }
 
-        public ActionResult EditMovie(int movieId)
+        public async Task<ActionResult> Edit(int movieId)
         {
-            return RedirectToAction("AddMovie", "Movies", new { movieId = movieId });
+            var movie = await this.movieService.GetMovie(movieId);
+
+            await this.SetUpViewBags(movie);
+
+            return this.View(movie);
+
+        }
+
+        public ActionResult CreateMovie(Movie movie, string MovieGenreType, string MovieRatingType)
+        {
+            this.AssembleMovie(movie, MovieGenreType, MovieRatingType);
+
+            this.movieService.CreateAsync(movie);
+
+            return RedirectToAction("Index", "Movies", new { page = 1 });
+        }
+
+        public ActionResult EditMovie(Movie movie, string MovieGenreType, string MovieRatingType)
+        {
+            this.AssembleMovie(movie, MovieGenreType, MovieRatingType);
+
+            this.movieService.UpdateAsync(movie);
+
+            return RedirectToAction("Index", "Movies", new { page = 1 });
         }
 
         public async Task<ActionResult> DeleteMovie(int movieId)
         {
             var movie = await this.movieService.GetMovie(movieId);
-            
+
             await this.movieService.DeleteAsync(movie);
-            
+
             return RedirectToAction("Index", "Movies", new { page = 1 });
         }
 
-        public ActionResult Edit(Movie movie, string MovieGenreType, string MovieRatingType)
+        private void AssembleMovie(Movie movie, string MovieGenreType, string MovieRatingType)
         {
-
             movie.GenreId = Convert.ToInt32(MovieGenreType);
 
             movie.RatingId = Convert.ToInt32(MovieRatingType);
+        }
 
-            if (movie.Id > 0)  //Edit
-            {
-                this.movieService.UpdateAsync(movie);
-            }
-            else  //Create
-            {
-                this.movieService.CreateAsync(movie);
-            }
+        private async Task SetUpViewBags(Movie movie)
+        {
+            IEnumerable<SelectListItem> availableGenres = await this.genreService.GetGenreListAsync(movie.GenreId);
 
-            return RedirectToAction("Index", "Movies", new { page = 1 });
+            IEnumerable<SelectListItem> availableRatings = await this.ratingService.GetRatingListAsync(movie.RatingId);
+
+            ViewBag.MovieGenreType = availableGenres;
+            ViewBag.MovieRatingType = availableRatings;
+            ViewBag.MovieId = movie.Id;
         }
     }
 }
