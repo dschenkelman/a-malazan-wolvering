@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">PhoneTicket</string>
-    <string name="action_settings">Configuración</string>
     <string name="mainActionTextMessage">Acción que requiere login:</string>
     <string name="mainActionButton">Realizar acción</string>
     <string name="mainMockMovieButton">Mirar película mockeada</string>

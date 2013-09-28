@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="action_settings">Configuración</string>
+    <string name="action_ribbon_menu">Menu</string>
+    <string name="action_default_activity_name">PhoneTicket</string>
+    
+</resources>
