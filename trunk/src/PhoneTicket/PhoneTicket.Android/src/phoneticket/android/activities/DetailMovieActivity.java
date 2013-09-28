@@ -68,9 +68,11 @@ public class DetailMovieActivity extends RoboFragmentActivity implements
 	}
 
 	public void onWatchTrailerButtonAction(View sender) {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(movie
-				.getTrailerUrl()));
-		startActivity(browserIntent);
+		if (movie != null) {
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+					Uri.parse(movie.getTrailerUrl()));
+			startActivity(browserIntent);
+		}
 	}
 
 	@Override
