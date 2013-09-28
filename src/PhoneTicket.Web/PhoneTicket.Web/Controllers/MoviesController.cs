@@ -11,6 +11,7 @@
     using PhoneTicket.Web.ViewModels;
     using PhoneTicket.Web.Models;
     using System.Collections.Generic;
+    using System;
 
     [Authorize]
     [RequireSsl]
@@ -77,5 +78,23 @@
             return RedirectToAction("Index", "Movies", new { page = 1 });
         }
 
+        public ActionResult Edit(Movie movie, string MovieGenreType, string MovieRatingType)
+        {
+
+            movie.GenreId = Convert.ToInt32(MovieGenreType);
+
+            movie.RatingId = Convert.ToInt32(MovieRatingType);
+
+            if (movie.Id > 0)  //Edit
+            {
+                this.movieService.UpdateAsync(movie);
+            }
+            else  //Create
+            {
+                this.movieService.CreateAsync(movie);
+            }
+
+            return RedirectToAction("Index", "Movies", new { page = 1 });
+        }
     }
 }

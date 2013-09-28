@@ -35,6 +35,11 @@
                    });
         }
 
+        public async Task<Rating> Get(int ID)
+        {
+            return (await this.db.Ratings.FindAsync(ID));
+        }
+
         public void Dispose()
         {
             this.Dispose(true);

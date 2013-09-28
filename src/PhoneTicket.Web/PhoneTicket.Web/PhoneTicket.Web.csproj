@@ -247,7 +247,6 @@
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\MovieService.cs" />
-    <Compile Include="Services\PhonTicketContext.cs" />
     <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\TemporaryUserService.cs" />
     <Compile Include="Templates\EmailTemplate.Context.cs" />

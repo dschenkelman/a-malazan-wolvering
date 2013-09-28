@@ -10,5 +10,7 @@
     {
         Task<IEnumerable<Movie>> GetMoviesAsync();
         Task<Movie> GetMovie(int id);
+        Task CreateAsync(Movie movie);
+        Task UpdateAsync(Movie movie);
     }
 }

@@ -27,6 +27,18 @@
             return await this.db.Movies.FindAsync(id);
         }
 
+        public async Task CreateAsync(Movie movie)
+        {
+            this.db.Movies.Add(movie);
+
+            await this.db.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Movie movie)
+        {
+            await this.db.SaveChangesAsync();
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
