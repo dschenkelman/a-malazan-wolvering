@@ -1,0 +1,64 @@
+﻿@model PhoneTicket.Web.Models.Movie
+
+@{
+    ViewBag.Title = "Agregar Película";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("CreateMovie","Movies")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+        <div class="editor-label">
+            @Html.HiddenFor(m => m.Id, new { @Value = ViewBag.MovieId })
+        </div>
+
+        <fieldset>
+        <legend>Log in Form</legend>
+        <ol>
+            <li>
+                <label for="Title">Título</label>
+                @Html.EditorFor(m => m.Title, new { @Value = "" })
+            </li>
+            <li>
+                <label for="Genre">Género</label>
+                @Html.DropDownList("MovieGenreType")
+            </li>
+            <li>
+                <label for="DurationInMinutes">Duración</label>
+                @Html.EditorFor(m => m.DurationInMinutes, new { @Value = "" })
+            </li>
+            <li>
+                <label for="Rating">Clasificación</label>
+                @Html.DropDownList("MovieRatingType")
+            </li>
+            <li>
+                <label for="Title">Título</label>
+                @Html.TextAreaFor(m => m.Synopsis, new { @Value = "" })
+            </li>
+            <li>
+                <label for="TrailerUrl">Link a Trailer</label>
+                @Html.EditorFor(m => m.TrailerUrl, new { @Value = "" })
+            </li>
+            <li>
+                <label for="ImageUrl">Link a Imagen</label>
+                <table>
+                    <tr>
+                        <td>@Html.EditorFor(m => m.ImageUrl, new { @Value = "" })</td>
+                        <td><input type="button" id="refreshImage" value="Actualizar"/></td>
+                    </tr>
+                </table>
+            </li>
+            <li>
+                <img id="MovieImg" class="thumbnail" src="@Model.ImageUrl"/> 
+            </li>
+        </ol>
+        <input type="submit" value="Guardar" />
+    </fieldset>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/Movies.js")
+}

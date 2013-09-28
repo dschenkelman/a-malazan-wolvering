@@ -22,7 +22,7 @@
         <span>
             @Html.ActionLink(
                         linkText: "Agregar Película",
-                        actionName: "AddMovie",
+                        actionName: "Add",
                         controllerName: "Movies",
                         routeValues: new { movieId = -1 },
                         htmlAttributes: null)
@@ -63,7 +63,7 @@
                     <td>
                         @Html.ActionLink(
                             linkText: "Editar",
-                            actionName: "EditMovie",
+                            actionName: "Edit",
                             controllerName: "Movies",
                             routeValues: new { movieId = Model[i].Id },
                             htmlAttributes: null
