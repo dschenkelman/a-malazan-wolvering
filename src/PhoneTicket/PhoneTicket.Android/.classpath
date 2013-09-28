@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/validator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/StaggeredGridView"/>
 	<classpathentry kind="lib" path="/StaggeredGridView/libs/android-support-v4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RibbonMenuLib"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
