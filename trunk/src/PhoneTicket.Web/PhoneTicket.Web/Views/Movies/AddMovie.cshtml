@@ -24,34 +24,47 @@
         <legend>Log in Form</legend>
         <ol>
             <li>
-                @Html.LabelFor(m => m.Title)
+                <label for="Title">Título</label>
                 @Html.EditorFor(m => m.Title, new { @Value = "" })
             </li>
             <li>
-                @Html.LabelFor(m => m.Genre)
+                <label for="Genre">Género</label>
                 @Html.DropDownList("MovieGenreType")
             </li>
             <li>
-                @Html.LabelFor(m => m.DurationInMinutes)
+                <label for="DurationInMinutes">Duración</label>
                 @Html.EditorFor(m => m.DurationInMinutes, new { @Value = "" })
             </li>
             <li>
-                @Html.LabelFor(m => m.Rating)
+                <label for="Rating">Clasificación</label>
                 @Html.DropDownList("MovieRatingType")
             </li>
             <li>
-                @Html.LabelFor(m => m.Synopsis)
+                <label for="Title">Título</label>
                 @Html.TextAreaFor(m => m.Synopsis, new { @Value = "" })
             </li>
             <li>
-                @Html.LabelFor(m => m.ImageUrl)
-                @Html.EditorFor(m => m.ImageUrl, new { @Value = "" })
+                <label for="TrailerUrl">Link a Trailer</label>
+                @Html.EditorFor(m => m.TrailerUrl, new { @Value = "" })
             </li>
             <li>
-                @Html.LabelFor(m => m.TrailerUrl)
-                @Html.EditorFor(m => m.TrailerUrl, new { @Value = "" })
+                <label for="ImageUrl">Link a Imagen</label>
+                <table>
+                    <tr>
+                        <td>@Html.EditorFor(m => m.ImageUrl, new { @Value = "" })</td>
+                        <td><input type="button" id="refreshImage" value="Actualizar"/></td>
+                    </tr>
+                </table>
+            </li>
+            <li>
+                <img id="MovieImg" class="thumbnail" src="@Model.ImageUrl"/> 
             </li>
         </ol>
         <input type="submit" value="Guardar" />
     </fieldset>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/Movies.js")
 }
