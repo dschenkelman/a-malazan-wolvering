@@ -12,5 +12,6 @@
         Task<Movie> GetMovie(int id);
         Task CreateAsync(Movie movie);
         Task UpdateAsync(Movie movie);
+        Task DeleteAsync(Movie movie);
     }
 }

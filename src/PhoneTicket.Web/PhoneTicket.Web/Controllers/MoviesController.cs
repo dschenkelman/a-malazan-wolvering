@@ -72,9 +72,12 @@
             return RedirectToAction("AddMovie", "Movies", new { movieId = movieId });
         }
 
-        public ActionResult DeleteMovie(int movieId)
+        public async Task<ActionResult> DeleteMovie(int movieId)
         {
-            //TODO - Delete movie from DB
+            var movie = await this.movieService.GetMovie(movieId);
+            
+            await this.movieService.DeleteAsync(movie);
+            
             return RedirectToAction("Index", "Movies", new { page = 1 });
         }
 
