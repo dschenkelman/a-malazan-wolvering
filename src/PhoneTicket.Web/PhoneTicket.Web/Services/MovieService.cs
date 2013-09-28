@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Data;
@@ -20,6 +22,20 @@
         public async Task<IEnumerable<Movie>> GetMoviesAsync()
         {
             return await this.db.Movies.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Movie>> GetMoviesAsync(Expression<Func<Movie, bool>> filter)
+        {
+            var movies = this.db.Movies;
+
+            IQueryable<Movie> filteredMovies = movies;
+
+            if (filter != null)
+            {
+                filteredMovies = movies.Where(filter);
+            }
+
+            return await filteredMovies.ToListAsync();
         }
 
         public async Task<Movie> GetMovie(int id)

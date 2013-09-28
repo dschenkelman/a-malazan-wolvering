@@ -34,9 +34,18 @@
             this.ratingService = ratingService;
         }
 
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(string titleSearch, int? page)
         {
-            var movies = await this.movieService.GetMoviesAsync();
+            IEnumerable<Movie> movies;
+
+            if (string.IsNullOrEmpty(titleSearch))
+            {
+                movies = await this.movieService.GetMoviesAsync();
+            }
+            else
+            {
+                movies = await this.movieService.GetMoviesAsync(m => m.Title.Contains(titleSearch));
+            }
 
             var moviesViewModels = movies.Select(ListMovieViewModel.FromUser);
 
