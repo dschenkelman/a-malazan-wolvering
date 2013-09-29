@@ -4,6 +4,8 @@
     ViewBag.Title = "Editar Película";
 }
 
+<link href="~/Content/AddEditMovie.css" rel="stylesheet" type="text/css" />
+
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("EditMovie","Movies")) {
@@ -18,26 +20,32 @@
         <legend>Editar película</legend>
         <ol>
             <li>
-                @Html.DisplayFor(m => m.Title)
+                @Html.LabelFor(m => m.Title)
                 @Html.EditorFor(m => m.Title)
                 @Html.ValidationMessageFor(m => m.Title)
             </li>
             <li>
-                <label for="Genre">Género</label>
-                @Html.DropDownList("MovieGenreType")
+                <table id="table1">
+                    <tr>
+                        <td>
+                            @Html.LabelFor(m => m.DurationInMinutes)
+                            @Html.EditorFor(m => m.DurationInMinutes)
+                            @Html.ValidationMessageFor(m => m.DurationInMinutes)
+                        </td>
+                        <td>
+                            <label for="Genre">Género</label>
+                            @Html.DropDownList("MovieGenreType")
+                        </td>
+                        <td>
+                            <label for="Rating">Clasificación</label>
+                            @Html.DropDownList("MovieRatingType")
+                        </td>
+                    </tr>
+                </table>
             </li>
             <li>
-                @Html.LabelFor(m => m.DurationInMinutes)
-                @Html.EditorFor(m => m.DurationInMinutes)
-                @Html.ValidationMessageFor(m => m.DurationInMinutes)
-            </li>
-            <li>
-                <label for="Rating">Clasificación</label>
-                @Html.DropDownList("MovieRatingType")
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Synopsis)
-                @Html.TextAreaFor(m => m.Synopsis)
+                <label for="Synopsis">Sinópsis</label>
+                @Html.TextAreaFor(m => m.Synopsis, new { @class = "text-box.multi-line" })
                 @Html.ValidationMessageFor(m => m.Synopsis)
             </li>
             <li>
@@ -47,10 +55,12 @@
             </li>
             <li>
                 @Html.LabelFor(m => m.ImageUrl)
-                <table>
+                <table id="table2">
                     <tr>
-                        <td>@Html.EditorFor(m => m.ImageUrl)</td>
-                        <td><input type="button" id="refreshImage" value="Actualizar"/></td>
+                        <td style="width:90%">@Html.EditorFor(m => m.ImageUrl)</td>
+                        <td style="width:10%"><input type="button" id="refreshImage" value="Actualizar"/></td>
+                    </tr>
+                    <tr>
                         <td>@Html.ValidationMessageFor(m => m.ImageUrl)</td>
                     </tr>
                 </table>
@@ -59,7 +69,7 @@
                 <img id="MovieImg" class="thumbnail" src="@Model.ImageUrl"/> 
             </li>
         </ol>
-        <input type="submit" value="Guardar" />
+        <input type="submit" value="Guardar Cambios" />
     </fieldset>
 }
 
