@@ -80,22 +80,26 @@
             return RedirectToAction("Index", "Movies", new { page = 1 });
         }
 
-        public async Task<ActionResult> EditMovie(Movie movie, int MovieGenreType, int MovieRatingType)
+        public async Task<ActionResult> EditMovie(Movie updatedMovie, int MovieGenreType, int MovieRatingType)
         {
-            movie.GenreId = MovieGenreType;
+            var existingMovie = await this.movieService.GetAsync(updatedMovie.Id);
 
-            movie.RatingId = MovieRatingType;
+            existingMovie.ImageUrl = updatedMovie.ImageUrl;
+            existingMovie.DurationInMinutes = updatedMovie.DurationInMinutes;
+            existingMovie.GenreId = MovieGenreType;
+            existingMovie.RatingId = MovieRatingType;
+            existingMovie.Synopsis = updatedMovie.Synopsis;
+            existingMovie.Title = updatedMovie.Title;
+            existingMovie.TrailerUrl = updatedMovie.TrailerUrl;
 
-            await this.movieService.UpdateAsync(movie);
+            await this.movieService.UpdateAsync(existingMovie);
 
             return RedirectToAction("Index", "Movies", new { page = 1 });
         }
 
         public async Task<ActionResult> DeleteMovie(int movieId)
         {
-            var movie = await this.movieService.GetAsync(movieId);
-
-            await this.movieService.DeleteAsync(movie);
+            await this.movieService.DeleteAsync(movieId);
 
             return RedirectToAction("Index", "Movies", new { page = 1 });
         }

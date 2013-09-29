@@ -344,19 +344,42 @@
         }
 
         [TestMethod]
-        public async Task ShouldUpdateMovieWithRatingAndGenreWhenEditing()
+        public async Task ShouldUpdateMovieRetrievedFromServiceBasedOnUpdatedMovieProperties()
         {
             const int GenreId = 4;
             const int RatingId = 2;
-            var movie = new Movie();
+            var updatedMovie = new Movie
+                            {
+                                Id = 20,
+                                ImageUrl = "updatedImage",
+                                Synopsis = "updateSynopsis",
+                                Title = "updatedTitle",
+                                DurationInMinutes = 200,
+                                TrailerUrl = "updatedTrailer"
+                            };
+
+            var existingMovie = new Movie { Id = 20 };
 
             var controller = this.CreateController();
 
-            this.moviesService.Setup(ms => ms.UpdateAsync(movie)).Returns(Task.FromResult<object>(null)).Verifiable();
+            this.moviesService.Setup(ms => ms.GetAsync(updatedMovie.Id)).Returns(Task.FromResult(existingMovie)).Verifiable();
+            this.moviesService.Setup(ms => ms.UpdateAsync(existingMovie)).Returns(Task.FromResult<object>(null)).Verifiable();
 
-            await controller.EditMovie(movie, GenreId, RatingId);
+            await controller.EditMovie(updatedMovie, GenreId, RatingId);
 
-            this.moviesService.Verify(ms => ms.UpdateAsync(It.Is<Movie>(m => m == movie && m.RatingId == RatingId && m.GenreId == GenreId)), Times.Once());
+            this.moviesService.Verify(ms => ms.GetAsync(updatedMovie.Id), Times.Once());
+
+            this.moviesService.Verify(
+                ms => ms.UpdateAsync(It.Is<Movie>(m => 
+                    m == existingMovie 
+                    && m.RatingId == RatingId 
+                    && m.GenreId == GenreId
+                    && m.DurationInMinutes == updatedMovie.DurationInMinutes
+                    && m.ImageUrl == updatedMovie.ImageUrl
+                    && m.TrailerUrl == updatedMovie.TrailerUrl
+                    && m.Synopsis == updatedMovie.Synopsis
+                    && m.Title == updatedMovie.Title)),
+                Times.Once());
         }
 
         [TestMethod]
@@ -364,10 +387,11 @@
         {
             const int GenreId = 4;
             const int RatingId = 2;
-            var movie = new Movie();
+            var movie = new Movie { Id = 2 };
 
             var controller = this.CreateController();
 
+            this.moviesService.Setup(ms => ms.GetAsync(movie.Id)).Returns(Task.FromResult(movie));
             this.moviesService.Setup(ms => ms.UpdateAsync(movie)).Returns(Task.FromResult<object>(null));
 
             var result = (RedirectToRouteResult)await controller.EditMovie(movie, GenreId, RatingId);
@@ -377,16 +401,11 @@
         }
 
         [TestMethod]
-        public async Task ShouldDeleteMovieObtainedFromServiceWhenDeleteMovieIsCalled()
+        public async Task ShouldDeletUsingIdWhenDeleteMovieIsCalled()
         {
             const int MovieId = 1;
-            var movieToDelete = new Movie();
-            
-            this.moviesService.Setup(ms => ms.GetAsync(MovieId))
-                .Returns(Task.FromResult(movieToDelete))
-                .Verifiable();
-
-            this.moviesService.Setup(ms => ms.DeleteAsync(movieToDelete))
+          
+            this.moviesService.Setup(ms => ms.DeleteAsync(MovieId))
                 .Returns(Task.FromResult<object>(null))
                 .Verifiable();
 
@@ -394,21 +413,15 @@
 
             await controller.DeleteMovie(MovieId);
 
-            this.moviesService.Verify(ms => ms.GetAsync(MovieId), Times.Once());
-            this.moviesService.Verify(ms => ms.DeleteAsync(movieToDelete), Times.Once());
+            this.moviesService.Verify(ms => ms.DeleteAsync(MovieId), Times.Once());
         }
 
         [TestMethod]
         public async Task ShouldRedirectToIndexViewWhenDeletingMovie()
         {
             const int MovieId = 1;
-            var movieToDelete = new Movie();
 
-            this.moviesService.Setup(ms => ms.GetAsync(MovieId))
-                .Returns(Task.FromResult(movieToDelete))
-                .Verifiable();
-
-            this.moviesService.Setup(ms => ms.DeleteAsync(movieToDelete))
+            this.moviesService.Setup(ms => ms.DeleteAsync(MovieId))
                 .Returns(Task.FromResult<object>(null))
                 .Verifiable();
 

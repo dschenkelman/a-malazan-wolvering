@@ -19,14 +19,19 @@
             this.dbSet = this.context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate)
+        public IQueryable<T> Filter(Expression<Func<T, bool>> predicate)
         {
-            return await this.dbSet.Where(predicate).ToListAsync();
+            return this.dbSet.Where(predicate);
         }
 
         public Task<T> GetByKeyValuesAsync(params object[] keys)
         {
             return this.dbSet.FindAsync(keys);
+        }
+
+        public async Task<IEnumerable<T>> AllAsync()
+        {
+            return await this.dbSet.ToListAsync();
         }
 
         public void Insert(T t)

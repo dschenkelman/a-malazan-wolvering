@@ -28,7 +28,7 @@
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<PhoneTicketContext, Configuration>());
         }
 
-        public DbSet<TEntity> Set<TEntity>() where TEntity : class
+        DbSet<TEntity> IContext.Set<TEntity>()
         {
             return this.Set<TEntity>();
         }
