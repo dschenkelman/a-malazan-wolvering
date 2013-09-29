@@ -42,11 +42,11 @@
 
     public class LoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Usuario")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }

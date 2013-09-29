@@ -22,7 +22,7 @@
 
         private readonly IRatingService ratingService;
 
-        private const int PageSize = 20;
+        private const int PageSize = 5;
 
         public MoviesController(IMovieService movieService, IGenreService genreService, IRatingService ratingService)
         {
