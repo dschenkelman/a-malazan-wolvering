@@ -1,10 +1,7 @@
 ﻿namespace PhoneTicket.Web.Controllers.Api
 {
-    
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
     using System.Web.Http;
     using System.Threading.Tasks;
 
@@ -34,7 +31,7 @@
         [HttpGet("{id}")]
         public async Task<MovieViewModel> Get(int id)
         {
-            var movie = await this.movieService.GetMovie(id);
+            var movie = await this.movieService.GetAsync(id);
 
             return movie.ToMovieViewModel();
         }

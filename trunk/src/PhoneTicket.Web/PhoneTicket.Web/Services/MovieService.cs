@@ -38,7 +38,7 @@
             return await filteredMovies.ToListAsync();
         }
 
-        public async Task<Movie> GetMovie(int id)
+        public async Task<Movie> GetAsync(int id)
         {
             return await this.db.Movies.FindAsync(id);
         }

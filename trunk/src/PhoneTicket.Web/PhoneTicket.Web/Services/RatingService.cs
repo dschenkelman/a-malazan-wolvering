@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web;
@@ -20,7 +21,7 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetRatingListAsync(int? ID)
+        public async Task<IEnumerable<SelectListItem>> ListAsync(int? id)
         {
             var ratings = await this.db.Ratings.ToListAsync();
 
@@ -30,14 +31,14 @@
                    select new SelectListItem
                    {
                        Text = r.Description,
-                       Value = r.Id.ToString(),
-                       Selected = (r.Id == ID)
+                       Value = r.Id.ToString(CultureInfo.InvariantCulture),
+                       Selected = r.Id == id
                    });
         }
 
-        public async Task<Rating> Get(int ID)
+        public async Task<Rating> GetAsync(int id)
         {
-            return (await this.db.Ratings.FindAsync(ID));
+            return (await this.db.Ratings.FindAsync(id));
         }
 
         public void Dispose()

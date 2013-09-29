@@ -23,7 +23,7 @@
 
         private readonly IRatingService ratingService;
 
-        private const int PageSize = 6;
+        private const int PageSize = 20;
 
         public MoviesController(IMovieService movieService, IGenreService genreService, IRatingService ratingService)
         {
@@ -52,24 +52,22 @@
             return this.View(moviesViewModels.ToPagedList(page ?? 1, PageSize));
         }
 
-
         public async Task<ActionResult> Add(int movieId)
         {
-            Movie movie = new Movie() { Id = -1, Title = "", GenreId = -1, RatingId = -1, Synopsis = "", TrailerUrl = "", DurationInMinutes = 0, ImageUrl = "" };
-
-            await this.SetUpViewBags(movie);
+            var movie = new Movie() { Id = -1, Title = string.Empty, GenreId = -1, RatingId = -1, Synopsis = string.Empty, TrailerUrl = string.Empty, DurationInMinutes = 0, ImageUrl = string.Empty };
+            
+            await this.SetUpViewBag(movie);
             
             return this.View(movie);
         }
 
         public async Task<ActionResult> Edit(int movieId)
         {
-            var movie = await this.movieService.GetMovie(movieId);
+            var movie = await this.movieService.GetAsync(movieId);
 
-            await this.SetUpViewBags(movie);
+            await this.SetUpViewBag(movie);
 
             return this.View(movie);
-
         }
 
         public ActionResult CreateMovie(Movie movie, string MovieGenreType, string MovieRatingType)
@@ -92,7 +90,7 @@
 
         public async Task<ActionResult> DeleteMovie(int movieId)
         {
-            var movie = await this.movieService.GetMovie(movieId);
+            var movie = await this.movieService.GetAsync(movieId);
 
             await this.movieService.DeleteAsync(movie);
 
@@ -106,11 +104,11 @@
             movie.RatingId = Convert.ToInt32(MovieRatingType);
         }
 
-        private async Task SetUpViewBags(Movie movie)
+        private async Task SetUpViewBag(Movie movie)
         {
-            IEnumerable<SelectListItem> availableGenres = await this.genreService.GetGenreListAsync(movie.GenreId);
+            IEnumerable<SelectListItem> availableGenres = await this.genreService.ListAsync(movie.GenreId);
 
-            IEnumerable<SelectListItem> availableRatings = await this.ratingService.GetRatingListAsync(movie.RatingId);
+            IEnumerable<SelectListItem> availableRatings = await this.ratingService.ListAsync(movie.RatingId);
 
             ViewBag.MovieGenreType = availableGenres;
             ViewBag.MovieRatingType = availableRatings;

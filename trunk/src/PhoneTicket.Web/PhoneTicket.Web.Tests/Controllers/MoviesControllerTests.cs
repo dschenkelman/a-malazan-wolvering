@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
@@ -24,11 +25,17 @@
 
         private Mock<IMovieService> moviesService;
 
+        private Mock<IRatingService> ratingService;
+
+        private Mock<IGenreService> genreService;
+
         [TestInitialize]
         public void Initialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Default);
             this.moviesService = this.mockRepository.Create<IMovieService>();
+            this.genreService = this.mockRepository.Create<IGenreService>();
+            this.ratingService = this.mockRepository.Create<IRatingService>();
         }
 
         [TestMethod]
@@ -114,7 +121,7 @@
             var pages = Math.Ceiling((double)Items / pagedList.PageSize);
 
             Assert.AreEqual(Items, pagedList.TotalItemCount);
-            Assert.IsTrue(pagedList.HasNextPage);
+            Assert.IsFalse(pagedList.HasNextPage);
             Assert.IsTrue(pagedList.HasPreviousPage);
             Assert.IsFalse(pagedList.IsFirstPage);
             Assert.AreEqual(pages, pagedList.PageCount);
@@ -130,9 +137,182 @@
             }
         }
 
+        [TestMethod]
+        public async Task ShouldProvideTitleFilterToMovieServiceIfTitleSearchIsProvided()
+        {
+            var movies = new List<Movie>();
+            const int PageNumber = 1;
+
+            var matchesFilter = new Movie() { Title = "Batman, el caballero de la noche" };
+            var doesNotMatchFilter = new Movie { Title = "Batman inicia" };
+
+            this.moviesService.Setup(
+                ms =>
+                ms.GetMoviesAsync(
+                    It.Is<Expression<Func<Movie, bool>>>(
+                        e =>
+                        e.Compile().Invoke(matchesFilter)
+                        && !e.Compile().Invoke(doesNotMatchFilter))))
+                .Returns(Task.FromResult((IEnumerable<Movie>)movies)).Verifiable();
+
+            var controller = this.CreateController();
+
+            await controller.Index("caba", PageNumber);
+
+            this.moviesService.Verify(
+                ms =>
+                ms.GetMoviesAsync(
+                    It.Is<Expression<Func<Movie, bool>>>(
+                        e => e.Compile().Invoke(matchesFilter) && !e.Compile().Invoke(doesNotMatchFilter))),
+                Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldSetModelToMovieWithDefaultValuesWhenCallingAdd()
+        {
+            const int Undefined = -1;
+
+            this.ratingService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.genreService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Add(100);
+
+            var movie = (Movie)result.Model;
+
+            Assert.AreEqual(Undefined, movie.Id);
+            Assert.AreEqual(string.Empty, movie.Title);
+            Assert.AreEqual(Undefined, movie.GenreId);
+            Assert.AreEqual(Undefined, movie.RatingId);
+            Assert.AreEqual(string.Empty, movie.Synopsis);
+            Assert.AreEqual(string.Empty, movie.TrailerUrl);
+            Assert.AreEqual(0, movie.DurationInMinutes);
+            Assert.AreEqual(string.Empty, movie.ImageUrl);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetMovieGenreTypeToListReturnedFromGenreServiceWhenCallingAdd()
+        {
+            var genres = new List<SelectListItem>();
+
+            this.ratingService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.genreService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(genres));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Add(100);
+
+            Assert.AreSame(genres, result.ViewBag.MovieGenreType);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetMovieRatingTypeToListReturnedFromRatingServiceWhenCallingAdd()
+        {
+            var ratings = new List<SelectListItem>();
+
+            this.ratingService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(ratings));
+            this.genreService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Add(100);
+
+            Assert.AreSame(ratings, result.ViewBag.MovieRatingType);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetMovieIdToMinusOneWhenCallingAdd()
+        {
+            this.ratingService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.genreService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Add(100);
+
+            Assert.AreEqual(-1, result.ViewBag.MovieId);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetMovieIdToMovieIdWhenCallingEdit()
+        {
+            const int MovieId = 100;
+            var movie = new Movie { Id = MovieId };
+
+            this.ratingService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.genreService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            this.moviesService.Setup(ms => ms.GetAsync(MovieId)).Returns(Task.FromResult(movie)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(100);
+
+            this.moviesService.Verify(ms => ms.GetAsync(MovieId), Times.Once());
+            Assert.AreEqual(MovieId, result.ViewBag.MovieId);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetMovieRatingTypeToListReturnedFromRatingServiceWhenCallingEdit()
+        {
+            const int MovieId = 100;
+            const int RatingId = 4;
+            var movie = new Movie { Id = MovieId, RatingId = RatingId };
+            var ratings = new List<SelectListItem>();
+            this.moviesService.Setup(ms => ms.GetAsync(MovieId)).Returns(Task.FromResult(movie));
+
+            this.ratingService.Setup(rs => rs.ListAsync(RatingId)).Returns(Task.FromResult<IEnumerable<SelectListItem>>(ratings)).Verifiable();
+            this.genreService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(MovieId);
+
+            this.ratingService.Verify(rs => rs.ListAsync(RatingId), Times.Once());
+            Assert.AreSame(ratings, result.ViewBag.MovieRatingType);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetMovieGenreTypeToListReturnedFromGenreServiceWhenCallingEdit()
+        {
+            const int MovieId = 100;
+            const int GenreId = 4;
+            var movie = new Movie { Id = MovieId, GenreId = GenreId };
+            var genres = new List<SelectListItem>();
+            this.moviesService.Setup(ms => ms.GetAsync(MovieId)).Returns(Task.FromResult(movie));
+
+            this.ratingService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.genreService.Setup(rs => rs.ListAsync(GenreId)).Returns(Task.FromResult<IEnumerable<SelectListItem>>(genres)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(MovieId);
+
+            this.genreService.Verify(rs => rs.ListAsync(GenreId), Times.Once());
+            Assert.AreSame(genres, result.ViewBag.MovieGenreType);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetModelToMovieRetrievedFromServiceWhenCallingEdit()
+        {
+            const int MovieId = 100;
+            var movie = new Movie();
+            this.moviesService.Setup(ms => ms.GetAsync(MovieId)).Returns(Task.FromResult(movie));
+
+            this.ratingService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.genreService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(MovieId);
+
+            Assert.AreSame(movie, result.Model);
+        }
+
         private MoviesController CreateController()
         {
-            return new MoviesController(this.moviesService.Object, null, null);
+            return new MoviesController(this.moviesService.Object, this.genreService.Object, this.ratingService.Object);
         }
     }
 }

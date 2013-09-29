@@ -21,7 +21,7 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetGenreListAsync(int? ID)
+        public async Task<IEnumerable<SelectListItem>> ListAsync(int? id)
         {
             var genres = await this.db.Genres.ToListAsync();
 
@@ -32,13 +32,13 @@
                    {
                        Text = g.Name,
                        Value = g.Id.ToString(),
-                       Selected = (g.Id == ID)
+                       Selected = (g.Id == id)
                    });
         }
 
-        public async Task<Genre> Get(int ID)
+        public async Task<Genre> GetAsync(int id)
         {
-            return (await this.db.Genres.FindAsync(ID));
+            return (await this.db.Genres.FindAsync(id));
         }
 
         public void Dispose()

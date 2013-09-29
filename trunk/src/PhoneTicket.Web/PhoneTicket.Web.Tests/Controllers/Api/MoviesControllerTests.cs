@@ -52,13 +52,13 @@
         {
             var movie1 = this.CreateMovie();
 
-            this.movieService.Setup(ms => ms.GetMovie(It.IsAny<int>())).Returns(Task.FromResult(movie1)).Verifiable();
+            this.movieService.Setup(ms => ms.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(movie1)).Verifiable();
 
             var controller = this.CreateController();
 
             var response = await controller.Get(movie1.Id);
 
-            this.movieService.Verify(ms => ms.GetMovie(It.IsAny<int>()), Times.Once());
+            this.movieService.Verify(ms => ms.GetAsync(It.IsAny<int>()), Times.Once());
 
             Assert.AreEqual(response.Id, movie1.Id);
         }
