@@ -51,9 +51,11 @@
             return this.repositories.Movies.SaveAsync();
         }
 
-        public Task DeleteAsync(int movieId)
+        public async Task DeleteAsync(int movieId)
         {
-            return this.repositories.Movies.DeleteAsync(movieId);
+            await this.repositories.Movies.DeleteAsync(movieId);
+
+            await this.repositories.Movies.SaveAsync();
         }
 
         public void Dispose()
