@@ -1,0 +1,38 @@
+﻿.text-box
+{
+    width: 98%;
+}
+
+#DurationInMinutes 
+{
+    width:90%;
+}
+
+select 
+{
+    width: 98%;
+    font-size: 16px;
+}
+
+#table1 { 
+    table-layout: fixed; 
+    width: 98%;
+}
+
+#Synopsis
+{
+    width: 98%;
+    height: 120px;
+    resize: none;
+}
+
+#table2 { 
+    width: 98%;
+}
+
+#ImageUrl {
+    width: 98%;
+}
+
+
+
