@@ -12,16 +12,16 @@
 
     public class UserService : IUserService, IDisposable
     {
-        private PhoneTicketContext db;
+        private IPhoneTicketRepositories repositories;
 
-        public UserService(PhoneTicketContext db)
+        public UserService(IPhoneTicketRepositories repositories)
         {
-            this.db = db;
+            this.repositories = repositories;
         }
 
         public Task<int> GetIdAsync(string email)
         {
-            return this.db.Users.Where(u => u.EmailAddress == email).Select(u => u.Id).FirstAsync();
+            return this.repositories.Users.Filter(u => u.EmailAddress == email).Select(u => u.Id).FirstAsync();
         }
 
         public Task<IEnumerable<User>> GetUsersAsync()
@@ -31,31 +31,35 @@
 
         public async Task<IEnumerable<User>> GetUsersAsync(Expression<Func<User, bool>> filter)
         {
-            var confirmedUsers = this.db.Users.Where(u => !this.db.TemporaryUser.Any(tu => tu.Id == u.Id));
+            var tempUsers = await this.repositories.TemporaryUsers.AllAsync();
+            
+            var allUsers = await this.repositories.Users.AllAsync();
 
-            var finalUsers = confirmedUsers;
+            var finalUsers = allUsers.Where(u => tempUsers.All(tu => tu.Id != u.Id));
 
             if (filter != null)
             {
-                finalUsers = confirmedUsers.Where(filter);
+                finalUsers = finalUsers.Where(filter.Compile());
             }
 
-            return await finalUsers.ToListAsync();
+            return finalUsers;
         }
 
         public Task<User> GetUserAsync(int id)
         {
-            return this.db.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return this.repositories.Users.GetByKeyValuesAsync(id);
         }
 
         public Task UpdateAsync(User user)
         {
-            return this.db.SaveChangesAsync();
+            return this.repositories.Users.SaveAsync();
         }
 
-        public Task<bool> HasConflict(User user)
+        public async Task<bool> HasConflict(User user)
         {
-            return this.db.Users.AnyAsync(u => u.Id == user.Id || u.EmailAddress == user.EmailAddress);
+            return await this.repositories.Users
+                .Filter(u => u.Id == user.Id || u.EmailAddress == user.EmailAddress)
+                .CountAsync() != 0;
         }
 
         public void Dispose()
@@ -68,11 +72,24 @@
         {
             if (disposing)
             {
-                if (this.db != null)
+                if (this.repositories != null)
                 {
-                    this.db.Dispose();
-                    this.db = null;
+                    this.repositories.Dispose();
+                    this.repositories = null;
                 }
+            }
+        }
+
+        private class UserComparer : IEqualityComparer<User>
+        {
+            public bool Equals(User x, User y)
+            {
+                return x.Id == y.Id;
+            }
+
+            public int GetHashCode(User obj)
+            {
+                return obj.GetHashCode();
             }
         }
     }

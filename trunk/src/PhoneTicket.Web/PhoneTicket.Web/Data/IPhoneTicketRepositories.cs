@@ -1,8 +1,10 @@
 ﻿namespace PhoneTicket.Web.Data
 {
+    using System;
+
     using PhoneTicket.Web.Models;
 
-    public interface IPhoneTicketRepositories
+    public interface IPhoneTicketRepositories : IDisposable
     {
         IRepository<User> Users { get; }
 
@@ -12,6 +14,6 @@
 
         IRepository<Rating> Ratings { get; }
 
-        IRepository<TemporaryUser> TemporaryUser { get; }
+        IRepository<TemporaryUser> TemporaryUsers { get; }
     }
 }

@@ -12,56 +12,48 @@
 
     public class MovieService : IMovieService, IDisposable
     {
-        private PhoneTicketContext db;
+        private IPhoneTicketRepositories repositories;
 
-        public MovieService(PhoneTicketContext db)
+        public MovieService(IPhoneTicketRepositories repositories)
         {
-            this.db = db;
+            this.repositories = repositories;
         }
 
-        public async Task<IEnumerable<Movie>> GetMoviesAsync()
+        public Task<IEnumerable<Movie>> GetMoviesAsync()
         {
-            return await this.db.Movies.ToListAsync();
+            return this.repositories.Movies.AllAsync();
         }
 
         public async Task<IEnumerable<Movie>> GetMoviesAsync(Expression<Func<Movie, bool>> filter)
         {
-            var movies = this.db.Movies;
-
-            IQueryable<Movie> filteredMovies = movies;
-
             if (filter != null)
             {
-                filteredMovies = movies.Where(filter);
+                return this.repositories.Movies.Filter(filter);
             }
-
-            return await filteredMovies.ToListAsync();
+            
+            return await this.repositories.Movies.AllAsync();
         }
 
-        public async Task<Movie> GetAsync(int id)
+        public Task<Movie> GetAsync(int id)
         {
-            return await this.db.Movies.FindAsync(id);
+            return this.repositories.Movies.GetByKeyValuesAsync(id);
         }
 
         public async Task CreateAsync(Movie movie)
         {
-            this.db.Movies.Add(movie);
+            this.repositories.Movies.Insert(movie);
 
-            await this.db.SaveChangesAsync();
+            await this.repositories.Movies.SaveAsync();
         }
 
-        public async Task UpdateAsync(Movie movie)
+        public Task UpdateAsync(Movie movie)
         {
-            this.db.Entry(movie).State = EntityState.Modified;
-
-            await this.db.SaveChangesAsync();
+            return this.repositories.Movies.SaveAsync();
         }
 
-        public async Task DeleteAsync(Movie movie)
+        public Task DeleteAsync(int movieId)
         {
-            this.db.Entry(movie).State = EntityState.Deleted;
-
-            await this.db.SaveChangesAsync();
+            return this.repositories.Movies.DeleteAsync(movieId);
         }
 
         public void Dispose()
@@ -74,10 +66,10 @@
         {
             if (disposing)
             {
-                if (this.db != null)
+                if (this.repositories != null)
                 {
-                    this.db.Dispose();
-                    this.db = null;
+                    this.repositories.Dispose();
+                    this.repositories = null;
                 }
             }
         }

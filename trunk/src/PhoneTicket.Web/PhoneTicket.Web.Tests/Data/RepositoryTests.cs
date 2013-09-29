@@ -74,7 +74,7 @@ namespace PhoneTicket.Web.Tests.Data
         }
 
         [TestMethod]
-        public async Task ShouldReturnMoviesThatMatchFilterWhenRetrievingMovies()
+        public void ShouldReturnMoviesThatMatchFilterWhenRetrievingMovies()
         {
             // arrange
             Movie movie1 = new Movie { Id = 1 };
@@ -91,12 +91,12 @@ namespace PhoneTicket.Web.Tests.Data
             var repository = this.CreateRepository();
 
             // act
-            var retrievedSubjects = (await repository.GetAsync(s => s.Id % 2 != 0)).ToList();
+            var retrievedMovies = repository.Filter(s => s.Id % 2 != 0).ToList();
 
             // assert
-            Assert.AreEqual(2, retrievedSubjects.Count);
-            Assert.AreSame(movie1, retrievedSubjects[0]);
-            Assert.AreSame(movie3, retrievedSubjects[1]);
+            Assert.AreEqual(2, retrievedMovies.Count);
+            Assert.AreSame(movie1, retrievedMovies[0]);
+            Assert.AreSame(movie3, retrievedMovies[1]);
         }
 
         [TestMethod]

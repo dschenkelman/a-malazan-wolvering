@@ -1,5 +1,7 @@
 ﻿namespace PhoneTicket.Web.Data
 {
+    using System;
+
     using PhoneTicket.Web.Models;
 
     public class PhoneTicketRepositories : IPhoneTicketRepositories
@@ -12,16 +14,16 @@
 
         private IRepository<Rating> ratings;
 
-        private IRepository<TemporaryUser> temporaryUser;
+        private IRepository<TemporaryUser> temporaryUsers;
 
         public PhoneTicketRepositories(
-            IRepository<TemporaryUser> temporaryUser,
+            IRepository<TemporaryUser> temporaryUsers,
             IRepository<Rating> ratings,
             IRepository<Movie> movies,
             IRepository<Genre> genres,
             IRepository<User> users)
         {
-            this.temporaryUser = temporaryUser;
+            this.temporaryUsers = temporaryUsers;
             this.ratings = ratings;
             this.movies = movies;
             this.genres = genres;
@@ -60,12 +62,32 @@
             }
         }
 
-        public IRepository<TemporaryUser> TemporaryUser
+        public IRepository<TemporaryUser> TemporaryUsers
         {
             get
             {
-                return this.temporaryUser;
+                return this.temporaryUsers;
             }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            this.TemporaryUsers.Dispose();
+            this.Genres.Dispose();
+            this.Movies.Dispose();
+            this.Ratings.Dispose();
+            this.Users.Dispose();
         }
     }
 }
