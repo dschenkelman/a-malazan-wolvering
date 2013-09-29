@@ -22,15 +22,14 @@
         {
             var genres = await this.repositories.Genres.AllAsync();
 
-            return new[] { new SelectListItem { Text = "Seleccionar uno" } }.Concat(
-                   from g in genres
+            return from g in genres
                    orderby g.Name
                    select new SelectListItem
                    {
                        Text = g.Name,
                        Value = g.Id.ToString(),
-                       Selected = (g.Id == id)
-                   });
+                       Selected = g.Id == id
+                   };
         }
 
         public Task<Genre> GetAsync(int id)

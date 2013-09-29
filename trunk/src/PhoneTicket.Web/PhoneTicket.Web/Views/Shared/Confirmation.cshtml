@@ -1,0 +1,8 @@
+﻿@{
+    ViewBag.Title = "Confirmation.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@ViewBag.Message</h3>
+
+@Html.ActionLink((string)ViewBag.LinkText,(string)ViewBag.Action, (string)ViewBag.Controller)
