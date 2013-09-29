@@ -310,6 +310,116 @@
             Assert.AreSame(movie, result.Model);
         }
 
+        [TestMethod]
+        public async Task ShouldCreateMovieWithRatingAndGenre()
+        {
+            const int GenreId = 4;
+            const int RatingId = 2;
+            var movie = new Movie();
+
+            var controller = this.CreateController();
+
+            this.moviesService.Setup(ms => ms.CreateAsync(movie)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            await controller.CreateMovie(movie, GenreId, RatingId);
+
+            this.moviesService.Verify(ms => ms.CreateAsync(It.Is<Movie>(m => m == movie && m.RatingId == RatingId && m.GenreId == GenreId)), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldRedirectToIndexViewWhenCreatingMovie()
+        {
+            const int GenreId = 4;
+            const int RatingId = 2;
+            var movie = new Movie();
+
+            var controller = this.CreateController();
+
+            this.moviesService.Setup(ms => ms.CreateAsync(movie)).Returns(Task.FromResult<object>(null));
+
+            var result = (RedirectToRouteResult)await controller.CreateMovie(movie, GenreId, RatingId);
+
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+            Assert.AreEqual("Movies", result.RouteValues["controller"]);
+        }
+
+        [TestMethod]
+        public async Task ShouldUpdateMovieWithRatingAndGenreWhenEditing()
+        {
+            const int GenreId = 4;
+            const int RatingId = 2;
+            var movie = new Movie();
+
+            var controller = this.CreateController();
+
+            this.moviesService.Setup(ms => ms.UpdateAsync(movie)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            await controller.EditMovie(movie, GenreId, RatingId);
+
+            this.moviesService.Verify(ms => ms.UpdateAsync(It.Is<Movie>(m => m == movie && m.RatingId == RatingId && m.GenreId == GenreId)), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldRedirectToIndexViewWhenEditingMovie()
+        {
+            const int GenreId = 4;
+            const int RatingId = 2;
+            var movie = new Movie();
+
+            var controller = this.CreateController();
+
+            this.moviesService.Setup(ms => ms.UpdateAsync(movie)).Returns(Task.FromResult<object>(null));
+
+            var result = (RedirectToRouteResult)await controller.EditMovie(movie, GenreId, RatingId);
+
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+            Assert.AreEqual("Movies", result.RouteValues["controller"]);
+        }
+
+        [TestMethod]
+        public async Task ShouldDeleteMovieObtainedFromServiceWhenDeleteMovieIsCalled()
+        {
+            const int MovieId = 1;
+            var movieToDelete = new Movie();
+            
+            this.moviesService.Setup(ms => ms.GetAsync(MovieId))
+                .Returns(Task.FromResult(movieToDelete))
+                .Verifiable();
+
+            this.moviesService.Setup(ms => ms.DeleteAsync(movieToDelete))
+                .Returns(Task.FromResult<object>(null))
+                .Verifiable();
+
+            var controller = this.CreateController();
+
+            await controller.DeleteMovie(MovieId);
+
+            this.moviesService.Verify(ms => ms.GetAsync(MovieId), Times.Once());
+            this.moviesService.Verify(ms => ms.DeleteAsync(movieToDelete), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldRedirectToIndexViewWhenDeletingMovie()
+        {
+            const int MovieId = 1;
+            var movieToDelete = new Movie();
+
+            this.moviesService.Setup(ms => ms.GetAsync(MovieId))
+                .Returns(Task.FromResult(movieToDelete))
+                .Verifiable();
+
+            this.moviesService.Setup(ms => ms.DeleteAsync(movieToDelete))
+                .Returns(Task.FromResult<object>(null))
+                .Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (RedirectToRouteResult)await controller.DeleteMovie(MovieId);
+
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+            Assert.AreEqual("Movies", result.RouteValues["controller"]);
+        }
+
         private MoviesController CreateController()
         {
             return new MoviesController(this.moviesService.Object, this.genreService.Object, this.ratingService.Object);

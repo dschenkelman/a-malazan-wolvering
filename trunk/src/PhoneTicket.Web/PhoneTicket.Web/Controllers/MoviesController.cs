@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
@@ -7,11 +8,9 @@
     using PagedList;
 
     using PhoneTicket.Web.Handlers;
+    using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
-    using PhoneTicket.Web.Models;
-    using System.Collections.Generic;
-    using System;
 
     [Authorize]
     [RequireSsl]
@@ -70,20 +69,24 @@
             return this.View(movie);
         }
 
-        public ActionResult CreateMovie(Movie movie, string MovieGenreType, string MovieRatingType)
+        public async Task<ActionResult> CreateMovie(Movie movie, int MovieGenreType, int MovieRatingType)
         {
-            this.AssembleMovie(movie, MovieGenreType, MovieRatingType);
+            movie.GenreId = MovieGenreType;
 
-            this.movieService.CreateAsync(movie);
+            movie.RatingId = MovieRatingType;
+
+            await this.movieService.CreateAsync(movie);
 
             return RedirectToAction("Index", "Movies", new { page = 1 });
         }
 
-        public ActionResult EditMovie(Movie movie, string MovieGenreType, string MovieRatingType)
+        public async Task<ActionResult> EditMovie(Movie movie, int MovieGenreType, int MovieRatingType)
         {
-            this.AssembleMovie(movie, MovieGenreType, MovieRatingType);
+            movie.GenreId = MovieGenreType;
 
-            this.movieService.UpdateAsync(movie);
+            movie.RatingId = MovieRatingType;
+
+            await this.movieService.UpdateAsync(movie);
 
             return RedirectToAction("Index", "Movies", new { page = 1 });
         }
@@ -95,13 +98,6 @@
             await this.movieService.DeleteAsync(movie);
 
             return RedirectToAction("Index", "Movies", new { page = 1 });
-        }
-
-        private void AssembleMovie(Movie movie, string MovieGenreType, string MovieRatingType)
-        {
-            movie.GenreId = Convert.ToInt32(MovieGenreType);
-
-            movie.RatingId = Convert.ToInt32(MovieRatingType);
         }
 
         private async Task SetUpViewBag(Movie movie)
