@@ -5,7 +5,7 @@
     using PhoneTicket.Web.Migrations;
     using PhoneTicket.Web.Models;
 
-    public class PhoneTicketContext : DbContext
+    public class PhoneTicketContext : DbContext, IContext
     {
         public PhoneTicketContext() : base("DefaultConnection")
         {
@@ -26,6 +26,11 @@
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<PhoneTicketContext, Configuration>());
+        }
+
+        public DbSet<TEntity> Set<TEntity>() where TEntity : class
+        {
+            return this.Set<TEntity>();
         }
     }
 }
