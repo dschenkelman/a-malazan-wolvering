@@ -2,6 +2,7 @@
 {
     using System.Data.Entity;
 
+    //using PhoneTicket.Web.Migrations;
     using PhoneTicket.Web.Migrations;
     using PhoneTicket.Web.Models;
 

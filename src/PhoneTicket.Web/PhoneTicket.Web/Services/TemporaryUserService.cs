@@ -19,12 +19,14 @@
         {
             this.repositories.Users.Insert(user);
 
+            await this.repositories.Users.SaveAsync();
+
             var secret = Guid.NewGuid();
 
             this.repositories.TemporaryUsers.Insert(
                 new TemporaryUser { Id = user.Id, Secret = secret, RegistrationDate = DateTime.Now });
 
-            await this.repositories.Users.SaveAsync();
+            await this.repositories.TemporaryUsers.SaveAsync();
 
             return secret;
         }

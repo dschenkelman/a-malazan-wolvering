@@ -225,13 +225,9 @@
     <Compile Include="Helpers\MovieExtensions.cs" />
     <Compile Include="HttpModules\BasicAuthHttpModule.cs" />
     <Compile Include="HttpModules\PhoneTicketBasicAuthHttpModule.cs" />
-    <Compile Include="Migrations\201309150025422_InitialCreate.cs" />
-    <Compile Include="Migrations\201309150025422_InitialCreate.Designer.cs">
-      <DependentUpon>201309150025422_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201309222200070_MoviesMigration.cs" />
-    <Compile Include="Migrations\201309222200070_MoviesMigration.Designer.cs">
-      <DependentUpon>201309222200070_MoviesMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201309291754284_Initial.cs" />
+    <Compile Include="Migrations\201309291754284_Initial.Designer.cs">
+      <DependentUpon>201309291754284_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -412,11 +408,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201309150025422_InitialCreate.resx">
-      <DependentUpon>201309150025422_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201309222200070_MoviesMigration.resx">
-      <DependentUpon>201309222200070_MoviesMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201309291754284_Initial.resx">
+      <DependentUpon>201309291754284_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
