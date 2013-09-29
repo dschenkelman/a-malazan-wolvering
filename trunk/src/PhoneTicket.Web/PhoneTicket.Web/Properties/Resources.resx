@@ -123,4 +123,10 @@
   <data name="ConfirmationLinkFormat" xml:space="preserve">
     <value>https://phoneticket.apphb.com/api/users/{0}/confirm?secret={1}</value>
   </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>El campo es obligatorio.</value>
+  </data>
+  <data name="UrlField" xml:space="preserve">
+    <value>El valor del campo debe ser una URL válida.</value>
+  </data>
 </root>

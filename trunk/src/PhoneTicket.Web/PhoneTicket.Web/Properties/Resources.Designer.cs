@@ -77,5 +77,23 @@ namespace PhoneTicket.Web.Properties {
                 return ResourceManager.GetString("ConfirmationLinkFormat", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El campo es obligatorio..
+        /// </summary>
+        internal static string RequiredField {
+            get {
+                return ResourceManager.GetString("RequiredField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El valor del campo debe ser una URL válida..
+        /// </summary>
+        internal static string UrlField {
+            get {
+                return ResourceManager.GetString("UrlField", resourceCulture);
+            }
+        }
     }
 }
