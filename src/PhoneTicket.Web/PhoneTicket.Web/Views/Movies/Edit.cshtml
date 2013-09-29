@@ -10,43 +10,48 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     
-        <div class="editor-label">
+    <div class="editor-label">
             @Html.HiddenFor(m => m.Id, new { @Value = ViewBag.MovieId })
         </div>
 
         <fieldset>
-        <legend>Log in Form</legend>
+        <legend>Editar película</legend>
         <ol>
             <li>
-                <label for="Title">Título</label>
+                @Html.DisplayFor(m => m.Title)
                 @Html.EditorFor(m => m.Title)
+                @Html.ValidationMessageFor(m => m.Title)
             </li>
             <li>
                 <label for="Genre">Género</label>
                 @Html.DropDownList("MovieGenreType")
             </li>
             <li>
-                <label for="DurationInMinutes">Duración</label>
+                @Html.LabelFor(m => m.DurationInMinutes)
                 @Html.EditorFor(m => m.DurationInMinutes)
+                @Html.ValidationMessageFor(m => m.DurationInMinutes)
             </li>
             <li>
                 <label for="Rating">Clasificación</label>
                 @Html.DropDownList("MovieRatingType")
             </li>
             <li>
-                <label for="Title">Título</label>
+                @Html.LabelFor(m => m.Synopsis)
                 @Html.TextAreaFor(m => m.Synopsis)
+                @Html.ValidationMessageFor(m => m.Synopsis)
             </li>
             <li>
-                <label for="TrailerUrl">Link a Trailer</label>
+                @Html.LabelFor(m => m.TrailerUrl)
                 @Html.EditorFor(m => m.TrailerUrl)
+                @Html.ValidationMessageFor(m => m.TrailerUrl)
             </li>
             <li>
-                <label for="ImageUrl">Link a Imagen</label>
+                @Html.LabelFor(m => m.ImageUrl)
                 <table>
                     <tr>
                         <td>@Html.EditorFor(m => m.ImageUrl)</td>
                         <td><input type="button" id="refreshImage" value="Actualizar"/></td>
+                        <td>@Html.ValidationMessageFor(m => m.ImageUrl)</td>
                     </tr>
                 </table>
             </li>
@@ -54,11 +59,12 @@
                 <img id="MovieImg" class="thumbnail" src="@Model.ImageUrl"/> 
             </li>
         </ol>
-        <input type="submit" value="Guardar Cambios" />
+        <input type="submit" value="Guardar" />
     </fieldset>
 }
 
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/app/Movies.js")
 }
