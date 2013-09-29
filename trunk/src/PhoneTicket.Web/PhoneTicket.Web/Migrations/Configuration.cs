@@ -1,27 +1,27 @@
 namespace PhoneTicket.Web.Migrations
 {
+    using System;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<PhoneTicketContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<PhoneTicket.Web.Data.PhoneTicketContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(PhoneTicketContext context)
+        protected override void Seed(PhoneTicket.Web.Data.PhoneTicketContext context)
         {
             if (!context.Ratings.Any())
             {
                 context.Ratings.Add(new Rating() { Description = "ATP" });
                 context.Ratings.Add(new Rating() { Description = "SAM13" });
                 context.Ratings.Add(new Rating() { Description = "SAM16" });
-                context.Ratings.Add(new Rating() { Description = "SAM18" });    
+                context.Ratings.Add(new Rating() { Description = "SAM18" });
             }
 
             if (!context.Genres.Any())
@@ -112,7 +112,7 @@ namespace PhoneTicket.Web.Migrations
                         TrailerUrl = "http://www.youtube.com/watch?v=Lt4zb36L7lM",
                         RatingId = 1
                     });
-                
+
                 context.Movies.Add(
                     new Movie
                     {
