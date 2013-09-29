@@ -11,7 +11,7 @@
     {
         Task<IEnumerable<Movie>> GetMoviesAsync();
         Task<IEnumerable<Movie>> GetMoviesAsync(Expression<Func<Movie, bool>> filter);
-        Task<Movie> GetMovie(int id);
+        Task<Movie> GetAsync(int id);
         Task CreateAsync(Movie movie);
         Task UpdateAsync(Movie movie);
         Task DeleteAsync(Movie movie);
