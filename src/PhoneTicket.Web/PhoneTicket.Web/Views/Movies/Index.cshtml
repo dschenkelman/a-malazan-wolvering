@@ -75,7 +75,7 @@
                             actionName: "DeleteMovie",
                             controllerName: "Movies",
                             routeValues: new { movieId = Model[i].Id },
-                            htmlAttributes: null
+                            htmlAttributes: new { onclick = "return confirm('Está seguro que desea borrar la película?')"}
                             )
                     </td>
                 </tr>
