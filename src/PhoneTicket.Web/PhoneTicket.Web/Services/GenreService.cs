@@ -2,28 +2,25 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Web;
     using System.Web.Mvc;
-    
 
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
 
     public class GenreService : IGenreService, IDisposable
     {
-        private PhoneTicketContext db;
+        private IPhoneTicketRepositories repositories;
 
-        public GenreService(PhoneTicketContext db)
+        public GenreService(IPhoneTicketRepositories repositories)
         {
-            this.db = db;
+            this.repositories = repositories;
         }
 
         public async Task<IEnumerable<SelectListItem>> ListAsync(int? id)
         {
-            var genres = await this.db.Genres.ToListAsync();
+            var genres = await this.repositories.Genres.AllAsync();
 
             return new[] { new SelectListItem { Text = "Seleccionar uno" } }.Concat(
                    from g in genres
@@ -36,9 +33,9 @@
                    });
         }
 
-        public async Task<Genre> GetAsync(int id)
+        public Task<Genre> GetAsync(int id)
         {
-            return (await this.db.Genres.FindAsync(id));
+            return this.repositories.Genres.GetByKeyValuesAsync(id);
         }
 
         public void Dispose()
@@ -51,10 +48,10 @@
         {
             if (disposing)
             {
-                if (this.db != null)
+                if (this.repositories != null)
                 {
-                    this.db.Dispose();
-                    this.db = null;
+                    this.repositories.Dispose();
+                    this.repositories = null;
                 }
             }
         }

@@ -2,11 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Web;
     using System.Web.Mvc;
 
     using PhoneTicket.Web.Data;
@@ -14,16 +12,16 @@
 
     public class RatingService : IRatingService, IDisposable
     {
-        private PhoneTicketContext db;
+        private IPhoneTicketRepositories repositories;
 
-        public RatingService(PhoneTicketContext db)
+        public RatingService(IPhoneTicketRepositories repositories)
         {
-            this.db = db;
+            this.repositories = repositories;
         }
 
         public async Task<IEnumerable<SelectListItem>> ListAsync(int? id)
         {
-            var ratings = await this.db.Ratings.ToListAsync();
+            var ratings = await this.repositories.Ratings.AllAsync();
 
             return new[] { new SelectListItem { Text = "Seleccionar uno" } }.Concat(
                    from r in ratings
@@ -36,9 +34,9 @@
                    });
         }
 
-        public async Task<Rating> GetAsync(int id)
+        public Task<Rating> GetAsync(int id)
         {
-            return (await this.db.Ratings.FindAsync(id));
+            return this.repositories.Ratings.GetByKeyValuesAsync(id);
         }
 
         public void Dispose()
@@ -51,10 +49,10 @@
         {
             if (disposing)
             {
-                if (this.db != null)
+                if (this.repositories != null)
                 {
-                    this.db.Dispose();
-                    this.db = null;
+                    this.repositories.Dispose();
+                    this.repositories = null;
                 }
             }
         }
