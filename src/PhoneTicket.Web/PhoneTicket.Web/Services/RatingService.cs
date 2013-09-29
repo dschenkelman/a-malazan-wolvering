@@ -23,15 +23,14 @@
         {
             var ratings = await this.repositories.Ratings.AllAsync();
 
-            return new[] { new SelectListItem { Text = "Seleccionar uno" } }.Concat(
-                   from r in ratings
+            return from r in ratings
                    orderby r.Description
                    select new SelectListItem
                    {
                        Text = r.Description,
                        Value = r.Id.ToString(CultureInfo.InvariantCulture),
                        Selected = r.Id == id
-                   });
+                   };
         }
 
         public Task<Rating> GetAsync(int id)

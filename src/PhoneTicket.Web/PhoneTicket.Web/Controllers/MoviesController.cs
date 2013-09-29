@@ -77,7 +77,12 @@
 
             await this.movieService.CreateAsync(movie);
 
-            return RedirectToAction("Index", "Movies", new { page = 1 });
+            this.ViewBag.Message = string.Format("La película \"{0}\" se ha guardado con éxito.", movie.Title);
+            this.ViewBag.LinkText = "Aceptar";
+            this.ViewBag.Action = "Index";
+            this.ViewBag.Controller = "Movies";
+
+            return this.View("~/Views/Shared/Confirmation.cshtml");
         }
 
         public async Task<ActionResult> EditMovie(Movie updatedMovie, int MovieGenreType, int MovieRatingType)
@@ -93,8 +98,13 @@
             existingMovie.TrailerUrl = updatedMovie.TrailerUrl;
 
             await this.movieService.UpdateAsync(existingMovie);
+            
+            this.ViewBag.Message = string.Format("La película \"{0}\" se ha guardado con éxito.", existingMovie.Title);
+            this.ViewBag.LinkText = "Aceptar";
+            this.ViewBag.Action = "Index";
+            this.ViewBag.Controller = "Movies";
 
-            return RedirectToAction("Index", "Movies", new { page = 1 });
+            return this.View("~/Views/Shared/Confirmation.cshtml");
         }
 
         public async Task<ActionResult> DeleteMovie(int movieId)
