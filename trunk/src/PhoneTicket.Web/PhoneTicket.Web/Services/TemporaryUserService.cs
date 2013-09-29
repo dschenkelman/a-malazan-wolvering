@@ -8,39 +8,38 @@
 
     public class TemporaryUserService : ITemporaryUserService, IDisposable
     {
-        private PhoneTicketContext db;
+        private IPhoneTicketRepositories repositories;
 
-        public TemporaryUserService(PhoneTicketContext db)
+        public TemporaryUserService(IPhoneTicketRepositories repositories)
         {
-            this.db = db;
+            this.repositories = repositories;
         }
 
         public async Task<Guid> CreateUserAsync(User user)
         {
-            this.db.Users.Add(user);
+            this.repositories.Users.Insert(user);
 
             var secret = Guid.NewGuid();
 
-            this.db.TemporaryUser.Add(
+            this.repositories.TemporaryUsers.Insert(
                 new TemporaryUser { Id = user.Id, Secret = secret, RegistrationDate = DateTime.Now });
 
-            await this.db.SaveChangesAsync();
+            await this.repositories.Users.SaveAsync();
 
             return secret;
         }
 
         public async Task<bool> IsSecretValid(int userId, Guid secret)
         {
-            var user = await this.db.TemporaryUser.FindAsync(userId);
+            var user = await this.repositories.TemporaryUsers.GetByKeyValuesAsync(userId);
 
             return user != null && user.Secret == secret;
         }
 
         public async Task ConfirmUser(int userId)
         {
-            var user = await this.db.TemporaryUser.FindAsync(userId);
-            this.db.TemporaryUser.Remove(user);
-            await this.db.SaveChangesAsync();
+            await this.repositories.TemporaryUsers.DeleteAsync(userId);
+            await this.repositories.TemporaryUsers.SaveAsync();
         }
 
         public void Dispose()
@@ -53,10 +52,10 @@
         {
             if (disposing)
             {
-                if (this.db != null)
+                if (this.repositories != null)
                 {
-                    this.db.Dispose();
-                    this.db = null;
+                    this.repositories.Dispose();
+                    this.repositories = null;
                 }
             }
         }
