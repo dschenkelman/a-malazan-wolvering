@@ -13,7 +13,7 @@ namespace PhoneTicket.Web.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201309291754284_Initial"; }
+            get { return "201309292024182_Initial"; }
         }
         
         string IMigrationMetadata.Source

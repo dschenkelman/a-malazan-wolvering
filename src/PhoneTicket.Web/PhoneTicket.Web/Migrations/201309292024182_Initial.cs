@@ -60,7 +60,7 @@ namespace PhoneTicket.Web.Migrations
                 "dbo.Users",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false),
                         EmailAddress = c.String(),
                         PasswordHash = c.Binary(),
                         FirstName = c.String(),
@@ -71,14 +71,15 @@ namespace PhoneTicket.Web.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
-            //CreateTable(
-            //    "dbo.UserProfile",
-            //    c => new
-            //        {
-            //            UserId = c.Int(nullable: false, identity: true),
-            //            UserName = c.String(),
-            //        })
-            //    .PrimaryKey(t => t.UserId);
+            CreateTable(
+                "dbo.UserProfile",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false, identity: true),
+                        UserName = c.String(),
+                    })
+                .PrimaryKey(t => t.UserId);
+            
         }
         
         public override void Down()
