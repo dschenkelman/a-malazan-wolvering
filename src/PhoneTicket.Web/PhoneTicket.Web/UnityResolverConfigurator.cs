@@ -5,6 +5,7 @@
     using Microsoft.Practices.Unity;
 
     using PhoneTicket.Web.Data;
+    using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
 
     public class UnityResolverConfigurator
@@ -16,6 +17,14 @@
             container.RegisterType<IMovieService, MovieService>();
             container.RegisterType<IGenreService, GenreService>();
             container.RegisterType<IRatingService, RatingService>();
+
+            container.RegisterType<IRepository<User>, Repository<User>>();
+            container.RegisterType<IRepository<Genre>, Repository<Genre>>();
+            container.RegisterType<IRepository<Movie>, Repository<Movie>>();
+            container.RegisterType<IRepository<Rating>, Repository<Rating>>();
+            container.RegisterType<IRepository<TemporaryUser>, Repository<TemporaryUser>>();
+
+            container.RegisterType<IPhoneTicketRepositories, PhoneTicketRepositories>();
 
             container.RegisterType<PhoneTicket.Web.Controllers.Api.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.Api.MoviesController>();
