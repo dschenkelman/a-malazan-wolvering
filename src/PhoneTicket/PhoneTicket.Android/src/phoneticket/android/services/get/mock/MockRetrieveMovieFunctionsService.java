@@ -16,8 +16,8 @@ public class MockRetrieveMovieFunctionsService extends
 	private int movieId;
 	private IRetrieveMovieFunctionsServiceDelegate delegate;
 
-	private IMovieFunctions createMockMovieFunctions(final int movieId) {
-		IMovieFunctions movieFunctions = new IMovieFunctions() {
+	private Collection<IMovieFunctions> createMockMovieFunctions(final int movieId) {
+		IMovieFunctions cinemar1Functions = new IMovieFunctions() {
 			@Override
 			public int getMovieId() {
 				return movieId;
@@ -106,6 +106,56 @@ public class MockRetrieveMovieFunctionsService extends
 				return 1;
 			}
 		};
+		IMovieFunctions cinemar2Functions = new IMovieFunctions() {
+			@Override
+			public int getMovieId() {
+				return movieId;
+			}
+			@Override
+			public Collection<IFunction> getFunctions() {
+				Collection<IFunction> functions = new ArrayList<IFunction>();
+				functions.add(new IFunction() {
+					@Override
+					public String getTime() {
+						return "20:30";
+					}
+					@Override
+					public int getId() {
+						return 1;
+					}
+					@Override
+					public String getDay() {
+						return "Lunes";
+					}
+				});
+				functions.add(new IFunction() {
+					@Override
+					public String getTime() {
+						return "21:30";
+					}
+					@Override
+					public int getId() {
+						return 2;
+					}
+					@Override
+					public String getDay() {
+						return "Jueves";
+					}
+				});
+				return functions;
+			}
+			@Override
+			public String getCinemaName() {
+				return "Cinemar2";
+			}
+			@Override
+			public int getCinemaId() {
+				return 2;
+			}
+		};
+		Collection<IMovieFunctions> movieFunctions = new ArrayList<IMovieFunctions>();
+		movieFunctions.add(cinemar1Functions);
+		movieFunctions.add(cinemar2Functions);
 		return movieFunctions;
 	}
 	

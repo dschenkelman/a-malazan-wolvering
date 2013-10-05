@@ -1,8 +1,14 @@
 package phoneticket.android.activities.fragments;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.adapter.ExpandableMovieFunctionsAdapter;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.model.IMovieFunctions;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
@@ -19,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -36,9 +44,14 @@ public class DetailMovieFragment extends RoboFragment implements
 	@Inject
 	private IRetrieveMovieFunctionsService movieFunctionsService;
 
+	private int movieId;
 	private IMovie movie;
 
-	private int movieId;
+	private ExpandableListView expandableList;
+
+	private ArrayList<String> listCinemaHeader;
+
+	private HashMap<String, List<String>> listFunctionChild;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +86,9 @@ public class DetailMovieFragment extends RoboFragment implements
 				retrieveMovieInfoAction();
 			}
 		});
+
+		expandableList = (ExpandableListView) view
+				.findViewById(R.id.expandableFunctionList);
 
 		return view;
 	}
@@ -166,12 +182,38 @@ public class DetailMovieFragment extends RoboFragment implements
 			IRetrieveMovieInfoService service, Integer errorCode) {
 		showProgressLayout(true);
 	}
+/*
+	private void prepareListData() {
+		listCinemaHeader = new ArrayList<String>();
+		listFunctionChild = new HashMap<String, List<String>>();
 
+		// Adding child data
+		listCinemaHeader.add("Complejo 1");
+		listCinemaHeader.add("Complejo 2");
+
+		// Adding child data
+		List<String> top250 = new ArrayList<String>();
+		top250.add("Martes 16:30");
+		top250.add("Miercoles 33:50");
+
+		List<String> nowShowing = new ArrayList<String>();
+		nowShowing.add("The Conjuring");
+		nowShowing.add("Despicable Me 2");
+		nowShowing.add("Turbo");
+		nowShowing.add("Grown Ups 2");
+		nowShowing.add("Red 2");
+		nowShowing.add("The Wolverine");
+
+		listFunctionChild.put(listCinemaHeader.get(0), top250);
+		listFunctionChild.put(listCinemaHeader.get(1), nowShowing);
+	}
+*/
 	@Override
 	public void retrieveMovieFunctionsFinish(
 			IRetrieveMovieFunctionsService service,
-			IMovieFunctions movieFunctions) {
-		
+			Collection<IMovieFunctions> movieFunctions) {
+		expandableList.setAdapter(new ExpandableMovieFunctionsAdapter(
+				getActivity(), movieFunctions));
 	}
 
 	@Override

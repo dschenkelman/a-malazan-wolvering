@@ -134,10 +134,10 @@
 				android:layout_marginBottom="4dp"
 				android:background="@android:color/black"/>
 			
-            <ExpandableListView
+		    <ExpandableListView
                 android:id="@+id/expandableFunctionList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" /> 
+                android:layout_height="100dp" /> 
 			
 	    </LinearLayout>
 		
