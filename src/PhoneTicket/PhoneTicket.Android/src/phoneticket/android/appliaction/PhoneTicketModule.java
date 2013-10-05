@@ -1,7 +1,9 @@
 package phoneticket.android.appliaction;
 
+import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
 import phoneticket.android.services.get.IRetrieveMovieListService;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
+import phoneticket.android.services.get.impl.RetrieveMovieFunctionsServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMovieInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMovieListServiceProxy;
 import phoneticket.android.services.post.IAuthService;
@@ -24,10 +26,10 @@ public class PhoneTicketModule implements Module {
 		binder.bind(IFormValidator.class).to(FormValidatorImpl.class);
 		binder.bind(IRetrieveMovieListService.class).to(
 				RetrieveMovieListServiceProxy.class);
-
 		binder.bind(IRetrieveMovieInfoService.class).to(
 				RetrieveMovieInfoServiceProxy.class);
-
+		binder.bind(IRetrieveMovieFunctionsService.class).to(
+				RetrieveMovieFunctionsServiceProxy.class);
 	}
 
 }
