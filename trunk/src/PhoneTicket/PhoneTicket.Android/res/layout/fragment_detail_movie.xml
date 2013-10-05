@@ -23,11 +23,21 @@
 	        	android:text="@string/loadingMovieInfo" />
 
 			<ProgressBar
+			    android:id="@+id/downloadingDataProgressBar"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:layout_centerInParent="true"
-			    android:layout_below="@+id/downloadingDataTextView" />
+			    android:layout_below="@+id/downloadingDataTextView"
+	        	android:text="@string/loadingMovieInfo" />
                 
+                
+			<Button 
+			    android:id="@+id/refreshDataButton"
+	       		android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+			    android:layout_below="@+id/downloadingDataProgressBar"
+	        	android:text="@string/refreshMovieData"/>
+			
 	    </RelativeLayout>
         
 	    <LinearLayout
@@ -116,6 +126,18 @@
 	       		android:layout_width="fill_parent"
 	        	android:layout_height="wrap_content"
 	        	android:text="@string/watchTrailer"/>
+		    			
+			<View
+				android:layout_width="fill_parent"
+				android:layout_height="2dp" 
+				android:layout_marginTop="4dp"
+				android:layout_marginBottom="4dp"
+				android:background="@android:color/black"/>
+			
+            <ExpandableListView
+                android:id="@+id/expandableFunctionList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" /> 
 			
 	    </LinearLayout>
 		

@@ -14,5 +14,6 @@
     <string name="detailMovieDefaultClasification">Clasificación: -</string>
     <string name="detailMovieDefaultSynopsis">Sinopsis</string>
     <string name="loadingMovieInfo">Cargando los datos de la película. Espere un momento.</string>
+    <string name="refreshMovieData">Recargar</string>
 
 </resources>
