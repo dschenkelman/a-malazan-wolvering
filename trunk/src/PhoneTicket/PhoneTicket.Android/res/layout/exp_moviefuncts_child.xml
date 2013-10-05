@@ -12,4 +12,15 @@
         android:paddingBottom="5dp"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
     
+	<GridView
+	    android:id="@+id/timeGrid"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:numColumns="auto_fit"
+	    android:verticalSpacing="10dp"
+	    android:horizontalSpacing="10dp"
+	    android:stretchMode="columnWidth"
+	    android:gravity="center"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+    
 </LinearLayout>
