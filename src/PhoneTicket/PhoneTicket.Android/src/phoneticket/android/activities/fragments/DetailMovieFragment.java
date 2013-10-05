@@ -1,5 +1,6 @@
 package phoneticket.android.activities.fragments;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import com.google.inject.Inject;
@@ -17,12 +18,15 @@ import roboguice.fragment.RoboFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,11 +48,15 @@ public class DetailMovieFragment extends RoboFragment implements
 	private IMovie movie;
 
 	private ExpandableListView expandableList;
+	private ExpandableMovieFunctionsAdapter expandableListAdapter;
+	private ArrayList<String> expandedGroupsIds;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
+		expandedGroupsIds = new ArrayList<String>();
+		
 		View view = inflater.inflate(R.layout.fragment_detail_movie, container,
 				false);
 		Button mockButton = (Button) view.findViewById(R.id.watchTrailerButton);
@@ -179,8 +187,48 @@ public class DetailMovieFragment extends RoboFragment implements
 	public void retrieveMovieFunctionsFinish(
 			IRetrieveMovieFunctionsService service,
 			Collection<IMovieFunctions> movieFunctions) {
-		expandableList.setAdapter(new ExpandableMovieFunctionsAdapter(
-				getActivity(), movieFunctions));
+		expandableListAdapter = new ExpandableMovieFunctionsAdapter(
+				getActivity(), movieFunctions);
+		expandableList.setAdapter(expandableListAdapter);
+		expandableList.setOnGroupExpandListener(new OnGroupExpandListener() {
+			@Override
+			public void onGroupExpand(int groupPosition) {
+				expandedGroupsIds.add(groupPosition + ".id");
+				calculateExpandableListHeight();
+			}
+		});
+		expandableList
+				.setOnGroupCollapseListener(new OnGroupCollapseListener() {
+					@Override
+					public void onGroupCollapse(int groupPosition) {
+						expandedGroupsIds.remove(groupPosition + ".id");
+						calculateExpandableListHeight();
+					}
+				});
+	}
+
+	protected void calculateExpandableListHeight() {
+		int totalHeight = 0;
+		for (int i = 0; i < expandableListAdapter.getGroupCount(); i++) {
+			View headerView = expandableListAdapter.getGroupView(i, true,
+					null, expandableList);
+			headerView.measure(0, 0);
+			totalHeight += headerView.getMeasuredHeight();
+			for (int j = 0; j < expandableListAdapter.getChildrenCount(i); j++) {
+				if (expandedGroupsIds.contains(j + ".id")) {
+					View childView = expandableListAdapter.getChildView(i, j,
+							j + 1 == expandableListAdapter.getChildrenCount(i),
+							null, expandableList);
+					childView.measure(0, 0);
+					totalHeight += childView.getMeasuredHeight();
+				}
+			}
+		}
+		ViewGroup.LayoutParams params = expandableList
+				.getLayoutParams();
+		params.height = totalHeight;
+		expandableList.setLayoutParams(params);
+		expandableList.requestLayout();		
 	}
 
 	@Override

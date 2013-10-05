@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.TextView;
 
 public class TimeFunctionAdapter extends BaseAdapter {
