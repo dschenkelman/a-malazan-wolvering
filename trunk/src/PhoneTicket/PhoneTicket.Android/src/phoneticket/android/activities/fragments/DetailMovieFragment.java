@@ -1,14 +1,11 @@
 package phoneticket.android.activities.fragments;
 
-import com.google.inject.Inject;
-
 import phoneticket.android.R;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.IRetrieveMovieInfoServiceDelegate;
 import phoneticket.android.services.get.impl.RetrieveMovieInfoServiceProxy;
 import phoneticket.android.utils.ImageDownloader;
-import roboguice.fragment.RoboFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +16,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DetailMovieFragment extends Fragment implements
@@ -44,9 +43,13 @@ public class DetailMovieFragment extends Fragment implements
 		});
 
 		int movieId = getArguments().getInt(DetailMovieFragment.EXTRA_MOVIE_ID);
-		showProgressDialog();
 		service = new RetrieveMovieInfoServiceProxy();
 		service.retrieveMovieInfo(this, movieId);
+
+		RelativeLayout loadingLayout = (RelativeLayout) view.findViewById(R.id.loadingDataLayout);
+		LinearLayout dataLayout = (LinearLayout) view.findViewById(R.id.dataLayout);
+		loadingLayout.setVisibility(LinearLayout.VISIBLE);
+		dataLayout.setVisibility(LinearLayout.GONE);
 		
 		return view;
 	}
@@ -81,14 +84,18 @@ public class DetailMovieFragment extends Fragment implements
 		downloader.execute();
 	}
 
-	private void showProgressDialog() {
-		/*if (null == progressDialog)
-			progressDialog = new ProgressDialogFragment();
-		progressDialog.show(getSupportFragmentManager(), "dialog.progress");*/
+	private void showProgressLayout() {
+		RelativeLayout loadingLayout = (RelativeLayout) getView().findViewById(R.id.loadingDataLayout);
+		LinearLayout dataLayout = (LinearLayout) getView().findViewById(R.id.dataLayout);
+		loadingLayout.setVisibility(LinearLayout.VISIBLE);
+		dataLayout.setVisibility(LinearLayout.GONE);
 	}
 
-	private void hideProgressDialog() {
-		/*progressDialog.dismiss();*/
+	private void hideProgressLayout() {
+		RelativeLayout loadingLayout = (RelativeLayout) getView().findViewById(R.id.loadingDataLayout);
+		LinearLayout dataLayout = (LinearLayout) getView().findViewById(R.id.dataLayout);
+		loadingLayout.setVisibility(LinearLayout.GONE);
+		dataLayout.setVisibility(LinearLayout.VISIBLE);
 	}
 
 	public void onWatchTrailerButtonAction(View sender) {
@@ -104,7 +111,7 @@ public class DetailMovieFragment extends Fragment implements
 			IMovie movie) {
 		this.movie = movie;
 		showMovie();
-		hideProgressDialog();
+		hideProgressLayout();
 	}
 
 	@Override

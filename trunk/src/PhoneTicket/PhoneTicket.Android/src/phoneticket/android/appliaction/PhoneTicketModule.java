@@ -2,9 +2,7 @@ package phoneticket.android.appliaction;
 
 import phoneticket.android.services.get.IRetrieveMovieListService;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
-import phoneticket.android.services.get.impl.RetrieveMovieInfoService;
 import phoneticket.android.services.get.impl.RetrieveMovieInfoServiceProxy;
-import phoneticket.android.services.get.impl.RetrieveMovieListService;
 import phoneticket.android.services.get.impl.RetrieveMovieListServiceProxy;
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IRegisterUserService;
