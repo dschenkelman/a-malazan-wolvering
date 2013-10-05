@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -44,5 +45,7 @@
 
         [DisplayName("Clasificación")]
         public virtual Rating Rating { get; set; }
+
+        public virtual ICollection<Show> Shows { get; set; }
     }
 }
