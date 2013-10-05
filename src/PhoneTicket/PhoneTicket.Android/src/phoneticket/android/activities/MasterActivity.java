@@ -5,7 +5,9 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.fragments.CinemasFragment;
+import phoneticket.android.activities.fragments.DetailCinemaFragment;
 import phoneticket.android.activities.fragments.DetailMovieFragment;
+import phoneticket.android.activities.fragments.DetailMovieFragment.IOnCinemaSelectedListener;
 import phoneticket.android.activities.fragments.MovieListFragment;
 import phoneticket.android.activities.fragments.MovieListFragment.IOnMovieSelectedListener;
 import phoneticket.android.activities.fragments.UserFragment;
@@ -26,7 +28,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MasterActivity extends RoboFragmentActivity implements
-		iRibbonMenuCallback, IOnMovieSelectedListener {
+		iRibbonMenuCallback, IOnMovieSelectedListener,
+		IOnCinemaSelectedListener {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -36,14 +39,14 @@ public class MasterActivity extends RoboFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_master);
-		
+
 		UserManager.initialize(getPreferences(0));
 
 		MovieListFragment firstFragment = new MovieListFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, firstFragment).commit();
-        ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
-        
+		getSupportFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, firstFragment).commit();
+		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
+
 		setupActionBar();
 		createRibbonMenu();
 	}
@@ -132,6 +135,12 @@ public class MasterActivity extends RoboFragmentActivity implements
 		changeFragment(R.id.fragment_container, detailMovieFragment);
 	}
 
+	private void changeToDetailCinemaFragment(Bundle cinemaData) {
+		DetailCinemaFragment detailCinemaFragment = new DetailCinemaFragment();
+		detailCinemaFragment.setArguments(cinemaData);
+		changeFragment(R.id.fragment_container, detailCinemaFragment);
+	}
+
 	private void changeFragment(int containerId, Fragment newFragment) {
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
@@ -145,5 +154,12 @@ public class MasterActivity extends RoboFragmentActivity implements
 		Bundle movieData = new Bundle();
 		movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID, movieId);
 		changeToDetailMovieFragment(movieData);
+	}
+
+	@Override
+	public void onCinemaSelected(int cinemaId) {
+		Bundle cinemaData = new Bundle();
+		cinemaData.putInt(DetailCinemaFragment.EXTRA_CINEMA_ID, cinemaId);
+		changeToDetailCinemaFragment(cinemaData);
 	}
 }

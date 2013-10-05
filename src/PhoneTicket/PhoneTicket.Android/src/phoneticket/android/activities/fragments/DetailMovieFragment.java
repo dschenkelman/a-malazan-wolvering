@@ -16,6 +16,7 @@ import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.IRetrieveMovieInfoServiceDelegate;
 import phoneticket.android.utils.ImageDownloader;
 import roboguice.fragment.RoboFragment;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -52,6 +53,8 @@ public class DetailMovieFragment extends RoboFragment implements
 	private LinearLayout functionsLayout;
 
 	private ArrayList<String> expandedGroupsIds;
+
+	private IOnCinemaSelectedListener cinemaSelectedListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -192,7 +195,7 @@ public class DetailMovieFragment extends RoboFragment implements
 
 		functionsLayout.removeAllViews();
 		int index = 0;
-		for (IMovieFunctions movieFunctions : moviesFunctions) {
+		for (final IMovieFunctions movieFunctions : moviesFunctions) {
 
 			// layout group container
 			LinearLayout groupLayoutView = new LinearLayout(getActivity());
@@ -286,6 +289,15 @@ public class DetailMovieFragment extends RoboFragment implements
 				}
 			});
 
+			ImageButton goToCinemaContract = (ImageButton) headerView
+					.findViewById(R.id.goToCinema);
+			goToCinemaContract.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onGoToCinemaAction(movieFunctions.getCinemaId());
+				}
+			});
+
 			//
 			functionsLayout.addView(groupLayoutView);
 			index++;
@@ -296,5 +308,24 @@ public class DetailMovieFragment extends RoboFragment implements
 	public void retrieveMovieFunctionsFinishWithError(
 			IRetrieveMovieFunctionsService service, Integer errorCode) {
 
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			cinemaSelectedListener = (IOnCinemaSelectedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IOnCinemaSelectedListener");
+		}
+	}
+
+	protected void onGoToCinemaAction(int cinemaId) {
+		cinemaSelectedListener.onCinemaSelected(cinemaId);
+	}
+
+	public interface IOnCinemaSelectedListener {
+		public void onCinemaSelected(int cinemaId);
 	}
 }

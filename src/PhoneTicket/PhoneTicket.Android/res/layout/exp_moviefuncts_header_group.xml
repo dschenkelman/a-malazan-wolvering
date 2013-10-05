@@ -21,12 +21,13 @@
 	        android:layout_height="wrap_content"
 	        android:gravity="center"
 	        android:src="@drawable/acordeon_plus_button"
-	        android:background="@null"  />
+	        android:background="@null"
+	        android:contentDescription="@string/expandContractDescription" />
 	        
 	    <TextView
 	        android:id="@+id/titleTextView"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_height="fill_parent"
 	        android:gravity="center" />
 	    
         <ImageButton
@@ -35,7 +36,8 @@
 	        android:layout_height="wrap_content"
 	        android:gravity="center"
 	        android:src="@drawable/acordeon_go_button"
-	        android:background="@null"  />
+	        android:background="@null"
+	        android:contentDescription="@string/goToCinemaDescription"  />
 	            
 	</LinearLayout>
 	
