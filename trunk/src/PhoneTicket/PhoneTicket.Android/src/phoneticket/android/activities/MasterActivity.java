@@ -10,13 +10,13 @@ import phoneticket.android.activities.fragments.MovieListFragment;
 import phoneticket.android.activities.fragments.MovieListFragment.IOnMovieSelectedListener;
 import phoneticket.android.activities.fragments.UserFragment;
 import phoneticket.android.utils.UserManager;
+import roboguice.activity.RoboFragmentActivity;
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +25,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class MasterActivity extends FragmentActivity implements
+public class MasterActivity extends RoboFragmentActivity implements
 		iRibbonMenuCallback, IOnMovieSelectedListener {
 
 	private RibbonMenuView ribbonMenu;

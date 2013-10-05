@@ -1,15 +1,16 @@
 package phoneticket.android.activities.fragments;
 
+import com.google.inject.Inject;
+
 import phoneticket.android.R;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.IRetrieveMovieInfoServiceDelegate;
-import phoneticket.android.services.get.impl.RetrieveMovieInfoServiceProxy;
 import phoneticket.android.utils.ImageDownloader;
+import roboguice.fragment.RoboFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class DetailMovieFragment extends Fragment implements
+public class DetailMovieFragment extends RoboFragment implements
 		IRetrieveMovieInfoServiceDelegate {
 	
 	public static final String EXTRA_MOVIE_ID = "bundle.detailmovie.id";
 	
+	@Inject
 	private IRetrieveMovieInfoService service;
 
 	private IMovie movie;
@@ -43,7 +45,6 @@ public class DetailMovieFragment extends Fragment implements
 		});
 
 		int movieId = getArguments().getInt(DetailMovieFragment.EXTRA_MOVIE_ID);
-		service = new RetrieveMovieInfoServiceProxy();
 		service.retrieveMovieInfo(this, movieId);
 
 		RelativeLayout loadingLayout = (RelativeLayout) view.findViewById(R.id.loadingDataLayout);
