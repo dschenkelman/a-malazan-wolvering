@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="defaultCinemaName">Nombre: -</string>
+    <string name="defaultCinemaAddress">Dirección: -</string>
+    <string name="showInMapCinemaButton">Ver en mapa</string>
+    
+</resources>

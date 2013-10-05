@@ -16,5 +16,9 @@
     <string name="loadingMovieInfo">Cargando los datos de la película. Espere un momento.</string>
     <string name="refreshMovieData">Recargar</string>
     <string name="goToComplexButton">Ir</string>
+    <string name="expandContractDescription">Expands or contracts accordeon</string>
+    <string name="goToCinemaDescription">Goes to cinema</string>
 
+    
+    
 </resources>
