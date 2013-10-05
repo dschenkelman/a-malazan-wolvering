@@ -121,7 +121,7 @@
             var pages = Math.Ceiling((double)Items / pagedList.PageSize);
 
             Assert.AreEqual(Items, pagedList.TotalItemCount);
-            Assert.IsFalse(pagedList.HasNextPage);
+            Assert.IsTrue(pagedList.HasNextPage);
             Assert.IsTrue(pagedList.HasPreviousPage);
             Assert.IsFalse(pagedList.IsFirstPage);
             Assert.AreEqual(pages, pagedList.PageCount);
@@ -337,10 +337,9 @@
 
             this.moviesService.Setup(ms => ms.CreateAsync(movie)).Returns(Task.FromResult<object>(null));
 
-            var result = (RedirectToRouteResult)await controller.CreateMovie(movie, GenreId, RatingId);
+            var result = (ViewResult)await controller.CreateMovie(movie, GenreId, RatingId);
 
-            Assert.AreEqual("Index", result.RouteValues["action"]);
-            Assert.AreEqual("Movies", result.RouteValues["controller"]);
+            Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
         }
 
         [TestMethod]
@@ -394,10 +393,9 @@
             this.moviesService.Setup(ms => ms.GetAsync(movie.Id)).Returns(Task.FromResult(movie));
             this.moviesService.Setup(ms => ms.UpdateAsync(movie)).Returns(Task.FromResult<object>(null));
 
-            var result = (RedirectToRouteResult)await controller.EditMovie(movie, GenreId, RatingId);
+            var result = (ViewResult)await controller.EditMovie(movie, GenreId, RatingId);
 
-            Assert.AreEqual("Index", result.RouteValues["action"]);
-            Assert.AreEqual("Movies", result.RouteValues["controller"]);
+            Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
         }
 
         [TestMethod]
