@@ -9,6 +9,7 @@ import phoneticket.android.activities.fragments.DetailMovieFragment;
 import phoneticket.android.activities.fragments.MovieListFragment;
 import phoneticket.android.activities.fragments.MovieListFragment.IOnMovieSelectedListener;
 import phoneticket.android.activities.fragments.UserFragment;
+import phoneticket.android.utils.UserManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.TargetApi;
@@ -35,6 +36,8 @@ public class MasterActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_master);
+		
+		UserManager.initialize(getPreferences(0));
 
 		MovieListFragment firstFragment = new MovieListFragment();
         getSupportFragmentManager().beginTransaction()
