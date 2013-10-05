@@ -7,6 +7,8 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.adapter.ExpandableMovieFunctionsAdapter;
+import phoneticket.android.adapter.TimeFunctionAdapter;
+import phoneticket.android.model.IFunction;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.model.IMovieFunctions;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
@@ -15,7 +17,9 @@ import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.IRetrieveMovieInfoServiceDelegate;
 import phoneticket.android.utils.ImageDownloader;
 import roboguice.fragment.RoboFragment;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.LayoutParams;
@@ -25,8 +29,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -47,6 +50,8 @@ public class DetailMovieFragment extends RoboFragment implements
 	private int movieId;
 	private IMovie movie;
 
+	private LinearLayout functionsLayout;
+
 	private ExpandableListView expandableList;
 	private ExpandableMovieFunctionsAdapter expandableListAdapter;
 	private ArrayList<String> expandedGroupsIds;
@@ -56,7 +61,7 @@ public class DetailMovieFragment extends RoboFragment implements
 			Bundle savedInstanceState) {
 
 		expandedGroupsIds = new ArrayList<String>();
-		
+
 		View view = inflater.inflate(R.layout.fragment_detail_movie, container,
 				false);
 		Button mockButton = (Button) view.findViewById(R.id.watchTrailerButton);
@@ -87,6 +92,8 @@ public class DetailMovieFragment extends RoboFragment implements
 			}
 		});
 
+		functionsLayout = (LinearLayout) view
+				.findViewById(R.id.functionsLayout);
 		expandableList = (ExpandableListView) view
 				.findViewById(R.id.expandableFunctionList);
 
@@ -186,49 +193,146 @@ public class DetailMovieFragment extends RoboFragment implements
 	@Override
 	public void retrieveMovieFunctionsFinish(
 			IRetrieveMovieFunctionsService service,
-			Collection<IMovieFunctions> movieFunctions) {
-		expandableListAdapter = new ExpandableMovieFunctionsAdapter(
-				getActivity(), movieFunctions);
-		expandableList.setAdapter(expandableListAdapter);
-		expandableList.setOnGroupExpandListener(new OnGroupExpandListener() {
-			@Override
-			public void onGroupExpand(int groupPosition) {
-				expandedGroupsIds.add(groupPosition + ".id");
-				calculateExpandableListHeight();
+			final Collection<IMovieFunctions> moviesFunctions) {
+
+		functionsLayout.removeAllViews();
+		int index = 0;
+		for (IMovieFunctions movieFunctions : moviesFunctions) {
+
+			// layout group container
+			LinearLayout groupLayoutView = new LinearLayout(getActivity());
+			groupLayoutView.setOrientation(LinearLayout.VERTICAL);
+			LayoutParams layoutParams = new LayoutParams();
+			layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+			layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+			groupLayoutView.setLayoutParams(layoutParams);
+
+			// header group view
+			LayoutInflater infalInflater = (LayoutInflater) getActivity()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			final View headerView = infalInflater.inflate(
+					R.layout.exp_moviefuncts_header_group, null);
+			TextView titleTextView = (TextView) headerView
+					.findViewById(R.id.titleTextView);
+			titleTextView.setTypeface(null, Typeface.BOLD);
+			titleTextView.setText(movieFunctions.getCinemaName());
+			if (index + 1 < moviesFunctions.size()) {
+				View removableLine = (View) headerView
+						.findViewById(R.id.removableLine);
+				removableLine.setVisibility(View.GONE);
 			}
-		});
-		expandableList
-				.setOnGroupCollapseListener(new OnGroupCollapseListener() {
-					@Override
-					public void onGroupCollapse(int groupPosition) {
-						expandedGroupsIds.remove(groupPosition + ".id");
-						calculateExpandableListHeight();
+			groupLayoutView.addView(headerView);
+
+			// calculating days
+			ArrayList<String> days = new ArrayList<String>();
+			for (IFunction function : movieFunctions.getFunctions()) {
+				if (false == days.contains(function.getDay())) {
+					days.add(function.getDay());
+				}
+			}
+
+			// child group views
+			final Collection<View> childViews = new ArrayList<View>();
+			for (String day : days) {
+				// getting child functions
+				Collection<IFunction> dayFunctions = new ArrayList<IFunction>();
+				for (IFunction function : movieFunctions.getFunctions()) {
+					if (function.getDay().equals(day)) {
+						dayFunctions.add(function);
 					}
-				});
+				}
+
+				// creating the child group view for the day
+				View dayView = infalInflater.inflate(
+						R.layout.exp_moviefuncts_child, null);
+				TextView txtListChild = (TextView) dayView
+						.findViewById(R.id.childTextView);
+				GridView gridView = (GridView) dayView
+						.findViewById(R.id.timeGrid);
+				gridView.setAdapter(new TimeFunctionAdapter(getActivity(),
+						dayFunctions));
+				txtListChild.setText(day);
+				groupLayoutView.addView(dayView);
+				dayView.setVisibility(View.GONE);
+				if (days.indexOf(day) == (days.size() - 1)) {
+					View removableLine = (View) dayView
+							.findViewById(R.id.removableLine);
+					removableLine.setVisibility(View.GONE);
+				}
+				childViews.add(dayView);
+			}
+
+			// header listeners
+			final int headerIndex = index;
+			Button expandContract = (Button) headerView
+					.findViewById(R.id.expandContractButton);
+			expandContract.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					boolean isExpanded = false;
+					String id = headerIndex + ".id";
+					if (expandedGroupsIds.contains(id)) {
+						expandedGroupsIds.remove(id);
+						isExpanded = false;
+					} else {
+						expandedGroupsIds.add(id);
+						isExpanded = true;
+					}
+					for (View child : childViews) {
+						child.setVisibility(isExpanded ? View.VISIBLE
+								: View.GONE);
+					}
+					if (headerIndex + 1 < moviesFunctions.size()) {
+						View removableLine = (View) headerView
+								.findViewById(R.id.removableLine);
+						removableLine.setVisibility(isExpanded ? View.VISIBLE
+								: View.GONE);
+					}
+				}
+			});
+
+			//
+			functionsLayout.addView(groupLayoutView);
+			index++;
+		}
+
+		/*
+		 * expandableListAdapter = new ExpandableMovieFunctionsAdapter(
+		 * getActivity(), movieFunctions);
+		 * expandableList.setAdapter(expandableListAdapter);
+		 * expandableList.setOnGroupExpandListener(new OnGroupExpandListener() {
+		 * 
+		 * @Override public void onGroupExpand(int groupPosition) {
+		 * expandedGroupsIds.add(groupPosition + ".id");
+		 * calculateExpandableListHeight(); } }); expandableList
+		 * .setOnGroupCollapseListener(new OnGroupCollapseListener() {
+		 * 
+		 * @Override public void onGroupCollapse(int groupPosition) {
+		 * expandedGroupsIds.remove(groupPosition + ".id");
+		 * calculateExpandableListHeight(); } });
+		 */
 	}
 
 	protected void calculateExpandableListHeight() {
 		int totalHeight = 0;
 		for (int i = 0; i < expandableListAdapter.getGroupCount(); i++) {
-			View headerView = expandableListAdapter.getGroupView(i, true,
-					null, expandableList);
+			View headerView = expandableListAdapter.getGroupView(i, true, null,
+					expandableList);
 			headerView.measure(0, 0);
 			totalHeight += headerView.getMeasuredHeight();
 			for (int j = 0; j < expandableListAdapter.getChildrenCount(i); j++) {
 				if (expandedGroupsIds.contains(j + ".id")) {
 					View childView = expandableListAdapter.getChildView(i, j,
-							j + 1 == expandableListAdapter.getChildrenCount(i),
-							null, expandableList);
+							false, null, expandableList);
 					childView.measure(0, 0);
 					totalHeight += childView.getMeasuredHeight();
 				}
 			}
 		}
-		ViewGroup.LayoutParams params = expandableList
-				.getLayoutParams();
+		ViewGroup.LayoutParams params = expandableList.getLayoutParams();
 		params.height = totalHeight;
 		expandableList.setLayoutParams(params);
-		expandableList.requestLayout();		
+		expandableList.requestLayout();
 	}
 
 	@Override

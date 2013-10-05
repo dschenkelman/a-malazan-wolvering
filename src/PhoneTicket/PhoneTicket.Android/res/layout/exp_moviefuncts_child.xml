@@ -9,8 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+        android:paddingBottom="5dp" />
     
 	<GridView
 	    android:id="@+id/timeGrid"
@@ -20,7 +19,13 @@
 	    android:verticalSpacing="10dp"
 	    android:horizontalSpacing="10dp"
 	    android:stretchMode="columnWidth"
-	    android:gravity="center"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+	    android:gravity="center" />
+	
+	<View
+	    android:id="@+id/removableLine"
+		android:layout_width="fill_parent"
+		android:layout_height="1dp" 
+		android:layout_margin="0dp"
+		android:background="@android:color/darker_gray"/>
     
 </LinearLayout>
