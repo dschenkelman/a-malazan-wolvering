@@ -59,7 +59,7 @@ public class MovieListActivity extends RoboFragmentActivity implements
 
 	public void onRefreshMovieListAction(View sender) {
 		movieListService.retrieveMovieList(this);
-
+		showProgressDialog();
 		LinearLayout errorContainer = (LinearLayout) findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(LinearLayout.GONE);
 	}

@@ -10,4 +10,10 @@
         android:layout_height="wrap_content"
         android:text="Menú de películas" />
 
+    <Button
+        android:id="@+id/mockMovieButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver una película" />
+
 </LinearLayout>
