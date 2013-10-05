@@ -6,7 +6,6 @@ import java.util.Collection;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
-import phoneticket.android.adapter.ExpandableMovieFunctionsAdapter;
 import phoneticket.android.adapter.TimeFunctionAdapter;
 import phoneticket.android.model.IFunction;
 import phoneticket.android.model.IMovie;
@@ -28,8 +27,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -52,8 +51,6 @@ public class DetailMovieFragment extends RoboFragment implements
 
 	private LinearLayout functionsLayout;
 
-	private ExpandableListView expandableList;
-	private ExpandableMovieFunctionsAdapter expandableListAdapter;
 	private ArrayList<String> expandedGroupsIds;
 
 	@Override
@@ -94,8 +91,6 @@ public class DetailMovieFragment extends RoboFragment implements
 
 		functionsLayout = (LinearLayout) view
 				.findViewById(R.id.functionsLayout);
-		expandableList = (ExpandableListView) view
-				.findViewById(R.id.expandableFunctionList);
 
 		return view;
 	}
@@ -264,7 +259,7 @@ public class DetailMovieFragment extends RoboFragment implements
 
 			// header listeners
 			final int headerIndex = index;
-			Button expandContract = (Button) headerView
+			ImageButton expandContract = (ImageButton) headerView
 					.findViewById(R.id.expandContractButton);
 			expandContract.setOnClickListener(new OnClickListener() {
 				@Override
@@ -295,44 +290,6 @@ public class DetailMovieFragment extends RoboFragment implements
 			functionsLayout.addView(groupLayoutView);
 			index++;
 		}
-
-		/*
-		 * expandableListAdapter = new ExpandableMovieFunctionsAdapter(
-		 * getActivity(), movieFunctions);
-		 * expandableList.setAdapter(expandableListAdapter);
-		 * expandableList.setOnGroupExpandListener(new OnGroupExpandListener() {
-		 * 
-		 * @Override public void onGroupExpand(int groupPosition) {
-		 * expandedGroupsIds.add(groupPosition + ".id");
-		 * calculateExpandableListHeight(); } }); expandableList
-		 * .setOnGroupCollapseListener(new OnGroupCollapseListener() {
-		 * 
-		 * @Override public void onGroupCollapse(int groupPosition) {
-		 * expandedGroupsIds.remove(groupPosition + ".id");
-		 * calculateExpandableListHeight(); } });
-		 */
-	}
-
-	protected void calculateExpandableListHeight() {
-		int totalHeight = 0;
-		for (int i = 0; i < expandableListAdapter.getGroupCount(); i++) {
-			View headerView = expandableListAdapter.getGroupView(i, true, null,
-					expandableList);
-			headerView.measure(0, 0);
-			totalHeight += headerView.getMeasuredHeight();
-			for (int j = 0; j < expandableListAdapter.getChildrenCount(i); j++) {
-				if (expandedGroupsIds.contains(j + ".id")) {
-					View childView = expandableListAdapter.getChildView(i, j,
-							false, null, expandableList);
-					childView.measure(0, 0);
-					totalHeight += childView.getMeasuredHeight();
-				}
-			}
-		}
-		ViewGroup.LayoutParams params = expandableList.getLayoutParams();
-		params.height = totalHeight;
-		expandableList.setLayoutParams(params);
-		expandableList.requestLayout();
 	}
 
 	@Override
