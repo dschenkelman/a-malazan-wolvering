@@ -6,20 +6,26 @@ import phoneticket.android.R;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.IRetrieveMovieInfoServiceDelegate;
+import phoneticket.android.services.get.impl.RetrieveMovieInfoServiceProxy;
+import phoneticket.android.utils.ImageDownloader;
 import roboguice.fragment.RoboFragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-public class DetailMovieFragment extends RoboFragment implements
+public class DetailMovieFragment extends Fragment implements
 		IRetrieveMovieInfoServiceDelegate {
 	
 	public static final String EXTRA_MOVIE_ID = "bundle.detailmovie.id";
 	
-	@Inject
 	private IRetrieveMovieInfoService service;
 
 	private IMovie movie;
@@ -39,25 +45,66 @@ public class DetailMovieFragment extends RoboFragment implements
 
 		int movieId = getArguments().getInt(DetailMovieFragment.EXTRA_MOVIE_ID);
 		showProgressDialog();
+		service = new RetrieveMovieInfoServiceProxy();
 		service.retrieveMovieInfo(this, movieId);
 		
 		return view;
 	}
 	
+	private void showMovie() {
+		TextView title = (TextView) getView().findViewById(R.id.movieTitleText);
+		TextView gendre = (TextView) getView().findViewById(R.id.movieGendreText);
+		TextView duration = (TextView) getView().findViewById(R.id.movieDurationText);
+		TextView clasification = (TextView) getView().findViewById(R.id.movieClasificationText);
+		TextView synopsis = (TextView) getView().findViewById(R.id.movieSynopsisText);
+
+		String gendreString = getResources().getString(
+				R.string.detailMovieGendreStartText)
+				+ movie.getGenre();
+		String durationString = getResources().getString(
+				R.string.detailMovieDurationStartText)
+				+ movie.getDurationInMinutes()
+				+ getResources().getString(R.string.detailMovieDurationEndText);
+		String clasificationString = getResources().getString(
+				R.string.detailMovieClasificationStartText)
+				+ movie.getClasification();
+
+		title.setText(movie.getTitle());
+		gendre.setText(gendreString);
+		duration.setText(durationString);
+		clasification.setText(clasificationString);
+		synopsis.setText(movie.getSynopsis());
+
+		ImageView poster = (ImageView) getView().findViewById(R.id.movieImage);
+		ImageDownloader downloader = new ImageDownloader(movie.getImageURL(),
+				poster, null, null);
+		downloader.execute();
+	}
+
 	private void showProgressDialog() {
-		// TODO Auto-generated method stub
-		
+		/*if (null == progressDialog)
+			progressDialog = new ProgressDialogFragment();
+		progressDialog.show(getSupportFragmentManager(), "dialog.progress");*/
+	}
+
+	private void hideProgressDialog() {
+		/*progressDialog.dismiss();*/
 	}
 
 	public void onWatchTrailerButtonAction(View sender) {
-		
+		if (movie != null) {
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+					Uri.parse(movie.getTrailerUrl()));
+			startActivity(browserIntent);
+		}
 	}
 
 	@Override
 	public void retrieveMovieInfoFinish(IRetrieveMovieInfoService service,
 			IMovie movie) {
-		// TODO Auto-generated method stub
-		
+		this.movie = movie;
+		showMovie();
+		hideProgressDialog();
 	}
 
 	@Override
