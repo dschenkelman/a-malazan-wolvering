@@ -5,7 +5,9 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.fragments.CinemasFragment;
+import phoneticket.android.activities.fragments.DetailMovieFragment;
 import phoneticket.android.activities.fragments.MovieListFragment;
+import phoneticket.android.activities.fragments.MovieListFragment.IOnMovieSelectedListener;
 import phoneticket.android.activities.fragments.UserFragment;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +25,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MasterActivity extends FragmentActivity implements
-		iRibbonMenuCallback {
+		iRibbonMenuCallback, IOnMovieSelectedListener {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -121,11 +123,24 @@ public class MasterActivity extends FragmentActivity implements
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;
 	}
 
+	private void changeToDetailMovieFragment(Bundle movieData) {
+		DetailMovieFragment detailMovieFragment = new DetailMovieFragment();
+		detailMovieFragment.setArguments(movieData);
+		changeFragment(R.id.fragment_container, detailMovieFragment);
+	}
+
 	private void changeFragment(int containerId, Fragment newFragment) {
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
 		transaction.replace(containerId, newFragment);
 		transaction.addToBackStack(null);
 		transaction.commit();
+	}
+
+	@Override
+	public void onSelectedSelected(int movieId) {
+		Bundle movieData = new Bundle();
+		movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID, movieId);
+		changeToDetailMovieFragment(movieData);
 	}
 }
