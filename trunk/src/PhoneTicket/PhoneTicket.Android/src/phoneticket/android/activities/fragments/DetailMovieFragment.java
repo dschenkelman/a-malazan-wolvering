@@ -58,6 +58,8 @@ public class DetailMovieFragment extends RoboFragment implements
 	@Inject
 	private IRetrieveMovieFunctionsService movieFunctionsService;
 
+	private boolean ignoreServicesCallbacks;
+
 	private int movieId;
 	private IMovie movie;
 
@@ -110,6 +112,7 @@ public class DetailMovieFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		ignoreServicesCallbacks = false;
 
 		SharedPreferences preferences = getActivity().getPreferences(0);
 		boolean recreatingState = movieId == preferences.getInt(STATE_MOVIE_ID,
@@ -127,38 +130,25 @@ public class DetailMovieFragment extends RoboFragment implements
 		retrieveMovieFunctionsAction();
 	}
 
-	private IMovie recreateMovieFromState() {
-		int durationInMinutes;
-		String title, synopsis, imageURL, clasification, genre, youtubeVideoURL;
-
-		SharedPreferences preferences = getActivity().getPreferences(0);
-		title = preferences.getString(STATE_MOVIE_TITLE, "-");
-		genre = preferences.getString(STATE_MOVIE_GENRE, "-");
-		durationInMinutes = preferences.getInt(STATE_MOVIE_DURATION, 0);
-		clasification = preferences.getString(STATE_MOVIE_QUALIFICATION, "-");
-		synopsis = preferences.getString(STATE_MOVIE_SYNOPSIS, "-");
-		imageURL = preferences.getString(STATE_MOVIE_IMAGEURL, "-");
-		youtubeVideoURL = preferences.getString(STATE_MOVIE_TRAILERURL, "-");
-		
-		return new Movie(movieId, title, synopsis, imageURL, clasification,
-				durationInMinutes, genre, youtubeVideoURL);
-	}
-
 	@Override
 	public void onPause() {
 		super.onPause();
-		Log.d("PhoneTicket", "onPause: saving the state");
-		SharedPreferences.Editor editor = getActivity().getPreferences(0)
-				.edit();
-		editor.putInt(STATE_MOVIE_ID, movie.getId());
-		editor.putString(STATE_MOVIE_TITLE, movie.getTitle());
-		editor.putString(STATE_MOVIE_GENRE, movie.getGenre());
-		editor.putInt(STATE_MOVIE_DURATION, movie.getDurationInMinutes());
-		editor.putString(STATE_MOVIE_QUALIFICATION, movie.getClasification());
-		editor.putString(STATE_MOVIE_SYNOPSIS, movie.getSynopsis());
-		editor.putString(STATE_MOVIE_IMAGEURL, movie.getImageURL());
-		editor.putString(STATE_MOVIE_TRAILERURL, movie.getTrailerUrl());
-		editor.commit();
+		if (null != movie) {
+			Log.d("PhoneTicket", "onPause: saving the state");
+			SharedPreferences.Editor editor = getActivity().getPreferences(0)
+					.edit();
+			editor.putInt(STATE_MOVIE_ID, movie.getId());
+			editor.putString(STATE_MOVIE_TITLE, movie.getTitle());
+			editor.putString(STATE_MOVIE_GENRE, movie.getGenre());
+			editor.putInt(STATE_MOVIE_DURATION, movie.getDurationInMinutes());
+			editor.putString(STATE_MOVIE_QUALIFICATION,
+					movie.getClasification());
+			editor.putString(STATE_MOVIE_SYNOPSIS, movie.getSynopsis());
+			editor.putString(STATE_MOVIE_IMAGEURL, movie.getImageURL());
+			editor.putString(STATE_MOVIE_TRAILERURL, movie.getTrailerUrl());
+			editor.commit();
+		}
+		ignoreServicesCallbacks = true;
 	}
 
 	@Override
@@ -181,11 +171,27 @@ public class DetailMovieFragment extends RoboFragment implements
 
 	private void retrieveMovieFunctionsAction() {
 		movieFunctionsService.retrieveMovieFunctions(this, movieId);
-
 	}
 
 	protected void retrieveMovieInfoAction() {
 		movieInfoService.retrieveMovieInfo(this, movieId);
+	}
+
+	private IMovie recreateMovieFromState() {
+		int durationInMinutes;
+		String title, synopsis, imageURL, clasification, genre, youtubeVideoURL;
+
+		SharedPreferences preferences = getActivity().getPreferences(0);
+		title = preferences.getString(STATE_MOVIE_TITLE, "-");
+		genre = preferences.getString(STATE_MOVIE_GENRE, "-");
+		durationInMinutes = preferences.getInt(STATE_MOVIE_DURATION, 0);
+		clasification = preferences.getString(STATE_MOVIE_QUALIFICATION, "-");
+		synopsis = preferences.getString(STATE_MOVIE_SYNOPSIS, "-");
+		imageURL = preferences.getString(STATE_MOVIE_IMAGEURL, "-");
+		youtubeVideoURL = preferences.getString(STATE_MOVIE_TRAILERURL, "-");
+
+		return new Movie(movieId, title, synopsis, imageURL, clasification,
+				durationInMinutes, genre, youtubeVideoURL);
 	}
 
 	private void showMovie() {
@@ -259,6 +265,9 @@ public class DetailMovieFragment extends RoboFragment implements
 	public void retrieveMovieInfoFinish(IRetrieveMovieInfoService service,
 			IMovie movie) {
 		this.movie = movie;
+		if (ignoreServicesCallbacks) {
+			return;
+		}
 		showMovie();
 		hideProgressLayout();
 	}
@@ -266,6 +275,9 @@ public class DetailMovieFragment extends RoboFragment implements
 	@Override
 	public void retrieveMovieInfoFinishWithError(
 			IRetrieveMovieInfoService service, Integer errorCode) {
+		if (ignoreServicesCallbacks) {
+			return;
+		}
 		showProgressLayout(true);
 	}
 
@@ -274,6 +286,9 @@ public class DetailMovieFragment extends RoboFragment implements
 			IRetrieveMovieFunctionsService service,
 			final Collection<IMovieFunctions> moviesFunctions) {
 
+		if (ignoreServicesCallbacks) {
+			return;
+		}
 		functionsLayout.removeAllViews();
 		int index = 0;
 		for (final IMovieFunctions movieFunctions : moviesFunctions) {
@@ -388,7 +403,9 @@ public class DetailMovieFragment extends RoboFragment implements
 	@Override
 	public void retrieveMovieFunctionsFinishWithError(
 			IRetrieveMovieFunctionsService service, Integer errorCode) {
-
+		if (ignoreServicesCallbacks) {
+			return;
+		}
 	}
 
 	@Override
