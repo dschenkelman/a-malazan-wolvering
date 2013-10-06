@@ -5,11 +5,12 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.fragments.CinemasFragment;
+import phoneticket.android.activities.fragments.IFragmentChange;
+
 import phoneticket.android.activities.fragments.DetailCinemaFragment;
-import phoneticket.android.activities.fragments.DetailMovieFragment;
+
 import phoneticket.android.activities.fragments.DetailMovieFragment.IOnCinemaSelectedListener;
 import phoneticket.android.activities.fragments.MovieListFragment;
-import phoneticket.android.activities.fragments.MovieListFragment.IOnMovieSelectedListener;
 import phoneticket.android.activities.fragments.UserFragment;
 import phoneticket.android.utils.UserManager;
 import roboguice.activity.RoboFragmentActivity;
@@ -28,8 +29,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MasterActivity extends RoboFragmentActivity implements
-		iRibbonMenuCallback, IOnMovieSelectedListener,
-		IOnCinemaSelectedListener {
+		iRibbonMenuCallback, IOnCinemaSelectedListener, IFragmentChange {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -110,56 +110,40 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private void changeToMovieListFragment() {
 		MovieListFragment movielistFragment = new MovieListFragment();
-		//movielistFragment.setRetainInstance(true);
-		changeFragment(R.id.fragment_container, movielistFragment);
+		changeFragment(movielistFragment);
 		actionTitle.setText(R.string.ribbon_menu_movielist);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
 	}
 
 	private void changeToCinemasFragment() {
 		CinemasFragment cinemasFragment = new CinemasFragment();
-		//cinemasFragment.setRetainInstance(true);
-		changeFragment(R.id.fragment_container, cinemasFragment);
+		changeFragment(cinemasFragment);
 		actionTitle.setText(R.string.ribbon_menu_cinemas);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_cinemas;
 	}
 
 	private void changeToUserFragment() {
 		UserFragment userFragment = new UserFragment();
-		//userFragment.setRetainInstance(true);
-		changeFragment(R.id.fragment_container, userFragment);
+		changeFragment(userFragment);
+
 		actionTitle.setText(R.string.ribbon_menu_user);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;
-	}
-
-	private void changeToDetailMovieFragment(Bundle movieData) {
-		DetailMovieFragment detailMovieFragment = new DetailMovieFragment();
-		detailMovieFragment.setArguments(movieData);
-		//detailMovieFragment.setRetainInstance(true);
-		changeFragment(R.id.fragment_container, detailMovieFragment);
 	}
 
 	private void changeToDetailCinemaFragment(Bundle cinemaData) {
 		DetailCinemaFragment detailCinemaFragment = new DetailCinemaFragment();
 		detailCinemaFragment.setArguments(cinemaData);
-		//detailCinemaFragment.setRetainInstance(true);
-		changeFragment(R.id.fragment_container, detailCinemaFragment);
+		// detailCinemaFragment.setRetainInstance(true);
+		changeFragment(detailCinemaFragment);
 	}
 
-	private void changeFragment(int containerId, Fragment newFragment) {
+	public void changeFragment(Fragment newFragment) {
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
-		transaction.replace(containerId, newFragment);
+		transaction.replace(R.id.fragment_container, newFragment);
 		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		transaction.addToBackStack(null);
 		transaction.commit();
-	}
-
-	@Override
-	public void onSelectedSelected(int movieId) {
-		Bundle movieData = new Bundle();
-		movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID, movieId);
-		changeToDetailMovieFragment(movieData);
 	}
 
 	@Override

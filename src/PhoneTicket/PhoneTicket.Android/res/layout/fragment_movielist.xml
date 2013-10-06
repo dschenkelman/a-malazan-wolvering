@@ -4,16 +4,67 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/helloCinemas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Menú de películas" />
+    <RelativeLayout
+        android:id="@+id/errorViewContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
 
-    <Button
-        android:id="@+id/mockMovieButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ver una película" />
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/error_message_activity_movie_list"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/refreshViewButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/error_button_activity_movie_list" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loadingDataLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/downloadingDataTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="4dp"
+            android:text="@string/loadingMovieInfo"
+            android:textSize="15sp" />
+
+        <ProgressBar
+            android:id="@+id/downloadingDataProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/downloadingDataTextView"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:horizontalSpacing="1dp"
+        android:numColumns="auto_fit"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        android:stretchMode="columnWidth"
+        android:verticalScrollbarPosition="right"
+        android:verticalSpacing="1dp"
+        android:visibility="gone" />
 
 </LinearLayout>
