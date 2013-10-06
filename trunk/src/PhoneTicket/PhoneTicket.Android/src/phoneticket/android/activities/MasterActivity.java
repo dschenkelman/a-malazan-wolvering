@@ -5,11 +5,13 @@ import com.darvds.ribbonmenu.iRibbonMenuCallback;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.fragments.CinemasFragment;
-import phoneticket.android.activities.fragments.IFragmentChange;
 
 import phoneticket.android.activities.fragments.DetailCinemaFragment;
 
+import phoneticket.android.activities.fragments.CinemasFragment.IOnCinemaListItemSelectedListener;
 import phoneticket.android.activities.fragments.DetailMovieFragment.IOnCinemaSelectedListener;
+import phoneticket.android.activities.fragments.MovieListFragment.IOnMovielistItemSelectedListener;
+import phoneticket.android.activities.fragments.DetailMovieFragment;
 import phoneticket.android.activities.fragments.MovieListFragment;
 import phoneticket.android.activities.fragments.UserFragment;
 import phoneticket.android.utils.UserManager;
@@ -29,7 +31,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MasterActivity extends RoboFragmentActivity implements
-		iRibbonMenuCallback, IOnCinemaSelectedListener, IFragmentChange {
+		iRibbonMenuCallback, IOnCinemaSelectedListener,
+		IOnMovielistItemSelectedListener, IOnCinemaListItemSelectedListener {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -129,11 +132,17 @@ public class MasterActivity extends RoboFragmentActivity implements
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;
 	}
 
+	private void changeToDetailMovieFragment(Bundle movieData) {
+		DetailMovieFragment detailMovieFragment = new DetailMovieFragment();
+		detailMovieFragment.setArguments(movieData);
+		changeFragment(detailMovieFragment, true);
+	}
+	
 	private void changeToDetailCinemaFragment(Bundle cinemaData) {
 		DetailCinemaFragment detailCinemaFragment = new DetailCinemaFragment();
 		detailCinemaFragment.setArguments(cinemaData);
 		// detailCinemaFragment.setRetainInstance(true);
-		changeFragment(detailCinemaFragment);
+		changeFragment(detailCinemaFragment, true);
 	}
 
 	public void changeFragment(Fragment newFragment, boolean addToBackStack) {
@@ -147,14 +156,24 @@ public class MasterActivity extends RoboFragmentActivity implements
 		transaction.commit();
 	}
 
-	public void changeFragment(Fragment newFragment) {
-		changeFragment(newFragment, true);
-	}
-
 	@Override
 	public void onCinemaSelected(int cinemaId) {
 		Bundle cinemaData = new Bundle();
 		cinemaData.putInt(DetailCinemaFragment.EXTRA_CINEMA_ID, cinemaId);
+		changeToDetailCinemaFragment(cinemaData);
+	}
+
+	@Override
+	public void onMovielistItemSelected(int movieId) {
+		Bundle movieData = new Bundle();
+		movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID, movieId);
+		changeToDetailMovieFragment(movieData);
+	}
+
+	@Override
+	public void onCinemaListItemSelected(int cinemaId) {
+		Bundle cinemaData = new Bundle();
+		cinemaData.putInt(DetailCinemaFragment.EXTRA_CINEMA_ID,cinemaId);
 		changeToDetailCinemaFragment(cinemaData);
 	}
 }

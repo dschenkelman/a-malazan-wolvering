@@ -408,6 +408,10 @@ public class DetailMovieFragment extends RoboFragment implements
 		}
 	}
 
+	protected void onGoToCinemaAction(int cinemaId) {
+		cinemaSelectedListener.onCinemaSelected(cinemaId);
+	}
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -417,10 +421,6 @@ public class DetailMovieFragment extends RoboFragment implements
 			throw new ClassCastException(activity.toString()
 					+ " must implement IOnCinemaSelectedListener");
 		}
-	}
-
-	protected void onGoToCinemaAction(int cinemaId) {
-		cinemaSelectedListener.onCinemaSelected(cinemaId);
 	}
 
 	public interface IOnCinemaSelectedListener {
