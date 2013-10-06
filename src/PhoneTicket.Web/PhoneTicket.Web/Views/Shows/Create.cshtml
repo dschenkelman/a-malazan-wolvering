@@ -1,0 +1,77 @@
+﻿@model PhoneTicket.Web.Models.Show
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/themes/base/css")
+@Styles.Render("~/Content/bootstrap.min.css")
+
+<h2>Crear funciones</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <label for="beginDate">Fecha comienzo:</label>
+        <input type="text" id="beginDate"/>
+    </div>
+    <div class="col-md-6">
+        <label for="beginDate">Fecha fin:</label>
+        <input type="text" id="endDate"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <label for="movie">Película:</label>
+        <select id="movie">
+            <option>Dragon Ball Z</option>
+            <option>Corazon de Leon</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label for="complex">Complejo:</label>
+        <select id="complex">
+            <option>Microcentro</option>
+            <option>Belgrano</option>
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Días</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <input id="monday" type="checkbox"/>
+        <label for="monday">Lunes</label>
+        <input id="tuesday" type="checkbox"/>
+        <label for="tuesday">Martes</label>
+        <input id="wednesday" type="checkbox"/>
+        <label for="wednesday">Miercoles</label>
+        <input id="thursday" type="checkbox"/>
+        <label for="thursday">Jueves</label>
+        <input id="friday" type="checkbox"/>
+        <label for="friday">Viernes</label>
+        <input id="saturday" type="checkbox"/>
+        <label for="saturday">Sábado</label>
+        <input id="sunday" type="checkbox"/>
+        <label for="sunday">Domingo</label>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <label for="price">Precio:</label>
+        <input type="text" id="price"/>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Scripts/app/Shows.js")
+}
