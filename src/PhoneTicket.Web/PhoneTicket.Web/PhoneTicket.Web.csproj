@@ -289,6 +289,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Movies.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Shows.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -356,6 +357,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\app\Movies.js" />
+    <Content Include="Scripts\app\Shows.js" />
     <Content Include="Scripts\app\Users.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
