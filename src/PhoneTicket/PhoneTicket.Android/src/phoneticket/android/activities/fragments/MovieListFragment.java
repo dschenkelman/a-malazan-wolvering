@@ -13,6 +13,7 @@ import phoneticket.android.model.MovieListItem;
 import phoneticket.android.services.get.IRetrieveMovieListService;
 import phoneticket.android.services.get.IRetrieveMovieListServiceDelegate;
 import roboguice.fragment.RoboFragment;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,7 +34,7 @@ public class MovieListFragment extends RoboFragment implements
 	@Inject
 	private IRetrieveMovieListService movieListService;
 
-	private IFragmentChange activity;
+	private IOnMovielistItemSelectedListener movielistSlectionListener;
 
 	private boolean ignoreServicesCallbacks;
 	private List<IMovieListItem> movies;
@@ -52,7 +53,6 @@ public class MovieListFragment extends RoboFragment implements
 
 			}
 		});
-		activity = (IFragmentChange) getActivity();
 		ignoreServicesCallbacks = false;
 		return fragment;
 	}
@@ -128,13 +128,9 @@ public class MovieListFragment extends RoboFragment implements
 
 			public void onItemClick(AdapterView<?> parent, View v,
 					int position, long id) {
-				Bundle movieData = new Bundle();
-				movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID,
-						imageAdapter.getItem(position).getId());
-				DetailMovieFragment detailMovieFragment = new DetailMovieFragment();
-				detailMovieFragment.setArguments(movieData);
-				activity.changeFragment(detailMovieFragment);
 
+				movielistSlectionListener.onMovielistItemSelected(imageAdapter
+						.getItem(position).getId());
 			}
 		});
 		hideProgressLayout();
@@ -199,4 +195,18 @@ public class MovieListFragment extends RoboFragment implements
 		}
 	}
 
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			movielistSlectionListener = (IOnMovielistItemSelectedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IOnMovielistItemSelectedListener");
+		}
+	}
+
+	public interface IOnMovielistItemSelectedListener {
+		public void onMovielistItemSelected(int movieId);
+	}
 }

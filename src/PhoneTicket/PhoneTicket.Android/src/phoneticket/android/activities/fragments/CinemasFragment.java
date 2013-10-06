@@ -12,6 +12,7 @@ import phoneticket.android.model.ICinema;
 import phoneticket.android.services.get.IRetrieveCinemaListService;
 import phoneticket.android.services.get.IRetrieveCinemaListServiceDelegate;
 import roboguice.fragment.RoboFragment;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,16 +30,15 @@ public class CinemasFragment extends RoboFragment implements
 	@Inject
 	private IRetrieveCinemaListService cinemaListService;
 
-	private IFragmentChange activity;
-
 	private boolean ignoreServicesCallbacks;
+
+	private IOnCinemaListItemSelectedListener cinemaListItemSelectedListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View fragment = inflater.inflate(R.layout.fragment_cinemas, container,
 				false);
-		activity = (IFragmentChange) getActivity();
 		Button button = (Button) fragment.findViewById(R.id.refreshViewButton);
 		button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -83,13 +83,9 @@ public class CinemasFragment extends RoboFragment implements
 
 				public void onItemClick(AdapterView<?> parent, View v,
 						int position, long id) {
-					Bundle movieData = new Bundle();
-					movieData.putInt(DetailCinemaFragment.EXTRA_CINEMA_ID,
-							adapter.getItem(position).getId());
-					DetailCinemaFragment detailMovieFragment = new DetailCinemaFragment();
-					detailMovieFragment.setArguments(movieData);
-					activity.changeFragment(detailMovieFragment);
-
+					cinemaListItemSelectedListener
+							.onCinemaListItemSelected(adapter.getItem(position)
+									.getId());
 				}
 			});
 			hideProgressLayout();
@@ -144,5 +140,20 @@ public class CinemasFragment extends RoboFragment implements
 		errorContainer.setVisibility(RelativeLayout.GONE);
 		dataLayout.setVisibility(ListView.VISIBLE);
 		loadingLayout.setVisibility(RelativeLayout.GONE);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			cinemaListItemSelectedListener = (IOnCinemaListItemSelectedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IOnCinemaListItemSelectedListener");
+		}
+	}
+
+	public interface IOnCinemaListItemSelectedListener {
+		public void onCinemaListItemSelected(int cinemaId);
 	}
 }
