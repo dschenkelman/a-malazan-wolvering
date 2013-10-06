@@ -110,6 +110,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private void changeToMovieListFragment() {
 		MovieListFragment movielistFragment = new MovieListFragment();
+		//movielistFragment.setRetainInstance(true);
 		changeFragment(R.id.fragment_container, movielistFragment);
 		actionTitle.setText(R.string.ribbon_menu_movielist);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
@@ -117,6 +118,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private void changeToCinemasFragment() {
 		CinemasFragment cinemasFragment = new CinemasFragment();
+		//cinemasFragment.setRetainInstance(true);
 		changeFragment(R.id.fragment_container, cinemasFragment);
 		actionTitle.setText(R.string.ribbon_menu_cinemas);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_cinemas;
@@ -124,6 +126,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private void changeToUserFragment() {
 		UserFragment userFragment = new UserFragment();
+		//userFragment.setRetainInstance(true);
 		changeFragment(R.id.fragment_container, userFragment);
 		actionTitle.setText(R.string.ribbon_menu_user);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;
@@ -132,12 +135,14 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private void changeToDetailMovieFragment(Bundle movieData) {
 		DetailMovieFragment detailMovieFragment = new DetailMovieFragment();
 		detailMovieFragment.setArguments(movieData);
+		//detailMovieFragment.setRetainInstance(true);
 		changeFragment(R.id.fragment_container, detailMovieFragment);
 	}
 
 	private void changeToDetailCinemaFragment(Bundle cinemaData) {
 		DetailCinemaFragment detailCinemaFragment = new DetailCinemaFragment();
 		detailCinemaFragment.setArguments(cinemaData);
+		//detailCinemaFragment.setRetainInstance(true);
 		changeFragment(R.id.fragment_container, detailCinemaFragment);
 	}
 
@@ -145,6 +150,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
 		transaction.replace(containerId, newFragment);
+		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		transaction.addToBackStack(null);
 		transaction.commit();
 	}

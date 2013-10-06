@@ -10,6 +10,7 @@ import phoneticket.android.adapter.TimeFunctionAdapter;
 import phoneticket.android.model.IFunction;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.model.IMovieFunctions;
+import phoneticket.android.model.Movie;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsServiceDelegate;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
@@ -19,10 +20,12 @@ import roboguice.fragment.RoboFragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.LayoutParams;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +43,14 @@ public class DetailMovieFragment extends RoboFragment implements
 		IRetrieveMovieFunctionsServiceDelegate {
 
 	public static final String EXTRA_MOVIE_ID = "bundle.detailmovie.id";
+	public static final String STATE_MOVIE_ID = "state.detailmovie.id";
+	public static final String STATE_MOVIE_TITLE = "state.detailmovie.title";
+	public static final String STATE_MOVIE_GENRE = "state.detailmovie.genre";
+	public static final String STATE_MOVIE_DURATION = "state.detailmovie.duration";
+	public static final String STATE_MOVIE_QUALIFICATION = "state.detailmovie.qualification";
+	public static final String STATE_MOVIE_SYNOPSIS = "state.detailmovie.synopsis";
+	public static final String STATE_MOVIE_IMAGEURL = "state.detailmovie.imageUrl";
+	public static final String STATE_MOVIE_TRAILERURL = "state.detailmovie.trailerUrl";
 
 	@Inject
 	private IRetrieveMovieInfoService movieInfoService;
@@ -73,8 +84,6 @@ public class DetailMovieFragment extends RoboFragment implements
 		});
 
 		movieId = getArguments().getInt(DetailMovieFragment.EXTRA_MOVIE_ID);
-		retrieveMovieInfoAction();
-		retrieveMovieFunctionsAction();
 
 		RelativeLayout loadingLayout = (RelativeLayout) view
 				.findViewById(R.id.loadingDataLayout);
@@ -96,6 +105,78 @@ public class DetailMovieFragment extends RoboFragment implements
 				.findViewById(R.id.functionsLayout);
 
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		SharedPreferences preferences = getActivity().getPreferences(0);
+		boolean recreatingState = movieId == preferences.getInt(STATE_MOVIE_ID,
+				-1);
+		Log.d("PhoneTicket", "onResume: "
+				+ (recreatingState ? "recreating" : "creating") + " state");
+
+		if (recreatingState) {
+			movie = recreateMovieFromState();
+			showMovie();
+			hideProgressLayout();
+		} else {
+			retrieveMovieInfoAction();
+		}
+		retrieveMovieFunctionsAction();
+	}
+
+	private IMovie recreateMovieFromState() {
+		int durationInMinutes;
+		String title, synopsis, imageURL, clasification, genre, youtubeVideoURL;
+
+		SharedPreferences preferences = getActivity().getPreferences(0);
+		title = preferences.getString(STATE_MOVIE_TITLE, "-");
+		genre = preferences.getString(STATE_MOVIE_GENRE, "-");
+		durationInMinutes = preferences.getInt(STATE_MOVIE_DURATION, 0);
+		clasification = preferences.getString(STATE_MOVIE_QUALIFICATION, "-");
+		synopsis = preferences.getString(STATE_MOVIE_SYNOPSIS, "-");
+		imageURL = preferences.getString(STATE_MOVIE_IMAGEURL, "-");
+		youtubeVideoURL = preferences.getString(STATE_MOVIE_TRAILERURL, "-");
+		
+		return new Movie(movieId, title, synopsis, imageURL, clasification,
+				durationInMinutes, genre, youtubeVideoURL);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.d("PhoneTicket", "onPause: saving the state");
+		SharedPreferences.Editor editor = getActivity().getPreferences(0)
+				.edit();
+		editor.putInt(STATE_MOVIE_ID, movie.getId());
+		editor.putString(STATE_MOVIE_TITLE, movie.getTitle());
+		editor.putString(STATE_MOVIE_GENRE, movie.getGenre());
+		editor.putInt(STATE_MOVIE_DURATION, movie.getDurationInMinutes());
+		editor.putString(STATE_MOVIE_QUALIFICATION, movie.getClasification());
+		editor.putString(STATE_MOVIE_SYNOPSIS, movie.getSynopsis());
+		editor.putString(STATE_MOVIE_IMAGEURL, movie.getImageURL());
+		editor.putString(STATE_MOVIE_TRAILERURL, movie.getTrailerUrl());
+		editor.commit();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		Log.d("PhoneTicket", "onDetach: clearing state");
+
+		SharedPreferences.Editor editor = getActivity().getPreferences(0)
+				.edit();
+		editor.remove(STATE_MOVIE_ID);
+		editor.remove(STATE_MOVIE_TITLE);
+		editor.remove(STATE_MOVIE_GENRE);
+		editor.remove(STATE_MOVIE_DURATION);
+		editor.remove(STATE_MOVIE_QUALIFICATION);
+		editor.remove(STATE_MOVIE_SYNOPSIS);
+		editor.remove(STATE_MOVIE_IMAGEURL);
+		editor.remove(STATE_MOVIE_TRAILERURL);
+		editor.commit();
 	}
 
 	private void retrieveMovieFunctionsAction() {
