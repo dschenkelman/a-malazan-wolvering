@@ -3,35 +3,27 @@ package phoneticket.android.model;
 public class Cinema implements ICinema {
 
 	private int id;
-    private String name;
-    private String address;
-    private Location location;
-    
-    private static class Location
-    {
-        public double longitude;
-        public double latitude;
-        
-    	@SuppressWarnings("unused")
-		public Location(double longitude, double latitude)
-    	{
-    		this.longitude = longitude;
-    		this.latitude = latitude;
-    	}
-    }
-    
-	@Override
-	public double getLongitude()
-	{
-		return location.longitude;
+	private String name;
+	private String address;
+	private ILocation location;
+
+	public Cinema(int id, String name, String address, ILocation location) {
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.location = location;
 	}
 
 	@Override
-	public double getLatitude()
-	{
-		return location.latitude;
+	public double getLongitude() {
+		return location.getLongitude();
 	}
-	
+
+	@Override
+	public double getLatitude() {
+		return location.getLatitude();
+	}
+
 	@Override
 	public int getId() {
 		return id;

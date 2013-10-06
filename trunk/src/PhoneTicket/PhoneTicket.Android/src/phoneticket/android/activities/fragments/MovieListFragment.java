@@ -31,6 +31,8 @@ public class MovieListFragment extends RoboFragment implements
 
 	private IFragmentChange activity;
 
+	private boolean ignoreServicesCallbacks;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -45,48 +47,69 @@ public class MovieListFragment extends RoboFragment implements
 
 			}
 		});
-		movieListService.retrieveMovieList(this);
 		activity = (IFragmentChange) getActivity();
+		ignoreServicesCallbacks = false;
 		return fragment;
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		movieListService.retrieveMovieList(this);
 	}
 
 	@Override
 	public void retrieveMovieListFinish(IRetrieveMovieListService service,
 			Collection<IMovieListItem> movieList) {
+		if (!ignoreServicesCallbacks) {
+			GridView gridview = (GridView) getView()
+					.findViewById(R.id.gridview);
+			List<IMovieListItem> movies = new LinkedList<IMovieListItem>();
+			movies.addAll(movieList);
+			final ImageAdapter imageAdapter = new ImageAdapter(getActivity(),
+					R.id.scaleImageView, movies);
+			gridview.setAdapter(imageAdapter);
 
-		GridView gridview = (GridView) getView().findViewById(R.id.gridview);
-		List<IMovieListItem> movies = new LinkedList<IMovieListItem>();
-		movies.addAll(movieList);
-		final ImageAdapter imageAdapter = new ImageAdapter(getActivity(),
-				R.id.scaleImageView, movies);
-		gridview.setAdapter(imageAdapter);
+			gridview.setOnItemClickListener(new OnItemClickListener() {
 
-		gridview.setOnItemClickListener(new OnItemClickListener() {
+				public void onItemClick(AdapterView<?> parent, View v,
+						int position, long id) {
+					Bundle movieData = new Bundle();
+					movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID,
+							imageAdapter.getItem(position).getId());
+					DetailMovieFragment detailMovieFragment = new DetailMovieFragment();
+					detailMovieFragment.setArguments(movieData);
+					activity.changeFragment(detailMovieFragment);
 
-			public void onItemClick(AdapterView<?> parent, View v,
-					int position, long id) {
-				Bundle movieData = new Bundle();
-				movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID,
-						imageAdapter.getItem(position).getId());
-				DetailMovieFragment detailMovieFragment = new DetailMovieFragment();
-				detailMovieFragment.setArguments(movieData);
-				activity.changeFragment(detailMovieFragment);
+				}
+			});
+			hideProgressLayout();
+			imageAdapter.notifyDataSetChanged();
+		}
+	}
 
-			}
-		});
-		hideProgressLayout();
-		imageAdapter.notifyDataSetChanged();
+	@Override
+	public void onResume() {
+		super.onResume();
+		ignoreServicesCallbacks = false;
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		ignoreServicesCallbacks = true;
 	}
 
 	@Override
 	public void retrieveMovieListFinishWithError(
 			IRetrieveMovieListService service, Integer errorCode) {
-		hideProgressLayoutWithError();
+		if (!ignoreServicesCallbacks)
+			hideProgressLayoutWithError();
 	}
 
 	private void showProgressLayout() {
-		RelativeLayout loadingLayout = (RelativeLayout) getActivity().findViewById(
-				R.id.loadingDataLayout);
+		RelativeLayout loadingLayout = (RelativeLayout) getActivity()
+				.findViewById(R.id.loadingDataLayout);
 		GridView dataLayout = (GridView) getActivity().findViewById(
 				R.id.gridview);
 		RelativeLayout errorContainer = (RelativeLayout) getActivity()
@@ -97,8 +120,8 @@ public class MovieListFragment extends RoboFragment implements
 	}
 
 	private void hideProgressLayoutWithError() {
-		RelativeLayout loadingLayout = (RelativeLayout) getActivity().findViewById(
-				R.id.loadingDataLayout);
+		RelativeLayout loadingLayout = (RelativeLayout) getActivity()
+				.findViewById(R.id.loadingDataLayout);
 		GridView dataLayout = (GridView) getActivity().findViewById(
 				R.id.gridview);
 		RelativeLayout errorContainer = (RelativeLayout) getActivity()
@@ -109,8 +132,8 @@ public class MovieListFragment extends RoboFragment implements
 	}
 
 	private void hideProgressLayout() {
-		RelativeLayout loadingLayout = (RelativeLayout) getActivity().findViewById(
-				R.id.loadingDataLayout);
+		RelativeLayout loadingLayout = (RelativeLayout) getActivity()
+				.findViewById(R.id.loadingDataLayout);
 		GridView dataLayout = (GridView) getActivity().findViewById(
 				R.id.gridview);
 		RelativeLayout errorContainer = (RelativeLayout) getActivity()
@@ -121,8 +144,10 @@ public class MovieListFragment extends RoboFragment implements
 	}
 
 	public void onRefreshMovieListAction() {
-		movieListService.retrieveMovieList(this);
-		showProgressLayout();
+		if (!ignoreServicesCallbacks) {
+			movieListService.retrieveMovieList(this);
+			showProgressLayout();
+		}
 	}
 
 }
