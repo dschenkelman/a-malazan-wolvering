@@ -43,7 +43,7 @@ public class StaggeredAdapter extends ArrayAdapter<IMovieListItem> {
 		return convertView;
 	}
 
-	static class ViewHolder {
+	class ViewHolder {
 		ScaleImageView imageView;
 	}
 }

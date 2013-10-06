@@ -13,7 +13,7 @@
     <string name="detailMovieDefaultDuration">Duración: -</string>
     <string name="detailMovieDefaultClasification">Clasificación: -</string>
     <string name="detailMovieDefaultSynopsis">Sinopsis</string>
-    <string name="loadingMovieInfo">Cargando los datos de la película. Espere un momento.</string>
+    <string name="loadingMovieInfo">Cargando los datos. Por Favor espere un momento.</string>
     <string name="refreshMovieData">Recargar</string>
     <string name="goToComplexButton">Ir</string>
     <string name="expandContractDescription">Expands or contracts accordeon</string>
