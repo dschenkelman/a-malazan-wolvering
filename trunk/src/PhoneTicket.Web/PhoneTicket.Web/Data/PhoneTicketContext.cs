@@ -23,6 +23,14 @@
 
         public DbSet<UserProfile> UserProfiles { get; set; }
 
+        public DbSet<Show> Shows { get; set; }
+
+        public DbSet<Complex> Complexes { get; set; }
+
+        public DbSet<Room> Rooms { get; set; }
+
+        public DbSet<RoomType> RoomTypes { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
            Database.SetInitializer(new MigrateDatabaseToLatestVersion<PhoneTicketContext, Configuration>());

@@ -1,6 +1,7 @@
 namespace PhoneTicket.Web.Migrations
 {
     using System.Data.Entity.Migrations;
+    using System.Data.Entity.Spatial;
     using System.Linq;
 
     using PhoneTicket.Web.Models;
@@ -121,6 +122,73 @@ namespace PhoneTicket.Web.Migrations
                         ImageUrl = "http://www.hoyts.com.ar/files/movies/picture/HO00001307.jpg",
                         TrailerUrl = "http://www.youtube.com/watch?v=2qMRdY35NjE",
                         RatingId = 1
+                    });
+            }
+
+            context.SaveChanges();
+
+            if (!context.Complexes.Any())
+            {
+                context.Complexes.Add(
+                    new Complex
+                        {
+                            Address = "Cabildo y Juramento",
+                            Name = "CinemAR Belgrano",
+                            Location = DbGeography.FromText("POINT(-58.456633 -34.561893)")
+                        });
+
+                context.Complexes.Add(
+                    new Complex
+                    {
+                        Address = "Florida y Lavalle",
+                        Name = "CinemAR Microcentro",
+                        Location = DbGeography.FromText("POINT(-58.375416 -34.602164)")
+                    });
+            }
+
+            if (!context.RoomTypes.Any())
+            {
+                context.RoomTypes.Add(new RoomType { Description = "Rectangular" });
+            }
+
+            context.SaveChanges();
+
+            if (!context.Rooms.Any())
+            {
+                context.Rooms.Add(
+                    new Room 
+                    {
+                        ComplexId = 1, // Belgrano
+                        Name = "Sala 1",
+                        TypeId = 1,
+                        Capacity = 200
+                    });
+
+                context.Rooms.Add(
+                    new Room
+                    {
+                        ComplexId = 1, // Belgrano
+                        Name = "Sala 2",
+                        TypeId = 1,
+                        Capacity = 250
+                    });
+
+                context.Rooms.Add(
+                    new Room
+                    {
+                        ComplexId = 2, // Microcentro
+                        Name = "Sala 1",
+                        TypeId = 1,
+                        Capacity = 150
+                    });
+
+                context.Rooms.Add(
+                    new Room
+                    {
+                        ComplexId = 2, // Microcentro
+                        Name = "Sala 2",
+                        TypeId = 1,
+                        Capacity = 100
                     });
             }
 

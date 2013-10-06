@@ -229,6 +229,10 @@
     <Compile Include="Migrations\201309292024182_Initial.Designer.cs">
       <DependentUpon>201309292024182_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310061516041_ShowModel.cs" />
+    <Compile Include="Migrations\201310061516041_ShowModel.Designer.cs">
+      <DependentUpon>201310061516041_ShowModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Complex.cs" />
@@ -414,6 +418,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201309292024182_Initial.resx">
       <DependentUpon>201309292024182_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310061516041_ShowModel.resx">
+      <DependentUpon>201310061516041_ShowModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

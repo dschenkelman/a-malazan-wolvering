@@ -5,6 +5,9 @@
 
     public class Show
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int Id { get; set; }
+
         public DateTime Date { get; set; }
 
         [ForeignKey("Room")]
