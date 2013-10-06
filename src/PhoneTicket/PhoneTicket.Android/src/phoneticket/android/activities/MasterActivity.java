@@ -110,22 +110,21 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private void changeToMovieListFragment() {
 		MovieListFragment movielistFragment = new MovieListFragment();
-		changeFragment(movielistFragment);
+		changeFragment(movielistFragment, false);
 		actionTitle.setText(R.string.ribbon_menu_movielist);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
 	}
 
 	private void changeToCinemasFragment() {
 		CinemasFragment cinemasFragment = new CinemasFragment();
-		changeFragment(cinemasFragment);
+		changeFragment(cinemasFragment, false);
 		actionTitle.setText(R.string.ribbon_menu_cinemas);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_cinemas;
 	}
 
 	private void changeToUserFragment() {
 		UserFragment userFragment = new UserFragment();
-		changeFragment(userFragment);
-
+		changeFragment(userFragment, false);
 		actionTitle.setText(R.string.ribbon_menu_user);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;
 	}
@@ -137,13 +136,19 @@ public class MasterActivity extends RoboFragmentActivity implements
 		changeFragment(detailCinemaFragment);
 	}
 
-	public void changeFragment(Fragment newFragment) {
+	public void changeFragment(Fragment newFragment, boolean addToBackStack) {
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
 		transaction.replace(R.id.fragment_container, newFragment);
 		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-		transaction.addToBackStack(null);
+		if (addToBackStack) {
+			transaction.addToBackStack(null);
+		}
 		transaction.commit();
+	}
+
+	public void changeFragment(Fragment newFragment) {
+		changeFragment(newFragment, true);
 	}
 
 	@Override
