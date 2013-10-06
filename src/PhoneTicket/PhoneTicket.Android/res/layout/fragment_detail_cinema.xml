@@ -8,27 +8,82 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/nameTextView"
+        <RelativeLayout
+            android:id="@+id/errorViewContainer"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/defaultCinemaName"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:orientation="vertical"
+            android:visibility="gone" >
 
-        <TextView
-            android:id="@+id/addressTextView"
+            <TextView
+                android:id="@+id/errorMessage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/error_message_activity_cinemas"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/black" />
+
+            <Button
+                android:id="@+id/refreshViewButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/error_button_activity_movie_list" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/loadingDataLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/defaultCinemaAddress"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/showInGoogleMaps"
+            <TextView
+                android:id="@+id/downloadingDataTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="4dp"
+                android:text="@string/loadingInfo"
+                android:textSize="15sp" />
+
+            <ProgressBar
+                android:id="@+id/downloadingDataProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/downloadingDataTextView"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/cinemaInfo"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/showInMapCinemaButton" />
+            android:orientation="vertical"
+            android:visibility="gone" >
 
+            <TextView
+                android:id="@+id/cinemaName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultCinemaName"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/cinemaAddress"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultCinemaAddress"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Button
+                android:id="@+id/showInGoogleMaps"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/showInMapCinemaButton" />
+        </LinearLayout>
     </LinearLayout>
-    
 
 </ScrollView>

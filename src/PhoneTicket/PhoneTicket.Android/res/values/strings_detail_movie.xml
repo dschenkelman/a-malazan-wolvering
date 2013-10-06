@@ -13,12 +13,11 @@
     <string name="detailMovieDefaultDuration">Duración: -</string>
     <string name="detailMovieDefaultClasification">Clasificación: -</string>
     <string name="detailMovieDefaultSynopsis">Sinopsis</string>
-    <string name="loadingMovieInfo">Cargando los datos. Por Favor espere un momento.</string>
+    <string name="loadingInfo">Cargando los datos. Por Favor espere un momento.</string>
     <string name="refreshMovieData">Recargar</string>
     <string name="goToComplexButton">Ir</string>
     <string name="expandContractDescription">Expands or contracts accordeon</string>
     <string name="goToCinemaDescription">Goes to cinema</string>
+    <string name="error_message_activity_cinemas">No se pudo cardar la informacion de los Complejos</string>
 
-    
-    
 </resources>
