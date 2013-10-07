@@ -9,6 +9,10 @@
 @Styles.Render("~/Content/bootstrap.min.css")
 @Styles.Render("~/Content/Shows.css")
 
+
+<div id="validation">
+</div>
+
 <h2>Crear funciones</h2>
 
 <div class="row">
@@ -47,19 +51,19 @@
 
 <div class="row">
     <div class="col-md-12">
-        <input id="monday" type="checkbox"/>
+        <input id="monday" type="checkbox" checked="checked"/>
         <label for="monday">Lunes</label>
-        <input id="tuesday" type="checkbox"/>
+        <input id="tuesday" type="checkbox" checked="checked"/>
         <label for="tuesday">Martes</label>
-        <input id="wednesday" type="checkbox"/>
+        <input id="wednesday" type="checkbox" checked="checked"/>
         <label for="wednesday">Miercoles</label>
-        <input id="thursday" type="checkbox"/>
+        <input id="thursday" type="checkbox" checked="checked"/>
         <label for="thursday">Jueves</label>
-        <input id="friday" type="checkbox"/>
+        <input id="friday" type="checkbox" checked="checked"/>
         <label for="friday">Viernes</label>
-        <input id="saturday" type="checkbox"/>
+        <input id="saturday" type="checkbox" checked="checked"/>
         <label for="saturday">Sábado</label>
-        <input id="sunday" type="checkbox"/>
+        <input id="sunday" type="checkbox" checked="checked"/>
         <label for="sunday">Domingo</label>
     </div>
 </div>
@@ -98,12 +102,13 @@
 
 <div class="row">
     <div class="col-md-12">
-        <button class="btn btn-primary">Crear</button>
+        <button id="create" class="btn btn-primary">Crear</button>
     </div>
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/Scripts/app/Shows.js")
+   @Scripts.Render("~/Scripts/bootstrap.js")
+    @Scripts.Render("~/Scripts/app/Validation.js")
+    @Scripts.Render("~/Scripts/app/CreateShows.js")
 }
