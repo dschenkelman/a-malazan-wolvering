@@ -8,12 +8,11 @@ import phoneticket.android.activities.fragments.CinemasFragment;
 
 import phoneticket.android.activities.fragments.DetailCinemaFragment;
 
-import phoneticket.android.activities.fragments.CinemasFragment.IOnCinemaListItemSelectedListener;
-import phoneticket.android.activities.fragments.DetailMovieFragment.IOnCinemaSelectedListener;
-import phoneticket.android.activities.fragments.MovieListFragment.IOnMovielistItemSelectedListener;
 import phoneticket.android.activities.fragments.DetailMovieFragment;
 import phoneticket.android.activities.fragments.MovieListFragment;
 import phoneticket.android.activities.fragments.UserFragment;
+import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
+import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
 import phoneticket.android.utils.UserManager;
 import roboguice.activity.RoboFragmentActivity;
 import android.os.Build;
@@ -32,7 +31,7 @@ import android.widget.TextView;
 
 public class MasterActivity extends RoboFragmentActivity implements
 		iRibbonMenuCallback, IOnCinemaSelectedListener,
-		IOnMovielistItemSelectedListener, IOnCinemaListItemSelectedListener {
+		IOnMovielistItemSelectedListener {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -137,11 +136,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 		detailMovieFragment.setArguments(movieData);
 		changeFragment(detailMovieFragment, true);
 	}
-	
+
 	private void changeToDetailCinemaFragment(Bundle cinemaData) {
 		DetailCinemaFragment detailCinemaFragment = new DetailCinemaFragment();
 		detailCinemaFragment.setArguments(cinemaData);
-		// detailCinemaFragment.setRetainInstance(true);
 		changeFragment(detailCinemaFragment, true);
 	}
 
@@ -168,12 +166,5 @@ public class MasterActivity extends RoboFragmentActivity implements
 		Bundle movieData = new Bundle();
 		movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID, movieId);
 		changeToDetailMovieFragment(movieData);
-	}
-
-	@Override
-	public void onCinemaListItemSelected(int cinemaId) {
-		Bundle cinemaData = new Bundle();
-		cinemaData.putInt(DetailCinemaFragment.EXTRA_CINEMA_ID,cinemaId);
-		changeToDetailCinemaFragment(cinemaData);
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Collection;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.adapter.TimeFunctionAdapter;
 import phoneticket.android.model.IFunction;
 import phoneticket.android.model.IMovie;
@@ -421,9 +422,5 @@ public class DetailMovieFragment extends RoboFragment implements
 			throw new ClassCastException(activity.toString()
 					+ " must implement IOnCinemaSelectedListener");
 		}
-	}
-
-	public interface IOnCinemaSelectedListener {
-		public void onCinemaSelected(int cinemaId);
 	}
 }
