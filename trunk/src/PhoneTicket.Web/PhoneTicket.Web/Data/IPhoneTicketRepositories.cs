@@ -17,5 +17,7 @@
         IRepository<TemporaryUser> TemporaryUsers { get; }
 
         IRepository<Complex> Complexes { get; }
+
+        IRepository<Room> Rooms { get; }
     }
 }
