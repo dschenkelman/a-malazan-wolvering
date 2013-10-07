@@ -19,5 +19,8 @@
         IRepository<Complex> Complexes { get; }
 
         IRepository<Room> Rooms { get; }
+
+        IRepository<RoomType> RoomTypes { get; }
     }
 }
+

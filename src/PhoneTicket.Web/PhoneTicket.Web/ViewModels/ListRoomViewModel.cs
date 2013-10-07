@@ -6,6 +6,9 @@
     using System.Web;
 
     using PhoneTicket.Web.Models;
+    using System.Threading.Tasks;
+    using PhoneTicket.Web.Services;
+    using System.Web.Mvc;
 
     public class ListRoomViewModel
     {
@@ -14,6 +17,9 @@
         public string Name { get; set; }
 
         public string ComplexName { get; set; }
+
+        public IEnumerable<SelectListItem> AvailableComplexes { get; set; }
+        public IEnumerable<SelectListItem> AvailableRoomTypes { get; set; }
 
         public int Capacity { get; set; }
 
@@ -32,6 +38,19 @@
             };
 
             return vm;
+        }
+
+        public static Room FromRoomViewModel(ListRoomViewModel roomVM)
+        {
+            var r = new Room
+            {
+                Name = roomVM.Name,
+                ComplexId = Convert.ToInt32(roomVM.ComplexName),
+                Capacity = roomVM.Capacity,
+                TypeId = Convert.ToInt32(roomVM.Type)
+            };
+
+            return r;
         }
     }
 }
