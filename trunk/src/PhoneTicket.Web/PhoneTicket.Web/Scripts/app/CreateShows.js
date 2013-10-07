@@ -2,7 +2,7 @@
     var config = {
         hourSpinner: { min: 0, max: 23, numberFormat: "n" },
         minutesSpinner: { min: 0, max: 60, numberFormat: "n", page: 10 },
-        datePicker: { changeMonth: true, changeYear: true, dateFormat: 'yyyy-mm-dd', gotoCurrent: true },
+        datePicker: { changeMonth: true, changeYear: true, dateFormat: 'yy-mm-dd', gotoCurrent: true },
         priceSpinner: { min: 0, numberFormat: "C" }
     };
 
@@ -25,7 +25,7 @@
 
         var validationTemplate = "<div class=\"alert alert-danger alert-dismissable\">\
                                     <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>\
-                                    <strong>Error:</strong> {message}</div>.";
+                                    <strong>Error:</strong> {message}.</div>.";
 
         var timesPanel = $("#shows");
         var validationPanel = $("#validation");
@@ -48,8 +48,8 @@
             result.push(validators.validateRequired('Fecha fin', data.endDate));
             result.push(validators.validateDates(data.beginDate, data.endDate));
 
-            for (i = 0; i < result.timesAndRooms; i++) {
-                current = result.timesAndRooms[i];
+            for (i = 0; i < data.timesAndRooms.length; i++) {
+                current = data.timesAndRooms[i];
                 result.push(validators.validateRequired('Hora', current.hour));
                 result.push(validators.validateHour(current.hour));
                 result.push(validators.validateRequired('Minutos', current.minutes));
@@ -80,8 +80,8 @@
 
             var result = validate(data);
 
-            var errors = result.filter(function () {
-                return !this.isValid;
+            var errors = result.filter(function (item) {
+                return !item.isValid;
             });
 
             validationPanel.empty();
