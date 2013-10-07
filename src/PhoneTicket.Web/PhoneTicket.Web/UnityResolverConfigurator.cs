@@ -17,17 +17,20 @@
             container.RegisterType<IMovieService, MovieService>();
             container.RegisterType<IGenreService, GenreService>();
             container.RegisterType<IRatingService, RatingService>();
+            container.RegisterType<IComplexService, ComplexService>();
 
             container.RegisterType<IRepository<User>, Repository<User>>();
             container.RegisterType<IRepository<Genre>, Repository<Genre>>();
             container.RegisterType<IRepository<Movie>, Repository<Movie>>();
             container.RegisterType<IRepository<Rating>, Repository<Rating>>();
             container.RegisterType<IRepository<TemporaryUser>, Repository<TemporaryUser>>();
+            container.RegisterType<IRepository<Complex>, Repository<Complex>>();
 
             container.RegisterType<IPhoneTicketRepositories, PhoneTicketRepositories>();
 
             container.RegisterType<PhoneTicket.Web.Controllers.Api.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.Api.MoviesController>();
+            container.RegisterType<PhoneTicket.Web.Controllers.Api.ComplexesController>();
             container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.MoviesController>();
             container.RegisterType<PhoneTicketContext>();

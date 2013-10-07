@@ -27,17 +27,32 @@
                                     <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>\
                                     <strong>Error:</strong> {message}.</div>.";
 
-        var timesPanel = $("#shows");
-        var validationPanel = $("#validation");
+        var $timesPanel = $("#shows");
+        var $validationPanel = $("#validation");
+        var $complexCombo = $("#complex");
+        var $moviesCombo = $("#movie");
 
-        var beginDate = $("#beginDate");
-        var endDate = $("#endDate");
-        var price = $("#price");
-        beginDate.datepicker(config.datePicker);
-        endDate.datepicker(config.datePicker);
-        price.spinner(config.priceSpinner);
+        var $beginDate = $("#beginDate");
+        var $endDate = $("#endDate");
+        var $price = $("#price");
+        $beginDate.datepicker(config.datePicker);
+        $endDate.datepicker(config.datePicker);
+        $price.spinner(config.priceSpinner);
         $(".hour").spinner(config.hourSpinner);
         $(".minutes").spinner(config.minutesSpinner);
+
+        var loadCombo = function(items, displayProperty, $comboBox) {
+            $comboBox.empty();
+            for (var i = 0; i < items.length; i++) {
+                $comboBox.append('<option value="' + items[i].id + '">' + items[i][displayProperty] + '</option>');
+            }
+        };
+
+        // load complexes
+        $.get("/api/complexes", function (data) { loadCombo(data, "name", $complexCombo); }, "json");
+        
+        // load movies
+        $.get("/api/movies", function (data) { loadCombo(data, "title", $moviesCombo); }, "json");
 
         var validate = function (data) {
             var result = [];
@@ -60,7 +75,7 @@
         };
 
         $("#create").click(function () {
-            var timesAndRooms = timesPanel.find(".row").map(function () {
+            var timesAndRooms = $timesPanel.find(".row").map(function () {
                 var element = $(this);
                 return {
                     hour: element.find(".hour").val(),
@@ -70,9 +85,9 @@
             });
 
             var data = {
-                price: price.val(),
-                beginDate: beginDate.val(),
-                endDate: endDate.val(),
+                price: $price.val(),
+                beginDate: $beginDate.val(),
+                endDate: $endDate.val(),
                 timesAndRooms: timesAndRooms
             };
 
@@ -84,12 +99,12 @@
                 return !item.isValid;
             });
 
-            validationPanel.empty();
+            $validationPanel.empty();
 
             if (errors.length > 0) {
                 // show errors
                 for (i = 0; i < errors.length; i++) {
-                    validationPanel.append(validationTemplate.replace("{message}", errors[i].message));
+                    $validationPanel.append(validationTemplate.replace("{message}", errors[i].message));
                 }
             } else {
                 // post data
@@ -97,13 +112,13 @@
         });
 
         $("#add").click(function () {
-            timesPanel.append(timeAndRoomTemplate);
-            timesPanel.find(".hour:last").spinner(config.hourSpinner);
-            timesPanel.find(".minutes:last").spinner(config.minutesSpinner);
+            $timesPanel.append(timeAndRoomTemplate);
+            $timesPanel.find(".hour:last").spinner(config.hourSpinner);
+            $timesPanel.find(".minutes:last").spinner(config.minutesSpinner);
         });
 
         $("#remove").click(function () {
-            timesPanel.find("div.row:last").remove();
+            $timesPanel.find("div.row:last").remove();
         });
     }
 

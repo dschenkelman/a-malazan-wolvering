@@ -15,5 +15,7 @@
         IRepository<Rating> Ratings { get; }
 
         IRepository<TemporaryUser> TemporaryUsers { get; }
+
+        IRepository<Complex> Complexes { get; }
     }
 }
