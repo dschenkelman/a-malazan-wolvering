@@ -6,6 +6,8 @@ import phoneticket.android.R;
 import phoneticket.android.model.ICinema;
 import phoneticket.android.services.get.IRetrieveCinemaInfoService;
 import phoneticket.android.services.get.IRetrieveCinemaInfoServiceDelegate;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,8 @@ public class DetailCinemaFragment extends RoboFragment implements
 
 	private boolean ignoreServicesCallbacks;
 
+	private int cinemaId;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -42,21 +46,36 @@ public class DetailCinemaFragment extends RoboFragment implements
 			}
 
 		});
+		Button googleMap = (Button) fragment
+				.findViewById(R.id.showInGoogleMaps);
+		googleMap.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (cinema != null) {
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+							.parse("geo:" + cinema.getLatitude() + ","
+									+ cinema.getLongitude() + "?q="
+									+ cinema.getLatitude() + ","
+									+ cinema.getLongitude() + "&z=17"));
+					startActivity(intent);
+				}
+			}
+
+		});
 		return fragment;
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		int cinemaId = getArguments().getInt(
-				DetailCinemaFragment.EXTRA_CINEMA_ID);
-		cinemaInfoService.retrieveCinemaInfo(this, cinemaId);
+		cinemaId = getArguments().getInt(DetailCinemaFragment.EXTRA_CINEMA_ID);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
+		cinemaInfoService.retrieveCinemaInfo(this, cinemaId);
 	}
 
 	@Override

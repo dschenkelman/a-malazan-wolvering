@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
 import phoneticket.android.adapter.ImageAdapter;
 import phoneticket.android.model.IMovieListItem;
 import phoneticket.android.model.MovieListItem;
@@ -204,9 +205,5 @@ public class MovieListFragment extends RoboFragment implements
 			throw new ClassCastException(activity.toString()
 					+ " must implement IOnMovielistItemSelectedListener");
 		}
-	}
-
-	public interface IOnMovielistItemSelectedListener {
-		public void onMovielistItemSelected(int movieId);
 	}
 }

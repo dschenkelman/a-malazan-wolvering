@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.adapter.CinemaAdapter;
 import phoneticket.android.model.ICinema;
 import phoneticket.android.services.get.IRetrieveCinemaListService;
@@ -32,7 +33,7 @@ public class CinemasFragment extends RoboFragment implements
 
 	private boolean ignoreServicesCallbacks;
 
-	private IOnCinemaListItemSelectedListener cinemaListItemSelectedListener;
+	private IOnCinemaSelectedListener cinemaListItemSelectedListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,13 +53,13 @@ public class CinemasFragment extends RoboFragment implements
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		cinemaListService.retrieveCinemaList(this);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
+		cinemaListService.retrieveCinemaList(this);
 	}
 
 	@Override
@@ -83,9 +84,8 @@ public class CinemasFragment extends RoboFragment implements
 
 				public void onItemClick(AdapterView<?> parent, View v,
 						int position, long id) {
-					cinemaListItemSelectedListener
-							.onCinemaListItemSelected(adapter.getItem(position)
-									.getId());
+					cinemaListItemSelectedListener.onCinemaSelected(adapter
+							.getItem(position).getId());
 				}
 			});
 			hideProgressLayout();
@@ -146,14 +146,10 @@ public class CinemasFragment extends RoboFragment implements
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			cinemaListItemSelectedListener = (IOnCinemaListItemSelectedListener) activity;
+			cinemaListItemSelectedListener = (IOnCinemaSelectedListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IOnCinemaListItemSelectedListener");
 		}
-	}
-
-	public interface IOnCinemaListItemSelectedListener {
-		public void onCinemaListItemSelected(int cinemaId);
 	}
 }
