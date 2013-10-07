@@ -31,6 +31,8 @@
         var $validationPanel = $("#validation");
         var $complexCombo = $("#complex");
         var $moviesCombo = $("#movie");
+        var roomsPerComplex = {};
+        var selectedComplex = 0;
 
         var $beginDate = $("#beginDate");
         var $endDate = $("#endDate");
@@ -41,15 +43,35 @@
         $(".hour").spinner(config.hourSpinner);
         $(".minutes").spinner(config.minutesSpinner);
 
-        var loadCombo = function(items, displayProperty, $comboBox) {
+        var loadCombo = function(items, displayProperty, $comboBox, itemAction) {
             $comboBox.empty();
             for (var i = 0; i < items.length; i++) {
                 $comboBox.append('<option value="' + items[i].id + '">' + items[i][displayProperty] + '</option>');
+                 
+                if (itemAction) {
+                    itemAction(i, items[i]);
+                }
             }
         };
-
+        
         // load complexes
-        $.get("/api/complexes", function (data) { loadCombo(data, "name", $complexCombo); }, "json");
+        $.get("/api/complexes", function (data) { loadCombo(data, "name", $complexCombo,
+                function (j, complex) {
+                    if (j === 0) {
+                        selectedComplex = complex.id;
+                    }
+
+                    $.get("/api/complexes/" + complex.id + "/rooms", function (roomsData) {
+                        roomsPerComplex[complex.id] = roomsData;
+
+                        if (complex.id === selectedComplex) {
+                            $(".rooms").each(function (index, combo) {
+                                loadCombo(roomsData, "name", $(combo));
+                            });
+                        }
+                    }, "json");
+                }
+            ); }, "json");
         
         // load movies
         $.get("/api/movies", function (data) { loadCombo(data, "title", $moviesCombo); }, "json");
@@ -115,10 +137,18 @@
             $timesPanel.append(timeAndRoomTemplate);
             $timesPanel.find(".hour:last").spinner(config.hourSpinner);
             $timesPanel.find(".minutes:last").spinner(config.minutesSpinner);
+            loadCombo(roomsPerComplex[selectedComplex], "name", $timesPanel.find(".rooms:last"));
         });
 
         $("#remove").click(function () {
             $timesPanel.find("div.row:last").remove();
+        });
+
+        $complexCombo.change(function() {
+            selectedComplex = Number($complexCombo.val());
+            $(".rooms").each(function (index, combo) {
+                loadCombo(roomsPerComplex[selectedComplex], "name", $(combo));
+            });
         });
     }
 
