@@ -6,28 +6,32 @@
 
     public class PhoneTicketRepositories : IPhoneTicketRepositories
     {
-        private IRepository<User> users;
+        private readonly IRepository<User> users;
 
-        private IRepository<Genre> genres;
+        private readonly IRepository<Genre> genres;
 
-        private IRepository<Movie> movies;
+        private readonly IRepository<Movie> movies;
 
-        private IRepository<Rating> ratings;
+        private readonly IRepository<Rating> ratings;
 
-        private IRepository<TemporaryUser> temporaryUsers;
+        private readonly IRepository<TemporaryUser> temporaryUsers;
+
+        private readonly IRepository<Complex> complexes;
 
         public PhoneTicketRepositories(
             IRepository<TemporaryUser> temporaryUsers,
             IRepository<Rating> ratings,
             IRepository<Movie> movies,
             IRepository<Genre> genres,
-            IRepository<User> users)
+            IRepository<User> users,
+            IRepository<Complex> complexes)
         {
             this.temporaryUsers = temporaryUsers;
             this.ratings = ratings;
             this.movies = movies;
             this.genres = genres;
             this.users = users;
+            this.complexes = complexes;
         }
 
         public IRepository<User> Users
@@ -67,6 +71,14 @@
             get
             {
                 return this.temporaryUsers;
+            }
+        }
+
+        public IRepository<Complex> Complexes
+        {
+            get
+            {
+                return this.complexes;
             }
         }
 

@@ -207,6 +207,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\ComplexesController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="Controllers\Api\ToiletViewModel.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
@@ -237,6 +238,10 @@
     <Compile Include="Migrations\201310061516041_ShowModel.Designer.cs">
       <DependentUpon>201310061516041_ShowModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310070238002_PriceForShow.cs" />
+    <Compile Include="Migrations\201310070238002_PriceForShow.Designer.cs">
+      <DependentUpon>201310070238002_PriceForShow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Complex.cs" />
@@ -254,8 +259,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\ComplexService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\GenreService.cs" />
+    <Compile Include="Services\IComplexService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IMovieService.cs" />
     <Compile Include="Services\IGenreService.cs" />
@@ -449,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201310061516041_ShowModel.resx">
       <DependentUpon>201310061516041_ShowModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310070238002_PriceForShow.resx">
+      <DependentUpon>201310070238002_PriceForShow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

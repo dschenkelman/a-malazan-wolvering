@@ -115,6 +115,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\Api\ComplexesControllerTests.cs" />
     <Compile Include="Controllers\Api\MoviesControllerTests.cs" />
     <Compile Include="Controllers\MoviesControllerTests.cs" />
     <Compile Include="Controllers\UsersControllerTests.cs" />
