@@ -209,10 +209,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\ComplexesController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
-    <Compile Include="Controllers\Api\ToiletViewModel.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
+    <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\ShowsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Data\IContext.cs" />
@@ -287,6 +287,7 @@
     <Compile Include="ViewModels\Api\MovieViewModel.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\ListMovieViewModel.cs" />
+    <Compile Include="ViewModels\ListRoomViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />
   </ItemGroup>
@@ -296,6 +297,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Rooms.css" />
     <Content Include="Content\Movies.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Shows.css" />
@@ -442,6 +444,9 @@
     <Content Include="Views\Shared\Confirmation.cshtml" />
     <Content Include="Views\Shows\Index.cshtml" />
     <Content Include="Views\Shows\Create.cshtml" />
+    <Content Include="Views\Rooms\Index.cshtml" />
+    <Content Include="Views\Rooms\Add.cshtml" />
+    <Content Include="Views\Rooms\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

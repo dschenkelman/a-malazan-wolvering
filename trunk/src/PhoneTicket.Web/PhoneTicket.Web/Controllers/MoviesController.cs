@@ -46,7 +46,7 @@
                 movies = await this.movieService.GetMoviesAsync(m => m.Title.Contains(titleSearch));
             }
 
-            var moviesViewModels = movies.Select(ListMovieViewModel.FromUser);
+            var moviesViewModels = movies.Select(ListMovieViewModel.FromMovie);
 
             return this.View(moviesViewModels.ToPagedList(page ?? 1, PageSize));
         }

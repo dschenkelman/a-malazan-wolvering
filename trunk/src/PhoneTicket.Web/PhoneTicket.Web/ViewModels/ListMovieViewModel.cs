@@ -16,7 +16,7 @@
 
         public string ImageUrl { get; set; }
 
-        public static ListMovieViewModel FromUser(Movie movie)
+        public static ListMovieViewModel FromMovie(Movie movie)
         {
             var vm = new ListMovieViewModel
             {
