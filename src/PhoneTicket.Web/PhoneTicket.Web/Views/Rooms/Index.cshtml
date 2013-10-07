@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<PhoneTicket.Web.ViewModels.ListMovieViewModel>
+﻿@model PagedList.IPagedList<PhoneTicket.Web.ViewModels.ListRoomViewModel>
 @using PagedList.Mvc;
 
 @{
@@ -7,75 +7,78 @@
 }
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-<link href="~/Content/Movies.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Rooms.css" rel="stylesheet" type="text/css" />
 
 <div class="center">
     <div>
         <span>
-            @using (Html.BeginForm("Index", "Movies", FormMethod.Post, new {style = "display: inline"}))
+            @using (Html.BeginForm("Index", "Rooms", FormMethod.Post, new {style = "display: inline"}))
             {
-                <text>Buscar por título</text>
-                @Html.TextBox("titleSearch")  
+                <text>Buscar por Nombre</text>
+                @Html.TextBox("roomSearch")  
                 <input type="submit" value="Buscar" />
             }
         </span>
         <span>
             @Html.ActionLink(
-                        linkText: "Agregar Película",
+                        linkText: "Agregar Sala",
                         actionName: "Add",
-                        controllerName: "Movies",
-                        routeValues: new { movieId = -1 },
+                        routeValues: null ,
+                        controllerName: "Rooms",
                         htmlAttributes: null)
         </span>
     </div>
 
     @if (Model.Count == 0)
     {
-        <h2>No hay películas para mostrar</h2>
+        <h2>No hay salas para mostrar</h2>
     }
     else
     { 
-        <h2>Películas en cartelera</h2>
-    
+        <h2>Salas existentes</h2>
+
         <table class="center">
             <tr>
-                <th>Título</th>
-                <th>Género</th>
-                <th>Duración</th>
-                <th>Clasificación</th>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Complejo</th>
+                <th>Capacidad</th>
+                <th>Estilo</th>
             </tr>
-
             @for (int i = 0; i < Model.Count; i++)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].Title)
+                        @Html.DisplayFor(modelItem => Model[i].Id)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].Genre)
+                        @Html.DisplayFor(modelItem => Model[i].Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].DurationInMinutes)
+                        @Html.DisplayFor(modelItem => Model[i].ComplexName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].Rating)
+                        @Html.DisplayFor(modelItem => Model[i].Capacity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Type)
                     </td>
                     <td>
                         @Html.ActionLink(
                             linkText: "Editar",
                             actionName: "Edit",
-                            controllerName: "Movies",
-                            routeValues: new { movieId = Model[i].Id },
+                            controllerName: "Rooms",
+                            routeValues: new { roomId = Model[i].Id },
                             htmlAttributes: null
                             )
                     </td>
                     <td>
                         @Html.ActionLink(
                             linkText: "Borrar",
-                            actionName: "DeleteMovie",
-                            controllerName: "Movies",
-                            routeValues: new { movieId = Model[i].Id },
-                            htmlAttributes: new { onclick = "return confirm('¿Está seguro que desea borrar la película?')"}
+                            actionName: "Delete",
+                            controllerName: "Rooms",
+                            routeValues: new { roomId = Model[i].Id },
+                            htmlAttributes: new { onclick = "return confirm('¿Está seguro que desea borrar la sala?')"}
                             )
                     </td>
                 </tr>
@@ -89,8 +92,3 @@
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))    
     }
 </div>
-
-@section scripts
-{
-    @Scripts.Render("~/Scripts/app/Users.js")
-}

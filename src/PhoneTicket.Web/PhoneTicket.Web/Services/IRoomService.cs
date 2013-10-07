@@ -9,6 +9,8 @@
 
     public interface IRoomService
     {
+        Task<IEnumerable<Room>> GetAsync();
         Task<IEnumerable<Room>> GetAsync(Expression<Func<Room, bool>> filter);
+        Task DeleteAsync(int roomId);
     }
 }
