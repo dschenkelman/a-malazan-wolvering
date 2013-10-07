@@ -1,7 +1,36 @@
-﻿@model PhoneTicket.Web.Models.Room
+﻿@model PhoneTicket.Web.ViewModels.ListRoomViewModel
 
 @{
     ViewBag.Title = "Agregar Sala";
 }
 
 <h2>Agregar Sala</h2>
+<br />
+
+@using (Html.BeginForm("CreateRoom","Rooms")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+        <fieldset>
+        <legend>Agregar Sala</legend>
+        <ol>
+            <li>
+                <label for="Name">Nombre</label>
+                @Html.EditorFor(m => m.Name)
+            </li>
+            <li>
+                <label for="AvailableComplexes">Complejo</label>
+                @Html.DropDownListFor(m => m.ComplexName, Model.AvailableComplexes, "Seleccione Uno")
+            </li>
+            <li>
+                <label for="Capacity">Capacidad</label>
+                @Html.EditorFor(m => m.Capacity)
+            </li>
+            <li>
+                <label for="Type">Estilo</label>
+                @Html.DropDownListFor(m => m.Type, Model.AvailableRoomTypes, "Seleccione Uno")
+            </li>
+        </ol>
+        <input type="submit" value="Guardar" />
+    </fieldset>
+}

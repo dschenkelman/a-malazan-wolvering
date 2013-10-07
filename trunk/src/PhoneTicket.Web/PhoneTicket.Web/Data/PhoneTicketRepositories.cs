@@ -20,6 +20,8 @@
 
         private readonly IRepository<Room> rooms;
 
+        private readonly IRepository<RoomType> roomTypes;
+
         public PhoneTicketRepositories(
             IRepository<TemporaryUser> temporaryUsers,
             IRepository<Rating> ratings,
@@ -27,7 +29,8 @@
             IRepository<Genre> genres,
             IRepository<User> users,
             IRepository<Complex> complexes, 
-            IRepository<Room> rooms)
+            IRepository<Room> rooms,
+            IRepository<RoomType> roomTypes)
         {
             this.temporaryUsers = temporaryUsers;
             this.ratings = ratings;
@@ -36,6 +39,7 @@
             this.users = users;
             this.complexes = complexes;
             this.rooms = rooms;
+            this.roomTypes = roomTypes;
         }
 
         public IRepository<User> Users
@@ -91,6 +95,14 @@
             get
             {
                 return this.rooms;
+            }
+        }
+
+        public IRepository<RoomType> RoomTypes
+        {
+            get
+            {
+                return this.roomTypes;
             }
         }
 

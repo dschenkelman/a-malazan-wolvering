@@ -268,11 +268,13 @@
     <Compile Include="Services\IGenreService.cs" />
     <Compile Include="Services\IRatingService.cs" />
     <Compile Include="Services\IRoomService.cs" />
+    <Compile Include="Services\IRoomTypeService.cs" />
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\MovieService.cs" />
     <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\RoomService.cs" />
+    <Compile Include="Services\RoomTypeService.cs" />
     <Compile Include="Services\TemporaryUserService.cs" />
     <Compile Include="Templates\EmailTemplate.Context.cs" />
     <Compile Include="Templates\EmailTemplate.cs">

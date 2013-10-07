@@ -29,6 +29,13 @@
             return await this.repositories.Rooms.Filter(filter).ToListAsync();
         }
 
+        public async Task CreateAsync(Room room)
+        {
+            this.repositories.Rooms.Insert(room);
+
+            await this.repositories.Rooms.SaveAsync();
+        }
+
         public async Task DeleteAsync(int roomId)
         {
             await this.repositories.Rooms.DeleteAsync(roomId);

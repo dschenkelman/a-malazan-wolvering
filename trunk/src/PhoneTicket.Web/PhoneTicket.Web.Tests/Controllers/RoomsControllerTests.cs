@@ -25,12 +25,16 @@
         private MockRepository mockRepository;
 
         private Mock<IRoomService> roomService;
+        private Mock<IComplexService> complexService;
+        private Mock<IRoomTypeService> roomTypeService;
 
         [TestInitialize]
         public void Initialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Default);
             this.roomService = this.mockRepository.Create<IRoomService>();
+            this.complexService = this.mockRepository.Create<IComplexService>();
+            this.roomTypeService = this.mockRepository.Create<IRoomTypeService>();
         }
 
         [TestMethod]
@@ -194,7 +198,9 @@
 
         private RoomsController CreateController()
         {
-            return new RoomsController(this.roomService.Object);
+            return new RoomsController(this.roomService.Object, this.complexService.Object, this.roomTypeService.Object);
         }
+
+        
     }
 }

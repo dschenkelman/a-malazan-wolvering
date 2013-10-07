@@ -19,6 +19,7 @@
             container.RegisterType<IRatingService, RatingService>();
             container.RegisterType<IComplexService, ComplexService>();
             container.RegisterType<IRoomService, RoomService>();
+            container.RegisterType<IRoomTypeService, RoomTypeService>();
 
             container.RegisterType<IRepository<User>, Repository<User>>();
             container.RegisterType<IRepository<Genre>, Repository<Genre>>();
@@ -27,6 +28,7 @@
             container.RegisterType<IRepository<TemporaryUser>, Repository<TemporaryUser>>();
             container.RegisterType<IRepository<Complex>, Repository<Complex>>();
             container.RegisterType<IRepository<Room>, Repository<Room>>();
+            container.RegisterType<IRepository<RoomType>, Repository<RoomType>>();
 
             container.RegisterType<IPhoneTicketRepositories, PhoneTicketRepositories>();
 

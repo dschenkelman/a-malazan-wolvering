@@ -1,42 +1,35 @@
 ﻿namespace PhoneTicket.Web.Services
 {
-    using System.Linq;
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
+    using System.Web;
     using System.Web.Mvc;
 
     using PhoneTicket.Web.Data;
-    using PhoneTicket.Web.Models;
-    using System;
 
-    
-
-    public class ComplexService : IComplexService 
+    public class RoomTypeService : IRoomTypeService, IDisposable
     {
         private IPhoneTicketRepositories repositories;
 
-        public ComplexService(IPhoneTicketRepositories repositories)
+        public RoomTypeService(IPhoneTicketRepositories repositories)
         {
             this.repositories = repositories;
         }
 
-        public Task<IEnumerable<Complex>> GetAsync()
-        {
-            return this.repositories.Complexes.AllAsync();
-        }
-
         public async Task<IEnumerable<SelectListItem>> ListAsync(int? id)
         {
-            var complexes = await this.repositories.Complexes.AllAsync();
+            var roomTypes = await this.repositories.RoomTypes.AllAsync();
 
-            return from c in complexes
-                   orderby c.Name
-                   select new SelectListItem
-                   {
-                       Text = c.Name,
-                       Value = c.Id.ToString(),
-                       Selected = c.Id == id
-                   };
+            return from r in roomTypes
+                    orderby r.Description
+                    select new SelectListItem
+                    {
+                        Text = r.Description,
+                        Value = r.Id.ToString(),
+                        Selected = r.Id == id
+                    };
         }
 
         public void Dispose()

@@ -1,14 +1,14 @@
 ﻿namespace PhoneTicket.Web.Services
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
-    using PhoneTicket.Web.Models;
-    
-    public interface IComplexService
+    public interface IRoomTypeService
     {
-        Task<IEnumerable<Complex>> GetAsync();
         Task<IEnumerable<SelectListItem>> ListAsync(int? id);
     }
 }
