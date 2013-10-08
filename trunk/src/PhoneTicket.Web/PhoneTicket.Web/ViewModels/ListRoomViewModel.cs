@@ -4,31 +4,42 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
+    using System.Web.Mvc;
+    using System.ComponentModel.DataAnnotations;
+    using System.Threading.Tasks;
+    using System.ComponentModel;
 
     using PhoneTicket.Web.Models;
-    using System.Threading.Tasks;
     using PhoneTicket.Web.Services;
-    using System.Web.Mvc;
+    using PhoneTicket.Web.Properties;
+    
 
     public class ListRoomViewModel
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
         public string Name { get; set; }
 
         public string ComplexName { get; set; }
 
-        public int ComplexId { get; set; }
+        [UIHint("DropDownList")]
+        [Required(ErrorMessage = "Seleccione un Complejo")]
+        public int? ComplexId { get; set; }
 
         public IEnumerable<SelectListItem> AvailableComplexes { get; set; }
 
         public IEnumerable<SelectListItem> AvailableRoomTypes { get; set; }
 
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
+        [Range(1, int.MaxValue, ErrorMessage = "Ingrese un número entero de minutos mayor a uno.")]
         public int Capacity { get; set; }
 
         public string TypeDescription { get; set; }
 
-        public int TypeId { get; set; }
+        [UIHint("DropDownList")]
+        [Required(ErrorMessage = "Seleccione un Estilo de Sala")]
+        public int? TypeId { get; set; }
 
         public static ListRoomViewModel FromRoom(Room room)
         {
@@ -50,9 +61,9 @@
             var r = new Room
             {
                 Name = roomVM.Name,
-                ComplexId = roomVM.ComplexId,
+                ComplexId = Convert.ToInt32(roomVM.ComplexId),
                 Capacity = roomVM.Capacity,
-                TypeId = roomVM.TypeId
+                TypeId = Convert.ToInt32(roomVM.TypeId)
             };
 
             return r;

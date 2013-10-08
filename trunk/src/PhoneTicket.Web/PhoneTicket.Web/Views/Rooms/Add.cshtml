@@ -17,20 +17,29 @@
             <li>
                 <label for="Name">Nombre</label>
                 @Html.EditorFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
             </li>
             <li>
                 <label for="AvailableComplexes">Complejo</label>
                 @Html.DropDownListFor(m => m.ComplexId, Model.AvailableComplexes, "Seleccione Uno")
+                @Html.ValidationMessageFor(m => m.ComplexId)
             </li>
             <li>
                 <label for="Capacity">Capacidad</label>
                 @Html.EditorFor(m => m.Capacity)
+                @Html.ValidationMessageFor(m => m.Capacity)
             </li>
             <li>
                 <label for="Type">Estilo</label>
                 @Html.DropDownListFor(m => m.TypeId, Model.AvailableRoomTypes, "Seleccione Uno")
+                @Html.ValidationMessageFor(m => m.TypeId)
             </li>
         </ol>
         <input type="submit" value="Guardar" />
     </fieldset>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
 }
