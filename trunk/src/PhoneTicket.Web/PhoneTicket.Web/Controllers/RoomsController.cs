@@ -77,7 +77,36 @@
 
         public async Task<ActionResult> Edit(int roomId)
         {
-            return this.View();
+            var room = (await this.roomService.GetAsync(r => r.Id == roomId)).ElementAt(0);
+            var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
+            var availableRoomTypes = await this.roomTypeService.ListAsync(room.TypeId);
+
+            var roomViewModel = ListRoomViewModel.FromRoom(room);
+            roomViewModel.AvailableComplexes = availableComplexes;
+            roomViewModel.AvailableRoomTypes = availableRoomTypes;
+
+            return this.View(roomViewModel);
+        }
+
+        public async Task<ActionResult> EditRoom(ListRoomViewModel roomViewModel)
+        {
+            var updatedRoom = ListRoomViewModel.FromRoomViewModel(roomViewModel);
+
+            var existingRoom = (await this.roomService.GetAsync(r => r.Id == updatedRoom.Id)).ElementAt(0);
+
+            existingRoom.Name = updatedRoom.Name;
+            existingRoom.ComplexId = updatedRoom.ComplexId;
+            existingRoom.Capacity = updatedRoom.Capacity;
+            existingRoom.TypeId = updatedRoom.TypeId;
+
+            await this.roomService.UpdateAsync(existingRoom);
+
+            this.ViewBag.Message = string.Format("La sala \"{0}\" se ha modificado con éxito.", existingRoom.Name);
+            this.ViewBag.LinkText = "Aceptar";
+            this.ViewBag.Action = "Index";
+            this.ViewBag.Controller = "Rooms";
+
+            return this.View("~/Views/Shared/Confirmation.cshtml");
         }
 
         public async Task<ActionResult> Delete(int roomId)
