@@ -60,6 +60,7 @@
         {
             var r = new Room
             {
+                Id = roomVM.Id,
                 Name = roomVM.Name,
                 ComplexId = Convert.ToInt32(roomVM.ComplexId),
                 Capacity = roomVM.Capacity,

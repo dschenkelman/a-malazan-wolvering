@@ -36,6 +36,11 @@
             await this.repositories.Rooms.SaveAsync();
         }
 
+        public async Task UpdateAsync(Room room)
+        {
+            await this.repositories.Rooms.SaveAsync();
+        }
+
         public async Task DeleteAsync(int roomId)
         {
             await this.repositories.Rooms.DeleteAsync(roomId);

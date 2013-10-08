@@ -12,6 +12,7 @@
         Task<IEnumerable<Room>> GetAsync();
         Task<IEnumerable<Room>> GetAsync(Expression<Func<Room, bool>> filter);
         Task CreateAsync(Room room);
+        Task UpdateAsync(Room room);
         Task DeleteAsync(int roomId);
     }
 }
