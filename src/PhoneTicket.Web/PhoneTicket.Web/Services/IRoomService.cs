@@ -10,6 +10,7 @@
     public interface IRoomService
     {
         Task<IEnumerable<Room>> GetAsync();
+        Task<Room> GetAsync(int id);
         Task<IEnumerable<Room>> GetAsync(Expression<Func<Room, bool>> filter);
         Task CreateAsync(Room room);
         Task UpdateAsync(Room room);

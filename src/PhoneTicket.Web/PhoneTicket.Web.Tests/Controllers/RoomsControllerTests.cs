@@ -234,6 +234,186 @@
         }
 
         [TestMethod]
+        public async Task ShouldSetRoomIdToRoomViewModelIdWhenCallingEdit()
+        {
+            const int RoomId = 100;
+            var room = new Room() { Id = RoomId, Name = string.Empty, ComplexId = -1, 
+                                    Complex = new Complex { Name = string.Empty }, Capacity = 0, 
+                                    TypeId = -1, Type = new RoomType { Description = string.Empty } };
+
+            this.complexService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.roomTypeService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            this.roomService.Setup(rs => rs.GetAsync(RoomId)).Returns(Task.FromResult(room)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(100);
+
+            var roomViewModel = (ListRoomViewModel)result.Model;
+
+            this.roomService.Verify(rs => rs.GetAsync(RoomId), Times.Once());
+            Assert.AreEqual(RoomId, roomViewModel.Id);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetAvailableComplexesToListReturnedFromComplexesServiceWhenCallingEdit()
+        {
+            const int ComplexId = 100;
+            const int RoomId = 100;
+            var room = new Room()
+            {
+                Id = RoomId,
+                Name = string.Empty,
+                ComplexId = ComplexId,
+                Complex = new Complex { Name = string.Empty },
+                Capacity = 0,
+                TypeId = -1,
+                Type = new RoomType { Description = string.Empty }
+            };
+
+            var complexes = new List<SelectListItem>();
+            this.roomService.Setup(ms => ms.GetAsync(RoomId)).Returns(Task.FromResult(room));
+
+            this.complexService.Setup(rs => rs.ListAsync(ComplexId)).Returns(Task.FromResult<IEnumerable<SelectListItem>>(complexes)).Verifiable();
+            this.roomTypeService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(RoomId);
+
+            this.complexService.Verify(rs => rs.ListAsync(RoomId), Times.Once());
+            Assert.AreSame(complexes, ((ListRoomViewModel)result.Model).AvailableComplexes);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetAvailableRoomTypesToListReturnedFromRoomTypesServiceWhenCallingEdit()
+        {
+            const int TypeId = 100;
+            const int RoomId = 100;
+            var room = new Room()
+            {
+                Id = RoomId,
+                Name = string.Empty,
+                ComplexId = -1,
+                Complex = new Complex { Name = string.Empty },
+                Capacity = 0,
+                TypeId = TypeId,
+                Type = new RoomType { Description = string.Empty }
+            };
+
+            var roomTypes = new List<SelectListItem>();
+
+            this.roomService.Setup(ms => ms.GetAsync(RoomId)).Returns(Task.FromResult(room));
+
+            this.complexService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null)).Verifiable();
+            this.roomTypeService.Setup(rs => rs.ListAsync(TypeId)).Returns(Task.FromResult<IEnumerable<SelectListItem>>(roomTypes));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(RoomId);
+
+            this.roomTypeService.Verify(rs => rs.ListAsync(RoomId), Times.Once());
+            Assert.AreSame(roomTypes, ((ListRoomViewModel)result.Model).AvailableRoomTypes);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetModelToRoomRetrievedFromServiceWhenCallingEdit()
+        {
+            const int RoomId = 100;
+            var room = new Room()
+            {
+                Id = RoomId,
+                Name = string.Empty,
+                ComplexId = -1,
+                Complex = new Complex { Name = string.Empty },
+                Capacity = 0,
+                TypeId = -1,
+                Type = new RoomType { Description = string.Empty }
+            };
+
+            var roomVM = ListRoomViewModel.FromRoom(room);
+
+            this.roomService.Setup(ms => ms.GetAsync(RoomId)).Returns(Task.FromResult(room));
+            this.complexService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.roomTypeService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(RoomId);
+
+            var roomObtained = (ListRoomViewModel)result.Model;
+
+            Assert.AreEqual(roomVM.Id, roomObtained.Id);
+            Assert.AreEqual(roomVM.Capacity, roomObtained.Capacity);
+            Assert.AreEqual(roomVM.ComplexId, roomObtained.ComplexId);
+            Assert.AreEqual(roomVM.TypeId, roomObtained.TypeId);
+        }
+
+        [TestMethod]
+        public async Task ShouldUpdateRoomRetrievedFromServiceBasedOnUpdatedRoomProperties()
+        {
+            const int RoomId = 100;
+            const int ComplexId = 1;
+            const int TypeId = 1;
+            var updatedRoom = new Room()
+            {
+                Id = RoomId,
+                Name = string.Empty,
+                ComplexId = ComplexId,
+                Complex = new Complex { Name = string.Empty },
+                Capacity = 0,
+                TypeId = TypeId,
+                Type = new RoomType { Description = string.Empty }
+            };
+
+            var existingRoom = new Room { Id = RoomId };
+
+            var controller = this.CreateController();
+
+            this.roomService.Setup(ms => ms.GetAsync(RoomId)).Returns(Task.FromResult(existingRoom)).Verifiable();
+            this.roomService.Setup(ms => ms.UpdateAsync(existingRoom)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            await controller.EditRoom(ListRoomViewModel.FromRoom(updatedRoom));
+
+            this.roomService.Verify(rs => rs.GetAsync(updatedRoom.Id), Times.Once());
+
+            this.roomService.Verify(
+                rs => rs.UpdateAsync(It.Is<Room>(r =>
+                    r.Id == RoomId
+                    && r.ComplexId == ComplexId
+                    && r.Capacity == updatedRoom.Capacity
+                    && r.TypeId == updatedRoom.TypeId)),
+                Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldRedirectToIndexViewWhenEditingRoomIsFinished()
+        {
+            const int ComplexId = 4;
+            const int TypeId = 2;
+            var room = new Room()
+            {
+                Id = 2,
+                Name = string.Empty,
+                ComplexId = ComplexId,
+                Complex = new Complex { Name = string.Empty },
+                Capacity = 0,
+                TypeId = TypeId,
+                Type = new RoomType { Description = string.Empty }
+            };
+
+            var controller = this.CreateController();
+
+            this.roomService.Setup(ms => ms.GetAsync(room.Id)).Returns(Task.FromResult(room));
+            this.roomService.Setup(ms => ms.UpdateAsync(It.IsAny<Room>())).Returns(Task.FromResult<object>(null));
+
+            var result = (ViewResult)await controller.EditRoom(ListRoomViewModel.FromRoom(room));
+
+            Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
+        }
+
+        [TestMethod]
         public async Task ShouldDeletUsingIdWhenDeleteIsCalled()
         {
             const int RoomId = 1;

@@ -49,8 +49,10 @@
                 Id = room.Id,
                 Name = room.Name,
                 ComplexName = room.Complex.Name,
+                ComplexId = room.ComplexId,
                 Capacity = room.Capacity,
-                TypeDescription = room.Type.Description
+                TypeDescription = room.Type.Description,
+                TypeId = room.TypeId
             };
 
             return vm;
