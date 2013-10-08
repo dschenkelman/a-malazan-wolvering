@@ -7,30 +7,35 @@
     };
 
     function createView() {
-        var timeAndRoomTemplate = "<div class=\"row\">\
-                            <div class =\"col-md-6\">\
-                                <label>Hora:</label>\
-                                <input class=\"hour spinner\" type=\"text\"/>\
-                                <span>:</span>\
-                                <input class=\"minutes spinner\" type=\"text\"/>\
-                            </div>\
-                            <div class=\"col-md-6\">\
-                                <label>Sala:</label>\
-                                <select class=\"rooms\">\
-                                    <option>Sala 1</option>\
-                                    <option>Sala 2</option>\
-                                </select>\
-                            </div>\
-                        </div>";
+        var showItems = 1;
 
-        var validationTemplate = "<div class=\"alert alert-danger alert-dismissable\">\
-                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>\
-                                    <strong>Error:</strong> {message}.</div>.";
+        var timeAndRoomTemplate = "<div class=\"row\">\
+                                    <div class=\"col-md-6\">\
+                                        <div class=\"row\">\
+                                            <div class=\"col-md-12\">\
+                                                <label>Hora:</label>\
+                                                <input id=\"hour{showItems}\" class=\"hour spinner\" type=\"text\" />\
+                                                <span>:</span>\
+                                                <input id=\"minutes{showItems}\" class=\"minutes spinner\" type=\"text\" />\
+                                            </div>\
+                                        </div>\
+                                        <div class=\"row\">\
+                                            <div class=\"col-md-12\">\
+                                                <span id=\"hour{showItems}Error\" class=\"field-validation-error\" style=\"display: none\"></span>\
+                                                <span id=\"minutes{showItems}Error\" class=\"field-validation-error\" style=\"display: none\"></span>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                    <div class=\"col-md-6\">\
+                                        <label>Sala:</label>\
+                                        <select class=\"rooms\"></select>\
+                                    </div>\
+                                </div>";
 
         var $timesPanel = $("#shows");
-        var $validationPanel = $("#validation");
         var $complexCombo = $("#complex");
         var $moviesCombo = $("#movie");
+        var $daysCheckboxes = $("#days input");
         var roomsPerComplex = {};
         var selectedComplex = 0;
 
@@ -79,11 +84,17 @@
         var validate = function (data) {
             var result = [];
             var i, current;
+
+            $("input.input-validation-error").removeClass("input-validation-error");
+            $("span.field-validation-error").hide();
+
             result.push(validators.validateRequired('precio', data.price));
             result.push(validators.validatePrice(data.price));
             result.push(validators.validateRequired('Fecha comienzo', data.beginDate));
             result.push(validators.validateRequired('Fecha fin', data.endDate));
             result.push(validators.validateDates(data.beginDate, data.endDate));
+
+            result.push(validators.validateDays(data.days));
 
             for (i = 0; i < data.timesAndRooms.length; i++) {
                 current = data.timesAndRooms[i];
@@ -100,20 +111,28 @@
             var timesAndRooms = $timesPanel.find(".row").map(function () {
                 var element = $(this);
                 return {
-                    hour: element.find(".hour").val(),
-                    minutes: element.find(".minutes").val(),
-                    room: element.find(".rooms").val()
+                    hour: element.find(".hour"),
+                    minutes: element.find(".minutes"),
+                    room: element.find(".rooms")
+                };
+            });
+
+            var days = $daysCheckboxes.map(function() {
+                var element = $(this);
+
+                return {
+                    isChecked: element.is(":checked"),
+                    day: element.attr("id")
                 };
             });
 
             var data = {
-                price: $price.val(),
-                beginDate: $beginDate.val(),
-                endDate: $endDate.val(),
-                timesAndRooms: timesAndRooms
+                price: $price,
+                beginDate: $beginDate,
+                endDate: $endDate,
+                timesAndRooms: timesAndRooms,
+                days: days
             };
-
-            var i;
 
             var result = validate(data);
 
@@ -121,20 +140,14 @@
                 return !item.isValid;
             });
 
-            $validationPanel.empty();
-
-            if (errors.length > 0) {
-                // show errors
-                for (i = 0; i < errors.length; i++) {
-                    $validationPanel.append(validationTemplate.replace("{message}", errors[i].message));
-                }
-            } else {
+            if (errors.length === 0) {
                 // post data
             }
         });
 
         $("#add").click(function () {
-            $timesPanel.append(timeAndRoomTemplate);
+            showItems++;
+            $timesPanel.append(timeAndRoomTemplate.replace(/{showItems}/g, showItems));
             $timesPanel.find(".hour:last").spinner(config.hourSpinner);
             $timesPanel.find(".minutes:last").spinner(config.minutesSpinner);
             loadCombo(roomsPerComplex[selectedComplex], "name", $timesPanel.find(".rooms:last"));
@@ -142,6 +155,7 @@
 
         $("#remove").click(function () {
             $timesPanel.find("div.row:last").remove();
+            showItems--;
         });
 
         $complexCombo.change(function() {

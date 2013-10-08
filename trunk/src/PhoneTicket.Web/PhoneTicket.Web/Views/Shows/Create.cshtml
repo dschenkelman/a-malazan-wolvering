@@ -17,12 +17,31 @@
 
 <div class="row">
     <div class="col-md-6">
-        <label for="beginDate">Fecha comienzo:</label>
-        <input type="text" id="beginDate"/>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="beginDate">Fecha comienzo:</label>
+                <input type="text" id="beginDate" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span id="beginDateError" class="field-validation-error" style="display: none"></span>
+            </div>
+        </div>
     </div>
     <div class="col-md-6">
-        <label for="beginDate">Fecha fin:</label>
-        <input type="text" id="endDate"/>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="endDate">Fecha fin:</label>
+                <input type="text" id="endDate" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span id="endDateError" class="field-validation-error" style="display: none"></span>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -43,21 +62,21 @@
     </div>
 </div>
 
-<div class="row">
+<div id="days" class="row">
     <div class="col-md-12">
-        <input id="monday" type="checkbox" checked="checked"/>
+        <input id="monday" type="checkbox" checked="checked" />
         <label for="monday">Lunes</label>
-        <input id="tuesday" type="checkbox" checked="checked"/>
+        <input id="tuesday" type="checkbox" checked="checked" />
         <label for="tuesday">Martes</label>
-        <input id="wednesday" type="checkbox" checked="checked"/>
+        <input id="wednesday" type="checkbox" checked="checked" />
         <label for="wednesday">Miercoles</label>
-        <input id="thursday" type="checkbox" checked="checked"/>
+        <input id="thursday" type="checkbox" checked="checked" />
         <label for="thursday">Jueves</label>
-        <input id="friday" type="checkbox" checked="checked"/>
+        <input id="friday" type="checkbox" checked="checked" />
         <label for="friday">Viernes</label>
-        <input id="saturday" type="checkbox" checked="checked"/>
+        <input id="saturday" type="checkbox" checked="checked" />
         <label for="saturday">Sábado</label>
-        <input id="sunday" type="checkbox" checked="checked"/>
+        <input id="sunday" type="checkbox" checked="checked" />
         <label for="sunday">Domingo</label>
     </div>
 </div>
@@ -65,11 +84,21 @@
 <div id="shows">
     <div class="row">
         <div class="col-md-6">
-            <label>Hora:</label>
-            <input class="hour spinner" type="text"/>
-            <span>:</span>
-            <input class="minutes spinner" type="text"/>
-        </div>    
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Hora:</label>
+                    <input id="hour1" class="hour spinner" type="text" />
+                    <span>:</span>
+                    <input id="minutes1" class="minutes spinner" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <span id="hour1Error" class="field-validation-error" style="display: none"></span>
+                    <span id="minutes1Error" class="field-validation-error" style="display: none"></span>
+                </div>
+            </div>
+        </div>
         <div class="col-md-6">
             <label>Sala:</label>
             <select class="rooms"></select>
@@ -86,8 +115,17 @@
 
 <div class="row">
     <div class="col-md-12">
-        <label for="price">Precio:</label>
-        <input type="text" class="spinner" id="price"/>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="price">Precio:</label>
+                <input type="text" class="spinner" id="price" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span id="priceError" class="field-validation-error" style="display: none"></span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -99,7 +137,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")
-   @Scripts.Render("~/Scripts/bootstrap.js")
+    @Scripts.Render("~/Scripts/bootstrap.js")
     @Scripts.Render("~/Scripts/app/Validation.js")
     @Scripts.Render("~/Scripts/app/CreateShows.js")
 }
