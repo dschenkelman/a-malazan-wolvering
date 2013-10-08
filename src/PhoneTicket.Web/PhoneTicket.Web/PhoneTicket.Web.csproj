@@ -301,6 +301,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\AddRoom.css" />
     <Content Include="Content\Rooms.css" />
     <Content Include="Content\Movies.css" />
     <Content Include="Content\PagedList.css" />
