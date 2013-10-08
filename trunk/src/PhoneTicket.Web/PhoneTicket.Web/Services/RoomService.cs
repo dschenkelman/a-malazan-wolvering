@@ -29,6 +29,11 @@
             return await this.repositories.Rooms.Filter(filter).ToListAsync();
         }
 
+        public async Task<Room> GetAsync(int id)
+        {
+            return await this.repositories.Rooms.GetByKeyValuesAsync(id);
+        }
+
         public async Task CreateAsync(Room room)
         {
             this.repositories.Rooms.Insert(room);

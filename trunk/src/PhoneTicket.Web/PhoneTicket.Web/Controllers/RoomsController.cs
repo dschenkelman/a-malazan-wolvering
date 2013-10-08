@@ -77,7 +77,7 @@
 
         public async Task<ActionResult> Edit(int roomId)
         {
-            var room = (await this.roomService.GetAsync(r => r.Id == roomId)).ElementAt(0);
+            var room = await this.roomService.GetAsync(roomId);
             var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
             var availableRoomTypes = await this.roomTypeService.ListAsync(room.TypeId);
 
@@ -92,7 +92,7 @@
         {
             var updatedRoom = ListRoomViewModel.FromRoomViewModel(roomViewModel);
 
-            var existingRoom = (await this.roomService.GetAsync(r => r.Id == updatedRoom.Id)).ElementAt(0);
+            var existingRoom = await this.roomService.GetAsync(updatedRoom.Id);
 
             existingRoom.Name = updatedRoom.Name;
             existingRoom.ComplexId = updatedRoom.ComplexId;
