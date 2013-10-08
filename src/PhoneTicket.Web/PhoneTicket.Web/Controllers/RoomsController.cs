@@ -50,7 +50,7 @@
 
         public async Task<ActionResult> Add()
         {
-            var room = new Room() { Id = -1, Name = string.Empty, ComplexId = -1, Complex = new Complex { Name = "" }, Capacity = 0, TypeId = -1, Type = new RoomType{ Description = "" } };
+            var room = new Room() { Id = -1, Name = string.Empty, ComplexId = -1, Complex = new Complex { Name = string.Empty }, Capacity = 0, TypeId = -1, Type = new RoomType { Description = string.Empty } };
             var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
             var availableRoomTypes = await this.roomTypeService.ListAsync(room.TypeId);
             

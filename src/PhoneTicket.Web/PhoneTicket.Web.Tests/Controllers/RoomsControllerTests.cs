@@ -80,7 +80,7 @@
                 Assert.AreEqual(i, item.Capacity);
                 Assert.AreEqual(string.Format(RoomFormat, i), item.Name);
                 Assert.AreEqual(string.Format("Complex{0}", i), item.ComplexName);
-                Assert.AreEqual(string.Format("RoomType{0}", i), item.Type);
+                Assert.AreEqual(string.Format("RoomType{0}", i), item.TypeDescription);
             }
         }
 
@@ -128,7 +128,7 @@
                 Assert.AreEqual(i, item.Capacity);
                 Assert.AreEqual(string.Format(RoomFormat, i), item.Name);
                 Assert.AreEqual(string.Format("Complex{0}", i), item.ComplexName);
-                Assert.AreEqual(string.Format("RoomType{0}", i), item.Type);
+                Assert.AreEqual(string.Format("RoomType{0}", i), item.TypeDescription);
             }
         }
 
@@ -161,6 +161,76 @@
                     It.Is<Expression<Func<Room, bool>>>(
                         e => e.Compile().Invoke(matchesFilter) && !e.Compile().Invoke(doesNotMatchFilter))),
                 Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldSetModelToRoomWithDefaultValuesWhenCallingAdd()
+        {
+            const int Undefined = -1;
+
+            this.complexService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.roomTypeService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Add();
+
+            var room = (ListRoomViewModel)result.Model;
+
+            Assert.AreEqual(Undefined, room.Id);
+            Assert.AreEqual(string.Empty, room.Name);
+            Assert.AreEqual(string.Empty, room.ComplexName);
+            Assert.AreEqual(0, room.Capacity);
+            Assert.AreEqual(string.Empty, room.TypeDescription);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetAvailableComplexesToListReturnedFromComplexServiceWhenCallingAdd()
+        {
+            var complexes = new List<SelectListItem>();
+
+            this.complexService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(complexes));
+            this.roomTypeService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Add();
+
+            var room = (ListRoomViewModel)result.Model;
+
+            Assert.AreSame(complexes, room.AvailableComplexes);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetAvailableRoomTypesToListReturnedFromRoomTypeServiceWhenCallingAdd()
+        {
+            var roomTypes = new List<SelectListItem>();
+
+            this.complexService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.roomTypeService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(roomTypes));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Add();
+
+            var room = (ListRoomViewModel)result.Model;
+
+            Assert.AreSame(roomTypes, room.AvailableRoomTypes);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetRoomIdToMinusOneWhenCallingAdd()
+        {
+            this.complexService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+            this.roomTypeService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Add();
+
+            var room = (ListRoomViewModel)result.Model;
+
+            Assert.AreEqual(-1, room.Id);
         }
 
         [TestMethod]

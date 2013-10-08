@@ -18,12 +18,17 @@
 
         public string ComplexName { get; set; }
 
+        public int ComplexId { get; set; }
+
         public IEnumerable<SelectListItem> AvailableComplexes { get; set; }
+
         public IEnumerable<SelectListItem> AvailableRoomTypes { get; set; }
 
         public int Capacity { get; set; }
 
-        public string Type { get; set; }
+        public string TypeDescription { get; set; }
+
+        public int TypeId { get; set; }
 
         public static ListRoomViewModel FromRoom(Room room)
         {
@@ -34,7 +39,7 @@
                 Name = room.Name,
                 ComplexName = room.Complex.Name,
                 Capacity = room.Capacity,
-                Type = room.Type.Description
+                TypeDescription = room.Type.Description
             };
 
             return vm;
@@ -45,9 +50,9 @@
             var r = new Room
             {
                 Name = roomVM.Name,
-                ComplexId = Convert.ToInt32(roomVM.ComplexName),
+                ComplexId = roomVM.ComplexId,
                 Capacity = roomVM.Capacity,
-                TypeId = Convert.ToInt32(roomVM.Type)
+                TypeId = roomVM.TypeId
             };
 
             return r;
