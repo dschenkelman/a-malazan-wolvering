@@ -289,11 +289,14 @@
     <Compile Include="ViewModels\Api\ComplexViewModel.cs" />
     <Compile Include="ViewModels\Api\MovieListItemViewModel .cs" />
     <Compile Include="ViewModels\Api\MovieViewModel.cs" />
+    <Compile Include="ViewModels\CreateShowsViewModel.cs" />
+    <Compile Include="ViewModels\DayViewModel.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\ListMovieViewModel.cs" />
     <Compile Include="ViewModels\ListRoomViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />
+    <Compile Include="ViewModels\TimesAndRoomViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\AddEditMovie.css" />
