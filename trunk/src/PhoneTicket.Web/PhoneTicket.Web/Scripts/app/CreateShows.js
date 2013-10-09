@@ -49,36 +49,38 @@
         $(".hour").spinner(config.hourSpinner);
         $(".minutes").spinner(config.minutesSpinner);
 
-        var loadCombo = function(items, displayProperty, $comboBox, itemAction) {
+        var loadCombo = function (items, displayProperty, $comboBox, itemAction) {
             $comboBox.empty();
             for (var i = 0; i < items.length; i++) {
                 $comboBox.append('<option value="' + items[i].id + '">' + items[i][displayProperty] + '</option>');
-                 
+
                 if (itemAction) {
                     itemAction(i, items[i]);
                 }
             }
         };
-        
+
         // load complexes
-        $.get("/api/complexes", function (data) { loadCombo(data, "name", $complexCombo,
-                function (j, complex) {
-                    if (j === 0) {
-                        selectedComplex = complex.id;
-                    }
-
-                    $.get("/api/complexes/" + complex.id + "/rooms", function (roomsData) {
-                        roomsPerComplex[complex.id] = roomsData;
-
-                        if (complex.id === selectedComplex) {
-                            $(".rooms").each(function (index, combo) {
-                                loadCombo(roomsData, "name", $(combo));
-                            });
+        $.get("/api/complexes", function (data) {
+            loadCombo(data, "name", $complexCombo,
+                    function (j, complex) {
+                        if (j === 0) {
+                            selectedComplex = complex.id;
                         }
-                    }, "json");
-                }
-            ); }, "json");
-        
+
+                        $.get("/api/complexes/" + complex.id + "/rooms", function (roomsData) {
+                            roomsPerComplex[complex.id] = roomsData;
+
+                            if (complex.id === selectedComplex) {
+                                $(".rooms").each(function (index, combo) {
+                                    loadCombo(roomsData, "name", $(combo));
+                                });
+                            }
+                        }, "json");
+                    }
+                );
+        }, "json");
+
         // load movies
         $.get("/api/movies", function (data) { loadCombo(data, "title", $moviesCombo); }, "json");
 
@@ -86,6 +88,7 @@
             var result = [];
             var i, current;
 
+            // clear all errors
             $("input.input-validation-error").removeClass("input-validation-error");
             $("span.field-validation-error").hide();
             $validationSummaryList.empty();
@@ -111,7 +114,7 @@
         };
 
         $("#create").click(function () {
-            var timesAndRooms = $timesPanel.find(".row").map(function () {
+            var timesAndRooms = $timesPanel.children(".row").map(function () {
                 var element = $(this);
                 return {
                     hour: element.find(".hour"),
@@ -120,7 +123,7 @@
                 };
             });
 
-            var days = $daysCheckboxes.map(function() {
+            var days = $daysCheckboxes.map(function () {
                 var element = $(this);
 
                 return {
@@ -139,12 +142,36 @@
 
             var result = validate(data);
 
-            var errors = result.filter(function (item) {
-                return !item.isValid;
+            var errors = result.filter(function (isValid) {
+                return !isValid;
             });
 
             if (errors.length === 0) {
-                // post data
+                // post data to server
+                var postData = {
+                    price: $price.val(),
+                    beginDate: $beginDate.val(),
+                    endDate: $endDate.val(),
+                    days: days.toArray(),
+                    timesAndRooms: timesAndRooms.map(function () {
+                        return {
+                            hour: this.hour.val(),
+                            minutes: this.minutes.val(),
+                            room: this.room.val()
+                        };
+                    }).toArray()
+                };
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/shows/create",
+                    data: JSON.stringify(postData),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function() {
+                        window.location.href = "/shows/creationconfirmation";
+                    }
+                });
             }
         });
 
@@ -161,7 +188,7 @@
             showItems--;
         });
 
-        $complexCombo.change(function() {
+        $complexCombo.change(function () {
             selectedComplex = Number($complexCombo.val());
             $(".rooms").each(function (index, combo) {
                 loadCombo(roomsPerComplex[selectedComplex], "name", $(combo));
