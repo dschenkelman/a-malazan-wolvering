@@ -32,6 +32,7 @@
                                     </div>\
                                 </div>";
 
+        var $validationSummaryList = $("#validationSummary>ul");
         var $timesPanel = $("#shows");
         var $complexCombo = $("#complex");
         var $moviesCombo = $("#movie");
@@ -87,6 +88,8 @@
 
             $("input.input-validation-error").removeClass("input-validation-error");
             $("span.field-validation-error").hide();
+            $validationSummaryList.empty();
+            $validationSummaryList.hide();
 
             result.push(validators.validateRequired('precio', data.price));
             result.push(validators.validatePrice(data.price));

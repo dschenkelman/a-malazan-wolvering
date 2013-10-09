@@ -1,11 +1,16 @@
 ﻿var validators = (function () {
     function handleErrorMessage(isValid, element, message, global) {
         var $errorSpan;
+        var $validationSummaryList;
         if (!isValid) {
-            element.addClass("input-validation-error");
+            if (element) {
+                element.addClass("input-validation-error");
+            }
 
             if (global) {
-
+                $validationSummaryList = $("#validationSummary>ul");
+                $validationSummaryList.append("<li>" + message + "</li>");
+                $validationSummaryList.show();
             } else {
                 $errorSpan = $("#" + element.attr("id") + "Error");
                 $errorSpan.text(message);
