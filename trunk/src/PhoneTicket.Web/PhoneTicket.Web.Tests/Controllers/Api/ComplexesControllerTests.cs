@@ -2,16 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq.Expressions;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Moq;
 
-    using PhoneTicket.Web.Controllers.Api;
-    using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.Controllers.Api;
+    using System.Linq.Expressions;
 
     [TestClass]
     public class ComplexesControllerTests
@@ -33,15 +34,23 @@
         [TestMethod]
         public async Task ShouldReturnComplexesFromComplexServiceWhenGetIsCalled()
         {
-            var complexes = new List<Complex>();
+            const int id = 1;
+            const string name = "C";
+            const string address = "asd";
 
-            this.complexService.Setup(cs => cs.GetAsync()).Returns(Task.FromResult((IEnumerable<Complex>)complexes)).Verifiable();
+            var complex1 = new Complex { Id = id, Name = name, Address = address };
+
+            this.complexService.Setup(cs => cs.GetAsync()).Returns(Task.FromResult((IEnumerable<Complex>)new List<Complex> { complex1 })).Verifiable();
 
             var controller = this.CreateController();
 
-            var returnedComplexes = await controller.Get();
+            var response = await controller.Get();
 
-            Assert.AreSame(complexes, returnedComplexes);
+            this.complexService.Verify(cs => cs.GetAsync(), Times.Once());
+
+            Assert.AreEqual(id, response.ToList()[0].Id);
+            Assert.AreEqual(name, response.ToList()[0].Name);
+            Assert.AreEqual(address, response.ToList()[0].Address);
 
             this.repository.Verify();
         }
