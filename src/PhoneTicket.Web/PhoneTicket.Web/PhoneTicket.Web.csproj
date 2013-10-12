@@ -227,6 +227,7 @@
     </Compile>
     <Compile Include="Handlers\RequireHttpsMessageHandler.cs" />
     <Compile Include="Handlers\RequireSsl.cs" />
+    <Compile Include="Helpers\ComplexExtensions.cs" />
     <Compile Include="Helpers\MovieExtensions.cs" />
     <Compile Include="HttpModules\BasicAuthHttpModule.cs" />
     <Compile Include="HttpModules\PhoneTicketBasicAuthHttpModule.cs" />
@@ -286,6 +287,7 @@
     <Compile Include="UnityDependencyResolver.cs" />
     <Compile Include="UnityResolverConfigurator.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="ViewModels\Api\ComplexListItemViewModel.cs" />
     <Compile Include="ViewModels\Api\ComplexViewModel.cs" />
     <Compile Include="ViewModels\Api\MovieListItemViewModel .cs" />
     <Compile Include="ViewModels\Api\MovieViewModel.cs" />

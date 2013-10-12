@@ -1,11 +1,14 @@
 ﻿namespace PhoneTicket.Web.Controllers.Api
 {
     using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using System.Linq;
     using System.Web.Http;
+    using System.Threading.Tasks;
 
-    using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.ViewModels.Api;
+    using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.Helpers;
 
     [RoutePrefix("api/complexes")]
     public class ComplexesController : ApiController
@@ -21,9 +24,11 @@
         }
 
         [HttpGet]
-        public Task<IEnumerable<Complex>> Get()
+        public async Task<IEnumerable<ComplexListItemViewModel>> Get()
         {
-            return this.complexService.GetAsync();
+            var complexes = await this.complexService.GetAsync();
+
+            return complexes.Select(c => c.ToListItemViewModel());
         }
 
         [HttpGet("{id}/rooms")]
