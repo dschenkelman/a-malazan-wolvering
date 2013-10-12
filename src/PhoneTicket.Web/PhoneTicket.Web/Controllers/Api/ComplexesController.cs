@@ -31,6 +31,14 @@
             return complexes.Select(c => c.ToListItemViewModel());
         }
 
+        [HttpGet("{id}")]
+        public async Task<ComplexViewModel> Get(int id)
+        {
+            var complex = await this.complexService.GetAsync(id);
+
+            return ComplexViewModel.FromComplex(complex);
+        }
+
         [HttpGet("{id}/rooms")]
         public async Task<IEnumerable<Room>> GetRooms(int id)
         {

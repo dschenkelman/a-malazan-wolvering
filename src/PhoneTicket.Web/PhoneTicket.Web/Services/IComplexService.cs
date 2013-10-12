@@ -9,6 +9,7 @@
     public interface IComplexService
     {
         Task<IEnumerable<Complex>> GetAsync();
+        Task<Complex> GetAsync(int id);
         Task<IEnumerable<SelectListItem>> ListAsync(int? id);
     }
 }
