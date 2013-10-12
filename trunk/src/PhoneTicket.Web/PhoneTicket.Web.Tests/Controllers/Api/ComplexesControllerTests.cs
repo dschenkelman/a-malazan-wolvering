@@ -3,7 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using System.Data.Entity;
+    using System.Data.Entity.Spatial;
+    
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,7 +16,7 @@
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Controllers.Api;
-    using System.Linq.Expressions;
+    
 
     [TestClass]
     public class ComplexesControllerTests
@@ -51,6 +55,32 @@
             Assert.AreEqual(id, response.ToList()[0].Id);
             Assert.AreEqual(name, response.ToList()[0].Name);
             Assert.AreEqual(address, response.ToList()[0].Address);
+
+            this.repository.Verify();
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnComplexFromComplexServiceWhenGetByIdIsCalled()
+        {
+            const int id = 1;
+            const string name = "C";
+            const string address = "asd";
+
+            DbGeography point1 = DbGeography.FromText("POINT(53.095124 -0.864716)", 4326);
+
+            var complex1 = new Complex { Id = id, Name = name, Address = address, Location = point1};
+
+            this.complexService.Setup(cs => cs.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(complex1)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var response = await controller.Get(id);
+
+            this.complexService.Verify(cs => cs.GetAsync(), Times.Once());
+
+            Assert.AreEqual(id, response.Id);
+            Assert.AreEqual(name, response.Name);
+            Assert.AreEqual(address, response.Address);
 
             this.repository.Verify();
         }
