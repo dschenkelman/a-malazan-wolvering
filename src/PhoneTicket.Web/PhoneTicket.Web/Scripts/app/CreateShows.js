@@ -153,6 +153,7 @@
                     beginDate: $beginDate.val(),
                     endDate: $endDate.val(),
                     days: days.toArray(),
+                    movie: $moviesCombo.val(),
                     timesAndRooms: timesAndRooms.map(function () {
                         return {
                             hour: this.hour.val(),
@@ -184,6 +185,10 @@
         });
 
         $("#remove").click(function () {
+            if (showItems === 0) {
+                return;
+            }
+            
             $timesPanel.find("div.row:last").remove();
             showItems--;
         });

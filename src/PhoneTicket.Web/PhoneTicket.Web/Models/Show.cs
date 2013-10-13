@@ -1,11 +1,12 @@
 ﻿namespace PhoneTicket.Web.Models
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
     public class Show
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public int Id { get; set; }
 
         public DateTime Date { get; set; }

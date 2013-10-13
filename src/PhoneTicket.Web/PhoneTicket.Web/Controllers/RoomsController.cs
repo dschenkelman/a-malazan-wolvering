@@ -11,7 +11,6 @@
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.ViewModels;
     using PhoneTicket.Web.Services;
-    
 
     [Authorize]
     [RequireSsl]

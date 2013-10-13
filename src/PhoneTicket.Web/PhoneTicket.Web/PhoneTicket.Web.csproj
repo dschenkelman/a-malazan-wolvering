@@ -232,17 +232,9 @@
     <Compile Include="Helpers\MovieExtensions.cs" />
     <Compile Include="HttpModules\BasicAuthHttpModule.cs" />
     <Compile Include="HttpModules\PhoneTicketBasicAuthHttpModule.cs" />
-    <Compile Include="Migrations\201309292024182_Initial.cs" />
-    <Compile Include="Migrations\201309292024182_Initial.Designer.cs">
-      <DependentUpon>201309292024182_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310061516041_ShowModel.cs" />
-    <Compile Include="Migrations\201310061516041_ShowModel.Designer.cs">
-      <DependentUpon>201310061516041_ShowModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310070238002_PriceForShow.cs" />
-    <Compile Include="Migrations\201310070238002_PriceForShow.Designer.cs">
-      <DependentUpon>201310070238002_PriceForShow.cs</DependentUpon>
+    <Compile Include="Migrations\201310132312464_Initial.cs" />
+    <Compile Include="Migrations\201310132312464_Initial.Designer.cs">
+      <DependentUpon>201310132312464_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -475,14 +467,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201309292024182_Initial.resx">
-      <DependentUpon>201309292024182_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310061516041_ShowModel.resx">
-      <DependentUpon>201310061516041_ShowModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310070238002_PriceForShow.resx">
-      <DependentUpon>201310070238002_PriceForShow.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201310132312464_Initial.resx">
+      <DependentUpon>201310132312464_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

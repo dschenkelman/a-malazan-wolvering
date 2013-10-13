@@ -1,9 +1,6 @@
 ﻿namespace PhoneTicket.Web.Services
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
 
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
@@ -29,6 +26,16 @@
         public async Task UpdateAsync(Show show)
         {
             //await this.repositories.Shows.SaveAsync();
+        }
+
+        public Task Add(params Show[] shows)
+        {
+            foreach (var show in shows)
+            {
+                this.repositories.Shows.Insert(show);    
+            }
+
+            return this.repositories.Shows.SaveAsync();
         }
 
         public void Dispose()
