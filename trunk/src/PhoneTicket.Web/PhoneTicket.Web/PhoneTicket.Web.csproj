@@ -311,6 +311,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\AddRoom.css" />
+    <Content Include="Content\EditShow.css" />
     <Content Include="Content\Rooms.css" />
     <Content Include="Content\Movies.css" />
     <Content Include="Content\PagedList.css" />
@@ -381,6 +382,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\app\EditShows.js" />
     <Content Include="Scripts\app\Movies.js" />
     <Content Include="Scripts\app\CreateShows.js" />
     <Content Include="Scripts\app\Users.js" />

@@ -21,6 +21,8 @@
         IRepository<Room> Rooms { get; }
 
         IRepository<RoomType> RoomTypes { get; }
+
+        IRepository<Show> Shows { get; }
     }
 }
 
