@@ -20,6 +20,7 @@
             container.RegisterType<IComplexService, ComplexService>();
             container.RegisterType<IRoomService, RoomService>();
             container.RegisterType<IRoomTypeService, RoomTypeService>();
+            container.RegisterType<IShowService, ShowService>();
 
             container.RegisterType<IRepository<User>, Repository<User>>();
             container.RegisterType<IRepository<Genre>, Repository<Genre>>();
@@ -38,6 +39,7 @@
             container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.MoviesController>();
             container.RegisterType<PhoneTicket.Web.Controllers.RoomsController>();
+            container.RegisterType<PhoneTicket.Web.Controllers.ShowsController>();
             container.RegisterType<PhoneTicketContext>();
             container.RegisterType<IContext, PhoneTicketContext>();
 

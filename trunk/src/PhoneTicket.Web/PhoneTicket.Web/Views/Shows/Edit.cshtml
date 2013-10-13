@@ -1,0 +1,57 @@
+﻿@model PhoneTicket.Web.ViewModels.EditShowViewModel
+
+@{
+    ViewBag.Title = "Editar Función";
+}
+
+<h2>Editar Función</h2>
+<br />
+
+@using (Html.BeginForm("EditShow","Shows")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+        <div class="editor-label">
+            @Html.HiddenFor(m => m.Id, Model.Id)
+        </div>
+    
+        <fieldset>
+        <legend>Editar Función</legend>
+        <ol>
+            <li>
+                <label for="Date">Fecha</label>
+                @Html.EditorFor(m => m.Date)
+                @Html.ValidationMessageFor(m => m.Date)
+            </li>
+            <li>
+                <label for="AvailableMovies">Película</label>
+                @Html.DropDownListFor(m => m.MovieId, Model.AvailableMovies, "Seleccione Una")
+                @Html.ValidationMessageFor(m => m.MovieId)
+            </li>
+            <li>
+                <label for="AvailableRooms">Sala</label>
+                @Html.DropDownListFor(m => m.RoomId, Model.AvailableRooms, "Seleccione Una")
+                @Html.ValidationMessageFor(m => m.RoomId)
+            </li>
+            <li>
+                <label for="Price">Precio</label>
+                @Html.EditorFor(m => m.Price)
+                @Html.ValidationMessageFor(m => m.Price)
+            </li>
+            <li>
+                <table class="center">
+                    <tr>
+                        <th><label for="IsAvailable">Disponible</label></th>
+                        <th>@Html.EditorFor(m => m.IsAvailable)</th>
+                    </tr>
+                </table>
+            </li>
+        </ol>
+        <input type="submit" value="Guardar Cambios" />
+    </fieldset>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

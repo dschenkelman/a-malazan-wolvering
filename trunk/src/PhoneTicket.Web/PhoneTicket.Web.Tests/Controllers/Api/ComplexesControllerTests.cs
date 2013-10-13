@@ -5,9 +5,8 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
     using System.Data.Entity.Spatial;
-    
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -66,9 +65,9 @@
             const string name = "C";
             const string address = "asd";
 
-            DbGeography point1 = DbGeography.FromText("POINT(53.095124 -0.864716)", 4326);
+            var location = DbGeography.FromText("POINT(-58.456633 -34.561893)");
 
-            var complex1 = new Complex { Id = id, Name = name, Address = address, Location = point1};
+            var complex1 = new Complex { Id = id, Name = name, Address = address, Location = location };
 
             this.complexService.Setup(cs => cs.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(complex1)).Verifiable();
 

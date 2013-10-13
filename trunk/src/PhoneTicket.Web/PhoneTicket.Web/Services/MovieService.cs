@@ -9,6 +9,7 @@
 
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
+    using System.Web.Mvc;
 
     public class MovieService : IMovieService, IDisposable
     {
@@ -56,6 +57,20 @@
             await this.repositories.Movies.DeleteAsync(movieId);
 
             await this.repositories.Movies.SaveAsync();
+        }
+
+        public async Task<IEnumerable<SelectListItem>> ListAsync(int movieId)
+        {
+            var movies = await this.GetMoviesAsync();
+
+            return from m in movies
+                   orderby m.Title
+                   select new SelectListItem
+                   {
+                       Text = m.Title,
+                       Value = m.Id.ToString(),
+                       Selected = m.Id == movieId
+                   };
         }
 
         public void Dispose()
