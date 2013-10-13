@@ -23,6 +23,7 @@ public class DetailCinemaFragment extends RoboFragment implements
 		IRetrieveCinemaInfoServiceDelegate {
 
 	public static final String EXTRA_CINEMA_ID = "bundle.detailcinema.id";
+	public static final String EXTRA_CINEMA_NAME = "bundle.detailcinema.name";
 
 	@Inject
 	private IRetrieveCinemaInfoService cinemaInfoService;
@@ -98,7 +99,8 @@ public class DetailCinemaFragment extends RoboFragment implements
 			((TextView) getView().findViewById(R.id.cinemaName))
 					.setText(this.cinema.getName());
 			((TextView) getView().findViewById(R.id.cinemaAddress))
-					.setText("Encontrá nuestro cine en: " + this.cinema.getAddress());
+					.setText("Encontrá nuestro cine en: "
+							+ this.cinema.getAddress());
 		}
 	}
 

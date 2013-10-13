@@ -152,10 +152,15 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private void changeToDetailMovieFragment(Bundle movieData) {
 		twitterButton.setVisibility(ImageButton.VISIBLE);
+		twitterMessage = "Voy a mirar una película CINEMAR. Visita www.cinemar.com.ar";
 		String movieName = movieData
 				.getString(DetailMovieFragment.EXTRA_MOVIE_TITLE);
-		twitterMessage = "Voy a ver " + movieName
-				+ " a CINEMAR. Visita www.cinemar.com.ar";
+		if (null != movieName) {
+			if (0 < movieName.length()) {
+				twitterMessage = "Voy a ver " + movieName
+						+ " a CINEMAR. Visita www.cinemar.com.ar";
+			}
+		}
 		DetailMovieFragment detailMovieFragment = new DetailMovieFragment();
 		detailMovieFragment.setArguments(movieData);
 		changeFragment(detailMovieFragment, true);
@@ -164,6 +169,14 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private void changeToDetailCinemaFragment(Bundle cinemaData) {
 		twitterButton.setVisibility(ImageButton.VISIBLE);
 		twitterMessage = "Voy a CINEMAR. Visita www.cinemar.com.ar";
+		String name = cinemaData
+				.getString(DetailCinemaFragment.EXTRA_CINEMA_NAME);
+		if (null != name) {
+			if (0 < name.length()) {
+				twitterMessage = "Voy al complejo " + name
+						+ " de CINEMAR. Visita www.cinemar.com.ar";
+			}
+		}
 		DetailCinemaFragment detailCinemaFragment = new DetailCinemaFragment();
 		detailCinemaFragment.setArguments(cinemaData);
 		changeFragment(detailCinemaFragment, true);
@@ -189,9 +202,11 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void onCinemaSelected(int cinemaId) {
+	public void onCinemaSelected(int cinemaId, String cinemaName) {
 		Bundle cinemaData = new Bundle();
 		cinemaData.putInt(DetailCinemaFragment.EXTRA_CINEMA_ID, cinemaId);
+		cinemaData
+				.putString(DetailCinemaFragment.EXTRA_CINEMA_NAME, cinemaName);
 		changeToDetailCinemaFragment(cinemaData);
 	}
 

@@ -392,7 +392,8 @@ public class DetailMovieFragment extends RoboFragment implements
 			goToCinemaContract.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					onGoToCinemaAction(movieFunctions.getCinemaId());
+					onGoToCinemaAction(movieFunctions.getCinemaId(), 
+							movieFunctions.getCinemaName());
 				}
 			});
 
@@ -410,8 +411,8 @@ public class DetailMovieFragment extends RoboFragment implements
 		}
 	}
 
-	protected void onGoToCinemaAction(int cinemaId) {
-		cinemaSelectedListener.onCinemaSelected(cinemaId);
+	protected void onGoToCinemaAction(int cinemaId, String cinemaName) {
+		cinemaSelectedListener.onCinemaSelected(cinemaId, cinemaName);
 	}
 
 	@Override
