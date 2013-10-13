@@ -7,13 +7,13 @@ namespace PhoneTicket.Web.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.0-rc1-20726")]
-    public sealed partial class PriceForShow : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PriceForShow));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201310070238002_PriceForShow"; }
+            get { return "201310132312464_Initial"; }
         }
         
         string IMigrationMetadata.Source

@@ -20,7 +20,7 @@
                            Address = complex.Address,
                            Name = complex.Name,
                            Id = complex.Id,
-                           Location = LocationExtension.FromDbGeographyToLocation(complex.Location)
+                           Location = complex.Location.ToLocation()
                        };
         }
     }

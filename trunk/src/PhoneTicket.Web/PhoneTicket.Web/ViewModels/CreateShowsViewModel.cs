@@ -10,6 +10,8 @@
 
         public string EndDate { get; set; }
 
+        public int Movie { get; set; }
+
         public List<DayViewModel> Days { get; set; }
 
         public List<TimesAndRoomViewModel> TimesAndRooms { get; set; }

@@ -1,13 +1,14 @@
 ﻿namespace PhoneTicket.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.ViewModels;
     using PhoneTicket.Web.Services;
-
 
     public class ShowsController : Controller
     {
@@ -36,9 +37,45 @@
         }
 
         [HttpPost]
-        public JsonResult Create(CreateShowsViewModel viewModel)
+        public async Task<JsonResult> Create(CreateShowsViewModel viewModel)
         {
-            return this.Json(1);
+            var beginDate = DateTime.Parse(viewModel.BeginDate);
+            var endDate = DateTime.Parse(viewModel.EndDate);
+
+            var selectedDays = viewModel.Days.Where(d => d.IsChecked).ToArray();
+
+            List<Show> showsToAdd = new List<Show>();
+
+            for (var currentDate = beginDate; currentDate <= endDate; currentDate = currentDate.AddDays(1))
+            {
+                if (!selectedDays.Any(
+                        d => d.Day.Equals(currentDate.DayOfWeek.ToString(), StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    continue;
+                }
+
+                foreach (var timeAndRoom in viewModel.TimesAndRooms)
+                {
+                   var showDate = currentDate
+                       .AddHours(timeAndRoom.Hour)
+                       .AddMinutes(timeAndRoom.Minutes);
+
+                   var show = new Show 
+                                {
+                                   Date = showDate,
+                                   IsAvailable = true,
+                                   MovieId = viewModel.Movie,
+                                   RoomId = timeAndRoom.Room,
+                                   Price = viewModel.Price
+                                };
+
+                    showsToAdd.Add(show);
+                }
+            }
+
+            await this.showService.Add(showsToAdd.ToArray());
+
+            return this.Json(showsToAdd.Count);
         }
 
         [HttpGet]
