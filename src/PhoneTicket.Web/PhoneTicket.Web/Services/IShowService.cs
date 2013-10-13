@@ -10,7 +10,7 @@
 
     public interface IShowService
     {
-        /*Task<Show> GetAsync(int id);
-        Task UpdateAsync(Show show);*/
+        Task<Show> GetAsync(int id);
+        Task UpdateAsync(Show show);
     }
 }

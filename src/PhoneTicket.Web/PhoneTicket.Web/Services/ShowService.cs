@@ -18,7 +18,7 @@
             this.repositories = repositories;
         }
 
-        /*public async Task<Show> GetAsync(int id)
+        public async Task<Show> GetAsync(int id)
         {
             return await this.repositories.Shows.GetByKeyValuesAsync(id);
         }
@@ -26,7 +26,7 @@
         public async Task UpdateAsync(Show show)
         {
             await this.repositories.Shows.SaveAsync();
-        }*/
+        }
 
         public void Dispose()
         {

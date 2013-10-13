@@ -4,6 +4,9 @@
     ViewBag.Title = "Editar Función";
 }
 
+@Styles.Render("~/Content/themes/base/css")
+@Styles.Render("~/Content/EditShow.css")
+
 <h2>Editar Función</h2>
 <br />
 
@@ -47,11 +50,13 @@
                 </table>
             </li>
         </ol>
-        <input type="submit" value="Guardar Cambios" />
+        <input id="save" type="submit" value="Guardar Cambios" />
     </fieldset>
 }
 
-@section scripts
-{
-    @Scripts.Render("~/bundles/jqueryval")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Scripts/jquery.validate.min.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+    @Scripts.Render("~/Scripts/app/EditShows.js")
 }

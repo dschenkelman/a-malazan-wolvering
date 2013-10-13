@@ -30,6 +30,7 @@
             container.RegisterType<IRepository<Complex>, Repository<Complex>>();
             container.RegisterType<IRepository<Room>, Repository<Room>>();
             container.RegisterType<IRepository<RoomType>, Repository<RoomType>>();
+            container.RegisterType<IRepository<Show>, Repository<Show>>();
 
             container.RegisterType<IPhoneTicketRepositories, PhoneTicketRepositories>();
 
