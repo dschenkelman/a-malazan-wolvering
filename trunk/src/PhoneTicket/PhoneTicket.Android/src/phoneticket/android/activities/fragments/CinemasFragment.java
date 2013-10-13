@@ -84,8 +84,9 @@ public class CinemasFragment extends RoboFragment implements
 
 				public void onItemClick(AdapterView<?> parent, View v,
 						int position, long id) {
-					cinemaListItemSelectedListener.onCinemaSelected(adapter
-							.getItem(position).getId());
+					ICinema selectedCinema = adapter.getItem(position);
+					cinemaListItemSelectedListener.onCinemaSelected(
+							selectedCinema.getId(), selectedCinema.getName());
 				}
 			});
 			hideProgressLayout();
