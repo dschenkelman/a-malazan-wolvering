@@ -44,6 +44,7 @@ public class DetailMovieFragment extends RoboFragment implements
 		IRetrieveMovieFunctionsServiceDelegate {
 
 	public static final String EXTRA_MOVIE_ID = "bundle.detailmovie.id";
+	public static final String EXTRA_MOVIE_TITLE = "bundle.detailmovie.title";
 	public static final String STATE_MOVIE_ID = "state.detailmovie.id";
 	public static final String STATE_MOVIE_TITLE = "state.detailmovie.title";
 	public static final String STATE_MOVIE_GENRE = "state.detailmovie.genre";
