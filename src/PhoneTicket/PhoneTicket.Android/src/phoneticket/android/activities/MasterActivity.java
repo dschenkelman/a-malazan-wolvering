@@ -15,11 +15,13 @@ import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
 import phoneticket.android.utils.UserManager;
 import roboguice.activity.RoboFragmentActivity;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -36,6 +38,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
 	private TextView actionTitle;
+	private ImageButton twitterButton;
+	private String twitterMessage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,17 @@ public class MasterActivity extends RoboFragmentActivity implements
 					ribbonMenu.toggleMenu();
 				}
 			});
+
+			twitterButton = (ImageButton) v.findViewById(R.id.twitterButton);
+			twitterButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					onTwitterButtonAction();
+				}
+			});
+			twitterButton.setVisibility(ImageButton.GONE);
+
 			actionBar.setCustomView(v);
 		}
 	}
@@ -111,6 +126,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	private void changeToMovieListFragment() {
+		twitterButton.setVisibility(ImageButton.GONE);
 		MovieListFragment movielistFragment = new MovieListFragment();
 		changeFragment(movielistFragment, false);
 		actionTitle.setText(R.string.ribbon_menu_movielist);
@@ -118,6 +134,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	private void changeToCinemasFragment() {
+		twitterButton.setVisibility(ImageButton.GONE);
 		CinemasFragment cinemasFragment = new CinemasFragment();
 		changeFragment(cinemasFragment, false);
 		actionTitle.setText(R.string.ribbon_menu_cinemas);
@@ -125,6 +142,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	private void changeToUserFragment() {
+		twitterButton.setVisibility(ImageButton.VISIBLE);
+		twitterMessage = "Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar";
 		UserFragment userFragment = new UserFragment();
 		changeFragment(userFragment, false);
 		actionTitle.setText(R.string.ribbon_menu_user);
@@ -132,12 +151,19 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	private void changeToDetailMovieFragment(Bundle movieData) {
+		twitterButton.setVisibility(ImageButton.VISIBLE);
+		String movieName = movieData
+				.getString(DetailMovieFragment.EXTRA_MOVIE_TITLE);
+		twitterMessage = "Voy a ver " + movieName
+				+ " a CINEMAR. Visita www.cinemar.com.ar";
 		DetailMovieFragment detailMovieFragment = new DetailMovieFragment();
 		detailMovieFragment.setArguments(movieData);
 		changeFragment(detailMovieFragment, true);
 	}
 
 	private void changeToDetailCinemaFragment(Bundle cinemaData) {
+		twitterButton.setVisibility(ImageButton.VISIBLE);
+		twitterMessage = "Voy a CINEMAR. Visita www.cinemar.com.ar";
 		DetailCinemaFragment detailCinemaFragment = new DetailCinemaFragment();
 		detailCinemaFragment.setArguments(cinemaData);
 		changeFragment(detailCinemaFragment, true);
@@ -154,6 +180,14 @@ public class MasterActivity extends RoboFragmentActivity implements
 		transaction.commit();
 	}
 
+	protected void onTwitterButtonAction() {
+		String url = "https://twitter.com/intent/tweet?source=webclient&text="
+				+ twitterMessage;
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(url));
+		startActivity(i);
+	}
+
 	@Override
 	public void onCinemaSelected(int cinemaId) {
 		Bundle cinemaData = new Bundle();
@@ -162,9 +196,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void onMovielistItemSelected(int movieId) {
+	public void onMovielistItemSelected(int movieId, String movieTitle) {
 		Bundle movieData = new Bundle();
 		movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID, movieId);
+		movieData.putString(DetailMovieFragment.EXTRA_MOVIE_TITLE, movieTitle);
 		changeToDetailMovieFragment(movieData);
 	}
 }

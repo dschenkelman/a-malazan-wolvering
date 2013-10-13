@@ -84,8 +84,9 @@ public class MovieListFragment extends RoboFragment implements
 
 			String movieListStream = "";
 			for (IMovieListItem movieListItem : movies) {
-				movieListStream += movieListItem.getId() + "#"
-						+ movieListItem.getImageURL() + "]";
+				movieListStream += movieListItem.getId() + "#" +
+						movieListItem.getTitle() + "#" +
+						movieListItem.getImageURL() + "]";
 			}
 			SharedPreferences.Editor editor = getActivity().getPreferences(0)
 					.edit();
@@ -109,9 +110,16 @@ public class MovieListFragment extends RoboFragment implements
 		String items[] = movielistStream.split("]");
 		for (String itemStream : items) {
 			String values[] = itemStream.split("#");
-			int id = Integer.parseInt(values[0]);
-			String imageUrl = values[1];
-			MovieListItem item = new MovieListItem(id, "", imageUrl);
+			int id = 0;
+			String title = "", imageUrl = "";
+			
+			if (0 < values.length)
+				id = Integer.parseInt(values[0]);
+			if (1 < values.length)
+				title = values[1];
+			if (2 < values.length)
+				imageUrl = values[2];
+			MovieListItem item = new MovieListItem(id, title, imageUrl);
 			movielist.add(item);
 		}
 		return movielist;
@@ -130,8 +138,9 @@ public class MovieListFragment extends RoboFragment implements
 			public void onItemClick(AdapterView<?> parent, View v,
 					int position, long id) {
 
-				movielistSlectionListener.onMovielistItemSelected(imageAdapter
-						.getItem(position).getId());
+				IMovieListItem selectedMovie = imageAdapter.getItem(position);
+				movielistSlectionListener.onMovielistItemSelected(
+						selectedMovie.getId(), selectedMovie.getTitle());
 			}
 		});
 		hideProgressLayout();
