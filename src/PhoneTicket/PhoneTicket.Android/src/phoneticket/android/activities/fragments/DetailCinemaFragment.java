@@ -98,7 +98,7 @@ public class DetailCinemaFragment extends RoboFragment implements
 			((TextView) getView().findViewById(R.id.cinemaName))
 					.setText(this.cinema.getName());
 			((TextView) getView().findViewById(R.id.cinemaAddress))
-					.setText(this.cinema.getAddress());
+					.setText("Encontrá nuestro cine en: " + this.cinema.getAddress());
 		}
 	}
 
