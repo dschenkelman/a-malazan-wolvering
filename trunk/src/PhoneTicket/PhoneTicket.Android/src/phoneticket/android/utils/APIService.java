@@ -28,4 +28,8 @@ public class APIService {
 		return baseAPIURL() + "complexes/";
 	}
 
+	public static String getRetrieveCinemaInfoServiceGetURL(int cinemaId) {
+		return getRetrieveCinemaListServiceGetURL() + cinemaId;
+	}
+
 }
