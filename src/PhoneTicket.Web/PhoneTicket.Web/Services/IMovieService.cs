@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Models;
+    using System.Web.Mvc;
 
     public interface IMovieService
     {
@@ -15,5 +16,6 @@
         Task CreateAsync(Movie movie);
         Task UpdateAsync(Movie movie);
         Task DeleteAsync(int id);
+        Task<IEnumerable<SelectListItem>> ListAsync(int movieId);
     }
 }

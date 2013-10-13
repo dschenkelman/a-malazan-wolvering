@@ -4,8 +4,10 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using System.Web.Mvc;
 
     using PhoneTicket.Web.Models;
+    
 
     public interface IRoomService
     {
@@ -15,5 +17,6 @@
         Task CreateAsync(Room room);
         Task UpdateAsync(Room room);
         Task DeleteAsync(int roomId);
+        Task<IEnumerable<SelectListItem>> SameComplexRoomsListAsync(int roomId);
     }
 }

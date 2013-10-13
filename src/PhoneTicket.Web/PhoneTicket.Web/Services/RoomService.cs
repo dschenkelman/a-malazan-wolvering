@@ -9,6 +9,7 @@
 
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
+    using System.Web.Mvc;
 
     public class RoomService : IRoomService, IDisposable
     {
@@ -51,6 +52,22 @@
             await this.repositories.Rooms.DeleteAsync(roomId);
 
             await this.repositories.Rooms.SaveAsync();
+        }
+
+        public async Task<IEnumerable<SelectListItem>> SameComplexRoomsListAsync(int roomId)
+        {
+            //Filters rooms that belong to the same complex as roomId
+            var room = await this.GetAsync(roomId);
+            var rooms = await this.GetAsync(r => r.ComplexId == room.ComplexId);
+
+            return from r in rooms
+                   orderby r.Name
+                   select new SelectListItem
+                   {
+                       Text = r.Name,
+                       Value = r.Id.ToString(),
+                       Selected = r.Id == roomId
+                   };
         }
 
         public void Dispose()

@@ -58,10 +58,6 @@
     <Reference Include="Microsoft.Practices.Unity.Configuration">
       <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.SqlServer.Types.10.50.1600.1\lib\Net20\Microsoft.SqlServer.Types.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -276,12 +272,14 @@
     <Compile Include="Services\IRatingService.cs" />
     <Compile Include="Services\IRoomService.cs" />
     <Compile Include="Services\IRoomTypeService.cs" />
+    <Compile Include="Services\IShowService.cs" />
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\MovieService.cs" />
     <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\RoomService.cs" />
     <Compile Include="Services\RoomTypeService.cs" />
+    <Compile Include="Services\ShowService.cs" />
     <Compile Include="Services\TemporaryUserService.cs" />
     <Compile Include="Templates\EmailTemplate.Context.cs" />
     <Compile Include="Templates\EmailTemplate.cs">
@@ -298,6 +296,7 @@
     <Compile Include="ViewModels\Api\MovieViewModel.cs" />
     <Compile Include="ViewModels\CreateShowsViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
+    <Compile Include="ViewModels\EditShowViewModel.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\ListMovieViewModel.cs" />
     <Compile Include="ViewModels\ListRoomViewModel.cs" />
@@ -462,6 +461,7 @@
     <Content Include="Views\Rooms\Index.cshtml" />
     <Content Include="Views\Rooms\Add.cshtml" />
     <Content Include="Views\Rooms\Edit.cshtml" />
+    <Content Include="Views\Shows\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

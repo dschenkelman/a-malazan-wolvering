@@ -11,4 +11,14 @@
     <div class="col-md-3">
         @Html.ActionLink("Crear nuevas", "Create")        
     </div>
+    <div class="col-md-3">
+        @Html.ActionLink(linkText: "Editar",
+                         actionName: "Edit",
+                         controllerName: "Shows",
+                         routeValues: new { showId = 1 }, // TODO - Replace 1 by the id of the show
+                         htmlAttributes: null
+                         )  
+    </div>
 </div>
+
+                            
