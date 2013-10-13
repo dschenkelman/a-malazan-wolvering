@@ -1,12 +1,13 @@
 ﻿namespace PhoneTicket.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.ViewModels;
     using PhoneTicket.Web.Services;
-using System;
+
 
     public class ShowsController : Controller
     {
@@ -43,11 +44,7 @@ using System;
         [HttpGet]
         public async Task<ActionResult> Edit(int showId)
         {
-            //-------------
-            //TODO - remove mock
-            //var show = await this.showService.GetAsync(showId);
-            var show = new Show { Id = 1, MovieId = 1, RoomId = 1, Date = new DateTime(2013, 10, 10), Price = 10.0d, IsAvailable = true };
-            //-------------
+            var show = await this.showService.GetAsync(showId);
             
             var availableRooms = await this.roomService.SameComplexRoomsListAsync(show.RoomId);
             var availableMovies = await this.movieService.ListAsync(show.MovieId);
@@ -63,19 +60,15 @@ using System;
         {
             var updatedShow = showViewModel.FromViewModel();
 
+            var existingShow = await this.showService.GetAsync(updatedShow.Id);
 
-            //--------
-            //TODO - remove comments
-            //var existingShow = await this.showService.GetAsync(updatedShow.Id);
+            existingShow.MovieId = updatedShow.MovieId;
+            existingShow.RoomId = updatedShow.RoomId;
+            existingShow.Price = updatedShow.Price;
+            existingShow.IsAvailable = updatedShow.IsAvailable;
+            existingShow.Date = updatedShow.Date;
 
-            //existingShow.MovieId = updatedShow.MovieId;
-            //existingShow.RoomId = updatedShow.RoomId;
-            //existingShow.Price = updatedShow.Price;
-            //existingShow.IsAvailable = updatedShow.IsAvailable;
-            //existingShow.Date = updatedShow.Date;
-
-            //await this.showService.UpdateAsync(existingShow);
-            //--------
+            await this.showService.UpdateAsync(existingShow);
 
             this.ViewBag.Message = string.Format("La función se ha modificado con éxito.");
             this.ViewBag.LinkText = "Aceptar";

@@ -119,6 +119,7 @@
     <Compile Include="Controllers\Api\MoviesControllerTests.cs" />
     <Compile Include="Controllers\MoviesControllerTests.cs" />
     <Compile Include="Controllers\RoomsControllerTests.cs" />
+    <Compile Include="Controllers\ShowsControllerTests.cs" />
     <Compile Include="Controllers\UsersControllerTests.cs" />
     <Compile Include="Data\RepositoryTests.cs" />
     <Compile Include="UnityDependencyResolverTests.cs" />

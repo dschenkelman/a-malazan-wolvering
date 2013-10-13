@@ -20,12 +20,15 @@
 
         public async Task<Show> GetAsync(int id)
         {
-            return await this.repositories.Shows.GetByKeyValuesAsync(id);
+            //TODO REMOVE MOCK
+            //return await this.repositories.Shows.GetByKeyValuesAsync(id);
+            return new Show { Id = 1, MovieId = 1, RoomId = 1, Date = new DateTime(2013, 10, 10), Price = 10.0d, IsAvailable = true };
+            
         }
 
         public async Task UpdateAsync(Show show)
         {
-            await this.repositories.Shows.SaveAsync();
+            //await this.repositories.Shows.SaveAsync();
         }
 
         public void Dispose()
