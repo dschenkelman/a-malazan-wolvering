@@ -13,7 +13,8 @@
         android:layout_alignParentLeft="true"
         android:gravity="center"
         android:src="@drawable/ic_ribbon_menu"
-        android:background="@null"  />
+        android:background="@null"
+        android:contentDescription="@string/ribbonMenuButtonDescription" />
 
     <TextView
         android:id="@+id/actionTitle"
@@ -30,8 +31,10 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
+        android:paddingRight="4dp"
         android:gravity="center"
-        android:src="@drawable/ic_twitter"
-        android:background="@null"  />
+        android:src="@drawable/ic_gray_twitter"
+        android:background="@null"
+        android:contentDescription="@string/twitterButtonDescription" />
     
 </RelativeLayout>

@@ -4,5 +4,8 @@
     <string name="ribbon_menu_movielist">Películas</string>
     <string name="ribbon_menu_cinemas">Complejos</string>
     <string name="ribbon_menu_user">Usuario</string>
+    <string name="ribbonMenuButtonDescription">Menú</string>
+    <string name="twitterButtonDescription">Twitter</string>
+    
     
 </resources>
