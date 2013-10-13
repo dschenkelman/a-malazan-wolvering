@@ -71,18 +71,32 @@
                 android:text="@string/defaultCinemaName"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@android:color/black" />
+            
             <TextView
                 android:id="@+id/cinemaAddress"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/defaultCinemaAddress"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:text="@string/defaultCinemaAddress" />
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@android:color/black" />
+                        
             <Button
                 android:id="@+id/showInGoogleMaps"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:text="@string/showInMapCinemaButton" />
+            
         </LinearLayout>
     </LinearLayout>
 

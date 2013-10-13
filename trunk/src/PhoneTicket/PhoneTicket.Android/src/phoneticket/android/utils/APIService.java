@@ -24,4 +24,8 @@ public class APIService {
 		return getRetrieveMovieListServiceGetURL() + "/" + movieID;
 	}
 
+	public static String getRetrieveCinemaListServiceGetURL() {
+		return baseAPIURL() + "complexes/";
+	}
+
 }
