@@ -1,9 +1,7 @@
 ﻿namespace PhoneTicket.Web.Tests.Controllers
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
@@ -271,7 +269,8 @@
 
             var result = (ViewResult)await controller.ByMovie(1);
 
-            var returnedShows = (IEnumerable<IGrouping<DateTime, ListShowViewModel>>)result.Model;
+            var viewModel = (ListShowsByMovieViewModel)result.Model;
+            var returnedShows = viewModel.ShowsPerDay;
 
             Assert.AreEqual(3, returnedShows.Count());
 
@@ -311,7 +310,8 @@
             var controller = this.CreateController();
 
             var result = (ViewResult)await controller.ByMovie(MovieId);
-            var returnedShows = (IEnumerable<IGrouping<DateTime, ListShowViewModel>>)result.Model;
+            var viewModel = (ListShowsByMovieViewModel)result.Model;
+            var returnedShows = viewModel.ShowsPerDay;
 
             Assert.AreEqual(1, returnedShows.Count());
 
@@ -338,7 +338,8 @@
             var controller = this.CreateController();
 
             var result = (ViewResult)await controller.ByMovie(MovieId);
-            var returnedShows = (IEnumerable<IGrouping<DateTime, ListShowViewModel>>)result.Model;
+            var viewModel = (ListShowsByMovieViewModel)result.Model;
+            var returnedShows = viewModel.ShowsPerDay;
 
             Assert.AreEqual(1, returnedShows.Count());
 
@@ -373,7 +374,8 @@
             var controller = this.CreateController();
 
             var result = (ViewResult)await controller.ByMovie(MovieId);
-            var returnedShowDays = (IEnumerable<IGrouping<DateTime, ListShowViewModel>>)result.Model;
+            var viewModel = (ListShowsByMovieViewModel)result.Model;
+            var returnedShowDays = viewModel.ShowsPerDay;
 
             Assert.AreEqual(1, returnedShowDays.Count());
 

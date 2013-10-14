@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IGrouping<DateTime, PhoneTicket.Web.ViewModels.ListShowViewModel>>
+﻿@model PhoneTicket.Web.ViewModels.ListShowsByMovieViewModel
 
 @{
     ViewBag.Title = "ByMovie";
@@ -9,7 +9,7 @@
 @Styles.Render("~/Content/bootstrap.min.css")
 @Styles.Render("~/Content/ListShows.css")
 
-@foreach (var day in this.Model)
+@foreach (var day in this.Model.ShowsPerDay)
 {
     <div class="panel panel-danger">
         <div class="panel-heading">
@@ -32,8 +32,13 @@
                         <span class="glyphicon glyphicon-info-sign"></span>
                         @if (show.CanEdit)
                         {
-                            <a href="@Url.Action("Edit", new { showId = show.Id })"><i class="glyphicon glyphicon-edit"></i></a>
-                            <span class="glyphicon glyphicon-remove"></span>    
+                            <a href="@Url.Action("Edit", new { showId = show.Id })" >
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Delete", new { showId = show.Id, movieId = this.Model.MovieId })" 
+                               onclick="return confirm('¿Está seguro que desea borrar la función?')">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a> 
                         }
                         @if (show.IsAvailable)
                         {

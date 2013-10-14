@@ -42,6 +42,13 @@
             return await this.repositories.Shows.Filter(s => s.MovieId == movieId).ToListAsync();
         }
 
+        public async Task DeleteAsync(int showId)
+        {
+            await this.repositories.Shows.DeleteAsync(showId);
+
+            await this.repositories.Shows.SaveAsync();
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
