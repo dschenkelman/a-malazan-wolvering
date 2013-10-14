@@ -17,10 +17,10 @@ namespace PhoneTicket.Web.Migrations
         {
             if (!context.Ratings.Any())
             {
-                context.Ratings.Add(new Rating() { Description = "ATP" });
-                context.Ratings.Add(new Rating() { Description = "SAM13" });
-                context.Ratings.Add(new Rating() { Description = "SAM16" });
-                context.Ratings.Add(new Rating() { Description = "SAM18" });
+                context.Ratings.Add(new Rating { Description = "ATP" });
+                context.Ratings.Add(new Rating { Description = "SAM13" });
+                context.Ratings.Add(new Rating { Description = "SAM16" });
+                context.Ratings.Add(new Rating { Description = "SAM18" });
             }
 
             if (!context.Genres.Any())
@@ -133,7 +133,7 @@ namespace PhoneTicket.Web.Migrations
                     new Complex
                         {
                             Address = "Cabildo y Juramento",
-                            Name = "CinemAR Belgrano",
+                            Name = "Belgrano",
                             Location = DbGeography.FromText("POINT(-58.456633 -34.561893)")
                         });
 
@@ -141,7 +141,7 @@ namespace PhoneTicket.Web.Migrations
                     new Complex
                     {
                         Address = "Florida y Lavalle",
-                        Name = "CinemAR Microcentro",
+                        Name = "Microcentro",
                         Location = DbGeography.FromText("POINT(-58.375416 -34.602164)")
                     });
             }

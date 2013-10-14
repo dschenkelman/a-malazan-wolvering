@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.Services
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Models;
@@ -9,5 +10,6 @@
         Task<Show> GetAsync(int id);
         Task UpdateAsync(Show show);
         Task Add(params Show[] shows);
+        Task<IEnumerable<Show>> GetForMovieAsync(int movieId);
     }
 }

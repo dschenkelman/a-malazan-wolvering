@@ -1,6 +1,8 @@
 ﻿namespace PhoneTicket.Web.Services
 {
     using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
 
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
@@ -15,17 +17,14 @@
             this.repositories = repositories;
         }
 
-        public async Task<Show> GetAsync(int id)
+        public Task<Show> GetAsync(int id)
         {
-            //TODO REMOVE MOCK
-            //return await this.repositories.Shows.GetByKeyValuesAsync(id);
-            return new Show { Id = 1, MovieId = 1, RoomId = 1, Date = new DateTime(2013, 10, 10), Price = 10.0d, IsAvailable = true };
-            
+            return this.repositories.Shows.GetByKeyValuesAsync(id);
         }
 
-        public async Task UpdateAsync(Show show)
+        public Task UpdateAsync(Show show)
         {
-            //await this.repositories.Shows.SaveAsync();
+            return this.repositories.Shows.SaveAsync();
         }
 
         public Task Add(params Show[] shows)
@@ -36,6 +35,11 @@
             }
 
             return shows.Length > 0 ? this.repositories.Shows.SaveAsync() : Task.FromResult<object>(null);
+        }
+
+        public async Task<IEnumerable<Show>> GetForMovieAsync(int movieId)
+        {
+            return await this.repositories.Shows.Filter(s => s.MovieId == movieId).ToListAsync();
         }
 
         public void Dispose()
