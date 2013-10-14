@@ -22,11 +22,11 @@
 
         public static ListShowViewModel FromShow(Show show)
         {
-            return new ListShowViewModel()
-                       {
+            return new ListShowViewModel 
+                        {
                            CanEdit = show.Date > DateTime.Now,
-                           Complex = show.Room.Complex.Name,
-                           Room = show.Room.Name,
+                           Complex = show.Room != null && show.Room.Complex != null ? show.Room.Complex.Name : string.Empty,
+                           Room = show.Room != null ? show.Room.Name : string.Empty,
                            Id = show.Id,
                            Date = show.Date,
                            IsAvailable = show.IsAvailable,

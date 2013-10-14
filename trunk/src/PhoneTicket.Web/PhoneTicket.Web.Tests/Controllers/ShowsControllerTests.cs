@@ -1,8 +1,10 @@
 ﻿namespace PhoneTicket.Web.Tests.Controllers
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
@@ -239,6 +241,152 @@
                                                                         && s.Price == Price
                                                                         && s.MovieId == MovieId)),
                                                                     Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnMoviesOrderedAndGroupedByDateWhenCallingByMovie()
+        {
+            var day1Show1Date = new DateTime(2013, 10, 14);
+            var day1Show2Date = day1Show1Date.AddHours(3);
+            var day2Show1Date = new DateTime(2013, 10, 15);
+            var day2Show2Date = day2Show1Date.AddHours(15);
+            var day3Show1Date = new DateTime(2013, 10, 16);
+            var day3Show2Date = day3Show1Date.AddHours(7);
+
+            const int MovieId = 1;
+
+            var shows = new List<Show>
+                            {
+                                new Show { Date = day1Show1Date },
+                                new Show { Date = day2Show2Date },
+                                new Show { Date = day3Show2Date },
+                                new Show { Date = day3Show1Date },
+                                new Show { Date = day2Show1Date },
+                                new Show { Date = day1Show2Date },
+                            };
+
+            this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.ByMovie(1);
+
+            var returnedShows = (IEnumerable<IGrouping<DateTime, ListShowViewModel>>)result.Model;
+
+            Assert.AreEqual(3, returnedShows.Count());
+
+            var firstDayShows = returnedShows.ElementAt(0);
+
+            Assert.AreEqual(day1Show1Date, firstDayShows.First().Date);
+            Assert.AreEqual(day1Show2Date, firstDayShows.Last().Date);
+
+            var secondDayShows = returnedShows.ElementAt(1);
+
+            Assert.AreEqual(day2Show1Date, secondDayShows.First().Date);
+            Assert.AreEqual(day2Show2Date, secondDayShows.Last().Date);
+
+            var thirdDayShows = returnedShows.ElementAt(2);
+
+            Assert.AreEqual(day3Show1Date, thirdDayShows.First().Date);
+            Assert.AreEqual(day3Show2Date, thirdDayShows.Last().Date);
+
+            this.showService.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldNotBeAbleToEditIfDateIsInThePast()
+        {
+            // ideally we should mock the DateTime.Today component for this test
+            // if it fails, check the date in your OS
+            var showDate = new DateTime(2013, 10, 13);
+            const int MovieId = 1;
+
+            var shows = new List<Show>
+                            {
+                                new Show { Date = showDate },
+                            };
+
+            this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.ByMovie(MovieId);
+            var returnedShows = (IEnumerable<IGrouping<DateTime, ListShowViewModel>>)result.Model;
+
+            Assert.AreEqual(1, returnedShows.Count());
+
+            Assert.IsFalse(returnedShows.First().First().CanEdit);
+
+            this.showService.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldBeAbleToEditIfDateIsInTheFuture()
+        {
+            // ideally we should mock the DateTime.Today component for this test
+            // if it fails, check the date in your OS
+            var showDate = new DateTime(2020, 10, 13);
+            const int MovieId = 1;
+
+            var shows = new List<Show>
+                            {
+                                new Show { Date = showDate },
+                            };
+
+            this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.ByMovie(MovieId);
+            var returnedShows = (IEnumerable<IGrouping<DateTime, ListShowViewModel>>)result.Model;
+
+            Assert.AreEqual(1, returnedShows.Count());
+
+            Assert.IsTrue(returnedShows.First().First().CanEdit);
+
+            this.showService.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldSetViewModelPropertiesFromShow()
+        {
+            var showDate = new DateTime(2020, 10, 13);
+            const bool IsAvailable = true;
+            const int MovieId = 1;
+            const int ShowId = 20;
+
+            var room = new Room { Complex = new Complex { Name = "Caballito" }, Name = "Room1" };
+
+            var shows = new List<Show>
+                            {
+                                new Show 
+                                { 
+                                    Date = showDate, 
+                                    IsAvailable = IsAvailable, 
+                                    Id = ShowId, 
+                                    Room = room
+                                },
+                            };
+
+            this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.ByMovie(MovieId);
+            var returnedShowDays = (IEnumerable<IGrouping<DateTime, ListShowViewModel>>)result.Model;
+
+            Assert.AreEqual(1, returnedShowDays.Count());
+
+            var show = returnedShowDays.First().First();
+
+            Assert.AreEqual("Caballito", show.Complex);
+            Assert.AreEqual("Room1", show.Room);
+            Assert.AreEqual("Room1", show.Room);
+            Assert.AreEqual(showDate, show.Date);
+            Assert.AreEqual(showDate.ToString("hh:mm"), show.Time);
+            Assert.IsTrue(show.IsAvailable);
+
+            this.showService.VerifyAll();
         }
 
         private ShowsController CreateController()
