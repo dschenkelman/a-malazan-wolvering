@@ -391,6 +391,21 @@
             this.showService.VerifyAll();
         }
 
+        [TestMethod]
+        public async Task ShouldDeleteShowFromServiceWhenDeletingMovie()
+        {
+            const int MovieId = 1;
+            const int ShowId = 20;
+
+            var controller = this.CreateController();
+
+            this.showService.Setup(ss => ss.DeleteAsync(ShowId)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            await controller.Delete(MovieId, ShowId);
+
+            this.showService.VerifyAll();
+        }
+
         private ShowsController CreateController()
         {
             return new ShowsController(this.showService.Object, this.roomService.Object, this.movieService.Object);
