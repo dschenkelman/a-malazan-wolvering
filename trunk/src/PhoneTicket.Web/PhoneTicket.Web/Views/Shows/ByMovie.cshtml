@@ -22,7 +22,7 @@
             <div class="row">
                 @foreach (var show in day)
                 {
-                    <div class="col-md-4 show-info">
+                    <div class="col-md-4 show-info @(!show.IsAvailable ? "unavailable-show" : string.Empty)">
                         <span>@show.Time</span>
                         <span>|</span>
                         <span>@show.Complex</span>
@@ -36,17 +36,24 @@
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
                             <a href="@Url.Action("Delete", new { showId = show.Id, movieId = this.Model.MovieId })" 
-                               onclick="return confirm('¿Está seguro que desea borrar la función?')">
+                                        onclick="return confirm('¿Está seguro que desea borrar la función?')">
                                 <i class="glyphicon glyphicon-remove"></i>
                             </a> 
                         }
                         @if (show.IsAvailable)
                         {
-                            <span class="glyphicon glyphicon-arrow-down"></span>
+                            <a href="@Url.Action("ChangeAvailability", new { showId = show.Id, movieId = this.Model.MovieId })" 
+                                        onclick="return confirm('¿Está seguro que desea marcar la función como no disponible?')">
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+
+                            </a>
                         }
                         else
                         {
-                            <span class="glyphicon glyphicon-arrow-down"></span>
+                            <a href="@Url.Action("ChangeAvailability", new { showId = show.Id, movieId = this.Model.MovieId })" 
+                                        onclick="return confirm('¿Está seguro que desea marcar la función como disponible?')">
+                                <span class="glyphicon glyphicon-arrow-up"></span>
+                            </a>
                         }
                     </div>
                 }

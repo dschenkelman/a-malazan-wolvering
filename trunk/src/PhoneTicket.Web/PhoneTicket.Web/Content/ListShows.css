@@ -6,3 +6,7 @@
     padding-left: 5px;
     padding-right: 5px;
 }
+
+.unavailable-show {
+    background: lightgrey;
+}
