@@ -95,7 +95,7 @@ public class CinemasFragment extends RoboFragment implements
 
 	}
 
-	private void onRefreshCinemasListAction() {
+	public void onRefreshCinemasListAction() {
 		showProgressLayout();
 		cinemaListService.retrieveCinemaList(this);
 	}
