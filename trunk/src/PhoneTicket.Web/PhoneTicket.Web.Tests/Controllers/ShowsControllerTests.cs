@@ -406,6 +406,21 @@
             this.showService.VerifyAll();
         }
 
+        [TestMethod]
+        public async Task ShouldCallChangeAvailabilityInShowServiceWhenChangeAvailabilityIsCalled()
+        {
+            const int MovieId = 1;
+            const int ShowId = 20;
+
+            this.showService.Setup(ss => ss.ChangeAvailability(ShowId)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            var controller = this.CreateController();
+
+            await controller.ChangeAvailability(MovieId, ShowId);
+
+            this.showService.VerifyAll();
+        }
+
         private ShowsController CreateController()
         {
             return new ShowsController(this.showService.Object, this.roomService.Object, this.movieService.Object);
