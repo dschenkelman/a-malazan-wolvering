@@ -35,7 +35,7 @@
                 this.repositories.Shows.Insert(show);    
             }
 
-            return this.repositories.Shows.SaveAsync();
+            return shows.Length > 0 ? this.repositories.Shows.SaveAsync() : Task.FromResult<object>(null);
         }
 
         public void Dispose()
