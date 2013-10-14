@@ -12,5 +12,6 @@
         Task Add(params Show[] shows);
         Task<IEnumerable<Show>> GetForMovieAsync(int movieId);
         Task DeleteAsync(int showId);
+        Task ChangeAvailability(int showId);
     }
 }

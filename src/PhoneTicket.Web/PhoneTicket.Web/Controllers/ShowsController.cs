@@ -150,5 +150,13 @@
 
             return this.View("~/Views/Shared/Confirmation.cshtml");
         }
+
+        [HttpGet]
+        public async Task<ActionResult> ChangeAvailability(int movieId, int showId)
+        {
+            await this.showService.ChangeAvailability(showId);
+
+            return this.RedirectToAction("ByMovie", new { movieId });
+        }
     }
 }

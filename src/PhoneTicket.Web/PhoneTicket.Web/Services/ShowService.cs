@@ -49,6 +49,15 @@
             await this.repositories.Shows.SaveAsync();
         }
 
+        public async Task ChangeAvailability(int showId)
+        {
+            var show = await this.repositories.Shows.GetByKeyValuesAsync(showId);
+
+            show.IsAvailable = !show.IsAvailable;
+
+            await this.repositories.Shows.SaveAsync();
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
