@@ -292,6 +292,7 @@
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\ListMovieViewModel.cs" />
     <Compile Include="ViewModels\ListRoomViewModel.cs" />
+    <Compile Include="ViewModels\ListShowsByMovieViewModel.cs" />
     <Compile Include="ViewModels\ListShowViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />

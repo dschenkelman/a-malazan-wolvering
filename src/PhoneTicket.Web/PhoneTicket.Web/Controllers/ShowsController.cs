@@ -39,7 +39,7 @@
                .OrderBy(s => s.Date)
                .GroupBy(s => s.Date.Date);
 
-            return this.View(showsGroupedByDate);
+            return this.View(new ListShowsByMovieViewModel{ MovieId = movieId, ShowsPerDay = showsGroupedByDate});
         }
 
         [HttpGet]
@@ -134,6 +134,20 @@
             this.ViewBag.LinkText = "Aceptar";
             this.ViewBag.Action = "Index";
             this.ViewBag.Controller = "Shows";
+            return this.View("~/Views/Shared/Confirmation.cshtml");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(int movieId, int showId)
+        {
+            await this.showService.DeleteAsync(showId);
+
+            this.ViewBag.Message = string.Format("La película función ha sido borrada.");
+            this.ViewBag.LinkText = "Aceptar";
+            this.ViewBag.Action = "ByMovie";
+            this.ViewBag.Controller = "Shows";
+            this.ViewBag.RouteValues = new { movieId };
+
             return this.View("~/Views/Shared/Confirmation.cshtml");
         }
     }

@@ -5,4 +5,4 @@
 
 <h3>@ViewBag.Message</h3>
 
-@Html.ActionLink((string)ViewBag.LinkText,(string)ViewBag.Action, (string)ViewBag.Controller)
+@Html.ActionLink((string)ViewBag.LinkText,(string)ViewBag.Action, (string)ViewBag.Controller, (object)ViewBag.RouteValues, null)
