@@ -62,8 +62,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void setupActionBar() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getActionBar();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+				&& actionBar != null) {
+
 			actionBar.setDisplayHomeAsUpEnabled(false);
 			actionBar.setDisplayShowTitleEnabled(false);
 			actionBar.setDisplayUseLogoEnabled(false);
@@ -125,33 +127,40 @@ public class MasterActivity extends RoboFragmentActivity implements
 		}
 	}
 
-	private void changeToMovieListFragment() {
-		twitterButton.setVisibility(ImageButton.GONE);
+	public void changeToMovieListFragment() {
+		if (twitterButton != null)
+			twitterButton.setVisibility(ImageButton.GONE);
 		MovieListFragment movielistFragment = new MovieListFragment();
 		changeFragment(movielistFragment, false);
-		actionTitle.setText(R.string.ribbon_menu_movielist);
+		if (actionTitle != null)
+			actionTitle.setText(R.string.ribbon_menu_movielist);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
 	}
 
-	private void changeToCinemasFragment() {
-		twitterButton.setVisibility(ImageButton.GONE);
+	public void changeToCinemasFragment() {
+		if (twitterButton != null)
+			twitterButton.setVisibility(ImageButton.GONE);
 		CinemasFragment cinemasFragment = new CinemasFragment();
 		changeFragment(cinemasFragment, false);
-		actionTitle.setText(R.string.ribbon_menu_cinemas);
+		if (actionTitle != null)
+			actionTitle.setText(R.string.ribbon_menu_cinemas);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_cinemas;
 	}
 
-	private void changeToUserFragment() {
-		twitterButton.setVisibility(ImageButton.VISIBLE);
+	public void changeToUserFragment() {
+		if (twitterButton != null)
+			twitterButton.setVisibility(ImageButton.VISIBLE);
 		twitterMessage = "Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar";
 		UserFragment userFragment = new UserFragment();
 		changeFragment(userFragment, false);
-		actionTitle.setText(R.string.ribbon_menu_user);
+		if (actionTitle != null)
+			actionTitle.setText(R.string.ribbon_menu_user);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;
 	}
 
 	private void changeToDetailMovieFragment(Bundle movieData) {
-		twitterButton.setVisibility(ImageButton.VISIBLE);
+		if (twitterButton != null)
+			twitterButton.setVisibility(ImageButton.VISIBLE);
 		twitterMessage = "Voy a mirar una película CINEMAR. Visita www.cinemar.com.ar";
 		String movieName = movieData
 				.getString(DetailMovieFragment.EXTRA_MOVIE_TITLE);
@@ -167,7 +176,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	private void changeToDetailCinemaFragment(Bundle cinemaData) {
-		twitterButton.setVisibility(ImageButton.VISIBLE);
+		if (twitterButton != null)
+			twitterButton.setVisibility(ImageButton.VISIBLE);
 		twitterMessage = "Voy a CINEMAR. Visita www.cinemar.com.ar";
 		String name = cinemaData
 				.getString(DetailCinemaFragment.EXTRA_CINEMA_NAME);
