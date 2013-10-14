@@ -25,9 +25,21 @@
             this.movieService = movieService;
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
             return this.View();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ByMovie(int movieId)
+        {
+            var showsGroupedByDate = (await this.showService.GetForMovieAsync(movieId))
+                .Select(ListShowViewModel.FromShow)
+               .OrderBy(s => s.Date)
+               .GroupBy(s => s.Date.Date);
+
+            return this.View(showsGroupedByDate);
         }
 
         [HttpGet]

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<IGrouping<DateTime, PhoneTicket.Web.ViewModels.ListShowViewModel>>
+
+@{
+    ViewBag.Title = "ByMovie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/themes/base/css")
+@Styles.Render("~/Content/bootstrap.min.css")
+@Styles.Render("~/Content/ListShows.css")
+
+@foreach (var day in this.Model)
+{
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <label>Fecha:</label>
+                <span>@day.Key.ToString("yyyy-MM-dd")</span>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                @foreach (var show in day)
+                {
+                    <div class="col-md-4 show-info">
+                        <span>@show.Time</span>
+                        <span>|</span>
+                        <span>@show.Complex</span>
+                        <span>|</span>
+                        <span>@show.Room</span>
+                        <span>|</span>
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        @if (show.CanEdit)
+                        {
+                            <a href="@Url.Action("Edit", new { showId = show.Id })"><i class="glyphicon glyphicon-edit"></i></a>
+                            <span class="glyphicon glyphicon-remove"></span>    
+                        }
+                        @if (show.IsAvailable)
+                        {
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

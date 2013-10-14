@@ -292,6 +292,7 @@
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\ListMovieViewModel.cs" />
     <Compile Include="ViewModels\ListRoomViewModel.cs" />
+    <Compile Include="ViewModels\ListShowViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />
     <Compile Include="ViewModels\TimesAndRoomViewModel.cs" />
@@ -384,6 +385,7 @@
     <Content Include="Scripts\app\Validation.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\ListShows.css" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -456,6 +458,7 @@
     <Content Include="Views\Rooms\Add.cshtml" />
     <Content Include="Views\Rooms\Edit.cshtml" />
     <Content Include="Views\Shows\Edit.cshtml" />
+    <Content Include="Views\Shows\ByMovie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
