@@ -262,6 +262,10 @@
                                 new Show { Date = day2Show1Date },
                                 new Show { Date = day1Show2Date },
                             };
+            
+            var movies = new List<Movie>();
+
+            this.movieService.Setup(ms => ms.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies));
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
 
@@ -305,6 +309,9 @@
                                 new Show { Date = showDate },
                             };
 
+            var movies = new List<Movie>();
+
+            this.movieService.Setup(ms => ms.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies));
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
 
             var controller = this.CreateController();
@@ -332,6 +339,10 @@
                             {
                                 new Show { Date = showDate },
                             };
+
+            var movies = new List<Movie>();
+
+            this.movieService.Setup(ms => ms.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies));
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
 
@@ -368,6 +379,10 @@
                                     Room = room
                                 },
                             };
+
+            var movies = new List<Movie>();
+
+            this.movieService.Setup(ms => ms.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies));
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
 
@@ -471,15 +486,41 @@
             this.showService.VerifyAll();
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult> Details(int movieId, int showId)
-        //{
-        //    var show = await this.showService.GetAsync(showId);
-        //    var viewModel = ShowReadOnlyViewModel.FromShow(show);
-        //    viewModel.MovieId = movieId;
+        [TestMethod]
+        public async Task ShouldReturnMovieListInComboWhenByMovieIsInvoked()
+        {
+            const int MovieId = 2;
 
-        //    return this.View(viewModel);
-        //}
+            var movies = new List<Movie> { new Movie { Id = 1 }, new Movie { Id = 2 }, new Movie { Id = 3 } };
+
+            this.movieService.Setup(ms => ms.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies)).Verifiable();
+
+            this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult(Enumerable.Empty<Show>())).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.ByMovie(2);
+
+            var viewModel = (ListShowsByMovieViewModel)result.Model;
+
+            Assert.AreEqual(3, viewModel.Movies.Count());
+
+            var movie1 = viewModel.Movies.ElementAt(0);
+            Assert.AreEqual("1", movie1.Value);
+            Assert.IsFalse(movie1.Selected);
+
+            var movie2 = viewModel.Movies.ElementAt(1);
+            Assert.AreEqual("2", movie2.Value);
+            Assert.IsTrue(movie2.Selected);
+
+            var movie3 = viewModel.Movies.ElementAt(2);
+            Assert.AreEqual("3", movie3.Value);
+            Assert.IsFalse(movie3.Selected);
+            
+            this.movieService.VerifyAll();
+
+            this.showService.VerifyAll();
+        }
 
         private ShowsController CreateController()
         {
