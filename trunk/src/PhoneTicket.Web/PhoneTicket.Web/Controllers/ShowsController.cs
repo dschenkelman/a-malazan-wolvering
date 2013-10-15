@@ -6,10 +6,13 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
+    using PhoneTicket.Web.Handlers;
     using PhoneTicket.Web.Models;
-    using PhoneTicket.Web.ViewModels;
     using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.ViewModels;
 
+    [Authorize]
+    [RequireSsl]
     public class ShowsController : Controller
     {
         private readonly IShowService showService;
@@ -24,13 +27,7 @@
             this.roomService = roomService;
             this.movieService = movieService;
         }
-
-        [HttpGet]
-        public ActionResult Index()
-        {
-            return this.View();
-        }
-
+        
         [HttpGet]
         public async Task<ActionResult> Details(int movieId, int showId)
         {
@@ -42,9 +39,14 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult> ByMovie(int movieId)
+        public async Task<ActionResult> ByMovie(int? movieId)
         {
-            var showsGroupedByDate = (await this.showService.GetForMovieAsync(movieId))
+            if (!movieId.HasValue)
+            {
+                movieId = 1;
+            }
+
+            var showsGroupedByDate = (await this.showService.GetForMovieAsync(movieId.Value))
                 .Select(ListShowViewModel.FromShow)
                .OrderBy(s => s.Date)
                .GroupBy(s => s.Date.Date);
@@ -54,7 +56,7 @@
 
             return this.View(new ListShowsByMovieViewModel
                                  {
-                                     MovieId = movieId, ShowsPerDay = showsGroupedByDate, Movies = movies
+                                     MovieId = movieId.Value, ShowsPerDay = showsGroupedByDate, Movies = movies
                                  });
         }
 
@@ -137,7 +139,7 @@
 
             this.ViewBag.Message = string.Format("La función se ha modificado con éxito.");
             this.ViewBag.LinkText = "Aceptar";
-            this.ViewBag.Action = "Index";
+            this.ViewBag.Action = "ByMovie";
             this.ViewBag.Controller = "Shows";
 
             return this.View("~/Views/Shared/Confirmation.cshtml");
@@ -148,7 +150,7 @@
         {
             this.ViewBag.Message = "Las funciones se han creado con éxito.";
             this.ViewBag.LinkText = "Aceptar";
-            this.ViewBag.Action = "Index";
+            this.ViewBag.Action = "ByMovie";
             this.ViewBag.Controller = "Shows";
             return this.View("~/Views/Shared/Confirmation.cshtml");
         }

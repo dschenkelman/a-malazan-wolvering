@@ -454,7 +454,6 @@
     <Content Include="Views\Movies\Add.cshtml" />
     <Content Include="Views\Movies\Edit.cshtml" />
     <Content Include="Views\Shared\Confirmation.cshtml" />
-    <Content Include="Views\Shows\Index.cshtml" />
     <Content Include="Views\Shows\Create.cshtml" />
     <Content Include="Views\Rooms\Index.cshtml" />
     <Content Include="Views\Rooms\Add.cshtml" />
