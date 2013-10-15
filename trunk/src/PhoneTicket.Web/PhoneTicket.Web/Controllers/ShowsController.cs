@@ -49,7 +49,13 @@
                .OrderBy(s => s.Date)
                .GroupBy(s => s.Date.Date);
 
-            return this.View(new ListShowsByMovieViewModel{ MovieId = movieId, ShowsPerDay = showsGroupedByDate});
+            var movies = (await this.movieService.GetMoviesAsync())
+                .Select(m => new SelectListItem { Selected = m.Id == movieId, Text = m.Title, Value = m.Id.ToString() });
+
+            return this.View(new ListShowsByMovieViewModel
+                                 {
+                                     MovieId = movieId, ShowsPerDay = showsGroupedByDate, Movies = movies
+                                 });
         }
 
         [HttpGet]

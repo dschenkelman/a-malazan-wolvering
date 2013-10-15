@@ -9,6 +9,24 @@
 @Styles.Render("~/Content/bootstrap.min.css")
 @Styles.Render("~/Content/ListShows.css")
 
+<div class="row">
+    <div class="col-md-12">
+        <form id="moviesForm" method="GET" action="@Url.Action("ByMovie")">
+            <label for="movieId">Película:</label>
+            @Html.DropDownList("movieId", Model.Movies)
+        </form>
+    </div>
+</div>
+
+@if (!this.Model.ShowsPerDay.Any())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h2>No hay funciones para mostrar</h2>
+        </div>
+    </div>
+}
+
 @foreach (var day in this.Model.ShowsPerDay)
 {
     <div class="panel panel-danger">
@@ -29,7 +47,7 @@
                         <span>|</span>
                         <span>@show.Room</span>
                         <span>|</span>
-                         <a href="@Url.Action("Details", new { showId = show.Id, movieId = this.Model.MovieId })" >
+                        <a href="@Url.Action("Details", new { showId = show.Id, movieId = this.Model.MovieId })" >
                             <i class="glyphicon glyphicon-info-sign"></i>
                         </a>
                         @if (show.CanEdit)
@@ -62,4 +80,14 @@
             </div>
         </div>
     </div>
+}
+
+@section Scripts{
+    <script>
+        (function () {
+            $(document).ready(function () {
+                $('#movieId').change(function () { $('#moviesForm').submit(); });
+            });
+        }());
+    </script>
 }
