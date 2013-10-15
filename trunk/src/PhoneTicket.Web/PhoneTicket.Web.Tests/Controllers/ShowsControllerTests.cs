@@ -421,6 +421,66 @@
             this.showService.VerifyAll();
         }
 
+        [TestMethod]
+        public async Task ShouldRetrieveShowFromServiceWhenDetailsIsCalled()
+        {
+            const int MovieId = 1;
+            const int ShowId = 20;
+
+            this.showService.Setup(ss => ss.GetAsync(ShowId)).Returns(Task.FromResult(new Show())).Verifiable();
+
+            var controller = this.CreateController();
+
+            await controller.Details(MovieId, ShowId);
+
+            this.showService.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldSetViewModelPropertiesBasedOnShowReturnedFromService()
+        {
+            const int MovieId = 1;
+            const int ShowId = 20;
+
+            var show = new Show 
+                            {
+                               Date = new DateTime(2013, 10, 14),
+                               Id = 1,
+                               IsAvailable = true,
+                               Movie = new Movie { Title = "Title" },
+                               Room = new Room { Complex = new Complex { Name = "Complex" }, Name = "Room" },
+                               Price = 20
+                            };
+
+            this.showService.Setup(ss => ss.GetAsync(ShowId)).Returns(Task.FromResult(show)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult) await controller.Details(MovieId, ShowId);
+
+            var viewModel = (ShowReadOnlyViewModel)result.Model;
+
+            Assert.AreEqual(show.Room.Name, viewModel.Room);
+            Assert.AreEqual(show.Room.Complex.Name, viewModel.Complex);
+            Assert.AreEqual(show.Price, viewModel.Price);
+            Assert.AreEqual(show.Date, viewModel.Date);
+            Assert.AreEqual(show.Date.ToString("hh:mm"), viewModel.Time);
+            Assert.AreEqual(show.Movie.Title, viewModel.Movie);
+            Assert.AreEqual(MovieId, viewModel.MovieId);
+
+            this.showService.VerifyAll();
+        }
+
+        //[HttpGet]
+        //public async Task<ActionResult> Details(int movieId, int showId)
+        //{
+        //    var show = await this.showService.GetAsync(showId);
+        //    var viewModel = ShowReadOnlyViewModel.FromShow(show);
+        //    viewModel.MovieId = movieId;
+
+        //    return this.View(viewModel);
+        //}
+
         private ShowsController CreateController()
         {
             return new ShowsController(this.showService.Object, this.roomService.Object, this.movieService.Object);
