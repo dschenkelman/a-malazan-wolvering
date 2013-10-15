@@ -10,11 +10,20 @@
 @Styles.Render("~/Content/ListShows.css")
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <form id="moviesForm" method="GET" action="@Url.Action("ByMovie")">
             <label for="movieId">Película:</label>
             @Html.DropDownList("movieId", Model.Movies)
         </form>
+    </div>
+    <div class="col-md-6" style="text-align: right">
+        @Html.ActionLink("Crear nuevas", "Create")
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Funciones</h2>
     </div>
 </div>
 
