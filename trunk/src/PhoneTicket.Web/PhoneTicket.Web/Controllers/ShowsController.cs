@@ -32,6 +32,16 @@
         }
 
         [HttpGet]
+        public async Task<ActionResult> Details(int movieId, int showId)
+        {
+            var show = await this.showService.GetAsync(showId);
+            var viewModel = ShowReadOnlyViewModel.FromShow(show);
+            viewModel.MovieId = movieId;
+
+            return this.View(viewModel);
+        }
+
+        [HttpGet]
         public async Task<ActionResult> ByMovie(int movieId)
         {
             var showsGroupedByDate = (await this.showService.GetForMovieAsync(movieId))
