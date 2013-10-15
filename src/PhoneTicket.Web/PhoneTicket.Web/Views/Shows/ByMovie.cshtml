@@ -29,7 +29,9 @@
                         <span>|</span>
                         <span>@show.Room</span>
                         <span>|</span>
-                        <span class="glyphicon glyphicon-info-sign"></span>
+                         <a href="@Url.Action("Details", new { showId = show.Id, movieId = this.Model.MovieId })" >
+                            <i class="glyphicon glyphicon-info-sign"></i>
+                        </a>
                         @if (show.CanEdit)
                         {
                             <a href="@Url.Action("Edit", new { showId = show.Id })" >

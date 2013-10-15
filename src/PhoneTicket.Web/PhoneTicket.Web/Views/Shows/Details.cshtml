@@ -1,0 +1,48 @@
+﻿@model PhoneTicket.Web.ViewModels.ShowReadOnlyViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/themes/base/css")
+@Styles.Render("~/Content/bootstrap.min.css")
+
+<h2>Detalles de la función</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <label for="movie">Película:</label>
+        <span id="movie">@Html.DisplayFor(model => model.Movie)</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <label for="complex">Complejo:</label>
+        <span id="complex">@Html.DisplayFor(model => model.Complex)</span>
+    </div>
+    <div class="col-md-6">
+        <label for="room">Sala:</label>
+        <span id="room">@Html.DisplayFor(model => model.Room)</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <label for="date">Fecha:</label>
+        <span id="date">@Model.Date.ToString("yyyy-MM-dd")</span>
+    </div>
+    <div class="col-md-6">
+        <label for="time">Hora:</label>
+        <span id="time">@Html.DisplayFor(model => model.Time)</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <label for="price">Precio:</label>
+        <span id="price">@Html.DisplayFor(model => model.Price)</span>      
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @Html.ActionLink("Volver a la lista", "ByMovie", new { movieId = this.Model.MovieId })    
+    </div>
+</div>
