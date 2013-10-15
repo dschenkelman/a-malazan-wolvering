@@ -34,9 +34,9 @@
                            Price = show.Price,
                            Date = show.Date,
                            Time = show.Date.ToString("hh:mm"),
-                           Movie = show.Movie.Title,
-                           Room = show.Room.Name,
-                           Complex = show.Room.Complex.Name
+                           Movie = show.Movie != null ? show.Movie.Title : string.Empty,
+                           Room = show.Room != null ? show.Room.Name : string.Empty,
+                           Complex = show.Room != null && show.Room.Complex != null ? show.Room.Complex.Name : string.Empty
                        };
         }
     }
