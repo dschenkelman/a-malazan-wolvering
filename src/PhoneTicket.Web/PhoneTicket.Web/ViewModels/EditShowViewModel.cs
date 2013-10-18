@@ -24,6 +24,14 @@
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
         public string Date { get; set; }
 
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
+        [Range(1, 24, ErrorMessage = "Ingrese una hora entre 1 y 24.")]
+        public int Hour { get; set; }
+
+        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
+        [Range(1, 59, ErrorMessage = "Ingrese los minutos entre 1 y 59.")]
+        public int Minutes { get; set; }
+
         [UIHint("DropDownList")]
         [Required(ErrorMessage = "Seleccione una sala")]
         public int RoomId { get; set; }
@@ -42,6 +50,8 @@
             {
                 Id = show.Id,
                 Date = show.Date.ToString("yyyy-MM-dd"),
+                Hour = Convert.ToInt32(show.Date.ToString("hh")),
+                Minutes = Convert.ToInt32(show.Date.ToString("mm")),
                 MovieId = show.MovieId,
                 RoomId = show.RoomId,
                 IsAvailable = show.IsAvailable,
@@ -53,10 +63,13 @@
 
         public Show FromViewModel()
         {
+            var auxDate = DateTime.ParseExact(this.Date, "yyyy-MM-dd", null);
+            var updatedDate = auxDate.AddHours(this.Hour).AddMinutes(this.Minutes);
+
             return new Show
             {
                 Id = this.Id,
-                Date = DateTime.ParseExact(this.Date, "yyyy-MM-dd", null),
+                Date = updatedDate,
                 MovieId = this.MovieId,
                 RoomId = this.RoomId,
                 Price = this.Price,
