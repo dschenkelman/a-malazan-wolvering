@@ -208,6 +208,7 @@
             const int MovieId = 1;
             const int RoomId = 1;
             var date = new DateTime(2013, 10, 10);
+            date = date.AddHours(12).AddMinutes(30);
             const double Price = 10.0;
             const bool IsAvailable = true;
 

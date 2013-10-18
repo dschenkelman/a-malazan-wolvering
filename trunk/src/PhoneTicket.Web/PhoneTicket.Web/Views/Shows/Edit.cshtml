@@ -27,6 +27,25 @@
                 @Html.ValidationMessageFor(m => m.Date)
             </li>
             <li>
+                <table class="center">
+                    <tr>
+                        <th><label for="Hour">Hora</label></th>
+                        <th>:</th>
+                        <th><label for="Minutes">Minutos</label></th>
+                    </tr>
+                    <tr>
+                        <th>@Html.EditorFor(m => m.Hour)</th>
+                        <th>:</th>
+                        <th>@Html.EditorFor(m => m.Minutes)</th>
+                    </tr>
+                    <tr>
+                        <th>@Html.ValidationMessageFor(m => m.Hour)</th>
+                        <th> </th>
+                        <th>@Html.ValidationMessageFor(m => m.Minutes)</th>
+                    </tr>
+                </table>
+            </li>
+            <li>
                 <label for="AvailableMovies">Película</label>
                 @Html.DropDownListFor(m => m.MovieId, Model.AvailableMovies, "Seleccione Una")
                 @Html.ValidationMessageFor(m => m.MovieId)
