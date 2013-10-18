@@ -1,4 +1,12 @@
-﻿td,th {
-    padding-left: 5px;
-    padding-right: 5px;
+﻿.hoursandminutes input {
+    width: 50px;
+}
+
+.hoursandminutes th {
+    font-size: small;
+}
+
+select 
+{
+    font-size: 16px;
 }

@@ -16,6 +16,7 @@
 
         <div class="editor-label">
             @Html.HiddenFor(m => m.Id, Model.Id)
+            @Html.HiddenFor(m => m.IsAvailable, Model.IsAvailable)
         </div>
     
         <fieldset>
@@ -27,23 +28,24 @@
                 @Html.ValidationMessageFor(m => m.Date)
             </li>
             <li>
-                <table class="center">
-                    <tr>
-                        <th><label for="Hour">Hora</label></th>
-                        <th>:</th>
-                        <th><label for="Minutes">Minutos</label></th>
-                    </tr>
-                    <tr>
-                        <th>@Html.EditorFor(m => m.Hour)</th>
-                        <th>:</th>
-                        <th>@Html.EditorFor(m => m.Minutes)</th>
-                    </tr>
-                    <tr>
-                        <th>@Html.ValidationMessageFor(m => m.Hour)</th>
-                        <th> </th>
-                        <th>@Html.ValidationMessageFor(m => m.Minutes)</th>
-                    </tr>
-                </table>
+                <div class="hoursandminutes">
+                    <table class="center">
+                        <tr>
+                            <th><label for="Hour">Hora</label></th>
+                            <th> </th>
+                            <th><label for="Minutes">Minutos</label></th>
+                        </tr>
+                        <tr>
+                            <th>@Html.EditorFor(m => m.Hour)</th>
+                            <th>:</th>
+                            <th>@Html.EditorFor(m => m.Minutes)</th>
+                        </tr>
+                    </table>
+                </div>
+            </li>
+            <li>
+                @Html.ValidationMessageFor(m => m.Hour)
+                @Html.ValidationMessageFor(m => m.Minutes)
             </li>
             <li>
                 <label for="AvailableMovies">Película</label>
@@ -59,14 +61,6 @@
                 <label for="Price">Precio</label>
                 @Html.EditorFor(m => m.Price)
                 @Html.ValidationMessageFor(m => m.Price)
-            </li>
-            <li>
-                <table class="center">
-                    <tr>
-                        <th><label for="IsAvailable">Disponible</label></th>
-                        <th>@Html.EditorFor(m => m.IsAvailable)</th>
-                    </tr>
-                </table>
             </li>
         </ol>
         <input id="save" type="submit" value="Guardar Cambios" />
