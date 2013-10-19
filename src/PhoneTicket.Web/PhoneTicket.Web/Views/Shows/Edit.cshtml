@@ -24,7 +24,7 @@
         <ol>
             <li>
                 <label for="Date">Fecha</label>
-                @Html.EditorFor(m => m.Date)
+                @Html.TextBoxFor(m => m.Date , new { @readonly="readonly" })
                 @Html.ValidationMessageFor(m => m.Date)
             </li>
             <li>
