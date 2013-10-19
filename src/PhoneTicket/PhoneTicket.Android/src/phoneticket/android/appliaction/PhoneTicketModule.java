@@ -5,6 +5,7 @@ import phoneticket.android.services.get.IRetrieveCinemaListService;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
 import phoneticket.android.services.get.IRetrieveMovieListService;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
+import phoneticket.android.services.get.impl.RetrieveCinemaInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveCinemaListServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMovieFunctionsServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMovieInfoServiceProxy;
@@ -36,7 +37,7 @@ public class PhoneTicketModule implements Module {
 		binder.bind(IRetrieveCinemaListService.class).to(
 				RetrieveCinemaListServiceProxy.class);
 		binder.bind(IRetrieveCinemaInfoService.class).to(
-				MockRetrieveCinemaInfoService.class);
+				RetrieveCinemaInfoServiceProxy.class);
 	}
 
 }
