@@ -60,24 +60,40 @@
                     <td>
                         @Html.DisplayFor(modelItem => Model[i].Rating)
                     </td>
-                    <td>
-                        @Html.ActionLink(
-                            linkText: "Editar",
-                            actionName: "Edit",
-                            controllerName: "Movies",
-                            routeValues: new { movieId = Model[i].Id },
-                            htmlAttributes: null
-                            )
-                    </td>
-                    <td>
-                        @Html.ActionLink(
-                            linkText: "Borrar",
-                            actionName: "DeleteMovie",
-                            controllerName: "Movies",
-                            routeValues: new { movieId = Model[i].Id },
-                            htmlAttributes: new { onclick = "return confirm('¿Está seguro que desea borrar la película?')"}
-                            )
-                    </td>
+                    @if (Model[i].CanEdit)
+                    {
+                        <td>
+                            @Html.ActionLink(
+                                linkText: "Editar",
+                                actionName: "Edit",
+                                controllerName: "Movies",
+                                routeValues: new { movieId = Model[i].Id },
+                                htmlAttributes: null
+                                )
+                        </td>
+                        <td>
+                            @Html.ActionLink(
+                                linkText: "Borrar",
+                                actionName: "DeleteMovie",
+                                controllerName: "Movies",
+                                routeValues: new { movieId = Model[i].Id },
+                                htmlAttributes: new { onclick = "return confirm('¿Está seguro que desea borrar la película?')"}
+                                )
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.ActionLink(
+                                linkText: "Ver",
+                                actionName: "Details",
+                                controllerName: "Movies",
+                                routeValues: new { movieId = Model[i].Id },
+                                htmlAttributes: null
+                                )
+                        </td>
+                    }
+
                 </tr>
             }
 
