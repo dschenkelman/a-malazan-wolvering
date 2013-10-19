@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<PhoneTicket.Web.ViewModels.ListMovieViewModel>
 @using PagedList.Mvc;
+@using PhoneTicket.Web.Helpers
 
 @{
     ViewBag.Title = "Index";
@@ -19,14 +20,17 @@
                 <input type="submit" value="Buscar" />
             }
         </span>
-        <span>
-            @Html.ActionLink(
-                        linkText: "Agregar Película",
-                        actionName: "Add",
-                        controllerName: "Movies",
-                        routeValues: new { movieId = -1 },
-                        htmlAttributes: null)
-        </span>
+        @if (CurrentUserRole.getInstance().userIsAdmin)
+        {
+            <span>
+                @Html.ActionLink(
+                            linkText: "Agregar Película",
+                            actionName: "Add",
+                            controllerName: "Movies",
+                            routeValues: new { movieId = -1 },
+                            htmlAttributes: null)
+            </span>
+        }
     </div>
 
     @if (Model.Count == 0)

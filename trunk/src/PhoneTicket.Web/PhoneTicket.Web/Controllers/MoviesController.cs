@@ -111,7 +111,13 @@
         {
             await this.movieService.DeleteAsync(movieId);
 
-            return RedirectToAction("Index", "Movies", new { page = 1 });
+            this.ViewBag.Message = string.Format("La película ha sido borrada.");
+            this.ViewBag.LinkText = "Aceptar";
+            this.ViewBag.Action = "Index";
+            this.ViewBag.Controller = "Movies";
+            this.ViewBag.RouteValues = new { page = 1 };
+
+            return this.View("~/Views/Shared/Confirmation.cshtml");
         }
 
         public async Task<ActionResult> Details(int movieId)

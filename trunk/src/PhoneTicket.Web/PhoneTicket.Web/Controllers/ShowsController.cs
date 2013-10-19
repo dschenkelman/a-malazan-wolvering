@@ -160,7 +160,7 @@
         {
             await this.showService.DeleteAsync(showId);
 
-            this.ViewBag.Message = string.Format("La película función ha sido borrada.");
+            this.ViewBag.Message = string.Format("La función ha sido borrada.");
             this.ViewBag.LinkText = "Aceptar";
             this.ViewBag.Action = "ByMovie";
             this.ViewBag.Controller = "Shows";
