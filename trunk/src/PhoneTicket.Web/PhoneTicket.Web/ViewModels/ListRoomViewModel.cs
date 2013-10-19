@@ -12,6 +12,7 @@
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.Properties;
+    using PhoneTicket.Web.Helpers;
     
 
     public class ListRoomViewModel
@@ -41,6 +42,8 @@
         [Required(ErrorMessage = "Seleccione un Estilo de Sala")]
         public int? TypeId { get; set; }
 
+        public bool CanEdit { get; set; }
+
         public static ListRoomViewModel FromRoom(Room room)
         {
 
@@ -52,7 +55,8 @@
                 ComplexId = room.ComplexId,
                 Capacity = room.Capacity,
                 TypeDescription = room.Type.Description,
-                TypeId = room.TypeId
+                TypeId = room.TypeId,
+                CanEdit = CurrentUserRole.getInstance().userIsAdmin
             };
 
             return vm;

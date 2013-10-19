@@ -7,6 +7,7 @@
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.Helpers;
 
     public class UnityResolverConfigurator
     {
@@ -43,6 +44,8 @@
             container.RegisterType<PhoneTicket.Web.Controllers.ShowsController>();
             container.RegisterType<PhoneTicketContext>();
             container.RegisterType<IContext, PhoneTicketContext>();
+
+            container.RegisterType<CurrentUserRole>();
 
             var emailService = new EmailService("smtp.gmail.com", 587, "wolveringticket@gmail.com", "wolvering", true, true);
 

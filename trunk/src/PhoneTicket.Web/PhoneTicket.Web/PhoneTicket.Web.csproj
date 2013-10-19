@@ -228,6 +228,7 @@
     <Compile Include="Handlers\RequireHttpsMessageHandler.cs" />
     <Compile Include="Handlers\RequireSsl.cs" />
     <Compile Include="Helpers\ComplexExtensions.cs" />
+    <Compile Include="Helpers\CurrentUserRole.cs" />
     <Compile Include="Helpers\LocationExtension.cs" />
     <Compile Include="Helpers\MovieExtensions.cs" />
     <Compile Include="HttpModules\BasicAuthHttpModule.cs" />
