@@ -5,15 +5,21 @@ public class Cinema implements ICinema {
 	private int id;
 	private String name;
 	private String address;
-	private ILocation location;
+    private Location location;
 
-	public Cinema(int id, String name, String address, ILocation location) {
+	public Cinema(int id, String name, String address) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
-		this.location = location;
 	}
 
+	public Cinema(int id, String name, String address, double latitude, double longitude) {
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.location = new Location(latitude, longitude);
+	}
+	
 	@Override
 	public double getLongitude() {
 		return location.getLongitude();
@@ -39,4 +45,27 @@ public class Cinema implements ICinema {
 		return address;
 	}
 
+	
+    private static class Location implements ILocation
+    {
+        public double latitude;
+        public double longitude;
+        
+    	public Location(double latitude, double longitude)
+    	{
+    		this.latitude = latitude;
+    		this.longitude = longitude;
+    	}
+
+		@Override
+		public double getLongitude() {
+			return longitude;
+		}
+
+		@Override
+		public double getLatitude() {
+			return latitude;
+		}
+    }
+    
 }

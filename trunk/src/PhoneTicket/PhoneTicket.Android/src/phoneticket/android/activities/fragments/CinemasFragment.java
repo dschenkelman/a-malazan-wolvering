@@ -33,6 +33,8 @@ public class CinemasFragment extends RoboFragment implements
 		IRetrieveCinemaListServiceDelegate {
 
 	private static final String STATE_CINEMAS_STREAM = "state.cinemas.stream";
+	private static final String STATE_CINEMAS_SEPARATOR_ITEMS = "]";
+	private static final String STATE_CINEMAS_SEPARATOR_PROPERTIES = "#";
 
 	@Inject
 	private IRetrieveCinemaListService cinemaListService;
@@ -64,10 +66,9 @@ public class CinemasFragment extends RoboFragment implements
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
-		
+
 		SharedPreferences preferences = getActivity().getPreferences(0);
-		String cinemasStream = preferences.getString(STATE_CINEMAS_STREAM,
-				"");
+		String cinemasStream = preferences.getString(STATE_CINEMAS_STREAM, "");
 		boolean recreatingState = 0 != cinemasStream.length();
 
 		if (recreatingState) {
@@ -86,13 +87,16 @@ public class CinemasFragment extends RoboFragment implements
 	public void onPause() {
 		super.onPause();
 		ignoreServicesCallbacks = true;
-		
+
 		if (null != cinemas) {
 			String cinemasStream = "";
 			for (ICinema cinemaItem : cinemas) {
-				cinemasStream += cinemaItem.getId() + "#" +
-						cinemaItem.getName() + "#" +
-						cinemaItem.getAddress() + "]";
+				cinemasStream += cinemaItem.getId()
+						+ STATE_CINEMAS_SEPARATOR_PROPERTIES
+						+ cinemaItem.getName()
+						+ STATE_CINEMAS_SEPARATOR_PROPERTIES
+						+ cinemaItem.getAddress()
+						+ STATE_CINEMAS_SEPARATOR_ITEMS;
 			}
 			SharedPreferences.Editor editor = getActivity().getPreferences(0)
 					.edit();
@@ -111,15 +115,16 @@ public class CinemasFragment extends RoboFragment implements
 		SharedPreferences.Editor editor = getActivity().getPreferences(0)
 				.edit();
 		editor.remove(STATE_CINEMAS_STREAM);
-		editor.commit();		
+		editor.commit();
 	}
 
 	private List<ICinema> createCinemasFromStream(String cinemasStream) {
 		List<ICinema> cinemas = new LinkedList<ICinema>();
 		try {
-			String items[] = cinemasStream.split("]");
+			String items[] = cinemasStream.split(STATE_CINEMAS_SEPARATOR_ITEMS);
 			for (String itemStream : items) {
-				String values[] = itemStream.split("#");
+				String values[] = itemStream
+						.split(STATE_CINEMAS_SEPARATOR_PROPERTIES);
 				int id = 0;
 				String name = "", address = "";
 				if (0 < values.length)
@@ -128,7 +133,7 @@ public class CinemasFragment extends RoboFragment implements
 					name = values[1];
 				if (2 < values.length)
 					address = values[2];
-				Cinema item = new Cinema(id, name, address, null);
+				Cinema item = new Cinema(id, name, address);
 				cinemas.add(item);
 			}
 		} catch (Exception e) {
