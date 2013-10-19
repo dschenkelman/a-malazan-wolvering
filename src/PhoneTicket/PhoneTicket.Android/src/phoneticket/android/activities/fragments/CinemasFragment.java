@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
+import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.adapter.CinemaAdapter;
 import phoneticket.android.model.Cinema;
 import phoneticket.android.model.ICinema;
@@ -39,6 +40,7 @@ public class CinemasFragment extends RoboFragment implements
 	private boolean ignoreServicesCallbacks;
 	private List<ICinema> cinemas;
 	private IOnCinemaSelectedListener cinemaListItemSelectedListener;
+	private IShareButtonsVisibilityListener shareButonVisibilityListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +67,9 @@ public class CinemasFragment extends RoboFragment implements
 		super.onResume();
 		ignoreServicesCallbacks = false;
 
+		shareButonVisibilityListener.hideFacebookShareButton();
+		shareButonVisibilityListener.hideTwitterShareButton();
+		
 		SharedPreferences preferences = getActivity().getPreferences(0);
 		String cinemasStream = preferences.getString(STATE_CINEMAS_STREAM, "");
 		boolean recreatingState = 0 != cinemasStream.length();
@@ -225,6 +230,7 @@ public class CinemasFragment extends RoboFragment implements
 		super.onAttach(activity);
 		try {
 			cinemaListItemSelectedListener = (IOnCinemaSelectedListener) activity;
+			shareButonVisibilityListener = (IShareButtonsVisibilityListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IOnCinemaListItemSelectedListener");
