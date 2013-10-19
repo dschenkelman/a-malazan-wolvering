@@ -45,8 +45,6 @@
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                CurrentUserRole.getInstance().userIsAdmin = (model.UserName.Equals("admin"));
-
                 return RedirectToLocal(returnUrl);
             }
 
@@ -91,7 +89,6 @@
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    CurrentUserRole.getInstance().userIsAdmin = (model.UserName.Equals("admin"));
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
