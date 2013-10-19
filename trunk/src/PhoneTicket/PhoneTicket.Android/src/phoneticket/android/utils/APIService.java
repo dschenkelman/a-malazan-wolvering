@@ -33,7 +33,7 @@ public class APIService {
 	}
 
 	public static String getRetrieveMovieFunctionsGetURL(String movieId) {
-		return getRetrieveMovieGetURL(movieId) + "/shows";
+		return getRetrieveMovieGetURL(movieId) + "/weeklyShows";
 	}
 
 }

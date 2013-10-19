@@ -1,21 +1,24 @@
 package phoneticket.android.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class MovieFunctions implements IMovieFunctions {
 
 	private int movieId;
 	private int cinemaId;
 	private String cinemaName;
-	Collection<IFunction> functions;
-	
-	public MovieFunctions(int movieId, int cinemaId, String cinemaName, Collection<IFunction> functions) {
+	Collection<Function> functions;
+
+	public MovieFunctions(int movieId, int cinemaId, String cinemaName,
+			Collection<Function> functions) {
 		this.movieId = movieId;
 		this.cinemaId = cinemaId;
 		this.cinemaName = cinemaName;
 		this.functions = functions;
 	}
-	
+
 	@Override
 	public int getMovieId() {
 		return movieId;
@@ -33,6 +36,8 @@ public class MovieFunctions implements IMovieFunctions {
 
 	@Override
 	public Collection<IFunction> getFunctions() {
-		return functions;
+		List<IFunction> ifunctions = new ArrayList<IFunction>();
+		ifunctions.addAll(functions);
+		return ifunctions;
 	}
 }
