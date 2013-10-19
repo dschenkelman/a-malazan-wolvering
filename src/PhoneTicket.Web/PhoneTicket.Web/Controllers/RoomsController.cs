@@ -20,7 +20,7 @@
         private readonly IComplexService complexService;
         private readonly IRoomTypeService roomTypeService;
 
-        private const int PageSize = 5;
+        private const int PageSize = 20;
 
         public RoomsController(IRoomService roomService, IComplexService complexService, IRoomTypeService roomTypeService)
         {
