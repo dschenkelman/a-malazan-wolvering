@@ -112,7 +112,13 @@
         {
             await this.roomService.DeleteAsync(roomId);
 
-            return RedirectToAction("Index", "Rooms", new { page = 1 });
+            this.ViewBag.Message = string.Format("La sala ha sido borrada.");
+            this.ViewBag.LinkText = "Aceptar";
+            this.ViewBag.Action = "Index";
+            this.ViewBag.Controller = "Rooms";
+            this.ViewBag.RouteValues = new { page = 1 };
+
+            return this.View("~/Views/Shared/Confirmation.cshtml");
         }
 
      
