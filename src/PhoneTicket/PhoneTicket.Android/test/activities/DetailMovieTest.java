@@ -21,6 +21,7 @@ import phoneticket.android.R;
 import phoneticket.android.activities.MasterActivity;
 import phoneticket.android.activities.fragments.DetailCinemaFragment;
 import phoneticket.android.activities.fragments.DetailMovieFragment;
+import phoneticket.android.services.get.IRetrieveCinemaInfoService;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.IRetrieveMovieListService;
@@ -40,6 +41,9 @@ public class DetailMovieTest {
 	private IRetrieveMovieFunctionsService movieFunctionsService;
 	@Mock
 	private IRetrieveMovieListService iRetrieveMovieListService;
+	@Mock
+	private IRetrieveCinemaInfoService iRetrieveCinemaInfoService;
+
 	private DetailMovieFragment fragment;
 	private MasterActivity activity;
 	private int movieId;
@@ -56,6 +60,8 @@ public class DetailMovieTest {
 				movieFunctionsService);
 		module.addBinding(IRetrieveMovieListService.class,
 				iRetrieveMovieListService);
+		module.addBinding(IRetrieveCinemaInfoService.class,
+				iRetrieveCinemaInfoService);
 
 		TestModule.setUp(this, module);
 
