@@ -30,11 +30,22 @@
         android:id="@+id/twitterButton"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@+id/facebookButton"
         android:paddingRight="4dp"
         android:gravity="center"
         android:src="@drawable/ic_gray_twitter"
         android:background="@null"
         android:contentDescription="@string/twitterButtonDescription" />
+    
+    <ImageButton
+        android:id="@+id/facebookButton"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:paddingRight="4dp"
+        android:gravity="center"
+        android:src="@drawable/ic_gray_facebook"
+        android:background="@null"
+        android:contentDescription="@string/facebookButtonDescription" />
     
 </RelativeLayout>

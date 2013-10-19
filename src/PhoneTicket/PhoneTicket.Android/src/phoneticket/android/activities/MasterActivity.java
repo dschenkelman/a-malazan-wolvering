@@ -39,6 +39,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private int ribbonMenuItemIdSelected;
 	private TextView actionTitle;
 	private ImageButton twitterButton;
+	private ImageButton facebookButton;
 	private String twitterMessage;
 
 	@Override
@@ -96,6 +97,16 @@ public class MasterActivity extends RoboFragmentActivity implements
 			});
 			twitterButton.setVisibility(ImageButton.GONE);
 
+			facebookButton = (ImageButton) v.findViewById(R.id.facebookButton);
+			facebookButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					onFacebookButtonAction();
+				}
+			});
+			facebookButton.setVisibility(ImageButton.GONE);
+
 			actionBar.setCustomView(v);
 		}
 	}
@@ -130,6 +141,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	public void changeToMovieListFragment() {
 		if (twitterButton != null)
 			twitterButton.setVisibility(ImageButton.GONE);
+		if (facebookButton != null)
+			facebookButton.setVisibility(ImageButton.GONE);
 		MovieListFragment movielistFragment = new MovieListFragment();
 		changeFragment(movielistFragment, false);
 		if (actionTitle != null)
@@ -140,6 +153,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	public void changeToCinemasFragment() {
 		if (twitterButton != null)
 			twitterButton.setVisibility(ImageButton.GONE);
+		if (facebookButton != null)
+			facebookButton.setVisibility(ImageButton.GONE);
 		CinemasFragment cinemasFragment = new CinemasFragment();
 		changeFragment(cinemasFragment, false);
 		if (actionTitle != null)
@@ -150,6 +165,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	public void changeToUserFragment() {
 		if (twitterButton != null)
 			twitterButton.setVisibility(ImageButton.VISIBLE);
+		if (facebookButton != null)
+			facebookButton.setVisibility(ImageButton.VISIBLE);
 		twitterMessage = "Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar";
 		UserFragment userFragment = new UserFragment();
 		changeFragment(userFragment, false);
@@ -161,6 +178,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private void changeToDetailMovieFragment(Bundle movieData) {
 		if (twitterButton != null)
 			twitterButton.setVisibility(ImageButton.VISIBLE);
+		if (facebookButton != null)
+			facebookButton.setVisibility(ImageButton.VISIBLE);
 		twitterMessage = "Voy a mirar una película CINEMAR. Visita www.cinemar.com.ar";
 		String movieName = movieData
 				.getString(DetailMovieFragment.EXTRA_MOVIE_TITLE);
@@ -178,6 +197,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private void changeToDetailCinemaFragment(Bundle cinemaData) {
 		if (twitterButton != null)
 			twitterButton.setVisibility(ImageButton.VISIBLE);
+		if (facebookButton != null)
+			facebookButton.setVisibility(ImageButton.VISIBLE);
 		twitterMessage = "Voy a CINEMAR. Visita www.cinemar.com.ar";
 		String name = cinemaData
 				.getString(DetailCinemaFragment.EXTRA_CINEMA_NAME);
@@ -209,6 +230,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));
 		startActivity(i);
+	}
+
+	protected void onFacebookButtonAction() {
+		Log.d("PhoneTicket", "Share on facebook");
 	}
 
 	@Override
