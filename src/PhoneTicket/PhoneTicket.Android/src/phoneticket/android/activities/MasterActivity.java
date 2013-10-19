@@ -2,6 +2,9 @@ package phoneticket.android.activities;
 
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
+import com.facebook.Session.StatusCallback;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.FacebookDialog;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.fragments.CinemasFragment;
@@ -42,6 +45,9 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private ImageButton facebookButton;
 	private String twitterMessage;
 
+	private UiLifecycleHelper uiHelper;
+	private StatusCallback callback;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +62,54 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 		setupActionBar();
 		createRibbonMenu();
+
+		uiHelper = new UiLifecycleHelper(this, callback);
+		uiHelper.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		uiHelper.onActivityResult(requestCode, resultCode, data,
+				new FacebookDialog.Callback() {
+					@Override
+					public void onError(FacebookDialog.PendingCall pendingCall,
+							Exception error, Bundle data) {
+						Log.e("Activity",
+								String.format("Error: %s", error.toString()));
+					}
+
+					@Override
+					public void onComplete(
+							FacebookDialog.PendingCall pendingCall, Bundle data) {
+						Log.i("Activity", "Success!");
+					}
+				});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		uiHelper.onResume();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		uiHelper.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		uiHelper.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		uiHelper.onDestroy();
 	}
 
 	/**
@@ -234,6 +288,9 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	protected void onFacebookButtonAction() {
 		Log.d("PhoneTicket", "Share on facebook");
+		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
+				.setLink("https://developers.facebook.com/android").build();
+		uiHelper.trackPendingDialogCall(shareDialog.present());
 	}
 
 	@Override
