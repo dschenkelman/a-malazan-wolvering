@@ -63,24 +63,27 @@
                     <td>
                         @Html.DisplayFor(modelItem => Model[i].TypeDescription)
                     </td>
-                    <td>
-                        @Html.ActionLink(
-                            linkText: "Editar",
-                            actionName: "Edit",
-                            controllerName: "Rooms",
-                            routeValues: new { roomId = Model[i].Id },
-                            htmlAttributes: null
-                            )
-                    </td>
-                    <td>
-                        @Html.ActionLink(
-                            linkText: "Borrar",
-                            actionName: "Delete",
-                            controllerName: "Rooms",
-                            routeValues: new { roomId = Model[i].Id },
-                            htmlAttributes: new { onclick = "return confirm('¿Está seguro que desea borrar la sala?')"}
-                            )
-                    </td>
+                    @if ( Model[i].CanEdit )
+                    {
+                        <td>
+                            @Html.ActionLink(
+                                linkText: "Editar",
+                                actionName: "Edit",
+                                controllerName: "Rooms",
+                                routeValues: new { roomId = Model[i].Id },
+                                htmlAttributes: null
+                                )
+                        </td>
+                        <td>
+                            @Html.ActionLink(
+                                linkText: "Borrar",
+                                actionName: "Delete",
+                                controllerName: "Rooms",
+                                routeValues: new { roomId = Model[i].Id },
+                                htmlAttributes: new { onclick = "return confirm('¿Está seguro que desea borrar la sala?')"}
+                                )
+                        </td>
+                    }
                 </tr>
             }
 
