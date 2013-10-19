@@ -3,6 +3,7 @@ package phoneticket.android.activities;
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.facebook.Session.StatusCallback;
+import com.facebook.Session;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 
@@ -26,6 +27,9 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -64,53 +68,61 @@ public class MasterActivity extends RoboFragmentActivity implements
 		setupActionBar();
 		createRibbonMenu();
 
-		uiHelper = new UiLifecycleHelper(this, callback);
-		uiHelper.onCreate(savedInstanceState);
+		if (containsApplicationIdOfFacebook()) {
+			uiHelper = new UiLifecycleHelper(this, callback);
+			uiHelper.onCreate(savedInstanceState);
+		}
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		if (uiHelper != null)
+			uiHelper.onActivityResult(requestCode, resultCode, data,
+					new FacebookDialog.Callback() {
+						@Override
+						public void onError(
+								FacebookDialog.PendingCall pendingCall,
+								Exception error, Bundle data) {
+							Log.e("Activity", String.format("Error: %s",
+									error.toString()));
+						}
 
-		uiHelper.onActivityResult(requestCode, resultCode, data,
-				new FacebookDialog.Callback() {
-					@Override
-					public void onError(FacebookDialog.PendingCall pendingCall,
-							Exception error, Bundle data) {
-						Log.e("Activity",
-								String.format("Error: %s", error.toString()));
-					}
-
-					@Override
-					public void onComplete(
-							FacebookDialog.PendingCall pendingCall, Bundle data) {
-						Log.i("Activity", "Success!");
-					}
-				});
+						@Override
+						public void onComplete(
+								FacebookDialog.PendingCall pendingCall,
+								Bundle data) {
+							Log.i("Activity", "Success!");
+						}
+					});
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		uiHelper.onResume();
+		if (uiHelper != null)
+			uiHelper.onResume();
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		uiHelper.onSaveInstanceState(outState);
+		if (uiHelper != null)
+			uiHelper.onSaveInstanceState(outState);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		uiHelper.onPause();
+		if (uiHelper != null)
+			uiHelper.onPause();
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		uiHelper.onDestroy();
+		if (uiHelper != null)
+			uiHelper.onDestroy();
 	}
 
 	/**
@@ -281,7 +293,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 		Log.d("PhoneTicket", "Share on facebook");
 		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
 				.setLink("https://developers.facebook.com/android").build();
-		uiHelper.trackPendingDialogCall(shareDialog.present());
+		if (uiHelper != null)
+			uiHelper.trackPendingDialogCall(shareDialog.present());
 	}
 
 	@Override
@@ -306,19 +319,36 @@ public class MasterActivity extends RoboFragmentActivity implements
 		if (null != facebookButton)
 			facebookButton.setVisibility(ImageButton.GONE);
 	}
+
 	@Override
 	public void hideTwitterShareButton() {
 		if (null != twitterButton)
 			twitterButton.setVisibility(ImageButton.GONE);
 	}
+
 	@Override
 	public void showFacebookShareButton() {
 		if (null != facebookButton)
 			facebookButton.setVisibility(ImageButton.VISIBLE);
 	}
+
 	@Override
 	public void showTwitterShareButton() {
 		if (null != twitterButton)
 			twitterButton.setVisibility(ImageButton.VISIBLE);
+	}
+
+	private boolean containsApplicationIdOfFacebook() {
+		ApplicationInfo ai;
+		try {
+			ai = this.getPackageManager().getApplicationInfo(
+					this.getPackageName(), PackageManager.GET_META_DATA);
+			return ai.metaData != null
+					&& ai.metaData.getString(Session.APPLICATION_ID_PROPERTY) != null;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 }
