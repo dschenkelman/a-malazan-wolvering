@@ -32,4 +32,8 @@ public class APIService {
 		return getRetrieveCinemaListServiceGetURL() + cinemaId;
 	}
 
+	public static String getRetrieveMovieFunctionsGetURL(String movieId) {
+		return getRetrieveMovieGetURL(movieId) + "/shows";
+	}
+
 }
