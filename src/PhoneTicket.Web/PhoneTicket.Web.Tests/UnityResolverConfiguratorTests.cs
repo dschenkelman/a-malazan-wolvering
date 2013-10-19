@@ -13,6 +13,7 @@
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.Helpers;
 
     [TestClass]
     public class UnityResolverConfiguratorTests
@@ -52,6 +53,8 @@
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.MoviesController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.RoomsController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.ShowsController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+
+            this.container.Setup(c => c.RegisterType(null, typeof(CurrentUserRole), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
 
             this.container.Setup(c => c.RegisterType(typeof(IRepository<User>), typeof(Repository<User>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IRepository<Genre>), typeof(Repository<Genre>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();

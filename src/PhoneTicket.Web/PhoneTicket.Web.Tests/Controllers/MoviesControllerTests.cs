@@ -17,6 +17,7 @@
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
+    using PhoneTicket.Web.Helpers;
 
     [TestClass]
     public class MoviesControllerTests
@@ -165,6 +166,47 @@
                     It.Is<Expression<Func<Movie, bool>>>(
                         e => e.Compile().Invoke(matchesFilter) && !e.Compile().Invoke(doesNotMatchFilter))),
                 Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldSetEditablePropertyAcordingToUserRoleWhenIndexIsCalled()
+        {
+            bool canEdit = false;
+            CurrentUserRole.getInstance().userIsAdmin = canEdit;
+
+            const string ImageUrlFormat = "http://site.com/images/{0}";
+            const string TrailerUrlFormat = "http://site.com/trailers/{0}";
+            const int PageNumber = 3;
+            var movies = new List<Movie>();
+            const int Items = 25;
+            
+            for (int i = 0; i < Items; i++)
+            {
+                movies.Add(
+                    new Movie()
+                    {
+                        Id = i,
+                        DurationInMinutes = i,
+                        Genre = new Genre { Id = i, Name = string.Format("Genre{0}", i) },
+                        Rating = new Rating { Id = i, Description = string.Format("Rating{0}", i) },
+                        ImageUrl = string.Format(ImageUrlFormat, i),
+                        TrailerUrl = string.Format(TrailerUrlFormat, i),
+                    });
+            }
+
+            this.moviesService.Setup(us => us.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Index(string.Empty, PageNumber);
+
+            var pagedList = (IPagedList<ListMovieViewModel>)result.ViewData.Model;
+
+            for (int i = 10; i < pagedList.Count; i++)
+            {
+                var item = pagedList[i];
+                Assert.AreEqual(canEdit, item.CanEdit);
+            }
         }
 
         [TestMethod]
