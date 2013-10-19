@@ -6,6 +6,6 @@
     <string name="ribbon_menu_user">Usuario</string>
     <string name="ribbonMenuButtonDescription">Menú</string>
     <string name="twitterButtonDescription">Twitter</string>
-    
+    <string name="facebookButtonDescription">Facebook</string>
     
 </resources>
