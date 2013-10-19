@@ -10,3 +10,7 @@ select
 {
     font-size: 16px;
 }
+
+#Price{
+    width: 50px;
+}
