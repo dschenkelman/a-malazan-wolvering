@@ -20,6 +20,8 @@
 
         public bool IsAvailable { get; set; }
 
+        public double Price { get; set; }
+
         public static ListShowViewModel FromShow(Show show)
         {
             return new ListShowViewModel 
@@ -31,6 +33,7 @@
                            Date = show.Date,
                            IsAvailable = show.IsAvailable,
                            Time = show.Date.ToString("HH:mm"),
+                           Price = show.Price,
                        };
         }
     }
