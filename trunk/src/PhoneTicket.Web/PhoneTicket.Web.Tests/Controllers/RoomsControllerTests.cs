@@ -18,6 +18,7 @@
     using PagedList;
     using System.Web.Mvc;
     using System.Linq.Expressions;
+    using PhoneTicket.Web.Helpers;
 
     [TestClass]
     public class RoomsControllerTests
@@ -161,6 +162,46 @@
                     It.Is<Expression<Func<Room, bool>>>(
                         e => e.Compile().Invoke(matchesFilter) && !e.Compile().Invoke(doesNotMatchFilter))),
                 Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldSetCanEditDependingOnUserRoleWhenRoomIndexIsCalled()
+        {
+            bool canEdit = false;
+            CurrentUserRole.getInstance().userIsAdmin = canEdit;
+
+            const string RoomFormat = "Room {0}";
+            const int PageNumber = 3;
+            var rooms = new List<Room>();
+            const int Items = 25;
+
+            for (int i = 0; i < Items; i++)
+            {
+                rooms.Add(
+                    new Room()
+                    {
+                        Id = i,
+                        Name = string.Format(RoomFormat, i),
+                        Complex = new Complex { Id = i, Name = string.Format("Complex{0}", i) },
+                        Capacity = i,
+                        Type = new RoomType { Id = i, Description = string.Format("RoomType{0}", i) }
+                    });
+            }
+            
+
+            this.roomService.Setup(rs => rs.GetAsync()).Returns(Task.FromResult((IEnumerable<Room>)rooms));
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Index(string.Empty, PageNumber);
+
+            var pagedList = (IPagedList<ListRoomViewModel>)result.ViewData.Model;
+
+            for (int i = 10; i < pagedList.Count; i++)
+            {
+                var item = pagedList[i];
+                Assert.AreEqual(canEdit, item.CanEdit);
+            }
         }
 
         [TestMethod]
