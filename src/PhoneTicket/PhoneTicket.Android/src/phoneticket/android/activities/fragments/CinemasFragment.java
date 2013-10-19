@@ -9,11 +9,15 @@ import com.google.inject.Inject;
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.adapter.CinemaAdapter;
+import phoneticket.android.model.Cinema;
 import phoneticket.android.model.ICinema;
+import phoneticket.android.model.IMovieListItem;
+import phoneticket.android.model.MovieListItem;
 import phoneticket.android.services.get.IRetrieveCinemaListService;
 import phoneticket.android.services.get.IRetrieveCinemaListServiceDelegate;
 import roboguice.fragment.RoboFragment;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,11 +32,12 @@ import android.widget.AdapterView.OnItemClickListener;
 public class CinemasFragment extends RoboFragment implements
 		IRetrieveCinemaListServiceDelegate {
 
+	private static final String STATE_CINEMAS_STREAM = "state.cinemas.stream";
+
 	@Inject
 	private IRetrieveCinemaListService cinemaListService;
-
 	private boolean ignoreServicesCallbacks;
-
+	private List<ICinema> cinemas;
 	private IOnCinemaSelectedListener cinemaListItemSelectedListener;
 
 	@Override
@@ -59,40 +64,109 @@ public class CinemasFragment extends RoboFragment implements
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
-		cinemaListService.retrieveCinemaList(this);
+		
+		SharedPreferences preferences = getActivity().getPreferences(0);
+		String cinemasStream = preferences.getString(STATE_CINEMAS_STREAM,
+				"");
+		boolean recreatingState = 0 != cinemasStream.length();
+
+		if (recreatingState) {
+			Collection<ICinema> storedCinemas = createCinemasFromStream(cinemasStream);
+			if (0 != storedCinemas.size()) {
+				createCinemasView(storedCinemas);
+			} else {
+				cinemaListService.retrieveCinemaList(this);
+			}
+		} else {
+			cinemaListService.retrieveCinemaList(this);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		ignoreServicesCallbacks = true;
+		
+		if (null != cinemas) {
+			String cinemasStream = "";
+			for (ICinema cinemaItem : cinemas) {
+				cinemasStream += cinemaItem.getId() + "#" +
+						cinemaItem.getName() + "#" +
+						cinemaItem.getAddress() + "]";
+			}
+			SharedPreferences.Editor editor = getActivity().getPreferences(0)
+					.edit();
+			editor.putString(STATE_CINEMAS_STREAM, cinemasStream);
+			editor.commit();
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		deleteSavedCinemasData();
+	}
+
+	private void deleteSavedCinemasData() {
+		SharedPreferences.Editor editor = getActivity().getPreferences(0)
+				.edit();
+		editor.remove(STATE_CINEMAS_STREAM);
+		editor.commit();		
+	}
+
+	private List<ICinema> createCinemasFromStream(String cinemasStream) {
+		List<ICinema> cinemas = new LinkedList<ICinema>();
+		try {
+			String items[] = cinemasStream.split("]");
+			for (String itemStream : items) {
+				String values[] = itemStream.split("#");
+				int id = 0;
+				String name = "", address = "";
+				if (0 < values.length)
+					id = Integer.parseInt(values[0]);
+				if (1 < values.length)
+					name = values[1];
+				if (2 < values.length)
+					address = values[2];
+				Cinema item = new Cinema(id, name, address, null);
+				cinemas.add(item);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			deleteSavedCinemasData();
+			cinemas = new LinkedList<ICinema>();
+		}
+		return cinemas;
+	}
+
+	private void createCinemasView(Collection<ICinema> cinemas) {
+		ListView cinemaListView = (ListView) getView().findViewById(
+				R.id.cinemaList);
+
+		this.cinemas = new LinkedList<ICinema>();
+		this.cinemas.addAll(cinemas);
+		final CinemaAdapter adapter = new CinemaAdapter(getActivity(),
+				R.id.cinemaInfo, this.cinemas);
+		cinemaListView.setAdapter(adapter);
+		cinemaListView.setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View v,
+					int position, long id) {
+				ICinema selectedCinema = adapter.getItem(position);
+				cinemaListItemSelectedListener.onCinemaSelected(
+						selectedCinema.getId(), selectedCinema.getName());
+			}
+		});
+		hideProgressLayout();
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void retrieveCinemaListFinish(IRetrieveCinemaListService service,
 			Collection<ICinema> cinemas) {
 		if (!ignoreServicesCallbacks) {
-			ListView cinemaListView = (ListView) getView().findViewById(
-					R.id.cinemaList);
-
-			List<ICinema> cinemaList = new LinkedList<ICinema>();
-			cinemaList.addAll(cinemas);
-			final CinemaAdapter adapter = new CinemaAdapter(getActivity(),
-					R.id.cinemaInfo, cinemaList);
-			cinemaListView.setAdapter(adapter);
-			cinemaListView.setOnItemClickListener(new OnItemClickListener() {
-
-				public void onItemClick(AdapterView<?> parent, View v,
-						int position, long id) {
-					ICinema selectedCinema = adapter.getItem(position);
-					cinemaListItemSelectedListener.onCinemaSelected(
-							selectedCinema.getId(), selectedCinema.getName());
-				}
-			});
-			hideProgressLayout();
-			adapter.notifyDataSetChanged();
+			createCinemasView(cinemas);
 		}
-
 	}
 
 	public void onRefreshCinemasListAction() {
