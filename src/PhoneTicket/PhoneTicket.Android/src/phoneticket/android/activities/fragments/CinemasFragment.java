@@ -11,8 +11,6 @@ import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.adapter.CinemaAdapter;
 import phoneticket.android.model.Cinema;
 import phoneticket.android.model.ICinema;
-import phoneticket.android.model.IMovieListItem;
-import phoneticket.android.model.MovieListItem;
 import phoneticket.android.services.get.IRetrieveCinemaListService;
 import phoneticket.android.services.get.IRetrieveCinemaListServiceDelegate;
 import roboguice.fragment.RoboFragment;
