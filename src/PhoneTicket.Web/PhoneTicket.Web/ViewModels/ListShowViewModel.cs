@@ -30,7 +30,7 @@
                            Id = show.Id,
                            Date = show.Date,
                            IsAvailable = show.IsAvailable,
-                           Time = show.Date.ToString("hh:mm"),
+                           Time = show.Date.ToString("HH:mm"),
                        };
         }
     }

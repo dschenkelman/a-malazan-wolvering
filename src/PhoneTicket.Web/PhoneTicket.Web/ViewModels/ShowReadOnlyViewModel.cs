@@ -33,7 +33,7 @@
                        {
                            Price = show.Price,
                            Date = show.Date,
-                           Time = show.Date.ToString("hh:mm"),
+                           Time = show.Date.ToString("HH:mm"),
                            Movie = show.Movie != null ? show.Movie.Title : string.Empty,
                            Room = show.Room != null ? show.Room.Name : string.Empty,
                            Complex = show.Room != null && show.Room.Complex != null ? show.Room.Complex.Name : string.Empty

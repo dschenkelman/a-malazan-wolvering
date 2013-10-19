@@ -401,7 +401,7 @@
             Assert.AreEqual("Room1", show.Room);
             Assert.AreEqual("Room1", show.Room);
             Assert.AreEqual(showDate, show.Date);
-            Assert.AreEqual(showDate.ToString("hh:mm"), show.Time);
+            Assert.AreEqual(showDate.ToString("HH:mm"), show.Time);
             Assert.IsTrue(show.IsAvailable);
 
             this.showService.VerifyAll();
@@ -480,7 +480,7 @@
             Assert.AreEqual(show.Room.Complex.Name, viewModel.Complex);
             Assert.AreEqual(show.Price, viewModel.Price);
             Assert.AreEqual(show.Date, viewModel.Date);
-            Assert.AreEqual(show.Date.ToString("hh:mm"), viewModel.Time);
+            Assert.AreEqual(show.Date.ToString("HH:mm"), viewModel.Time);
             Assert.AreEqual(show.Movie.Title, viewModel.Movie);
             Assert.AreEqual(MovieId, viewModel.MovieId);
 
