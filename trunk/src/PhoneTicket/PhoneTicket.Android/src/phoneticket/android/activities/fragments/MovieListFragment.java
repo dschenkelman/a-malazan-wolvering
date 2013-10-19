@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
+import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.adapter.ImageAdapter;
 import phoneticket.android.model.IMovieListItem;
 import phoneticket.android.model.MovieListItem;
@@ -36,6 +37,7 @@ public class MovieListFragment extends RoboFragment implements
 	private IRetrieveMovieListService movieListService;
 
 	private IOnMovielistItemSelectedListener movielistSlectionListener;
+	private IShareButtonsVisibilityListener shareButonVisibilityListener;
 
 	private boolean ignoreServicesCallbacks;
 	private List<IMovieListItem> movies;
@@ -63,6 +65,9 @@ public class MovieListFragment extends RoboFragment implements
 		super.onResume();
 		ignoreServicesCallbacks = false;
 
+		shareButonVisibilityListener.hideFacebookShareButton();
+		shareButonVisibilityListener.hideTwitterShareButton();
+
 		SharedPreferences preferences = getActivity().getPreferences(0);
 		String movielistStream = preferences.getString(STATE_MOVIELIST_STREAM,
 				"");
@@ -84,9 +89,9 @@ public class MovieListFragment extends RoboFragment implements
 
 			String movieListStream = "";
 			for (IMovieListItem movieListItem : movies) {
-				movieListStream += movieListItem.getId() + "#" +
-						movieListItem.getTitle() + "#" +
-						movieListItem.getImageURL() + "]";
+				movieListStream += movieListItem.getId() + "#"
+						+ movieListItem.getTitle() + "#"
+						+ movieListItem.getImageURL() + "]";
 			}
 			SharedPreferences.Editor editor = getActivity().getPreferences(0)
 					.edit();
@@ -112,7 +117,7 @@ public class MovieListFragment extends RoboFragment implements
 			String values[] = itemStream.split("#");
 			int id = 0;
 			String title = "", imageUrl = "";
-			
+
 			if (0 < values.length)
 				id = Integer.parseInt(values[0]);
 			if (1 < values.length)
@@ -210,6 +215,7 @@ public class MovieListFragment extends RoboFragment implements
 		super.onAttach(activity);
 		try {
 			movielistSlectionListener = (IOnMovielistItemSelectedListener) activity;
+			shareButonVisibilityListener = (IShareButtonsVisibilityListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IOnMovielistItemSelectedListener");
