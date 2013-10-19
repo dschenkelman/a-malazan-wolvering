@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.ViewModels
 {
+    using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Models;
 
     public class ListMovieViewModel
@@ -16,6 +17,8 @@
 
         public string ImageUrl { get; set; }
 
+        public bool CanEdit { get; set; }
+
         public static ListMovieViewModel FromMovie(Movie movie)
         {
             var vm = new ListMovieViewModel
@@ -26,6 +29,7 @@
                 Rating = movie.Rating.Description,
                 Title = movie.Title,
                 ImageUrl = movie.ImageUrl,
+                CanEdit = CurrentUserRole.getInstance().userIsAdmin
             };
 
             return vm;

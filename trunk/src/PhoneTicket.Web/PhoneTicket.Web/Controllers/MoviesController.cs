@@ -114,6 +114,15 @@
             return RedirectToAction("Index", "Movies", new { page = 1 });
         }
 
+        public async Task<ActionResult> Details(int movieId)
+        {
+            var movie = await this.movieService.GetAsync(movieId);
+
+            var movieViewModel = MovieReadOnlyViewModel.FromMovie(movie);
+
+            return this.View(movieViewModel);
+        }
+
         private async Task SetUpViewBag(Movie movie)
         {
             IEnumerable<SelectListItem> availableGenres = await this.genreService.ListAsync(movie.GenreId);

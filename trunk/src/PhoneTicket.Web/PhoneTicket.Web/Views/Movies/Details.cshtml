@@ -1,0 +1,56 @@
+﻿@model PhoneTicket.Web.ViewModels.MovieReadOnlyViewModel
+
+@{
+    ViewBag.Title = "Detalles de la película";
+}
+
+<link href="~/Content/AddEditMovie.css" rel="stylesheet" type="text/css" />
+
+<h2>Detalles de la película</h2>
+<form>
+    <fieldset>
+    <legend>Detalles película</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.Title)
+                @Html.DisplayFor(m => m.Title)
+            </li>
+            <li>
+                <table id="table1">
+                    <tr>
+                        <td>
+                            @Html.LabelFor(m => m.DurationInMinutes)
+                            @Html.DisplayFor(m => m.DurationInMinutes)
+                        </td>
+                        <td>
+                            @Html.LabelFor(m => m.Genre)
+                            @Html.DisplayFor(m => m.Genre)
+                        </td>
+                        <td>
+                            @Html.LabelFor(m => m.Rating)
+                            @Html.DisplayFor(m => m.Rating)
+                        </td>
+                    </tr>
+                </table>
+            </li>
+            <li>
+                <label for="Synopsis">Sinópsis</label>
+                @Html.TextAreaFor(m => m.Synopsis, new { @class = "text-box.multi-line", @disabled= "yes" })
+            </li>
+            <li>
+                @Html.LabelFor(m => m.TrailerUrl)
+                @Html.DisplayFor(m => m.TrailerUrl)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ImageUrl)
+                @Html.DisplayFor(m => m.ImageUrl)
+            </li>
+            <li>
+                <img id="MovieImg" class="thumbnail" src="@Model.ImageUrl"/> 
+            </li>
+            <li>
+                @Html.ActionLink("Volver a la lista", "Index")
+            </li>
+        </ol>
+    </fieldset>
+</form>

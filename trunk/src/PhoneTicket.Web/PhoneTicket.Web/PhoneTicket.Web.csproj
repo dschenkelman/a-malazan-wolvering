@@ -295,6 +295,7 @@
     <Compile Include="ViewModels\ListRoomViewModel.cs" />
     <Compile Include="ViewModels\ListShowsByMovieViewModel.cs" />
     <Compile Include="ViewModels\ListShowViewModel.cs" />
+    <Compile Include="ViewModels\MovieReadOnlyViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />
     <Compile Include="ViewModels\ShowReadOnlyViewModel.cs" />
@@ -462,6 +463,7 @@
     <Content Include="Views\Shows\Edit.cshtml" />
     <Content Include="Views\Shows\ByMovie.cshtml" />
     <Content Include="Views\Shows\Details.cshtml" />
+    <Content Include="Views\Movies\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
