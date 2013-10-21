@@ -82,6 +82,40 @@
         }
 
         [TestMethod]
+        public async Task ShouldNotReturnInfoAboutShowsThatAreOlderThanDateTimeNowWhenWeekShowsForMovieIsCalled()
+        {
+            const int MovieId = 2;
+
+            var show = new Show { Date = DateTime.Today.AddSeconds(-1) };
+
+            this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
+                .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show }));
+
+            var controller = this.CreateController();
+
+            var showsByComplex = await controller.WeekShowsForMovie(MovieId);
+
+            Assert.AreEqual(0, showsByComplex.Count());
+        }
+
+        [TestMethod]
+        public async Task ShouldNotReturnInfoAboutShowsThatAreNotAvailableWeekShowsForMovieIsCalled()
+        {
+            const int MovieId = 2;
+
+            var show = new Show { Date = DateTime.Today.AddDays(2), IsAvailable = false };
+
+            this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
+                .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show }));
+
+            var controller = this.CreateController();
+
+            var showsByComplex = await controller.WeekShowsForMovie(MovieId);
+
+            Assert.AreEqual(0, showsByComplex.Count());
+        }
+
+        [TestMethod]
         public async Task ShouldReturnCorrectInfoForShowWithinWeekWhenWeekShowsForMovieIsCalled()
         {
             const int MovieId = 2;
@@ -91,7 +125,7 @@
             const int ComplexId = 3;
             const int ShowId = 8;
 
-            var show = new Show { Id = ShowId, Date = showTime, Room = new Room {Complex = new Complex { Id = ComplexId, Name = ComplexName } } };
+            var show = new Show { Id = ShowId, Date = showTime, IsAvailable = true, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName } } };
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show }));
@@ -128,8 +162,8 @@
             const int Show1Id = 8;
             const int Show2Id = 31;
 
-            var show1 = new Show { Id = Show1Id, Date = show1Time, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName } } };
-            var show2 = new Show { Id = Show2Id, Date = show2Time, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName } } };
+            var show1 = new Show { Id = Show1Id, IsAvailable = true, Date = show1Time, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName } } };
+            var show2 = new Show { Id = Show2Id, IsAvailable = true, Date = show2Time, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName } } };
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show1, show2 }));
@@ -169,8 +203,8 @@
             const int Show1Id = 8;
             const int Show2Id = 31;
 
-            var show1 = new Show { Id = Show1Id, Date = show1Time, Room = new Room { Complex = new Complex { Id = Complex1Id, Name = Complex1Name } } };
-            var show2 = new Show { Id = Show2Id, Date = show2Time, Room = new Room { Complex = new Complex { Id = Complex2Id, Name = Complex2Name } } };
+            var show1 = new Show { Id = Show1Id, IsAvailable = true, Date = show1Time, Room = new Room { Complex = new Complex { Id = Complex1Id, Name = Complex1Name } } };
+            var show2 = new Show { Id = Show2Id, IsAvailable = true, Date = show2Time, Room = new Room { Complex = new Complex { Id = Complex2Id, Name = Complex2Name } } };
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show1, show2 }));
