@@ -2,6 +2,9 @@ package phoneticket.android.activities.fragments;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import com.google.inject.Inject;
 
@@ -31,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -331,12 +335,19 @@ public class DetailMovieFragment extends RoboFragment implements
 			final Collection<View> childViews = new ArrayList<View>();
 			for (String day : days) {
 				// getting child functions
-				Collection<IFunction> dayFunctions = new ArrayList<IFunction>();
+				List<IFunction> dayFunctions = new ArrayList<IFunction>();
 				for (IFunction function : movieFunctions.getFunctions()) {
 					if (function.getDay().equals(day)) {
 						dayFunctions.add(function);
 					}
 				}
+				
+				Collections.sort(dayFunctions, new Comparator<IFunction>(){
+					@Override
+					public int compare(IFunction lhs, IFunction rhs) {
+						return lhs.getTime().compareTo(rhs.getTime());
+					}
+				});
 
 				// creating the child group view for the day
 				View dayView = infalInflater.inflate(
@@ -345,8 +356,15 @@ public class DetailMovieFragment extends RoboFragment implements
 						.findViewById(R.id.childTextView);
 				GridView gridView = (GridView) dayView
 						.findViewById(R.id.timeGrid);
-				gridView.setAdapter(new TimeFunctionAdapter(getActivity(),
-						dayFunctions));
+				
+				ArrayAdapter<IFunction> adapter = new ArrayAdapter<IFunction>(getActivity(),
+						R.layout.exp_function, dayFunctions);
+				gridView.setAdapter(adapter);
+				
+				//gridView.setAdapter(new TimeFunctionAdapter(getActivity(),
+				//		dayFunctions));
+				
+				
 				txtListChild.setText(day);
 				groupLayoutView.addView(dayView);
 				dayView.setVisibility(View.GONE);

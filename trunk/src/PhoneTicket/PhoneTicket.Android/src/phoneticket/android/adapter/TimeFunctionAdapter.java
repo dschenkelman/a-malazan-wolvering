@@ -5,9 +5,11 @@ import java.util.Collection;
 import phoneticket.android.model.IFunction;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 public class TimeFunctionAdapter extends BaseAdapter {
