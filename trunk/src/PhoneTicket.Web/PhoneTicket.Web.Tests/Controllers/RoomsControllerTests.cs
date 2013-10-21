@@ -491,7 +491,5 @@
         {
             return new RoomsController(this.roomService.Object, this.complexService.Object, this.roomTypeService.Object);
         }
-
-        
     }
 }
