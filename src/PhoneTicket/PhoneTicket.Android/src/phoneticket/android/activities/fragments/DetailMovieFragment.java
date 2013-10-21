@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
-import phoneticket.android.adapter.TimeFunctionAdapter;
 import phoneticket.android.model.IFunction;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.model.IMovieFunctions;
@@ -34,9 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -304,7 +301,7 @@ public class DetailMovieFragment extends RoboFragment implements
 			groupLayoutView.setOrientation(LinearLayout.VERTICAL);
 			LayoutParams layoutParams = new LayoutParams();
 			layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-			layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+			layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
 			groupLayoutView.setLayoutParams(layoutParams);
 
 			// header group view
@@ -354,16 +351,16 @@ public class DetailMovieFragment extends RoboFragment implements
 						R.layout.exp_moviefuncts_child, null);
 				TextView txtListChild = (TextView) dayView
 						.findViewById(R.id.childTextView);
-				GridView gridView = (GridView) dayView
-						.findViewById(R.id.timeGrid);
+				LinearLayout timeLinearLayout = (LinearLayout) dayView
+						.findViewById(R.id.timeLinearLayout);
 				
-				ArrayAdapter<IFunction> adapter = new ArrayAdapter<IFunction>(getActivity(),
-						R.layout.exp_function, dayFunctions);
-				gridView.setAdapter(adapter);
-				
-				//gridView.setAdapter(new TimeFunctionAdapter(getActivity(),
-				//		dayFunctions));
-				
+				for(IFunction function : dayFunctions) {
+					TextView tv = new TextView(getActivity());
+					tv.setPadding(8, 8, 8, 8);
+					tv.setLines(1);
+					tv.setText(function.getTime());
+					timeLinearLayout.addView(tv);
+				}
 				
 				txtListChild.setText(day);
 				groupLayoutView.addView(dayView);
