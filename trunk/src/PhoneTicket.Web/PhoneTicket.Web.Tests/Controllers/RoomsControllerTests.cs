@@ -481,10 +481,9 @@
 
             var controller = this.CreateController();
 
-            var result = (RedirectToRouteResult)await controller.Delete(RoomId);
+            var result = (ViewResult)await controller.Delete(RoomId);
 
-            Assert.AreEqual("Index", result.RouteValues["action"]);
-            Assert.AreEqual("Rooms", result.RouteValues["controller"]);
+            Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
         }
 
         private RoomsController CreateController()
