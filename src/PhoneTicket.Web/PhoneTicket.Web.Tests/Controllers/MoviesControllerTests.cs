@@ -466,10 +466,9 @@
 
             var controller = this.CreateController();
 
-            var result = (RedirectToRouteResult)await controller.DeleteMovie(MovieId);
+            var result = (ViewResult)await controller.DeleteMovie(MovieId);
 
-            Assert.AreEqual("Index", result.RouteValues["action"]);
-            Assert.AreEqual("Movies", result.RouteValues["controller"]);
+            Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
         }
 
         private MoviesController CreateController()
