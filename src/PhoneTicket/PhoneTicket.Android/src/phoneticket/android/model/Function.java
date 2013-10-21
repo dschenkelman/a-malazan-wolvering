@@ -26,5 +26,9 @@ public class Function implements IFunction {
 	public String getTime() {
 		return time;
 	}
-
+	
+	@Override
+	public String toString() {
+		return time;
+	}
 }
