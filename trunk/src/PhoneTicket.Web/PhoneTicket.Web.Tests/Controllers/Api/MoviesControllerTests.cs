@@ -154,9 +154,9 @@
         public async Task ShouldSortShowsWithinSampleComplexWhenWeekShowsForMovieIsCalled()
         {
             const int MovieId = 2;
-
+            
             var show1Time = DateTime.Today.AddDays(1).AddHours(22).AddMinutes(30);
-            var show2Time = DateTime.Today.AddHours(10).AddMinutes(15);
+            var show2Time = DateTime.Today.AddDays(1).AddHours(10).AddMinutes(15);
             const string ComplexName = "Complex3";
             const int ComplexId = 3;
             const int Show1Id = 8;
@@ -195,7 +195,7 @@
             const int MovieId = 2;
 
             var show1Time = DateTime.Today.AddDays(1).AddHours(22).AddMinutes(30);
-            var show2Time = DateTime.Today.AddHours(10).AddMinutes(15);
+            var show2Time = DateTime.Today.AddDays(2).AddHours(10).AddMinutes(15);
             const string Complex1Name = "Complex3";
             const string Complex2Name = "Complex4";
             const int Complex1Id = 3;
