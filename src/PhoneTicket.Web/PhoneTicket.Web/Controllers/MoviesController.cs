@@ -11,6 +11,7 @@
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
+    using PhoneTicket.Web.Helpers;
 
     [Authorize]
     [RequireSsl]
@@ -22,15 +23,19 @@
 
         private readonly IRatingService ratingService;
 
-        private const int PageSize = 20;
+        private readonly ICurrentUserRole currentUserRole;
 
-        public MoviesController(IMovieService movieService, IGenreService genreService, IRatingService ratingService)
+        private const int PageSize = 5;
+
+        public MoviesController(IMovieService movieService, IGenreService genreService, IRatingService ratingService, ICurrentUserRole currentUserRole)
         {
             this.movieService = movieService;
 
             this.genreService = genreService;
 
             this.ratingService = ratingService;
+
+            this.currentUserRole = currentUserRole;
         }
 
         public async Task<ActionResult> Index(string titleSearch, int? page)
@@ -46,7 +51,11 @@
                 movies = await this.movieService.GetMoviesAsync(m => m.Title.Contains(titleSearch));
             }
 
-            var moviesViewModels = movies.Select(ListMovieViewModel.FromMovie);
+            var userCanEdit = this.currentUserRole.UserIsAdmin();
+
+            ViewBag.CanEdit = userCanEdit;
+
+            var moviesViewModels = movies.Select(m => ListMovieViewModel.FromMovie(m,userCanEdit));
 
             return this.View(moviesViewModels.ToPagedList(page ?? 1, PageSize));
         }

@@ -10,6 +10,7 @@
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
+    using PhoneTicket.Web.Helpers;
 
     [Authorize]
     [RequireSsl]
@@ -21,11 +22,14 @@
 
         private readonly IMovieService movieService;
 
-        public ShowsController(IShowService showService, IRoomService roomService, IMovieService movieService)
+        private readonly ICurrentUserRole currentUserRole;
+
+        public ShowsController(IShowService showService, IRoomService roomService, IMovieService movieService, ICurrentUserRole currentUserRole)
         {
             this.showService = showService;
             this.roomService = roomService;
             this.movieService = movieService;
+            this.currentUserRole = currentUserRole;
         }
         
         [HttpGet]
@@ -46,8 +50,12 @@
                 movieId = 1;
             }
 
+            var userCanEdit = this.currentUserRole.UserIsAdmin();
+
+            ViewBag.CanEdit = userCanEdit;
+
             var showsGroupedByDate = (await this.showService.GetForMovieAsync(movieId.Value))
-                .Select(ListShowViewModel.FromShow)
+                .Select(s => ListShowViewModel.FromShow(s,userCanEdit))
                .OrderBy(s => s.Date)
                .GroupBy(s => s.Date.Date);
 

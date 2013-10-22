@@ -28,6 +28,7 @@
         private Mock<IRoomService> roomService;
         private Mock<IComplexService> complexService;
         private Mock<IRoomTypeService> roomTypeService;
+        private Mock<ICurrentUserRole> currentUserRole;
 
         [TestInitialize]
         public void Initialize()
@@ -36,6 +37,7 @@
             this.roomService = this.mockRepository.Create<IRoomService>();
             this.complexService = this.mockRepository.Create<IComplexService>();
             this.roomTypeService = this.mockRepository.Create<IRoomTypeService>();
+            this.currentUserRole = this.mockRepository.Create<ICurrentUserRole>();
         }
 
         [TestMethod]
@@ -167,9 +169,7 @@
         [TestMethod]
         public async Task ShouldSetCanEditDependingOnUserRoleWhenRoomIndexIsCalled()
         {
-            bool canEdit = false;
-            CurrentUserRole.getInstance().userIsAdmin = canEdit;
-
+            const bool canEdit = false;
             const string RoomFormat = "Room {0}";
             const int PageNumber = 3;
             var rooms = new List<Room>();
@@ -190,6 +190,8 @@
             
 
             this.roomService.Setup(rs => rs.GetAsync()).Returns(Task.FromResult((IEnumerable<Room>)rooms));
+
+            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
 
             var controller = this.CreateController();
 
@@ -361,6 +363,7 @@
         [TestMethod]
         public async Task ShouldSetModelToRoomRetrievedFromServiceWhenCallingEdit()
         {
+            const bool canEdit = true;
             const int RoomId = 100;
             var room = new Room()
             {
@@ -373,12 +376,15 @@
                 Type = new RoomType { Description = string.Empty }
             };
 
-            var roomVM = ListRoomViewModel.FromRoom(room);
+            
 
             this.roomService.Setup(ms => ms.GetAsync(RoomId)).Returns(Task.FromResult(room));
             this.complexService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
             this.roomTypeService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
-            
+            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
+
+            var roomVM = ListRoomViewModel.FromRoom(room,canEdit);
+
             var controller = this.CreateController();
 
             var result = (ViewResult)await controller.Edit(RoomId);
@@ -394,6 +400,7 @@
         [TestMethod]
         public async Task ShouldUpdateRoomRetrievedFromServiceBasedOnUpdatedRoomProperties()
         {
+            const bool canEdit = true;
             const int RoomId = 100;
             const int ComplexId = 1;
             const int TypeId = 1;
@@ -414,8 +421,9 @@
 
             this.roomService.Setup(ms => ms.GetAsync(RoomId)).Returns(Task.FromResult(existingRoom)).Verifiable();
             this.roomService.Setup(ms => ms.UpdateAsync(existingRoom)).Returns(Task.FromResult<object>(null)).Verifiable();
+            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
 
-            await controller.EditRoom(ListRoomViewModel.FromRoom(updatedRoom));
+            await controller.EditRoom(ListRoomViewModel.FromRoom(updatedRoom,canEdit));
 
             this.roomService.Verify(rs => rs.GetAsync(updatedRoom.Id), Times.Once());
 
@@ -431,6 +439,7 @@
         [TestMethod]
         public async Task ShouldRedirectToIndexViewWhenEditingRoomIsFinished()
         {
+            const bool canEdit = true;
             const int ComplexId = 4;
             const int TypeId = 2;
             var room = new Room()
@@ -448,8 +457,9 @@
 
             this.roomService.Setup(ms => ms.GetAsync(room.Id)).Returns(Task.FromResult(room));
             this.roomService.Setup(ms => ms.UpdateAsync(It.IsAny<Room>())).Returns(Task.FromResult<object>(null));
+            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
 
-            var result = (ViewResult)await controller.EditRoom(ListRoomViewModel.FromRoom(room));
+            var result = (ViewResult)await controller.EditRoom(ListRoomViewModel.FromRoom(room,canEdit));
 
             Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
         }
@@ -488,7 +498,7 @@
 
         private RoomsController CreateController()
         {
-            return new RoomsController(this.roomService.Object, this.complexService.Object, this.roomTypeService.Object);
+            return new RoomsController(this.roomService.Object, this.complexService.Object, this.roomTypeService.Object, this.currentUserRole.Object);
         }
     }
 }

@@ -209,6 +209,7 @@
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show1, show2 }));
 
+
             var controller = this.CreateController();
 
             var showsByComplex = await controller.WeekShowsForMovie(MovieId);

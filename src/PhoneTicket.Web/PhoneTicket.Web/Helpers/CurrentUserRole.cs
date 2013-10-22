@@ -6,25 +6,11 @@
     using System.Web;
     using WebMatrix.WebData;
 
-    public class CurrentUserRole
+    public class CurrentUserRole : ICurrentUserRole
     {
-        private static CurrentUserRole instance = null;
-
-        public bool userIsAdmin { get; set; }
-
-        private CurrentUserRole()
+        public bool UserIsAdmin()
         {
-            userIsAdmin = (WebSecurity.CurrentUserName.Equals("admin"));
-        }
-
-        public static CurrentUserRole getInstance()
-        {
-            if (instance == null)
-            {
-                instance = new CurrentUserRole();
-            }
-
-            return instance;
+            return WebSecurity.CurrentUserName.Equals("admin");
         }
     }
 }

@@ -20,7 +20,7 @@
                 <input type="submit" value="Buscar" />
             }
         </span>
-        @if (CurrentUserRole.getInstance().userIsAdmin)
+        @if (ViewBag.CanEdit)
         {
             <span>
                 @Html.ActionLink(
