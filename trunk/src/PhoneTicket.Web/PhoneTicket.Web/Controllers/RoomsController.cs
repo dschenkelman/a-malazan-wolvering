@@ -11,6 +11,7 @@
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.ViewModels;
     using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.Helpers;
 
     [Authorize]
     [RequireSsl]
@@ -19,14 +20,16 @@
         private readonly IRoomService roomService;
         private readonly IComplexService complexService;
         private readonly IRoomTypeService roomTypeService;
+        private readonly ICurrentUserRole currentUserRole;
 
-        private const int PageSize = 20;
+        private const int PageSize = 5;
 
-        public RoomsController(IRoomService roomService, IComplexService complexService, IRoomTypeService roomTypeService)
+        public RoomsController(IRoomService roomService, IComplexService complexService, IRoomTypeService roomTypeService, ICurrentUserRole currentUserRole)
         {
             this.roomService = roomService;
             this.complexService = complexService;
             this.roomTypeService = roomTypeService;
+            this.currentUserRole = currentUserRole;
         }
 
         public async Task<ActionResult> Index(string roomSearch, int? page)
@@ -42,7 +45,11 @@
                 rooms = await this.roomService.GetAsync(r => r.Name.Contains(roomSearch));
             }
 
-            var roomsViewModels = rooms.Select(ListRoomViewModel.FromRoom);
+            var userCanEdit = this.currentUserRole.UserIsAdmin();
+
+            ViewBag.CanEdit = userCanEdit;
+
+            var roomsViewModels = rooms.Select(r => ListRoomViewModel.FromRoom(r,userCanEdit));
 
             return this.View(roomsViewModels.ToPagedList(page ?? 1, PageSize));
         }
@@ -52,8 +59,10 @@
             var room = new Room() { Id = -1, Name = string.Empty, ComplexId = -1, Complex = new Complex { Name = string.Empty }, Capacity = 0, TypeId = -1, Type = new RoomType { Description = string.Empty } };
             var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
             var availableRoomTypes = await this.roomTypeService.ListAsync(room.TypeId);
-            
-            var roomViewModel = ListRoomViewModel.FromRoom(room);
+
+            var userCanEdit = this.currentUserRole.UserIsAdmin();
+
+            var roomViewModel = ListRoomViewModel.FromRoom(room, userCanEdit);
             roomViewModel.AvailableComplexes = availableComplexes;
             roomViewModel.AvailableRoomTypes = availableRoomTypes;
 
@@ -80,7 +89,9 @@
             var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
             var availableRoomTypes = await this.roomTypeService.ListAsync(room.TypeId);
 
-            var roomViewModel = ListRoomViewModel.FromRoom(room);
+            var userCanEdit = this.currentUserRole.UserIsAdmin();
+
+            var roomViewModel = ListRoomViewModel.FromRoom(room, userCanEdit);
             roomViewModel.AvailableComplexes = availableComplexes;
             roomViewModel.AvailableRoomTypes = availableRoomTypes;
 

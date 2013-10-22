@@ -1,4 +1,5 @@
 ﻿@model PhoneTicket.Web.ViewModels.ListShowsByMovieViewModel
+@using PhoneTicket.Web.Helpers
 
 @{
     ViewBag.Title = "ByMovie";
@@ -16,9 +17,12 @@
             @Html.DropDownList("movieId", Model.Movies)
         </form>
     </div>
-    <div class="col-md-6" style="text-align: right">
-        @Html.ActionLink("Crear nuevas", "Create")
-    </div>
+    @if (ViewBag.CanEdit)
+    {
+        <div class="col-md-6" style="text-align: right">
+            @Html.ActionLink("Crear nuevas", "Create")
+        </div>
+    }
 </div>
 
 <div class="row">

@@ -3,6 +3,7 @@
     using System;
 
     using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.Helpers;
 
     public class ListShowViewModel
     {
@@ -22,11 +23,11 @@
 
         public double Price { get; set; }
 
-        public static ListShowViewModel FromShow(Show show)
+        public static ListShowViewModel FromShow(Show show, bool userCanEdit)
         {
             return new ListShowViewModel 
                         {
-                           CanEdit = show.Date > DateTime.Now,
+                           CanEdit = ((show.Date > DateTime.Now)&&(userCanEdit)),
                            Complex = show.Room != null && show.Room.Complex != null ? show.Room.Complex.Name : string.Empty,
                            Room = show.Room != null ? show.Room.Name : string.Empty,
                            Id = show.Id,

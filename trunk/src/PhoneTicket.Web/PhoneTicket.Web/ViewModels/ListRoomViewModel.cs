@@ -44,7 +44,7 @@
 
         public bool CanEdit { get; set; }
 
-        public static ListRoomViewModel FromRoom(Room room)
+        public static ListRoomViewModel FromRoom(Room room, bool userCanEdit)
         {
 
             var vm = new ListRoomViewModel
@@ -56,7 +56,7 @@
                 Capacity = room.Capacity,
                 TypeDescription = room.Type.Description,
                 TypeId = room.TypeId,
-                CanEdit = CurrentUserRole.getInstance().userIsAdmin
+                CanEdit = userCanEdit
             };
 
             return vm;

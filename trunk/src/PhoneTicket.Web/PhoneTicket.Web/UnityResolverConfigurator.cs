@@ -45,7 +45,7 @@
             container.RegisterType<PhoneTicketContext>();
             container.RegisterType<IContext, PhoneTicketContext>();
 
-            container.RegisterType<CurrentUserRole>();
+            container.RegisterType<ICurrentUserRole,CurrentUserRole>();
 
             var emailService = new EmailService("smtp.gmail.com", 587, "wolveringticket@gmail.com", "wolvering", true, true);
 

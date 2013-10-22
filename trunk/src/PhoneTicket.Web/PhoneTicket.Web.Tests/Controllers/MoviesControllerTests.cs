@@ -29,6 +29,8 @@
 
         private Mock<IGenreService> genreService;
 
+        private Mock<ICurrentUserRole> currentUserRole;
+
         [TestInitialize]
         public void Initialize()
         {
@@ -36,6 +38,7 @@
             this.moviesService = this.mockRepository.Create<IMovieService>();
             this.genreService = this.mockRepository.Create<IGenreService>();
             this.ratingService = this.mockRepository.Create<IRatingService>();
+            this.currentUserRole = this.mockRepository.Create<ICurrentUserRole>();
         }
 
         [TestMethod]
@@ -111,6 +114,7 @@
             }
 
             this.moviesService.Setup(us => us.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies)).Verifiable();
+            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(true);
 
             var controller = this.CreateController();
 
@@ -171,7 +175,6 @@
         public async Task ShouldSetEditablePropertyAcordingToUserRoleWhenIndexIsCalled()
         {
             bool canEdit = false;
-            CurrentUserRole.getInstance().userIsAdmin = canEdit;
 
             const string ImageUrlFormat = "http://site.com/images/{0}";
             const string TrailerUrlFormat = "http://site.com/trailers/{0}";
@@ -194,6 +197,8 @@
             }
 
             this.moviesService.Setup(us => us.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies)).Verifiable();
+
+            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
 
             var controller = this.CreateController();
 
@@ -473,7 +478,7 @@
 
         private MoviesController CreateController()
         {
-            return new MoviesController(this.moviesService.Object, this.genreService.Object, this.ratingService.Object);
+            return new MoviesController(this.moviesService.Object, this.genreService.Object, this.ratingService.Object, this.currentUserRole.Object);
         }
     }
 }

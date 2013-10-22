@@ -14,6 +14,7 @@
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
+    using PhoneTicket.Web.Helpers;
 
     [TestClass]
     public class ShowsControllerTests
@@ -22,6 +23,7 @@
         private Mock<IShowService> showService;
         private Mock<IRoomService> roomService;
         private Mock<IMovieService> movieService;
+        private Mock<ICurrentUserRole> currentUserRole;
 
         [TestInitialize]
         public void Initialize()
@@ -30,6 +32,7 @@
             this.showService = this.mockRepository.Create<IShowService>();
             this.roomService = this.mockRepository.Create<IRoomService>();
             this.movieService = this.mockRepository.Create<IMovieService>();
+            this.currentUserRole = this.mockRepository.Create<ICurrentUserRole>();
         }
 
         [TestMethod]
@@ -347,6 +350,8 @@
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
 
+            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(true);
+
             var controller = this.CreateController();
 
             var result = (ViewResult)await controller.ByMovie(MovieId);
@@ -525,7 +530,7 @@
 
         private ShowsController CreateController()
         {
-            return new ShowsController(this.showService.Object, this.roomService.Object, this.movieService.Object);
+            return new ShowsController(this.showService.Object, this.roomService.Object, this.movieService.Object, this.currentUserRole.Object);
         }
     }
 }

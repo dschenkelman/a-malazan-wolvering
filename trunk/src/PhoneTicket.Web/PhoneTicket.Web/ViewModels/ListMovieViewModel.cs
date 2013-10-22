@@ -19,7 +19,7 @@
 
         public bool CanEdit { get; set; }
 
-        public static ListMovieViewModel FromMovie(Movie movie)
+        public static ListMovieViewModel FromMovie(Movie movie, bool userCanEdit)
         {
             var vm = new ListMovieViewModel
             {
@@ -29,7 +29,7 @@
                 Rating = movie.Rating.Description,
                 Title = movie.Title,
                 ImageUrl = movie.ImageUrl,
-                CanEdit = CurrentUserRole.getInstance().userIsAdmin
+                CanEdit = userCanEdit
             };
 
             return vm;
