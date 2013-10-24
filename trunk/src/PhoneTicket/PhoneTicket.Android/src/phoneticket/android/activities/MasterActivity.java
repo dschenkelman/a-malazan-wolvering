@@ -17,6 +17,7 @@ import phoneticket.android.activities.fragments.MovieListFragment;
 import phoneticket.android.activities.fragments.UserFragment;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
+import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.utils.UserManager;
 import roboguice.activity.RoboFragmentActivity;
@@ -41,7 +42,8 @@ import android.widget.TextView;
 
 public class MasterActivity extends RoboFragmentActivity implements
 		iRibbonMenuCallback, IOnCinemaSelectedListener,
-		IOnMovielistItemSelectedListener, IShareButtonsVisibilityListener {
+		IOnMovielistItemSelectedListener, IShareButtonsVisibilityListener,
+		IShareActionListener {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -282,6 +284,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	protected void onTwitterButtonAction() {
+		twitterAction();
+	}
+
+	private void twitterAction() {
 		String url = "https://twitter.com/intent/tweet?source=webclient&text="
 				+ twitterMessage;
 		Intent i = new Intent(Intent.ACTION_VIEW);
@@ -290,7 +296,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	protected void onFacebookButtonAction() {
-		Log.d("PhoneTicket", "Share on facebook");
+		facebookAction();
+	}
+
+	private void facebookAction() {
 		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
 				.setLink("https://developers.facebook.com/android").build();
 		if (uiHelper != null)
@@ -350,5 +359,16 @@ public class MasterActivity extends RoboFragmentActivity implements
 		}
 
 		return false;
+	}
+
+	@Override
+	public void shareOnTwitter(String twitterMessage) {
+		this.twitterMessage = twitterMessage;
+		twitterAction();
+	}
+
+	@Override
+	public void shareOnFacebook() {
+		facebookAction();
 	}
 }
