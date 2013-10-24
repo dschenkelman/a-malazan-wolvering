@@ -67,5 +67,10 @@ public class Cinema implements ICinema {
 			return latitude;
 		}
     }
+
+	@Override
+	public ILocation getLocation() {
+		return location;
+	}
     
 }

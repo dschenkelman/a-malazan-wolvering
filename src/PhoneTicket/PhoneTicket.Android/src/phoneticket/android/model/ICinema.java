@@ -11,4 +11,6 @@ public interface ICinema {
 	double getLongitude();
 
 	double getLatitude();
+
+	ILocation getLocation();
 }

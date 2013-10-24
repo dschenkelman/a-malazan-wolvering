@@ -15,7 +15,47 @@
         android:id="@+id/cinemaAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
         android:textSize="18sp" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+ 		android:id="@+id/showInGoogleMaps"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+		android:text="@string/showInMapCinemaButton" />
+
+	<LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+	    
+        <ImageButton
+	        android:id="@+id/twitterButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingRight="4dp"
+	        android:gravity="center"
+	        android:src="@drawable/ic_black_twitter"
+	        android:background="@null"
+	        android:contentDescription="@string/twitterButtonDescription" />
+	    
+	    <ImageButton
+	        android:id="@+id/facebookButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingRight="4dp"
+	        android:gravity="center"
+	        android:src="@drawable/ic_black_facebook"
+	        android:background="@null"
+	        android:contentDescription="@string/facebookButtonDescription" />
+	    
+	</LinearLayout>
+    	
+	<View
+	    android:id="@+id/removableLine"
+		android:layout_width="fill_parent"
+		android:layout_height="1dp" 
+		android:layout_margin="0dp"
+		android:background="@android:color/darker_gray" />
+	
 </LinearLayout>
