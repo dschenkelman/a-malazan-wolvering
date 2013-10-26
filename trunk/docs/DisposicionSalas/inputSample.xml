@@ -1,0 +1,23 @@
+<!-- El tamaño máximo de sala es de 22 (columnas) de ancho y 17 de largo (filas). -->
+<!-- Se representa con una grilla de 17x22. La fila 17 es la de atras (más lejos de la pantalla), la 1 es la de adelante (más cerca de la pantalla).-->
+
+<!-- Los elementos son inclusivos, es decir todas los casilleros que se encuentren dentro del conjunto descripto por el archivo serán asientos -->
+<Sala>
+	<!-- Desde la izquierda, los primeros 4 casilleros son asientos-->
+	<Fila numero="17" desde="1" hasta="4"/>
+	<!-- Desde la izquierda, en los casilleros 6 al 17 hay asientos-->
+	<Fila numero="17" desde="6" hasta="17"/>
+	<!-- Desde la izquierda, en los casilleros 19 al 22 hay asientos-->
+	<Fila numero="17" desde="19" hasta="22"/>
+
+	<!-- Si hacemos que todas las filas [1, 17] sean asi, tenemos una sala con 2 pasillos y tres cuerpos, los laterales de 4 asientos y el central de 12 -->
+</Sala>
+
+<!-- Validaciones -->
+<!-- Elemento raiz es <Sala>. -->
+<!-- Los elementos dentro de sala solo pueden ser <Fila>. -->
+<!-- numero, desde y hasta son obligatorios -->
+<!-- 1 <= numero <= 17 -->
+<!-- desde <= hasta -->
+<!-- desde >= 1 -->
+<!-- hasta <= 22 -->
