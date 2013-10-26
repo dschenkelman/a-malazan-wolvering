@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.interfaces.IFunctionSelectionListener;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
@@ -16,6 +17,7 @@ import phoneticket.android.model.IFunction;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.model.IMovieFunctions;
 import phoneticket.android.model.Movie;
+import phoneticket.android.model.Ticket;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsServiceDelegate;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
@@ -41,6 +43,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DetailMovieFragment extends RoboFragment implements
 		IRetrieveMovieInfoServiceDelegate,
@@ -75,6 +78,8 @@ public class DetailMovieFragment extends RoboFragment implements
 	private IOnCinemaSelectedListener cinemaSelectedListener;
 	private IShareButtonsVisibilityListener shareButtonsVisibilityListener;
 	private IShareActionListener shareActionListener;
+
+	private IFunctionSelectionListener functionSelectionListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -345,8 +350,8 @@ public class DetailMovieFragment extends RoboFragment implements
 						dayFunctions.add(function);
 					}
 				}
-				
-				Collections.sort(dayFunctions, new Comparator<IFunction>(){
+
+				Collections.sort(dayFunctions, new Comparator<IFunction>() {
 					@Override
 					public int compare(IFunction lhs, IFunction rhs) {
 						return lhs.getTime().compareTo(rhs.getTime());
@@ -360,15 +365,27 @@ public class DetailMovieFragment extends RoboFragment implements
 						.findViewById(R.id.childTextView);
 				LinearLayout timeLinearLayout = (LinearLayout) dayView
 						.findViewById(R.id.timeLinearLayout);
-				
-				for(IFunction function : dayFunctions) {
+
+				for (final IFunction function : dayFunctions) {
 					TextView tv = new TextView(getActivity());
 					tv.setPadding(8, 8, 8, 8);
 					tv.setLines(1);
 					tv.setText(function.getTime());
+					tv.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Ticket ticket = new Ticket(movieFunctions
+									.getCinemaId(), movieFunctions
+									.getCinemaName(), "Address", movie.getId(),
+									movie.getTitle(), function.getId(),
+									function.getDay(), function.getTime());
+							functionSelectionListener
+									.onFunctionSelected(ticket);
+						}
+					});
 					timeLinearLayout.addView(tv);
 				}
-				
+
 				txtListChild.setText(day);
 				groupLayoutView.addView(dayView);
 				dayView.setVisibility(View.GONE);
@@ -414,7 +431,7 @@ public class DetailMovieFragment extends RoboFragment implements
 			goToCinemaContract.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					onGoToCinemaAction(movieFunctions.getCinemaId(), 
+					onGoToCinemaAction(movieFunctions.getCinemaId(),
 							movieFunctions.getCinemaName());
 				}
 			});
@@ -442,6 +459,7 @@ public class DetailMovieFragment extends RoboFragment implements
 		super.onAttach(activity);
 		try {
 			cinemaSelectedListener = (IOnCinemaSelectedListener) activity;
+			functionSelectionListener = (IFunctionSelectionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IOnCinemaSelectedListener");

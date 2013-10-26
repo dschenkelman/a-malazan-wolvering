@@ -2,6 +2,7 @@ package phoneticket.android.services.get.impl;
 
 import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsServiceDelegate;
+import phoneticket.android.services.get.mock.MockRetrieveMovieFunctionsService;
 
 public class RetrieveMovieFunctionsServiceProxy implements
 		IRetrieveMovieFunctionsService {
@@ -9,7 +10,7 @@ public class RetrieveMovieFunctionsServiceProxy implements
 	@Override
 	public void retrieveMovieFunctions(
 			IRetrieveMovieFunctionsServiceDelegate delegate, int movieId) {
-		(new RetrieveMovieFunctionsService()).retrieveMovieFunctions(
+		(new MockRetrieveMovieFunctionsService()).retrieveMovieFunctions(
 				delegate, movieId);
 	}
 }

@@ -34,9 +34,9 @@ public class PhoneTicketModule implements Module {
 		binder.bind(IRetrieveMovieInfoService.class).to(
 				RetrieveMovieInfoServiceProxy.class);
 		binder.bind(IRetrieveMovieFunctionsService.class).to(
-				MockRetrieveMovieFunctionsService.class);
+				RetrieveMovieFunctionsServiceProxy.class);
 		binder.bind(IRetrieveCinemaListService.class).to(
-				MockRetrieveCinemaListService.class);
+				RetrieveCinemaListServiceProxy.class);
 		binder.bind(IRetrieveCinemaInfoService.class).to(
 				RetrieveCinemaInfoServiceProxy.class);
 	}
