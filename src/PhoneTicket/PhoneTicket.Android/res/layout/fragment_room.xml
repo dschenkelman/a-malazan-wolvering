@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/cinemaAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movieName"
+        android:text="Belgrano 555"
+        android:textSize="25sp" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/cinemaAddress"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:color/black" />
+
+    <TextView
+        android:id="@+id/movieDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cinemaAddress"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:text="2013/08/12 20:20"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/movieName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Aviones"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/armChairText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/line"
+        android:text="@string/butacas"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/armChairSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line"
+        android:layout_toLeftOf="@+id/armChairText"
+        android:text="@string/initial_armchair_count"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:id="@+id/room"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/armChairText"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:contentDescription="TODO"
+            android:src="@drawable/patanlla_cine" />
+
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="2dp"
+            android:numColumns="23"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            android:stretchMode="columnWidth"
+            android:verticalScrollbarPosition="right"
+            android:verticalSpacing="7dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/selectionFinished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/room"
+        android:layout_centerInParent="true"
+        android:text="@string/selection_finished"
+        android:textSize="25sp" />
+
+</RelativeLayout>
