@@ -229,6 +229,7 @@
     <Compile Include="Handlers\RequireSsl.cs" />
     <Compile Include="Helpers\ComplexExtensions.cs" />
     <Compile Include="Helpers\CurrentUserRole.cs" />
+    <Compile Include="Helpers\DateTimeHelpers.cs" />
     <Compile Include="Helpers\DayOfWeekExtensions.cs" />
     <Compile Include="Helpers\ICurrentUserRole.cs" />
     <Compile Include="Helpers\LocationExtension.cs" />

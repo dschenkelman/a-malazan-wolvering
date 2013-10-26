@@ -55,7 +55,7 @@
             ViewBag.CanEdit = userCanEdit;
 
             var showsGroupedByDate = (await this.showService.GetForMovieAsync(movieId.Value))
-                .Select(s => ListShowViewModel.FromShow(s,userCanEdit))
+                .Select(s => ListShowViewModel.FromShow(s, userCanEdit))
                .OrderBy(s => s.Date)
                .GroupBy(s => s.Date.Date);
 

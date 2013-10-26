@@ -47,7 +47,7 @@
             var shows = await this.showService.GetForMovieAsync(id);
 
             var groupedShows = shows
-                .Where(s => s.Date >= DateTime.Now && s.Date < DateTime.Now.AddDays(7) && s.IsAvailable)
+                .Where(s => s.Date >= DateTimeHelpers.DateTimeInArgentina && s.Date < DateTimeHelpers.DateTimeInArgentina.AddDays(7) && s.IsAvailable)
                 .OrderBy(s => s.Room.Complex.Id)
                 .ThenBy(s => s.Date)
                 .Select(s => new
