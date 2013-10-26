@@ -1,6 +1,7 @@
 ﻿namespace PhoneTicket.Web.Models
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations.Schema;
 
     public class User
@@ -21,5 +22,7 @@
         public DateTime? BirthDate { get; set; }
 
         public bool IsValid { get; set; }
+
+        public virtual Collection<Operation> Operations { get; set; }
     }
 }

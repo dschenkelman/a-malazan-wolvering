@@ -65,6 +65,9 @@
             this.container.Setup(c => c.RegisterType(typeof(IRepository<Room>), typeof(Repository<Room>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IRepository<RoomType>), typeof(Repository<RoomType>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IRepository<Show>), typeof(Repository<Show>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(typeof(IRepository<Discount>), typeof(Repository<Discount>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(typeof(IRepository<Operation>), typeof(Repository<Operation>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(typeof(IRepository<OccupiedSeat>), typeof(Repository<OccupiedSeat>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IPhoneTicketRepositories), typeof(PhoneTicketRepositories), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
 
             configurator.Configure(this.container.Object);
@@ -95,6 +98,10 @@
             this.container.Verify(c => c.RegisterType(typeof(IRepository<Room>), typeof(Repository<Room>), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IRepository<RoomType>), typeof(Repository<RoomType>), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IRepository<Show>), typeof(Repository<Show>), null, It.IsAny<LifetimeManager>()), Times.Once());
+
+            this.container.Verify(c => c.RegisterType(typeof(IRepository<Discount>), typeof(Repository<Discount>), null, It.IsAny<LifetimeManager>()), Times.Once());
+            this.container.Verify(c => c.RegisterType(typeof(IRepository<Operation>), typeof(Repository<Operation>), null, It.IsAny<LifetimeManager>()), Times.Once());
+            this.container.Verify(c => c.RegisterType(typeof(IRepository<OccupiedSeat>), typeof(Repository<OccupiedSeat>), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IPhoneTicketRepositories), typeof(PhoneTicketRepositories), null, It.IsAny<LifetimeManager>()), Times.Once());
         }
 

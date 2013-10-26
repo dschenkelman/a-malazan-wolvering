@@ -32,6 +32,9 @@
             container.RegisterType<IRepository<Room>, Repository<Room>>();
             container.RegisterType<IRepository<RoomType>, Repository<RoomType>>();
             container.RegisterType<IRepository<Show>, Repository<Show>>();
+            container.RegisterType<IRepository<Operation>, Repository<Operation>>();
+            container.RegisterType<IRepository<Discount>, Repository<Discount>>();
+            container.RegisterType<IRepository<OccupiedSeat>, Repository<OccupiedSeat>>();
 
             container.RegisterType<IPhoneTicketRepositories, PhoneTicketRepositories>();
 
@@ -45,7 +48,7 @@
             container.RegisterType<PhoneTicketContext>();
             container.RegisterType<IContext, PhoneTicketContext>();
 
-            container.RegisterType<ICurrentUserRole,CurrentUserRole>();
+            container.RegisterType<ICurrentUserRole, CurrentUserRole>();
 
             var emailService = new EmailService("smtp.gmail.com", 587, "wolveringticket@gmail.com", "wolvering", true, true);
 
