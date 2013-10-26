@@ -43,10 +43,12 @@
             this.container.Setup(c => c.RegisterType(typeof(IComplexService), typeof(ComplexService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IRoomService), typeof(RoomService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IRoomTypeService), typeof(RoomTypeService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(typeof(IDiscountService), typeof(DiscountService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
 
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicketContext), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IContext), typeof(PhoneTicketContext), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(UsersController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(null, typeof(DiscountsController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(MoviesController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(ComplexesController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.UsersController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
@@ -83,6 +85,7 @@
             this.container.Verify(c => c.RegisterInstance(typeof(IEmailService), null, It.IsAny<EmailService>(), It.IsAny<ContainerControlledLifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(PhoneTicketContext), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(UsersController), null, It.IsAny<LifetimeManager>()), Times.Once());
+            this.container.Verify(c => c.RegisterType(null, typeof(DiscountsController), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(MoviesController), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(ComplexesController), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.UsersController), null, It.IsAny<LifetimeManager>()), Times.Once());

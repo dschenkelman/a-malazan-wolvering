@@ -208,6 +208,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\ComplexesController.cs" />
+    <Compile Include="Controllers\Api\DiscountsController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -269,9 +270,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\ComplexService.cs" />
+    <Compile Include="Services\DiscountService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\GenreService.cs" />
     <Compile Include="Services\IComplexService.cs" />
+    <Compile Include="Services\IDiscountService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IMovieService.cs" />
     <Compile Include="Services\IGenreService.cs" />
@@ -298,6 +301,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\Api\ComplexListItemViewModel.cs" />
     <Compile Include="ViewModels\Api\ComplexViewModel.cs" />
+    <Compile Include="ViewModels\Api\DiscountInfoViewModel.cs" />
     <Compile Include="ViewModels\Api\MovieListItemViewModel .cs" />
     <Compile Include="ViewModels\Api\MovieViewModel.cs" />
     <Compile Include="ViewModels\Api\ShowInfoViewModel.cs" />
