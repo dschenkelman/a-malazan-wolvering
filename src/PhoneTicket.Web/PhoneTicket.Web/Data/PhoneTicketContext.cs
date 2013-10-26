@@ -31,6 +31,12 @@
 
         public DbSet<RoomType> RoomTypes { get; set; }
 
+        public DbSet<Discount> Discounts { get; set; }
+
+        public DbSet<Operation> Operations { get; set; }
+
+        public DbSet<OccupiedSeat> OccupiedSeats { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
            Database.SetInitializer(new MigrateDatabaseToLatestVersion<PhoneTicketContext, Configuration>());

@@ -23,6 +23,12 @@
         IRepository<RoomType> RoomTypes { get; }
 
         IRepository<Show> Shows { get; }
+
+        IRepository<Operation> Operations { get; }
+
+        IRepository<Discount> Discounts { get; }
+
+        IRepository<OccupiedSeat> OccupiedSeats { get; }
     }
 }
 

@@ -240,12 +240,22 @@
     <Compile Include="Migrations\201310132312464_Initial.Designer.cs">
       <DependentUpon>201310132312464_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310262216034_PurchaseModel.cs" />
+    <Compile Include="Migrations\201310262216034_PurchaseModel.Designer.cs">
+      <DependentUpon>201310262216034_PurchaseModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Complex.cs" />
+    <Compile Include="Models\CreditCardCompany.cs" />
+    <Compile Include="Models\Discount.cs" />
+    <Compile Include="Models\DiscountType.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\OccupiedSeat.cs" />
+    <Compile Include="Models\Operation.cs" />
+    <Compile Include="Models\OperationType.cs" />
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\RoomType.cs" />
@@ -482,6 +492,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201310132312464_Initial.resx">
       <DependentUpon>201310132312464_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310262216034_PurchaseModel.resx">
+      <DependentUpon>201310262216034_PurchaseModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

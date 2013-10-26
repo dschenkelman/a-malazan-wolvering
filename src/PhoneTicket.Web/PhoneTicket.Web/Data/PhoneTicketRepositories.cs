@@ -24,6 +24,12 @@
 
         private readonly IRepository<Show> shows;
 
+        private IRepository<Operation> operations;
+
+        private IRepository<Discount> discounts;
+
+        private IRepository<OccupiedSeat> occupiedSeats;
+
         public PhoneTicketRepositories(
             IRepository<TemporaryUser> temporaryUsers,
             IRepository<Rating> ratings,
@@ -33,7 +39,10 @@
             IRepository<Complex> complexes, 
             IRepository<Room> rooms,
             IRepository<RoomType> roomTypes,
-            IRepository<Show> shows)
+            IRepository<Show> shows,
+            IRepository<Operation> operations,
+            IRepository<Discount> discounts,
+            IRepository<OccupiedSeat> occupiedSeats)
         {
             this.temporaryUsers = temporaryUsers;
             this.ratings = ratings;
@@ -44,6 +53,9 @@
             this.rooms = rooms;
             this.roomTypes = roomTypes;
             this.shows = shows;
+            this.operations = operations;
+            this.discounts = discounts;
+            this.occupiedSeats = occupiedSeats;
         }
 
         public IRepository<User> Users
@@ -118,6 +130,30 @@
             }
         }
 
+        public IRepository<Operation> Operations
+        {
+            get
+            {
+                return this.operations;
+            }
+        }
+
+        public IRepository<Discount> Discounts
+        {
+            get
+            {
+                return this.discounts;
+            }
+        }
+
+        public IRepository<OccupiedSeat> OccupiedSeats
+        {
+            get
+            {
+                return this.occupiedSeats;
+            }
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
@@ -136,6 +172,11 @@
             this.Movies.Dispose();
             this.Ratings.Dispose();
             this.Users.Dispose();
+            this.OccupiedSeats.Dispose();
+            this.Discounts.Dispose();
+            this.Operations.Dispose();
+            this.RoomTypes.Dispose();
+            this.Rooms.Dispose();
         }
     }
 }
