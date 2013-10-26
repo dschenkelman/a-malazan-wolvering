@@ -66,7 +66,6 @@ namespace PhoneTicket.Web.Migrations
                 .PrimaryKey(t => new { t.OperationId, t.Row, t.Column })
                 .ForeignKey("dbo.Operations", t => t.OperationId, cascadeDelete: true)
                 .Index(t => t.OperationId);
-            
         }
         
         public override void Down()
