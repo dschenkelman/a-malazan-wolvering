@@ -50,7 +50,7 @@
             {
                 Id = show.Id,
                 Date = show.Date.ToString("yyyy-MM-dd"),
-                Hour = Convert.ToInt32(show.Date.ToString("hh")),
+                Hour = Convert.ToInt32(show.Date.ToString("HH")),
                 Minutes = Convert.ToInt32(show.Date.ToString("mm")),
                 MovieId = show.MovieId,
                 RoomId = show.RoomId,

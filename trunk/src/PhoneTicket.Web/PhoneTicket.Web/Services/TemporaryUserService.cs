@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Data;
+    using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Models;
 
     public class TemporaryUserService : ITemporaryUserService, IDisposable
@@ -24,7 +25,7 @@
             var secret = Guid.NewGuid();
 
             this.repositories.TemporaryUsers.Insert(
-                new TemporaryUser { Id = user.Id, Secret = secret, RegistrationDate = DateTime.Now });
+                new TemporaryUser { Id = user.Id, Secret = secret, RegistrationDate = DateTimeHelpers.DateTimeInArgentina });
 
             await this.repositories.TemporaryUsers.SaveAsync();
 

@@ -27,7 +27,7 @@
         {
             return new ListShowViewModel 
                         {
-                           CanEdit = ((show.Date > DateTime.Now)&&(userCanEdit)),
+                           CanEdit = (show.Date > DateTimeHelpers.DateTimeInArgentina) && userCanEdit,
                            Complex = show.Room != null && show.Room.Complex != null ? show.Room.Complex.Name : string.Empty,
                            Room = show.Room != null ? show.Room.Name : string.Empty,
                            Id = show.Id,
