@@ -26,7 +26,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -238,7 +237,7 @@ public class CinemasFragment extends RoboFragment implements
 		RelativeLayout errorContainer = (RelativeLayout) getActivity()
 				.findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(RelativeLayout.GONE);
-		dataLayout.setVisibility(ListView.GONE);
+		dataLayout.setVisibility(LinearLayout.GONE);
 		loadingLayout.setVisibility(RelativeLayout.VISIBLE);
 	}
 
@@ -250,7 +249,7 @@ public class CinemasFragment extends RoboFragment implements
 		RelativeLayout errorContainer = (RelativeLayout) getActivity()
 				.findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(RelativeLayout.VISIBLE);
-		dataLayout.setVisibility(ListView.GONE);
+		dataLayout.setVisibility(LinearLayout.GONE);
 		loadingLayout.setVisibility(RelativeLayout.GONE);
 	}
 
@@ -262,7 +261,8 @@ public class CinemasFragment extends RoboFragment implements
 		RelativeLayout errorContainer = (RelativeLayout) getActivity()
 				.findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(RelativeLayout.GONE);
-		dataLayout.setVisibility(ListView.VISIBLE);
+		dataLayout.setVisibility(LinearLayout.VISIBLE);
+
 		loadingLayout.setVisibility(RelativeLayout.GONE);
 	}
 
