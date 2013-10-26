@@ -27,9 +27,8 @@ public class RoomFragment extends RoboFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View fragment = inflater.inflate(R.layout.fragment_room, container,
-				false);
-		return fragment;
+		//View fragment = inflater.inflate(R.layout.fragment_room, container, false);
+		return null;
 	}
 
 	@Override

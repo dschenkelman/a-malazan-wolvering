@@ -6,7 +6,7 @@ public class User implements IUser {
 	private String lastName;
 	private String emailAddress;
 	private int dni;
-	private String birthDate;
+	private String birthday;
 	private String cellPhoneNumber;
 	private String password;
 
@@ -16,7 +16,7 @@ public class User implements IUser {
 		this.lastName = lastName;
 		emailAddress = email;
 		this.dni = dni;
-		this.birthDate = birthday;
+		this.birthday = birthday;
 		this.cellPhoneNumber = cellPhone;
 		this.password = password;
 	}
@@ -26,7 +26,7 @@ public class User implements IUser {
 		lastName = "";
 		emailAddress = email;
 		dni = id;
-		birthDate = "";
+		birthday = "";
 		cellPhoneNumber = "";
 		this.password = password;
 	}
@@ -53,7 +53,7 @@ public class User implements IUser {
 
 	@Override
 	public String getBirthday() {
-		return birthDate;
+		return birthday;
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class User implements IUser {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((birthDate == null) ? 0 : birthDate.hashCode());
+				+ ((birthday == null) ? 0 : birthday.hashCode());
 		result = prime * result
 				+ ((cellPhoneNumber == null) ? 0 : cellPhoneNumber.hashCode());
 		result = prime * result + dni;
@@ -95,10 +95,10 @@ public class User implements IUser {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (birthDate == null) {
-			if (other.birthDate != null)
+		if (birthday == null) {
+			if (other.birthday != null)
 				return false;
-		} else if (!birthDate.equals(other.birthDate))
+		} else if (!birthday.equals(other.birthday))
 			return false;
 		if (cellPhoneNumber == null) {
 			if (other.cellPhoneNumber != null)
@@ -133,5 +133,21 @@ public class User implements IUser {
 	@Override
 	public String toString() {
 		return "Usuario: \n Email: " + emailAddress;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public void setCellPhone(String cellPhoneNumber) {
+		this.cellPhoneNumber = cellPhoneNumber;
 	}
 }
