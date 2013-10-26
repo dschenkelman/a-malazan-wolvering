@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class UserFragment extends RoboFragment implements
@@ -123,12 +124,12 @@ public class UserFragment extends RoboFragment implements
 				R.id.noSessionView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
-		LinearLayout userView = (LinearLayout) getView().findViewById(
+		ScrollView userView = (ScrollView) getView().findViewById(
 				R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.VISIBLE);
 		loadingView.setVisibility(RelativeLayout.GONE);
-		userView.setVisibility(LinearLayout.GONE);
+		userView.setVisibility(ScrollView.GONE);
 	}
 
 	private void showLoadingLayoutVisibility() {
@@ -136,12 +137,12 @@ public class UserFragment extends RoboFragment implements
 				R.id.noSessionView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
-		LinearLayout userView = (LinearLayout) getView().findViewById(
+		ScrollView userView = (ScrollView) getView().findViewById(
 				R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.GONE);
 		loadingView.setVisibility(RelativeLayout.VISIBLE);
-		userView.setVisibility(LinearLayout.GONE);
+		userView.setVisibility(ScrollView.GONE);
 	}
 
 	private void showLogedLayoutVisibility() {
@@ -149,12 +150,12 @@ public class UserFragment extends RoboFragment implements
 				R.id.noSessionView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
-		LinearLayout userView = (LinearLayout) getView().findViewById(
+		ScrollView userView = (ScrollView) getView().findViewById(
 				R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.GONE);
 		loadingView.setVisibility(RelativeLayout.GONE);
-		userView.setVisibility(LinearLayout.VISIBLE);
+		userView.setVisibility(ScrollView.VISIBLE);
 	}
 
 	@Override
