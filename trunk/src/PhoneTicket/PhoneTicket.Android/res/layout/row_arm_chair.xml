@@ -1,0 +1,11 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <phoneticket.android.views.ArmChairView
+        android:id="@+id/armChairView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/butaca_libre" />
+
+</LinearLayout>

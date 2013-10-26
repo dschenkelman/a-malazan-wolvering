@@ -232,7 +232,7 @@ public class DetailMovieFragment extends RoboFragment implements
 		duration.setText(durationString);
 		clasification.setText(clasificationString);
 		synopsis.setText(movie.getSynopsis());
-		
+
 		shareButtonsVisibilityListener.showFacebookShareButton();
 		shareActionListener.shareMovieOnFacebook(movie.getTrailerUrl());
 
@@ -377,7 +377,8 @@ public class DetailMovieFragment extends RoboFragment implements
 									.getCinemaId(), movieFunctions
 									.getCinemaName(), "Address", movie.getId(),
 									movie.getTitle(), function.getId(),
-									function.getDay(), function.getTime());
+									function.getDay(), function.getTime(),
+									function.getRoomId());
 							functionSelectionListener
 									.onFunctionSelected(ticket);
 						}

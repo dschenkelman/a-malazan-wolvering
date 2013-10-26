@@ -1,13 +1,25 @@
 package phoneticket.android.activities.fragments;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+import com.google.inject.Inject;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import phoneticket.android.R;
+import phoneticket.android.adapter.ArmChairAdapter;
+import phoneticket.android.adapter.ImageAdapter;
+import phoneticket.android.model.ArmChair;
+import phoneticket.android.model.IMovieListItem;
 import phoneticket.android.model.Ticket;
 import phoneticket.android.services.get.IRetrieveRoomInfoService;
 import phoneticket.android.services.get.IRetrieveRoomInfoServiceDelegate;
@@ -19,8 +31,8 @@ public class RoomFragment extends RoboFragment implements
 	private static int MAX_ARMCHAIR = 6;
 	public static final String TICKET_INFO = "ticket.info";
 
-	// @Inject
-	// private IRetrieveRoomInfoService roomInfoService;
+	@Inject
+	private IRetrieveRoomInfoService roomInfoService;
 	private boolean ignoreServicesCallbacks;
 	private Ticket ticket;
 
@@ -41,7 +53,7 @@ public class RoomFragment extends RoboFragment implements
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
-		// this.roomInfoService.retrieveRoomInfo(this, roomId);
+		this.roomInfoService.retrieveRoomInfo(this, ticket.getRoomId());
 	}
 
 	@Override
@@ -52,9 +64,9 @@ public class RoomFragment extends RoboFragment implements
 
 	@Override
 	public void retrieveRoomInfoFinish(IRetrieveRoomInfoService service,
-			Collection<Collection<Integer>> movieList) {
+			Collection<Collection<Integer>> armChairs) {
 		if (!ignoreServicesCallbacks) {
-
+			this.createArmChairs(armChairs);
 		}
 	}
 
@@ -66,4 +78,29 @@ public class RoomFragment extends RoboFragment implements
 		}
 	}
 
+	private void createArmChairs(Collection<Collection<Integer>> armChairs) {
+		GridView armChairSelection = (GridView) getView().findViewById(
+				R.id.armChairSelection);
+
+		List<ArmChair> armChairsData = new ArrayList<ArmChair>();
+		final ArmChairAdapter imageAdapter = new ArmChairAdapter(getActivity(),
+				R.id.armChairView, armChairsData);
+		for (Collection<Integer> row : armChairs) {
+			int i = 0;
+			for (Integer state : row) {
+				int j = 0;
+				armChairsData.add(new ArmChair(state, j, i));
+				j++;
+			}
+			i++;
+		}
+		armChairSelection.setAdapter(imageAdapter);
+		armChairSelection.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View v,
+					int position, long id) {
+
+			}
+		});
+		imageAdapter.notifyDataSetChanged();
+	}
 }
