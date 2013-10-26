@@ -13,10 +13,10 @@ public class MockRetrieveRoomInfoService implements IRetrieveRoomInfoService {
 	public void retrieveRoomInfo(IRetrieveRoomInfoServiceDelegate delegate,
 			int roomId) {
 		Collection<Collection<Integer>> movieList = new LinkedList<Collection<Integer>>();
+		Random r = new Random();
 		for (int i = 0; i < 17; i++) {
 			Collection<Integer> row = new LinkedList<Integer>();
 			for (int j = 0; j < 22; j++) {
-				Random r = new Random(j);
 				Integer random = r.nextInt(3);
 				row.add(random);
 			}

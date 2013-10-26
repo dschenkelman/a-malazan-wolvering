@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/armChairSelection"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:horizontalSpacing="1dp"
+    android:numColumns="22"
+    android:scrollbarStyle="outsideOverlay"
+    android:scrollbars="vertical|horizontal"
+    android:stretchMode="columnWidth"
+    android:verticalScrollbarPosition="right"
+    android:verticalSpacing="1dp" />

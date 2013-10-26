@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-public class ArmChairView extends ScaleImageView {
+public class ArmChairView extends ImageView {
 
 	public ArmChairView(Context context) {
 		super(context);
@@ -22,7 +22,27 @@ public class ArmChairView extends ScaleImageView {
 	}
 
 	public void setState(ArmChair armChair) {
-		Drawable d = getResources().getDrawable(R.drawable.butaca_libre);
+		Drawable d;
+		switch (armChair.getState()) {
+		case 0: {
+			d = getResources().getDrawable(R.drawable.sin_butaca);
+			break;
+		}
+		case 1: {
+			d = getResources().getDrawable(R.drawable.butaca_ocupada);
+			break;
+		}
+		case 2: {
+			d = getResources().getDrawable(R.drawable.butaca_libre);
+			break;
+		}
+
+		default: {
+			d = getResources().getDrawable(R.drawable.butaca_libre);
+			break;
+		}
+		}
+
 		this.setImageDrawable(d);
 	}
 }
