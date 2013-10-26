@@ -17,9 +17,11 @@ public class Ticket implements Serializable {
 	private String functionDay;
 	private String functionTime;
 
+	private int roomId;
+
 	public Ticket(int cinemaId, String cinemaName, String cinemaAddress,
 			int movieId, String movieTitle, int functionId, String functionDay,
-			String functionTime) {
+			String functionTime, int roomId) {
 		this.cinemaId = cinemaId;
 		this.cinemaName = cinemaName;
 		this.cinemaAddress = cinemaAddress;
@@ -28,6 +30,7 @@ public class Ticket implements Serializable {
 		this.functionId = functionId;
 		this.functionDay = functionDay;
 		this.functionTime = functionTime;
+		this.roomId = roomId;
 	}
 
 	public int getCinemaId() {
@@ -60,6 +63,10 @@ public class Ticket implements Serializable {
 
 	public String getFunctionTime() {
 		return functionTime;
+	}
+
+	public int getRoomId() {
+		return this.roomId;
 	}
 
 }

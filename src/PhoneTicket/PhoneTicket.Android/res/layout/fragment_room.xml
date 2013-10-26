@@ -74,17 +74,16 @@
             android:src="@drawable/patanlla_cine" />
 
         <GridView
-            android:id="@+id/gridview"
+            android:id="@+id/armChairSelection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:horizontalSpacing="2dp"
-            android:numColumns="23"
+            android:numColumns="22"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             android:stretchMode="columnWidth"
             android:verticalScrollbarPosition="right"
-            android:verticalSpacing="7dp"
-            android:visibility="gone" />
+            android:verticalSpacing="7dp" />
     </LinearLayout>
 
     <Button
