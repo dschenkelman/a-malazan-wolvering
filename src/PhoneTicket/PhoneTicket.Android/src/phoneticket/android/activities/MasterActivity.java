@@ -54,6 +54,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private UiLifecycleHelper uiHelper;
 	private StatusCallback callback;
+	private String facebookUrl;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -239,7 +240,6 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	private void changeToDetailMovieFragment(Bundle movieData) {
-		showFacebookShareButton();
 		showTwitterShareButton();
 		twitterMessage = "Voy a mirar una película CINEMAR. Visita www.cinemar.com.ar";
 		String movieName = movieData
@@ -296,12 +296,27 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	protected void onFacebookButtonAction() {
-		facebookAction();
+		facebookMovieAction();
 	}
 
-	private void facebookAction() {
+	private void facebookMovieAction() {
 		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
-				.setLink("https://developers.facebook.com/android").build();
+				.setLink(facebookUrl)
+				.setApplicationName("PhoneTicket")
+				.setDescription("Vamos a ver esta película a Cinemar").build();
+		if (uiHelper != null)
+			uiHelper.trackPendingDialogCall(shareDialog.present());
+	}
+
+	private void facebookCinemaAction(double latitude, double longitude,
+			String address, String cinemaName) {
+		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
+				.setLink(
+						"http://maps.google.com/maps?q=" + latitude + ","
+								+ longitude)
+				.setApplicationName("PhoneTicket")
+				.setName("Vamos al complejo " + cinemaName + " de Cinemar")
+				.setDescription(address).build();
 		if (uiHelper != null)
 			uiHelper.trackPendingDialogCall(shareDialog.present());
 	}
@@ -368,7 +383,13 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void shareOnFacebook() {
-		facebookAction();
+	public void shareMovieOnFacebook(String url) {
+		this.facebookUrl = url;
+	}
+
+	@Override
+	public void shareCinemaOnFacebook(double latitude, double longitude,
+			String address, String cinemaName) {
+		facebookCinemaAction(latitude, longitude, address, cinemaName);
 	}
 }

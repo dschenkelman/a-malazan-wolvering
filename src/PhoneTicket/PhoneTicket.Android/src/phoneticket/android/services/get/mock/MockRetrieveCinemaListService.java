@@ -14,9 +14,9 @@ public class MockRetrieveCinemaListService implements
 	public void retrieveCinemaList(IRetrieveCinemaListServiceDelegate delegate) {
 		ArrayList<ICinema> cinemas = new ArrayList<ICinema>();
 		Cinema cinema1 = new Cinema(0, "El Gran Cine", "Santa Fe 2500",
-				-58.402323, -34.594519);
+				-34.594519, -58.402323);
 		Cinema cinema2 = new Cinema(1, "El Gran Cine 2", "Las Heras 1800",
-				-58.39183, -34.991816);
+				-34.991816, -58.39183);
 		cinemas.add(cinema1);
 		cinemas.add(cinema2);
 		delegate.retrieveCinemaListFinish(this, cinemas);
