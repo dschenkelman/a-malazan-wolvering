@@ -14,11 +14,14 @@ import phoneticket.android.activities.fragments.DetailCinemaFragment;
 
 import phoneticket.android.activities.fragments.DetailMovieFragment;
 import phoneticket.android.activities.fragments.MovieListFragment;
+import phoneticket.android.activities.fragments.RoomFragment;
 import phoneticket.android.activities.fragments.UserFragment;
+import phoneticket.android.activities.interfaces.IFunctionSelectionListener;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
+import phoneticket.android.model.Ticket;
 import phoneticket.android.utils.UserManager;
 import roboguice.activity.RoboFragmentActivity;
 import android.net.Uri;
@@ -43,7 +46,7 @@ import android.widget.TextView;
 public class MasterActivity extends RoboFragmentActivity implements
 		iRibbonMenuCallback, IOnCinemaSelectedListener,
 		IOnMovielistItemSelectedListener, IShareButtonsVisibilityListener,
-		IShareActionListener {
+		IShareActionListener, IFunctionSelectionListener {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -301,8 +304,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private void facebookMovieAction() {
 		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
-				.setLink(facebookUrl)
-				.setApplicationName("PhoneTicket")
+				.setLink(facebookUrl).setApplicationName("PhoneTicket")
 				.setDescription("Vamos a ver esta película a Cinemar").build();
 		if (uiHelper != null)
 			uiHelper.trackPendingDialogCall(shareDialog.present());
@@ -313,8 +315,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
 				.setLink(
 						"http://maps.google.com/maps?q=" + latitude + ","
-								+ longitude)
-				.setApplicationName("PhoneTicket")
+								+ longitude).setApplicationName("PhoneTicket")
 				.setName("Vamos al complejo " + cinemaName + " de Cinemar")
 				.setDescription(address).build();
 		if (uiHelper != null)
@@ -336,6 +337,21 @@ public class MasterActivity extends RoboFragmentActivity implements
 		movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID, movieId);
 		movieData.putString(DetailMovieFragment.EXTRA_MOVIE_TITLE, movieTitle);
 		changeToDetailMovieFragment(movieData);
+	}
+
+	@Override
+	public void onFunctionSelected(Ticket ticket) {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(RoomFragment.TICKET_INFO, ticket);
+		changeToRoomFragment(bundle);
+	}
+
+	private void changeToRoomFragment(Bundle bundle) {
+		hideFacebookShareButton();
+		hideTwitterShareButton();
+		RoomFragment roomFragment = new RoomFragment();
+		roomFragment.setArguments(bundle);
+		changeFragment(roomFragment, true);
 	}
 
 	@Override

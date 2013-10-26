@@ -30,5 +30,12 @@
     <string name="title_activity_master">PhoneTicket</string>
 
     <string name="app_id">250416881779134</string>
+
+    <string name="selection_finished">Continuar</string>
+
+    <string name="butacas">/6 Butacas</string>
+
+    <string name="initial_armchair_count">0</string>
+
     
 </resources>
