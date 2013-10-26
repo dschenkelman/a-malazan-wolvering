@@ -1,5 +1,6 @@
 namespace PhoneTicket.Web.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
     using System.Data.Entity.Spatial;
     using System.Linq;
@@ -189,6 +190,67 @@ namespace PhoneTicket.Web.Migrations
                         Name = "Sala 2",
                         TypeId = 1,
                         Capacity = 100
+                    });
+            }
+
+            if (!context.Discounts.Any())
+            {
+                context.Discounts.Add(
+                    new Discount 
+                        {
+                            Description = "2x1 La Nación",
+                            StartDate = new DateTime(2013, 10, 26),
+                            EndDate = new DateTime(2013, 12, 31),
+                            Type = DiscountType.TwoForOne,
+                        });
+
+                context.Discounts.Add(
+                    new Discount
+                    {
+                        Description = "50% OFF",
+                        StartDate = new DateTime(2013, 11, 4),
+                        EndDate = new DateTime(2013, 11, 8),
+                        Type = DiscountType.Percentage,
+                        Value = 0.5,
+                    });
+
+                context.Discounts.Add(
+                    new Discount
+                    {
+                        Description = "25% OFF",
+                        StartDate = new DateTime(2013, 11, 4),
+                        EndDate = new DateTime(2013, 11, 8),
+                        Type = DiscountType.Percentage,
+                        Value = 0.25,
+                    });
+
+                context.Discounts.Add(
+                    new Discount
+                    {
+                        Description = "-$10 Diario de Motocicleta",
+                        StartDate = new DateTime(2013, 11, 4),
+                        EndDate = new DateTime(2013, 11, 8),
+                        Type = DiscountType.FixedPrice,
+                        Value = 10,
+                    });
+
+                context.Discounts.Add(
+                    new Discount
+                    {
+                        Description = "-$15 Pastas del Abuelo Roque",
+                        StartDate = new DateTime(2013, 11, 4),
+                        EndDate = new DateTime(2013, 11, 8),
+                        Type = DiscountType.FixedPrice,
+                        Value = 15,
+                    });
+
+                context.Discounts.Add(
+                    new Discount
+                    {
+                        Description = "2x1 Clarin 365",
+                        StartDate = new DateTime(2013, 10, 26),
+                        EndDate = new DateTime(2013, 12, 31),
+                        Type = DiscountType.TwoForOne
                     });
             }
 
