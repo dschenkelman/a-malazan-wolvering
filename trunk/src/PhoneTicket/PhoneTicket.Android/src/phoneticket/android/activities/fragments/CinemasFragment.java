@@ -101,6 +101,8 @@ public class CinemasFragment extends RoboFragment implements
 						+ cinemaItem.getName()
 						+ STATE_CINEMAS_SEPARATOR_PROPERTIES
 						+ cinemaItem.getAddress()
+						+ STATE_CINEMAS_SEPARATOR_PROPERTIES
+						+ cinemaItem.getLocation().toString()
 						+ STATE_CINEMAS_SEPARATOR_ITEMS;
 			}
 			SharedPreferences.Editor editor = getActivity().getPreferences(0)
@@ -131,14 +133,17 @@ public class CinemasFragment extends RoboFragment implements
 				String values[] = itemStream
 						.split(STATE_CINEMAS_SEPARATOR_PROPERTIES);
 				int id = 0;
-				String name = "", address = "";
+				String name = "", address = "", location = "";
 				if (0 < values.length)
 					id = Integer.parseInt(values[0]);
 				if (1 < values.length)
 					name = values[1];
 				if (2 < values.length)
 					address = values[2];
+				if (3 < values.length)
+					location = values[3];
 				Cinema item = new Cinema(id, name, address);
+				item.setStringLocation(location);
 				cinemas.add(item);
 			}
 		} catch (Exception e) {

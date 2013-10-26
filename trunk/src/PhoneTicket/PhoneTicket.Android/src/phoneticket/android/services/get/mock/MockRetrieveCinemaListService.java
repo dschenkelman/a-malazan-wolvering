@@ -16,7 +16,7 @@ public class MockRetrieveCinemaListService implements
 		Cinema cinema1 = new Cinema(0, "El Gran Cine", "Santa Fe 2500",
 				-58.402323, -34.594519);
 		Cinema cinema2 = new Cinema(1, "El Gran Cine 2", "Las Heras 1800",
-				-58.39183, -34.591816);
+				-58.39183, -34.991816);
 		cinemas.add(cinema1);
 		cinemas.add(cinema2);
 		delegate.retrieveCinemaListFinish(this, cinemas);

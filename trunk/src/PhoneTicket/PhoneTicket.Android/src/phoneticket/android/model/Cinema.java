@@ -57,6 +57,12 @@ public class Cinema implements ICinema {
     		this.longitude = longitude;
     	}
 
+		public Location(String stringLocation) {
+			String values[] = stringLocation.split("-");
+    		this.longitude = Double.parseDouble(values[0]);
+    		this.latitude = Double.parseDouble(values[1]);
+		}
+
 		@Override
 		public double getLongitude() {
 			return longitude;
@@ -66,11 +72,20 @@ public class Cinema implements ICinema {
 		public double getLatitude() {
 			return latitude;
 		}
+		
+		@Override
+		public String toString() {
+			return longitude + "-" + latitude;
+		}
     }
 
 	@Override
 	public ILocation getLocation() {
 		return location;
+	}
+
+	public void setStringLocation(String stringLocation) {
+		location = new Location(stringLocation);
 	}
     
 }
