@@ -205,7 +205,9 @@ public class CinemasFragment extends RoboFragment implements
 			facebookButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					shareActionListener.shareOnFacebook();
+					shareActionListener.shareCinemaOnFacebook(
+							cinema.getLatitude(), cinema.getLongitude(),
+							cinema.getAddress(), cinema.getName());
 				}
 			});
 

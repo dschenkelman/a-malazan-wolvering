@@ -10,6 +10,8 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
+import phoneticket.android.activities.interfaces.IShareActionListener;
+import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.model.IFunction;
 import phoneticket.android.model.IMovie;
 import phoneticket.android.model.IMovieFunctions;
@@ -71,6 +73,8 @@ public class DetailMovieFragment extends RoboFragment implements
 	private ArrayList<String> expandedGroupsIds;
 
 	private IOnCinemaSelectedListener cinemaSelectedListener;
+	private IShareButtonsVisibilityListener shareButtonsVisibilityListener;
+	private IShareActionListener shareActionListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -224,6 +228,9 @@ public class DetailMovieFragment extends RoboFragment implements
 		duration.setText(durationString);
 		clasification.setText(clasificationString);
 		synopsis.setText(movie.getSynopsis());
+		
+		shareButtonsVisibilityListener.showFacebookShareButton();
+		shareActionListener.shareMovieOnFacebook(movie.getTrailerUrl());
 
 		ImageView poster = (ImageView) getView().findViewById(R.id.movieImage);
 		ImageDownloader downloader = new ImageDownloader(movie.getImageURL(),
@@ -438,6 +445,18 @@ public class DetailMovieFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IOnCinemaSelectedListener");
+		}
+		try {
+			shareButtonsVisibilityListener = (IShareButtonsVisibilityListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IShareButtonsVisibilityListener");
+		}
+		try {
+			shareActionListener = (IShareActionListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IShareActionListener");
 		}
 	}
 }

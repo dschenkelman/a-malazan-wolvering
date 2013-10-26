@@ -4,6 +4,8 @@ public interface IShareActionListener {
 
 	void shareOnTwitter(String twitterMessage);
 
-	void shareOnFacebook();
+	void shareMovieOnFacebook(String url);
 
+	void shareCinemaOnFacebook(double latitude, double longitude,
+			String address, String cinemaName);
 }
