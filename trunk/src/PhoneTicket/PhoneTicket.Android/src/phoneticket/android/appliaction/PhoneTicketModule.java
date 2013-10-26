@@ -11,6 +11,7 @@ import phoneticket.android.services.get.impl.RetrieveMovieFunctionsServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMovieInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMovieListServiceProxy;
 import phoneticket.android.services.get.mock.MockRetrieveCinemaListService;
+import phoneticket.android.services.get.mock.MockRetrieveMovieFunctionsService;
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.impl.AuthServiceProxy;
@@ -33,7 +34,7 @@ public class PhoneTicketModule implements Module {
 		binder.bind(IRetrieveMovieInfoService.class).to(
 				RetrieveMovieInfoServiceProxy.class);
 		binder.bind(IRetrieveMovieFunctionsService.class).to(
-				RetrieveMovieFunctionsServiceProxy.class);
+				MockRetrieveMovieFunctionsService.class);
 		binder.bind(IRetrieveCinemaListService.class).to(
 				MockRetrieveCinemaListService.class);
 		binder.bind(IRetrieveCinemaInfoService.class).to(
