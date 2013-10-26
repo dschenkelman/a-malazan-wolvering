@@ -36,4 +36,9 @@ public class APIService {
 		return getRetrieveMovieGetURL(movieId) + "/weeklyShows";
 	}
 
+	public static String getRetrieveRoomInfoServiceGetURL(String roomId) {
+		return baseAPIURL() + "room" + "/" + roomId;
+
+	}
+
 }

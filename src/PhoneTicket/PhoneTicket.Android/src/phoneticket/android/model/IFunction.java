@@ -7,4 +7,6 @@ public interface IFunction {
 	String getDay();
 
 	String getTime();
+	
+	int getRoomId();
 }
