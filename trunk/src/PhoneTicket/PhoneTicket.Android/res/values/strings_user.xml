@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="noSessionTextMessage">No hay una sesión abierta</string>
+    <string name="loginButton">Iniciar sesión</string>
+    <string name="buyedAndReservedFunctions">Compras y Reservas</string>
+    <string name="logoutButton">Cerrar sesión</string>
+		
+</resources>

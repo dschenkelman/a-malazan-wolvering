@@ -79,4 +79,12 @@ public class UserManager {
 	public boolean isUserLoged() {
 		return null != user;
 	}
+
+	public void updateUserData(String firstName, String lastName, String birthday,
+			String cellPhone) {
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setBirthday(birthday);
+		user.setCellPhone(cellPhone);
+	}
 }
