@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
@@ -9,4 +9,12 @@
         android:scaleType="centerInside"
         android:src="@drawable/butaca_libre" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/armChairTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="15sp" />
+
+</RelativeLayout>

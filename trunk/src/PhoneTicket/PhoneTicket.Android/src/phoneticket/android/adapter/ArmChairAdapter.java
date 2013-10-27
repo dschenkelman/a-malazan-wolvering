@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 public class ArmChairAdapter extends ArrayAdapter<ArmChair> {
 
@@ -26,6 +27,7 @@ public class ArmChairAdapter extends ArrayAdapter<ArmChair> {
 		ArmChairHolder holder;
 		View row = convertView;
 		if (row == null) {
+			ArmChair armChair = armChairs.get(position);
 			LayoutInflater inflater = ((Activity) getContext())
 					.getLayoutInflater();
 			row = inflater.inflate(R.layout.row_arm_chair, parent, false);
@@ -33,8 +35,13 @@ public class ArmChairAdapter extends ArrayAdapter<ArmChair> {
 			holder = new ArmChairHolder();
 			holder.setArmChairView((ArmChairView) row
 					.findViewById(R.id.armChairView));
-			holder.getArmChairView().setState(
-					armChairs.get(position).getState());
+			holder.setArmChairTextView((TextView) row
+					.findViewById(R.id.armChairTextView));
+			if (armChair.existente()) {
+				holder.getArmChairTextView().setText(
+						String.valueOf(armChair.getColumn()));
+			}
+			holder.getArmChairView().setState(armChair.getState());
 
 			row.setTag(holder);
 		} else {
@@ -45,6 +52,7 @@ public class ArmChairAdapter extends ArrayAdapter<ArmChair> {
 
 	public class ArmChairHolder {
 		private ArmChairView armChairView;
+		private TextView armChairTextView;
 
 		public ArmChairView getArmChairView() {
 			return armChairView;
@@ -53,6 +61,15 @@ public class ArmChairAdapter extends ArrayAdapter<ArmChair> {
 		public void setArmChairView(ArmChairView armChairView) {
 			this.armChairView = armChairView;
 		}
+
+		public TextView getArmChairTextView() {
+			return armChairTextView;
+		}
+
+		public void setArmChairTextView(TextView armChairTextView) {
+			this.armChairTextView = armChairTextView;
+		}
+
 	}
 
 }

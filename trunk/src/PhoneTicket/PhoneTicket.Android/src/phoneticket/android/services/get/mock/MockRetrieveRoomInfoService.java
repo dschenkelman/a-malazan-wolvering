@@ -4,14 +4,24 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Random;
 
+import android.os.AsyncTask;
+
 import phoneticket.android.services.get.IRetrieveRoomInfoService;
 import phoneticket.android.services.get.IRetrieveRoomInfoServiceDelegate;
 
-public class MockRetrieveRoomInfoService implements IRetrieveRoomInfoService {
+public class MockRetrieveRoomInfoService extends
+		AsyncTask<String, String, String> implements IRetrieveRoomInfoService {
+
+	private IRetrieveRoomInfoServiceDelegate delegate;
 
 	@Override
 	public void retrieveRoomInfo(IRetrieveRoomInfoServiceDelegate delegate,
 			int roomId) {
+		this.delegate = delegate;
+		execute("");
+	}
+
+	private Collection<Collection<Integer>> getRoom() {
 		Collection<Collection<Integer>> movieList = new LinkedList<Collection<Integer>>();
 		Random r = new Random();
 		for (int i = 0; i < 17; i++) {
@@ -22,6 +32,22 @@ public class MockRetrieveRoomInfoService implements IRetrieveRoomInfoService {
 			}
 			movieList.add(row);
 		}
-		delegate.retrieveRoomInfoFinish(this, movieList);
+		return movieList;
+
+	}
+
+	@Override
+	protected String doInBackground(String... arg0) {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	@Override
+	protected void onPostExecute(String result) {
+		delegate.retrieveRoomInfoFinish(this, this.getRoom());
 	}
 }
