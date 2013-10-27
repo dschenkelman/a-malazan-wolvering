@@ -21,24 +21,24 @@ public class ArmChairView extends ImageView {
 		super(context, attrs);
 	}
 
-	public void setState(ArmChair armChair) {
+	public void setState(int armChairState) {
 		Drawable d;
-		switch (armChair.getState()) {
-		case 0: {
-			d = getResources().getDrawable(R.drawable.sin_butaca);
-			break;
-		}
-		case 1: {
+		switch (armChairState) {
+		case ArmChair.OCUPADA: {
 			d = getResources().getDrawable(R.drawable.butaca_ocupada);
 			break;
 		}
-		case 2: {
+		case ArmChair.LIBRE: {
 			d = getResources().getDrawable(R.drawable.butaca_libre);
+			break;
+		}
+		case ArmChair.SELECCIONADA: {
+			d = getResources().getDrawable(R.drawable.butaca_seleccionada);
 			break;
 		}
 
 		default: {
-			d = getResources().getDrawable(R.drawable.butaca_libre);
+			d = getResources().getDrawable(R.drawable.sin_butaca);
 			break;
 		}
 		}
