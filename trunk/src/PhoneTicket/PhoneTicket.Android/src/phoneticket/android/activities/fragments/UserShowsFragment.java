@@ -6,13 +6,13 @@ import java.util.Collection;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.interfaces.IDetailUserShowListener;
 import phoneticket.android.model.IMyShow;
 import phoneticket.android.services.get.IRetrieveMyShowsService;
 import phoneticket.android.services.get.IRetrieveMyShowsServiceDelegate;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +38,8 @@ public class UserShowsFragment extends RoboFragment implements
 
 	private Collection<IMyShow> myShows;
 
+	private IDetailUserShowListener detailListener;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class UserShowsFragment extends RoboFragment implements
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
+
+		getMyShows();
 
 		if (shouldRetrieveMyShows()) {
 			onRetrieveMyShowsAction();
@@ -76,16 +80,21 @@ public class UserShowsFragment extends RoboFragment implements
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+
+		try {
+			detailListener = (IDetailUserShowListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IDetailUserShowListener");
+		}
 	}
 
-	private Collection<IMyShow> getMyShows() {
-		Collection<IMyShow> myShows = new ArrayList<IMyShow>();
+	private void getMyShows() {
+		myShows = new ArrayList<IMyShow>();
 		// TODO load shows from disk
-		return myShows;
 	}
 
 	private boolean shouldRetrieveMyShows() {
-		Collection<IMyShow> myShows = getMyShows();
 		return (null == myShows) || (0 == myShows.size());
 	}
 
@@ -126,7 +135,7 @@ public class UserShowsFragment extends RoboFragment implements
 	private void createMyShowsLayout() {
 		ListView myShowsList = (ListView) getView().findViewById(
 				R.id.myShowsListView);
-		
+
 		MyShowsAdapter myShowsAdapater = null;
 		if (null == myShowsList.getAdapter()) {
 			myShowsAdapater = new MyShowsAdapter(getActivity(), getId());
@@ -138,13 +147,13 @@ public class UserShowsFragment extends RoboFragment implements
 
 		myShowsAdapater.clear();
 		myShowsAdapater.addAll(myShows);
-		
+
 		myShowsList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Log.d("PhoneTicket", "My Show tapped: " + position
-						+ " with id " + id);
+				detailListener.onShowDetailUserShowAction((IMyShow) (myShows
+						.toArray()[position]));
 			}
 		});
 	}

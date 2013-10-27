@@ -1,6 +1,8 @@
 package phoneticket.android.model;
 
-public interface IMyShow {
+import java.io.Serializable;
+
+public interface IMyShow extends Serializable {
 
 	int getId();
 
