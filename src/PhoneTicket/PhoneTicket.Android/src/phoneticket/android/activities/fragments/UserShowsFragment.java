@@ -2,16 +2,22 @@ package phoneticket.android.activities.fragments;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IDetailUserShowListener;
+import phoneticket.android.model.Cinema;
+import phoneticket.android.model.ICinema;
 import phoneticket.android.model.IMyShow;
+import phoneticket.android.model.MyShow;
 import phoneticket.android.services.get.IRetrieveMyShowsService;
 import phoneticket.android.services.get.IRetrieveMyShowsServiceDelegate;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +37,10 @@ import roboguice.fragment.RoboFragment;
 public class UserShowsFragment extends RoboFragment implements
 		IRetrieveMyShowsServiceDelegate {
 
+	private static final String STATE_SHOWS_STREAM = "state.usershows.stream";
+	private static final String STATE_SHOWS_SEPARATOR_ITEMS = "]";
+	private static final String STATE_SHOWS_SEPARATOR_PROPERTIES = "#";
+	
 	private boolean ignoreServicesCallbacks;
 
 	@Inject
@@ -75,6 +85,32 @@ public class UserShowsFragment extends RoboFragment implements
 	public void onPause() {
 		super.onPause();
 		ignoreServicesCallbacks = true;
+		
+		if (null != myShows) {
+			String showsStream = "";
+			for (IMyShow cinemaItem : myShows) {
+				showsStream += cinemaItem.getId()
+						+ STATE_SHOWS_SEPARATOR_PROPERTIES
+						+ cinemaItem.isBought()
+						+ STATE_SHOWS_SEPARATOR_PROPERTIES
+						+ cinemaItem.getMovieName()
+						+ STATE_SHOWS_SEPARATOR_PROPERTIES
+						+ cinemaItem.getShowTime().toString()
+						+ STATE_SHOWS_SEPARATOR_PROPERTIES
+						+ cinemaItem.getComplexAddress().toString()
+						+ STATE_SHOWS_SEPARATOR_ITEMS;
+			}
+			SharedPreferences.Editor editor = getActivity().getPreferences(0)
+					.edit();
+			editor.putString(STATE_SHOWS_STREAM, showsStream);
+			editor.commit();
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		deleteSavedShowsData();
 	}
 
 	@Override
@@ -91,9 +127,57 @@ public class UserShowsFragment extends RoboFragment implements
 
 	private void getMyShows() {
 		myShows = new ArrayList<IMyShow>();
-		// TODO load shows from disk
+		
+		SharedPreferences preferences = getActivity().getPreferences(0);
+		String showsStream = preferences.getString(STATE_SHOWS_STREAM, "");
+		boolean shouldRecreateState = 0 != showsStream.length();
+
+		if (shouldRecreateState) {
+			myShows.addAll(createShowsFromStream(showsStream));
+		}
 	}
 
+	private void deleteSavedShowsData() {
+		SharedPreferences.Editor editor = getActivity().getPreferences(0)
+				.edit();
+		editor.remove(STATE_SHOWS_STREAM);
+		editor.commit();
+	}
+
+	private List<IMyShow> createShowsFromStream(String showsStream) {
+		List<IMyShow> shows = new LinkedList<IMyShow>();
+		try {
+			String items[] = showsStream.split(STATE_SHOWS_SEPARATOR_ITEMS);
+			for (String itemStream : items) {
+				String values[] = itemStream
+						.split(STATE_SHOWS_SEPARATOR_PROPERTIES);
+				int id = 0;
+				boolean isBought = true;
+				String movieName = "";
+				String showTime = "";
+				String complexAddress = "";
+				if (0 < values.length)
+					id = Integer.parseInt(values[0]);
+				if (1 < values.length)
+					isBought = Boolean.parseBoolean(values[1]);
+				if (2 < values.length)
+					movieName = values[2];
+				if (3 < values.length)
+					showTime = values[3];
+				if (4 < values.length)
+					complexAddress = values[4];
+				
+				MyShow item = new MyShow(id, isBought, movieName, showTime, complexAddress);
+				shows.add(item);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			deleteSavedShowsData();
+			shows = new LinkedList<IMyShow>();
+		}
+		return shows;
+	}
+	
 	private boolean shouldRetrieveMyShows() {
 		return (null == myShows) || (0 == myShows.size());
 	}
