@@ -1,5 +1,6 @@
 package phoneticket.android.activities.fragments;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,8 +11,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
@@ -20,6 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.interfaces.IArmChairsSelected;
+import phoneticket.android.activities.interfaces.IShareActionListener;
+import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.adapter.ArmChairAdapter;
 import phoneticket.android.adapter.ArmChairAdapter.ArmChairHolder;
 import phoneticket.android.model.ArmChair;
@@ -37,6 +43,7 @@ public class RoomFragment extends RoboFragment implements
 
 	@Inject
 	private IRetrieveRoomInfoService roomInfoService;
+	private IArmChairsSelected armChairsSelected;
 	private boolean ignoreServicesCallbacks;
 	private Ticket ticket;
 	private List<ArmChair> selectedArmChair;
@@ -47,6 +54,22 @@ public class RoomFragment extends RoboFragment implements
 			Bundle savedInstanceState) {
 		View fragment = inflater.inflate(R.layout.fragment_room, container,
 				false);
+		selectedArmChair = new ArrayList<ArmChair>();
+		Button continueButton = (Button) fragment
+				.findViewById(R.id.selectionFinished);
+		continueButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (selectedArmChair.size() > 0) {
+					armChairsSelected.onArmChairsSelected(selectedArmChair);
+				} else {
+					Toast t = Toast.makeText(getActivity(),
+							"Se debe seleccionar al menos una butaca",
+							Toast.LENGTH_SHORT);
+					t.show();
+				}
+			}
+		});
 		armChairsCount = (TextView) fragment
 				.findViewById(R.id.armChairSelected);
 		ZoomView zoomView = new ZoomView(getActivity());
@@ -65,7 +88,6 @@ public class RoomFragment extends RoboFragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		ticket = (Ticket) getArguments().getSerializable(TICKET_INFO);
-		selectedArmChair = new ArrayList<ArmChair>();
 	}
 
 	@Override
@@ -79,6 +101,17 @@ public class RoomFragment extends RoboFragment implements
 	public void onPause() {
 		super.onPause();
 		ignoreServicesCallbacks = true;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			armChairsSelected = (IArmChairsSelected) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IShareButtonsVisibilityListener");
+		}
 	}
 
 	@Override
