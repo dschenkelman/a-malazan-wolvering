@@ -7,5 +7,7 @@
         public string Day { get; set; }
 
         public string Time { get; set; }
+
+        public int RoomId { get; set; }
     }
 }
