@@ -48,6 +48,7 @@
             container.RegisterType<PhoneTicket.Web.Controllers.MoviesController>();
             container.RegisterType<PhoneTicket.Web.Controllers.RoomsController>();
             container.RegisterType<PhoneTicket.Web.Controllers.ShowsController>();
+            container.RegisterType<PhoneTicket.Web.Controllers.DiscountsController>();
             container.RegisterType<PhoneTicketContext>();
             container.RegisterType<IContext, PhoneTicketContext>();
 

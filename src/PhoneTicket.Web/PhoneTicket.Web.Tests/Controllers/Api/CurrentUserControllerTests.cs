@@ -64,8 +64,6 @@
             Thread.CurrentPrincipal = oldPrincipal;
 
             this.userService.Verify(us => us.GetUserAsync(Email), Times.Once);
-
-            
         }
 
         private CurrentUserController CreateController()

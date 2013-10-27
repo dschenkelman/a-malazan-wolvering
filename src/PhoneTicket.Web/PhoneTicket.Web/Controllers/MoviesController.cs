@@ -51,7 +51,7 @@
                 movies = await this.movieService.GetMoviesAsync(m => m.Title.Contains(titleSearch));
             }
 
-            var userCanEdit = this.currentUserRole.UserIsAdmin();
+            var userCanEdit = this.currentUserRole.IsAdmin();
 
             ViewBag.CanEdit = userCanEdit;
 

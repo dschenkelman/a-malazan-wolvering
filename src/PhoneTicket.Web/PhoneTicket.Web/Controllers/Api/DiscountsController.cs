@@ -8,6 +8,7 @@
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels.Api;
 
+    [Authorize]
     [RoutePrefix("api/discounts")]
     public class DiscountsController : ApiController
     {
@@ -21,7 +22,7 @@
         [HttpGet]
         public async Task<IEnumerable<DiscountInfoViewModel>> Get()
         {
-            var activeDiscounts = await this.discountService.GetActive();
+            var activeDiscounts = await this.discountService.GetActiveAsync();
 
             return activeDiscounts.Select(DiscountInfoViewModel.FromDiscount);
         }

@@ -50,7 +50,7 @@
                 movieId = 1;
             }
 
-            var userCanEdit = this.currentUserRole.UserIsAdmin();
+            var userCanEdit = this.currentUserRole.IsAdmin();
 
             ViewBag.CanEdit = userCanEdit;
 

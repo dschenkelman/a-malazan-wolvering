@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<PhoneTicket.Web.ViewModels.ListMovieViewModel>
+﻿@model PagedList.IPagedList<PhoneTicket.Web.ViewModels.ListDiscountViewModel>
 @using PagedList.Mvc;
 @using PhoneTicket.Web.Helpers
 
@@ -13,56 +13,60 @@
 <div class="center">
     <div>
         <span>
-            @using (Html.BeginForm("Index", "Movies", FormMethod.Post, new {style = "display: inline"}))
+            @using (Html.BeginForm("Index", "Discounts", FormMethod.Post, new {style = "display: inline"}))
             {
-                <text>Buscar por título</text>
-                @Html.TextBox("titleSearch")  
+                <text>Buscar por descripción</text>
+                @Html.TextBox("descriptionSearch")  
                 <input type="submit" value="Buscar" />
             }
         </span>
         @if (ViewBag.CanEdit)
         {
             <span>
-                @Html.ActionLink(
-                            linkText: "Agregar Película",
+               @* @Html.ActionLink(
+                            linkText: "Agregar Promoción",
                             actionName: "Add",
-                            controllerName: "Movies",
+                            controllerName: "Discounts",
                             routeValues: new { movieId = -1 },
-                            htmlAttributes: null)
+                            htmlAttributes: null)*@
             </span>
         }
     </div>
 
     @if (Model.Count == 0)
     {
-        <h2>No hay películas para mostrar</h2>
+        <h2>No hay promociones para mostrar</h2>
     }
     else
     { 
-        <h2>Películas en cartelera</h2>
+        <h2>Promociones</h2>
     
         <table class="center">
             <tr>
-                <th>Título</th>
-                <th>Género</th>
-                <th>Duración</th>
-                <th>Clasificación</th>
+                <th>Descripción</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Válida desde</th>
+                <th>Hasta</th>
             </tr>
 
             @for (int i = 0; i < Model.Count; i++)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].Title)
+                        @Html.DisplayFor(modelItem => Model[i].Description)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].Genre)
+                        @Html.DisplayFor(modelItem => Model[i].Type)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].DurationInMinutes)
+                        @Html.DisplayFor(modelItem => Model[i].Value)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].Rating)
+                        @Html.DisplayFor(modelItem => Model[i].StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].EndDate)
                     </td>
                     @if (Model[i].CanEdit)
                     {
@@ -85,19 +89,6 @@
                                 )
                         </td>
                     }
-                    else
-                    {
-                        <td>
-                            @Html.ActionLink(
-                                linkText: "Ver",
-                                actionName: "Details",
-                                controllerName: "Movies",
-                                routeValues: new { movieId = Model[i].Id },
-                                htmlAttributes: null
-                                )
-                        </td>
-                    }
-
                 </tr>
             }
 

@@ -1,16 +1,13 @@
 ﻿namespace PhoneTicket.Web.Controllers.Api
 {
-    using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
-    using System.Web.Http;
     using System.Threading.Tasks;
+    using System.Web.Http;
 
-
+    using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels.Api;
-    using PhoneTicket.Web.Helpers;
 
     [RoutePrefix("api/movies")]
     public class MoviesController : ApiController

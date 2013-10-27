@@ -114,7 +114,7 @@
             }
 
             this.moviesService.Setup(us => us.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies)).Verifiable();
-            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(true);
+            this.currentUserRole.Setup(ur => ur.IsAdmin()).Returns(true);
 
             var controller = this.CreateController();
 
@@ -198,7 +198,7 @@
 
             this.moviesService.Setup(us => us.GetMoviesAsync()).Returns(Task.FromResult((IEnumerable<Movie>)movies)).Verifiable();
 
-            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
+            this.currentUserRole.Setup(ur => ur.IsAdmin()).Returns(canEdit);
 
             var controller = this.CreateController();
 
