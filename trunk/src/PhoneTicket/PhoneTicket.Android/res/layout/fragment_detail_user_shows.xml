@@ -15,7 +15,7 @@
            android:layout_height="wrap_content"
            android:layout_margin="4dp"
            android:gravity="center_vertical|center_horizontal"
-           android:text="@string/errorLoadingMyShowData"
+           android:text="@string/errorLoadingDetailUserShowData"
            android:textSize="15sp" />
 
 	    <Button
