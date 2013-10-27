@@ -39,5 +39,7 @@
 
     <string name="cinema_screen">Cinema Screen</string>
 
+    <string name="error_obteniendo_sala">No se pudo obtener la informacion de la sala</string>
+
     
 </resources>

@@ -3,6 +3,6 @@
     
     <string name="title_activity_movie_list">Películas</string>
     <string name="error_message_activity_movie_list">Lo sentimos. No se pudo descargar la lista. Intentalo más tarde.</string>
-    <string name="error_button_activity_movie_list">Refrescar lista</string>
+    <string name="error_button_activity_movie_list">Reintentar</string>
     
 </resources>

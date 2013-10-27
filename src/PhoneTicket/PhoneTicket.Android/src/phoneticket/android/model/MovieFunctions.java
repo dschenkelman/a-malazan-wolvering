@@ -10,12 +10,14 @@ public class MovieFunctions implements IMovieFunctions {
 	private int cinemaId;
 	private String cinemaName;
 	Collection<Function> functions;
+	private String cinemaAddress;
 
 	public MovieFunctions(int movieId, int cinemaId, String cinemaName,
-			Collection<Function> functions) {
+			String cinemaAddress, Collection<Function> functions) {
 		this.movieId = movieId;
 		this.cinemaId = cinemaId;
 		this.cinemaName = cinemaName;
+		this.cinemaAddress = cinemaAddress;
 		this.functions = functions;
 	}
 
@@ -39,5 +41,10 @@ public class MovieFunctions implements IMovieFunctions {
 		List<IFunction> ifunctions = new ArrayList<IFunction>();
 		ifunctions.addAll(functions);
 		return ifunctions;
+	}
+
+	@Override
+	public String getCinemaAddress() {
+		return this.cinemaAddress;
 	}
 }
