@@ -49,14 +49,14 @@ public class MockRetrieveMovieFunctionsService extends
 					}
 
 					@Override
-					public String getCompleteDay() {
+					public String getDate() {
 						return "2013/12/12";
 					}
 				});
 				functions.add(new IFunction() {
 
 					@Override
-					public String getCompleteDay() {
+					public String getDate() {
 						return "2013/12/12";
 					}
 
@@ -82,7 +82,7 @@ public class MockRetrieveMovieFunctionsService extends
 				});
 				functions.add(new IFunction() {
 					@Override
-					public String getCompleteDay() {
+					public String getDate() {
 						return "2013/12/12";
 					}
 
@@ -109,7 +109,7 @@ public class MockRetrieveMovieFunctionsService extends
 				});
 				functions.add(new IFunction() {
 					@Override
-					public String getCompleteDay() {
+					public String getDate() {
 						return "2013/12/12";
 					}
 
@@ -136,7 +136,7 @@ public class MockRetrieveMovieFunctionsService extends
 				});
 				functions.add(new IFunction() {
 					@Override
-					public String getCompleteDay() {
+					public String getDate() {
 						return "2013/12/12";
 					}
 
@@ -190,7 +190,7 @@ public class MockRetrieveMovieFunctionsService extends
 				Collection<IFunction> functions = new ArrayList<IFunction>();
 				functions.add(new IFunction() {
 					@Override
-					public String getCompleteDay() {
+					public String getDate() {
 						return "2013/12/12";
 					}
 
@@ -217,7 +217,7 @@ public class MockRetrieveMovieFunctionsService extends
 				});
 				functions.add(new IFunction() {
 					@Override
-					public String getCompleteDay() {
+					public String getDate() {
 						return "2013/12/12";
 					}
 

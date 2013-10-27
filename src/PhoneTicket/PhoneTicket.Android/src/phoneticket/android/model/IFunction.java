@@ -10,5 +10,5 @@ public interface IFunction {
 	
 	int getRoomId();
 
-	String getCompleteDay();
+	String getDate();
 }

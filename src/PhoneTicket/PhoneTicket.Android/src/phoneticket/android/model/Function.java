@@ -6,15 +6,14 @@ public class Function implements IFunction {
 	private String day;
 	private String time;
 	private int roomId;
-	private String completeDay;
+	private String date;
 
-	public Function(int id, String day, String time, int roomId,
-			String completeDay) {
+	public Function(int id, String day, String time, int roomId, String date) {
 		this.id = id;
 		this.day = day;
 		this.time = time;
 		this.roomId = roomId;
-		this.completeDay = completeDay;
+		this.date = date;
 	}
 
 	@Override
@@ -43,8 +42,8 @@ public class Function implements IFunction {
 	}
 
 	@Override
-	public String getCompleteDay() {
-		return this.completeDay;
+	public String getDate() {
+		return this.date;
 	}
 
 }

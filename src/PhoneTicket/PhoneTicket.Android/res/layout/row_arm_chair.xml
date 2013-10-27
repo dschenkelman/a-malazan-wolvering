@@ -4,8 +4,8 @@
 
     <phoneticket.android.views.ArmChairView
         android:id="@+id/armChairView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:scaleType="centerInside"
         android:src="@drawable/butaca_libre" />
 
@@ -15,6 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:textSize="15sp" />
+        android:textSize="10sp" />
 
 </RelativeLayout>
