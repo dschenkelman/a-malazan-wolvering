@@ -40,8 +40,9 @@
             const int id = 1;
             const string name = "C";
             const string address = "asd";
+            var location = DbGeography.FromText("POINT(-58.456633 -34.561893)");
 
-            var complex1 = new Complex { Id = id, Name = name, Address = address };
+            var complex1 = new Complex { Id = id, Name = name, Address = address, Location = location };
 
             this.complexService.Setup(cs => cs.GetAsync()).Returns(Task.FromResult((IEnumerable<Complex>)new List<Complex> { complex1 })).Verifiable();
 

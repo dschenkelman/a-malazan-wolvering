@@ -24,11 +24,11 @@
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ComplexListItemViewModel>> Get()
+        public async Task<IEnumerable<ComplexViewModel>> Get()
         {
             var complexes = await this.complexService.GetAsync();
 
-            return complexes.Select(c => c.ToListItemViewModel());
+            return complexes.Select(c => ComplexViewModel.FromComplex(c));
         }
 
         [HttpGet("{id}")]
