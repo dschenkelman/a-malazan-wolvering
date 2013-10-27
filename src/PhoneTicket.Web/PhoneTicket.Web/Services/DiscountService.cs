@@ -47,5 +47,15 @@
             this.repositories.Discounts.Insert(discount);
             return this.repositories.Discounts.SaveAsync();
         }
+
+        public Task<Discount> GetByIdAsync(int discountId)
+        {
+            return this.repositories.Discounts.GetByKeyValuesAsync(discountId);
+        }
+
+        public Task UpdateAsync(Discount discount)
+        {
+            return this.repositories.Discounts.SaveAsync();
+        }
     }
 }

@@ -54,7 +54,7 @@
         [HttpGet]
         public ActionResult Create()
         {
-            var viewModel = new CreateDiscountViewModel();
+            var viewModel = new DiscountViewModel();
 
             viewModel.PopulateDiscountTypes();
 
@@ -64,8 +64,20 @@
             return this.View(viewModel);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Edit(int discountId)
+        {
+            var discount = await this.discountService.GetByIdAsync(discountId);
+
+            var viewModel = DiscountViewModel.FromDiscount(discount);
+
+            viewModel.PopulateDiscountTypes(discount.Type);
+
+            return this.View(viewModel);
+        }
+
         [HttpPost]
-        public ActionResult Create(CreateDiscountViewModel viewModel)
+        public async Task<ActionResult> Create(DiscountViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -75,9 +87,33 @@
 
             var discount = viewModel.ToDiscount();
 
-            this.discountService.CreateAsync(discount);
+            await this.discountService.CreateAsync(discount);
 
             this.ViewBag.Message = string.Format("La promoción ha sido creada.");
+            this.ViewBag.LinkText = "Aceptar";
+            this.ViewBag.Action = "Index";
+            this.ViewBag.Controller = "Discounts";
+            this.ViewBag.RouteValues = new { page = 1 };
+
+            return this.View("~/Views/Shared/Confirmation.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(DiscountViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                viewModel.PopulateDiscountTypes((DiscountType)viewModel.Type);
+                return this.View(viewModel);
+            }
+
+            var discount = await this.discountService.GetByIdAsync(viewModel.Id);
+
+            discount.UpdateFrom(viewModel);
+
+            await this.discountService.UpdateAsync(discount);
+
+            this.ViewBag.Message = string.Format("La promoción ha sido actualizada.");
             this.ViewBag.LinkText = "Aceptar";
             this.ViewBag.Action = "Index";
             this.ViewBag.Controller = "Discounts";

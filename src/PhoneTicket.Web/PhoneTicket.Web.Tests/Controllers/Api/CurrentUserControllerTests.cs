@@ -1,20 +1,16 @@
 ﻿namespace PhoneTicket.Web.Tests.Controllers.Api
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using System.Security.Principal;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Moq;
 
-    using PhoneTicket.Web.Services;
     using PhoneTicket.Web.Controllers.Api;
     using PhoneTicket.Web.Models;
-    using System.Threading;
-    using System.Security.Principal;
+    using PhoneTicket.Web.Services;
     using System.Linq.Expressions;
 
     [TestClass]
