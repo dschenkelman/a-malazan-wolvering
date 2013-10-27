@@ -51,6 +51,7 @@
             this.container.Setup(c => c.RegisterType(null, typeof(DiscountsController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(MoviesController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(ComplexesController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(null, typeof(CurrentUserController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.UsersController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.MoviesController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.RoomsController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
