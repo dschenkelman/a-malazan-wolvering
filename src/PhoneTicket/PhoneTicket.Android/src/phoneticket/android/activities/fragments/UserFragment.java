@@ -27,6 +27,8 @@ public class UserFragment extends RoboFragment implements
 	@Inject
 	private IRetrieveUserInfoService userInfoService;
 
+	private boolean ignoreServicesCallbacks;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -38,12 +40,12 @@ public class UserFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		
+		ignoreServicesCallbacks = false;
+		
 		if (UserManager.getInstance().isUserLoged()) {
 			if (shouldRetrieveUserInfo()) {
-				showLoadingLayoutVisibility();
-				userInfoService.retrieveUserInfo(this, UserManager
-						.getInstance().getLogedUser().getDni());
+				onLoadDataAction();
 			} else {
 				showLogedLayoutVisibility();
 				showUserInfo();
@@ -68,11 +70,21 @@ public class UserFragment extends RoboFragment implements
 				onLogoutAction();
 			}
 		});
+
+		Button reloadDataButton = (Button) getView()
+				.findViewById(R.id.reloadDataButton);
+		reloadDataButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onLoadDataAction();
+			}
+		});
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+		ignoreServicesCallbacks = true;
 	}
 
 	private boolean shouldRetrieveUserInfo() {
@@ -93,6 +105,12 @@ public class UserFragment extends RoboFragment implements
 	protected void onLogoutAction() {
 		UserManager.getInstance().logoutUser();
 		showLoginLayoutVisibility();
+	}
+
+	protected void onLoadDataAction() {
+		showLoadingLayoutVisibility();
+		userInfoService.retrieveUserInfo(this, UserManager
+				.getInstance().getLogedUser().getDni());
 	}
 
 	private void showUserInfo() {
@@ -122,12 +140,15 @@ public class UserFragment extends RoboFragment implements
 	private void showLoginLayoutVisibility() {
 		LinearLayout noSessionView = (LinearLayout) getView().findViewById(
 				R.id.noSessionView);
+		LinearLayout errorView = (LinearLayout) getView().findViewById(
+				R.id.errorLoadingDataView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
 		ScrollView userView = (ScrollView) getView().findViewById(
 				R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.VISIBLE);
+		errorView.setVisibility(LinearLayout.GONE);
 		loadingView.setVisibility(RelativeLayout.GONE);
 		userView.setVisibility(ScrollView.GONE);
 	}
@@ -135,12 +156,15 @@ public class UserFragment extends RoboFragment implements
 	private void showLoadingLayoutVisibility() {
 		LinearLayout noSessionView = (LinearLayout) getView().findViewById(
 				R.id.noSessionView);
+		LinearLayout errorView = (LinearLayout) getView().findViewById(
+				R.id.errorLoadingDataView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
 		ScrollView userView = (ScrollView) getView().findViewById(
 				R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.GONE);
+		errorView.setVisibility(LinearLayout.GONE);
 		loadingView.setVisibility(RelativeLayout.VISIBLE);
 		userView.setVisibility(ScrollView.GONE);
 	}
@@ -148,19 +172,41 @@ public class UserFragment extends RoboFragment implements
 	private void showLogedLayoutVisibility() {
 		LinearLayout noSessionView = (LinearLayout) getView().findViewById(
 				R.id.noSessionView);
+		LinearLayout errorView = (LinearLayout) getView().findViewById(
+				R.id.errorLoadingDataView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
 		ScrollView userView = (ScrollView) getView().findViewById(
 				R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.GONE);
+		errorView.setVisibility(LinearLayout.GONE);
 		loadingView.setVisibility(RelativeLayout.GONE);
 		userView.setVisibility(ScrollView.VISIBLE);
+	}
+
+	private void showErrorLayoutVisibility() {
+		LinearLayout noSessionView = (LinearLayout) getView().findViewById(
+				R.id.noSessionView);
+		LinearLayout errorView = (LinearLayout) getView().findViewById(
+				R.id.errorLoadingDataView);
+		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
+				R.id.loadingDataLayout);
+		ScrollView userView = (ScrollView) getView().findViewById(
+				R.id.userView);
+
+		noSessionView.setVisibility(LinearLayout.GONE);
+		errorView.setVisibility(LinearLayout.VISIBLE);
+		loadingView.setVisibility(RelativeLayout.GONE);
+		userView.setVisibility(ScrollView.GONE);
 	}
 
 	@Override
 	public void retrieveUserInfoFinish(
 			IRetrieveUserInfoService retrieveUserInfoService) {
+		if (ignoreServicesCallbacks) {
+			return;
+		}
 		showLogedLayoutVisibility();
 		showUserInfo();
 	}
@@ -168,6 +214,9 @@ public class UserFragment extends RoboFragment implements
 	@Override
 	public void retrieveUserInfoFinishWithError(
 			IRetrieveUserInfoService retrieveUserInfoService, int errorCode) {
-		onLogoutAction();
+		if (ignoreServicesCallbacks) {
+			return;
+		}
+		showErrorLayoutVisibility();
 	}
 }
