@@ -48,4 +48,15 @@
         android:background="@null"
         android:contentDescription="@string/facebookButtonDescription" />
     
+	<ImageButton
+        android:id="@+id/calendarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/facebookButton"
+        android:paddingRight="4dp"
+        android:gravity="center"
+        android:src="@drawable/ic_gray_calendar"
+        android:background="@null"
+        android:contentDescription="@string/calendarButtonDescription" />
+    
 </RelativeLayout>

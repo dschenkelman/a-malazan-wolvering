@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="errorLoadingDetailUserShowData">Error al descargar datos de la compra/reserva. Intente nuevamente.</string>
     <string name="cancelShowButton">Cancelar Reserva</string>
     <string name="boughtShowButton">Realizar compra</string>
     <string name="qrCodeButton">Ver código QR</string>

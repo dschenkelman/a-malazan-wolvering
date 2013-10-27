@@ -7,5 +7,6 @@
     <string name="ribbonMenuButtonDescription">Menú</string>
     <string name="twitterButtonDescription">Twitter</string>
     <string name="facebookButtonDescription">Facebook</string>
+    <string name="calendarButtonDescription">Calendar</string>
     
 </resources>

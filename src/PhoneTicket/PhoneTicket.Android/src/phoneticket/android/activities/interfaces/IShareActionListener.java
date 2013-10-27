@@ -8,4 +8,6 @@ public interface IShareActionListener {
 
 	void shareCinemaOnFacebook(double latitude, double longitude,
 			String address, String cinemaName);
+
+	void shareTextonFacebook(String message);
 }

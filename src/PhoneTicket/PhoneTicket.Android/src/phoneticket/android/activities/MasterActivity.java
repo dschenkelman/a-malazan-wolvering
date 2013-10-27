@@ -66,11 +66,13 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private TextView actionTitle;
 	private ImageButton twitterButton;
 	private ImageButton facebookButton;
+	private ImageButton calendarButton;
 	private String twitterMessage;
 
 	private UiLifecycleHelper uiHelper;
 	private StatusCallback callback;
 	private String facebookUrl;
+	private String facebookMessage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +199,16 @@ public class MasterActivity extends RoboFragmentActivity implements
 				}
 			});
 			hideFacebookShareButton();
+			
+			calendarButton = (ImageButton) v.findViewById(R.id.calendarButton);
+			calendarButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					onCalendarButtonAction();
+				}
+			});
+			hideCalendarButton();
 
 			actionBar.setCustomView(v);
 		}
@@ -232,6 +244,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	public void changeToMovieListFragment() {
 		hideFacebookShareButton();
 		hideTwitterShareButton();
+		hideCalendarButton();
 		MovieListFragment movielistFragment = new MovieListFragment();
 		changeFragment(movielistFragment, false);
 		if (actionTitle != null)
@@ -242,6 +255,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	public void changeToCinemasFragment() {
 		hideFacebookShareButton();
 		hideTwitterShareButton();
+		hideCalendarButton();
 		CinemasFragment cinemasFragment = new CinemasFragment();
 		changeFragment(cinemasFragment, false);
 		if (actionTitle != null)
@@ -252,6 +266,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	public void changeToUserFragment() {
 		showFacebookShareButton();
 		showTwitterShareButton();
+		hideCalendarButton();
 		twitterMessage = "Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar";
 		UserFragment userFragment = new UserFragment();
 		changeFragment(userFragment, false);
@@ -262,6 +277,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private void changeToDetailMovieFragment(Bundle movieData) {
 		showTwitterShareButton();
+		hideCalendarButton();
 		twitterMessage = "Voy a mirar una película CINEMAR. Visita www.cinemar.com.ar";
 		String movieName = movieData
 				.getString(DetailMovieFragment.EXTRA_MOVIE_TITLE);
@@ -279,6 +295,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private void changeToDetailCinemaFragment(Bundle cinemaData) {
 		showFacebookShareButton();
 		showTwitterShareButton();
+		hideCalendarButton();
 		twitterMessage = "Voy a CINEMAR. Visita www.cinemar.com.ar";
 		String name = cinemaData
 				.getString(DetailCinemaFragment.EXTRA_CINEMA_NAME);
@@ -296,6 +313,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private void changeToUserShowsFragment() {
 		hideFacebookShareButton();
 		hideTwitterShareButton();
+		hideCalendarButton();
 		UserShowsFragment userShowsFragment = new UserShowsFragment();
 		changeFragment(userShowsFragment, true);
 	}
@@ -303,6 +321,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private void changeToDetailUserShowFragment(Bundle userShowData) {
 		hideFacebookShareButton();
 		hideTwitterShareButton();
+		hideCalendarButton();
+		twitterMessage = "Voy a CINEMAR. Visita www.cinemar.com.ar";
 		DetailUserShowFragment userShowFragment = new DetailUserShowFragment();
 		userShowFragment.setArguments(userShowData);
 		changeFragment(userShowFragment, true);
@@ -332,7 +352,20 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	protected void onFacebookButtonAction() {
-		facebookMovieAction();
+		if (null != facebookUrl) {
+			facebookMovieAction();
+		} else {
+			FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
+					this).setApplicationName("PhoneTicket")
+					.setDescription(this.facebookMessage)
+					.build();
+			if (uiHelper != null)
+				uiHelper.trackPendingDialogCall(shareDialog.present());
+		}
+	}
+	
+	protected void onCalendarButtonAction() {
+		// TODO 
 	}
 
 	private void facebookMovieAction() {
@@ -429,6 +462,12 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
+	public void hideCalendarButton() {
+		if (null != calendarButton)
+			calendarButton.setVisibility(ImageButton.GONE);
+	}
+	
+	@Override
 	public void showFacebookShareButton() {
 		if (null != facebookButton)
 			facebookButton.setVisibility(ImageButton.VISIBLE);
@@ -440,6 +479,12 @@ public class MasterActivity extends RoboFragmentActivity implements
 			twitterButton.setVisibility(ImageButton.VISIBLE);
 	}
 
+	@Override
+	public void showCalendarButton() {
+		if (null != calendarButton)
+			calendarButton.setVisibility(ImageButton.VISIBLE);
+	}
+	
 	private boolean containsApplicationIdOfFacebook() {
 		ApplicationInfo ai;
 		try {
@@ -469,5 +514,11 @@ public class MasterActivity extends RoboFragmentActivity implements
 	public void shareCinemaOnFacebook(double latitude, double longitude,
 			String address, String cinemaName) {
 		facebookCinemaAction(latitude, longitude, address, cinemaName);
+	}
+
+	@Override
+	public void shareTextonFacebook(String message) {
+		this.facebookMessage = message;
+		this.facebookUrl = null;
 	}
 }
