@@ -22,6 +22,15 @@
         android:layout_marginTop="4dp"
         android:background="@android:color/black" />
 
+    <Button
+        android:id="@+id/selectionFinished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/armChairSelected"
+        android:layout_centerInParent="true"
+        android:text="@string/selection_finished"
+        android:textSize="25sp" />
+
     <TextView
         android:id="@+id/movieDay"
         android:layout_width="wrap_content"
@@ -63,27 +72,17 @@
         android:id="@+id/room"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/armChairText"
+        android:layout_below="@+id/selectionFinished"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="vertical" >
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="30dp"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/cinema_screen"
             android:src="@drawable/patanlla_cine" />
-
-
     </LinearLayout>
-
-    <Button
-        android:id="@+id/selectionFinished"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/room"
-        android:layout_centerInParent="true"
-        android:text="@string/selection_finished"
-        android:textSize="25sp" />
 
 </RelativeLayout>
