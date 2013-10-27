@@ -204,11 +204,14 @@ public class UserShowsFragment extends RoboFragment implements
 			View rowView = inflater.inflate(R.layout.row_user_show, parent,
 					false);
 
-			TextView moviewNameTextView = (TextView) rowView
+			LinearLayout linear = (LinearLayout) rowView
+					.findViewById(R.id.textLayout);
+
+			TextView moviewNameTextView = (TextView) linear
 					.findViewById(R.id.userShowMovieName);
-			TextView showTimeTextView = (TextView) rowView
+			TextView showTimeTextView = (TextView) linear
 					.findViewById(R.id.userShowShowTime);
-			TextView addressTextView = (TextView) rowView
+			TextView addressTextView = (TextView) linear
 					.findViewById(R.id.userShowCinemaAddress);
 			ImageView imageView = (ImageView) rowView
 					.findViewById(R.id.userShowIcon);
