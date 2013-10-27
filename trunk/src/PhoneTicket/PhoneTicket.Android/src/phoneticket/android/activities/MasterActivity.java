@@ -199,7 +199,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 				}
 			});
 			hideFacebookShareButton();
-			
+
 			calendarButton = (ImageButton) v.findViewById(R.id.calendarButton);
 			calendarButton.setOnClickListener(new OnClickListener() {
 
@@ -325,7 +325,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		twitterMessage = "Voy a CINEMAR. Visita www.cinemar.com.ar";
 		DetailUserShowFragment userShowFragment = new DetailUserShowFragment();
 		userShowFragment.setArguments(userShowData);
-		changeFragment(userShowFragment, true);
+		changeFragment(userShowFragment, true, DetailUserShowFragment.TAG);
 	}
 
 	public void changeFragment(Fragment newFragment, boolean addToBackStack) {
@@ -335,6 +335,18 @@ public class MasterActivity extends RoboFragmentActivity implements
 		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		if (addToBackStack) {
 			transaction.addToBackStack(null);
+		}
+		transaction.commit();
+	}
+
+	public void changeFragment(Fragment newFragment, boolean addToBackStack,
+			String tag) {
+		FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+		transaction.replace(R.id.fragment_container, newFragment, tag);
+		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		if (addToBackStack) {
+			transaction.addToBackStack(tag);
 		}
 		transaction.commit();
 	}
@@ -357,15 +369,14 @@ public class MasterActivity extends RoboFragmentActivity implements
 		} else {
 			FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
 					this).setApplicationName("PhoneTicket")
-					.setDescription(this.facebookMessage)
-					.build();
+					.setDescription(this.facebookMessage).build();
 			if (uiHelper != null)
 				uiHelper.trackPendingDialogCall(shareDialog.present());
 		}
 	}
-	
+
 	protected void onCalendarButtonAction() {
-		// TODO 
+		// TODO
 	}
 
 	private void facebookMovieAction() {
@@ -466,7 +477,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		if (null != calendarButton)
 			calendarButton.setVisibility(ImageButton.GONE);
 	}
-	
+
 	@Override
 	public void showFacebookShareButton() {
 		if (null != facebookButton)
@@ -484,7 +495,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		if (null != calendarButton)
 			calendarButton.setVisibility(ImageButton.VISIBLE);
 	}
-	
+
 	private boolean containsApplicationIdOfFacebook() {
 		ApplicationInfo ai;
 		try {

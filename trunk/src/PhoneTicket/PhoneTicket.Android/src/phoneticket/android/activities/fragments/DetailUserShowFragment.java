@@ -3,6 +3,8 @@ package phoneticket.android.activities.fragments;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.dialog.ConfirmShowReserveCancelationDialogFragment;
+import phoneticket.android.activities.dialog.ConfirmShowReserveCancelationDialogFragment.IConfirmShowReserveCancelationDialogDelegate;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.model.IDetailUserShow;
@@ -10,6 +12,7 @@ import phoneticket.android.services.get.IRetrieveUserShowInfoService;
 import phoneticket.android.services.get.IRetrieveUserShowInfoServiceDelegate;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +25,10 @@ import android.widget.TextView;
 import roboguice.fragment.RoboFragment;
 
 public class DetailUserShowFragment extends RoboFragment implements
-		IRetrieveUserShowInfoServiceDelegate {
+		IRetrieveUserShowInfoServiceDelegate,
+		IConfirmShowReserveCancelationDialogDelegate {
 
+	public static final String TAG = "DetailUserShowFragment.tag";
 	public static final String USER_SHOW_INFO = "usershow.info";
 
 	private boolean ignoreServicesCallbacks;
@@ -31,7 +36,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 	private int showId;
 
 	@Inject
-	private IRetrieveUserShowInfoService service;
+	private IRetrieveUserShowInfoService infoService;
 
 	private IDetailUserShow userShow;
 
@@ -108,7 +113,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 	private void onRetrieveUserShowAction() {
 		showLoadingLayout();
-		service.retrieveUserShowInfo(this, showId);
+		infoService.retrieveUserShowInfo(this, showId);
 	}
 
 	protected void onGetQRCodeAction() {
@@ -122,8 +127,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	protected void onCancelReservationAction() {
-		// TODO Auto-generated method stub
-
+		ConfirmShowReserveCancelationDialogFragment dialog = new ConfirmShowReserveCancelationDialogFragment();
+		dialog.show(getFragmentManager(), "dialog.confirmation");
 	}
 
 	private void populateUserShowView() {
@@ -190,12 +195,23 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	private void showLoadingLayout() {
+		TextView message = (TextView)((RelativeLayout) getView().findViewById(
+				R.id.loadingDataLayout)).findViewById(R.id.downloadingDataTextView);
+		message.setText("Cargando los datos. Por Favor, espere un momento.");
 		layoutVisibility(LinearLayout.GONE, RelativeLayout.VISIBLE,
 				ScrollView.GONE);
 	}
 
 	private void showErrorLayout() {
 		layoutVisibility(LinearLayout.VISIBLE, RelativeLayout.GONE,
+				ScrollView.GONE);
+	}
+
+	private void showCancelingLayout() {
+		TextView message = (TextView)((RelativeLayout) getView().findViewById(
+				R.id.loadingDataLayout)).findViewById(R.id.downloadingDataTextView);
+		message.setText("Cancelando la reserva. Por Favor, espere un momento");
+		layoutVisibility(LinearLayout.GONE, RelativeLayout.VISIBLE,
 				ScrollView.GONE);
 	}
 
@@ -229,6 +245,15 @@ public class DetailUserShowFragment extends RoboFragment implements
 		if (false == ignoreServicesCallbacks) {
 			showErrorLayout();
 		}
+	}
+
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		showCancelingLayout();
+		shareButtonsVisibilityListener.hideCalendarButton();
+		shareButtonsVisibilityListener.hideFacebookShareButton();
+		shareButtonsVisibilityListener.hideTwitterShareButton();
+		
 	}
 
 }
