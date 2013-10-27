@@ -3,7 +3,6 @@
     android:id="@+id/armChairSelection"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:horizontalSpacing="1dp"
     android:numColumns="22"
     android:scrollbarStyle="outsideOverlay"
     android:scrollbars="vertical|horizontal"

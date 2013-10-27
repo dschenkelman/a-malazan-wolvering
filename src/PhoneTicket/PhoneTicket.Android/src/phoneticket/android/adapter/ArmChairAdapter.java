@@ -23,27 +23,36 @@ public class ArmChairAdapter extends ArrayAdapter<ArmChair> {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ImageViewHolder holder;
+		ArmChairHolder holder;
 		View row = convertView;
 		if (row == null) {
 			LayoutInflater inflater = ((Activity) getContext())
 					.getLayoutInflater();
 			row = inflater.inflate(R.layout.row_arm_chair, parent, false);
 
-			holder = new ImageViewHolder();
-			holder.armChairView = (ArmChairView) row
-					.findViewById(R.id.armChairView);
-			holder.armChairView.setState(armChairs.get(position));
+			holder = new ArmChairHolder();
+			holder.setArmChairView((ArmChairView) row
+					.findViewById(R.id.armChairView));
+			holder.getArmChairView().setState(
+					armChairs.get(position).getState());
 
 			row.setTag(holder);
 		} else {
-			holder = (ImageViewHolder) row.getTag();
+			holder = (ArmChairHolder) row.getTag();
 		}
 		return row;
 	}
 
-	private class ImageViewHolder {
-		ArmChairView armChairView;
+	public class ArmChairHolder {
+		private ArmChairView armChairView;
+
+		public ArmChairView getArmChairView() {
+			return armChairView;
+		}
+
+		public void setArmChairView(ArmChairView armChairView) {
+			this.armChairView = armChairView;
+		}
 	}
 
 }
