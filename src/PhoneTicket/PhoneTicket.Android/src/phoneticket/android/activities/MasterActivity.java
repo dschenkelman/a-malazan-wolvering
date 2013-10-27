@@ -16,7 +16,9 @@ import phoneticket.android.activities.fragments.DetailMovieFragment;
 import phoneticket.android.activities.fragments.MovieListFragment;
 import phoneticket.android.activities.fragments.RoomFragment;
 import phoneticket.android.activities.fragments.UserFragment;
+import phoneticket.android.activities.fragments.UserShowsFragment;
 import phoneticket.android.activities.interfaces.IFunctionSelectionListener;
+import phoneticket.android.activities.interfaces.IUserShowsListener;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
 import phoneticket.android.activities.interfaces.IShareActionListener;
@@ -46,7 +48,8 @@ import android.widget.TextView;
 public class MasterActivity extends RoboFragmentActivity implements
 		iRibbonMenuCallback, IOnCinemaSelectedListener,
 		IOnMovielistItemSelectedListener, IShareButtonsVisibilityListener,
-		IShareActionListener, IFunctionSelectionListener {
+		IShareActionListener, IFunctionSelectionListener,
+		IUserShowsListener {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -67,14 +70,13 @@ public class MasterActivity extends RoboFragmentActivity implements
 		UserManager.initialize(getPreferences(0));
 
 		MovieListFragment firstFragment = new MovieListFragment();
-		
+
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction().add(R.id.fragment_container, firstFragment);
 		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		transaction.addToBackStack(null);
 		transaction.commit();
-		
-		
+
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
 
 		setupActionBar();
@@ -280,6 +282,13 @@ public class MasterActivity extends RoboFragmentActivity implements
 		detailCinemaFragment.setArguments(cinemaData);
 		changeFragment(detailCinemaFragment, true);
 	}
+	
+	private void changeToUserShowsFragment() {
+		hideFacebookShareButton();
+		hideTwitterShareButton();
+		UserShowsFragment userShowsFragment = new UserShowsFragment();
+		changeFragment(userShowsFragment, true);
+	}
 
 	public void changeFragment(Fragment newFragment, boolean addToBackStack) {
 		FragmentTransaction transaction = getSupportFragmentManager()
@@ -350,6 +359,11 @@ public class MasterActivity extends RoboFragmentActivity implements
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(RoomFragment.TICKET_INFO, ticket);
 		changeToRoomFragment(bundle);
+	}
+
+	@Override
+	public void onShowUserShowsAction() {
+		changeToUserShowsFragment();
 	}
 
 	private void changeToRoomFragment(Bundle bundle) {
