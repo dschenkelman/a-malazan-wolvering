@@ -54,7 +54,7 @@
                     {
                         s.Room.Complex.Id,
                         s.Room.Complex.Name,
-                        DateAndInfo = new { s.Date, Info = new ShowInfoViewModel { Id = s.Id, Day = s.Date.DayOfWeek.InSpanish(), Time = s.Date.ToString("HH:mm") } }
+                        DateAndInfo = new { s.Date, Info = new ShowInfoViewModel { Id = s.Id, Day = s.Date.DayOfWeek.InSpanish(), Time = s.Date.ToString("HH:mm"), RoomId = s.RoomId } }
                     })
                 .GroupBy(s => new { s.Id, s.Name });
 
@@ -67,7 +67,7 @@
                 foreach (var show in groupedShow)
                 {
                     showsForThisComplex.Functions.Add(
-                        new ShowInfoViewModel { Id = show.DateAndInfo.Info.Id, Day = show.DateAndInfo.Info.Day, Time = show.DateAndInfo.Info.Time });
+                        new ShowInfoViewModel { Id = show.DateAndInfo.Info.Id, Day = show.DateAndInfo.Info.Day, Time = show.DateAndInfo.Info.Time , RoomId = show.DateAndInfo.Info.RoomId});
                 }
 
                 showsPerComplex.Add(showsForThisComplex);
