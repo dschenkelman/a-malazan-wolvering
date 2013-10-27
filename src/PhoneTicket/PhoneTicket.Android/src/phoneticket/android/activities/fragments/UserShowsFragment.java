@@ -1,6 +1,13 @@
 package phoneticket.android.activities.fragments;
 
+import java.util.Collection;
+
+import com.google.inject.Inject;
+
 import phoneticket.android.R;
+import phoneticket.android.model.IMyShow;
+import phoneticket.android.services.get.IRetrieveMyShowsService;
+import phoneticket.android.services.get.IRetrieveMyShowsServiceDelegate;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,10 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import roboguice.fragment.RoboFragment;
 
-public class UserShowsFragment extends RoboFragment {
+public class UserShowsFragment extends RoboFragment implements
+		IRetrieveMyShowsServiceDelegate {
 
-	@SuppressWarnings("unused")
 	private boolean ignoreServicesCallbacks;
+	
+	@Inject
+	private IRetrieveMyShowsService myShowsService;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,6 +34,8 @@ public class UserShowsFragment extends RoboFragment {
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
+		
+		myShowsService.retrieveMyShows(this);
 	}
 
 	@Override
@@ -35,12 +47,22 @@ public class UserShowsFragment extends RoboFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		/*try {
-			myFunctionsListener = (IUserShowsListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement IMyFunctionsListener");
-		}*/
+	}
+
+	@Override
+	public void retrieveMyShowsServiceFinished(IRetrieveMyShowsService service,
+			Collection<IMyShow> myShows) {
+		if (false == ignoreServicesCallbacks) {
+			// TODO Auto-generated method stub
+		}
+	}
+
+	@Override
+	public void retrieveMyShowsServiceFinishedWithError(
+			IRetrieveMyShowsService service, int errorCode) {
+		if (false == ignoreServicesCallbacks) {
+			// TODO Auto-generated method stub
+		}
 	}
 
 }
