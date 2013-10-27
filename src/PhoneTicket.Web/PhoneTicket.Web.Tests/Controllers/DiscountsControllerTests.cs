@@ -305,6 +305,36 @@
             this.mockRepository.VerifyAll();
         }
 
+        [TestMethod]
+        public async Task ShouldCallDiscountsServiceDeleteWhenDeleteIsCalled()
+        {
+            const int DiscountId = 4;
+
+            this.discountService.Setup(ds => ds.DeleteAsync(DiscountId)).Returns(Task.FromResult<object>(null)).Verifiable();
+            
+            var controller = this.CreateController();
+
+            await controller.Delete(DiscountId);
+
+            this.mockRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldRedirectToIndexViewWhenDeleteIsCalled()
+        {
+            const int DiscountId = 1;
+
+            this.discountService.Setup(ds => ds.DeleteAsync(DiscountId))
+                .Returns(Task.FromResult<object>(null))
+                .Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Delete(DiscountId);
+
+            Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
+        }
+
         private DiscountsController CreateController()
         {
             return new DiscountsController(this.discountService.Object, this.currentUserRole.Object);
