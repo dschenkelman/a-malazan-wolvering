@@ -52,7 +52,7 @@
                                                               Type = DiscountType.TwoForOne
                                                           },
                                                   };
-            this.discountService.Setup(ds => ds.GetActive()).Returns(Task.FromResult((IEnumerable<Discount>)discounts)).Verifiable();
+            this.discountService.Setup(ds => ds.GetActiveAsync()).Returns(Task.FromResult((IEnumerable<Discount>)discounts)).Verifiable();
 
             var controller = this.CreateController();
 

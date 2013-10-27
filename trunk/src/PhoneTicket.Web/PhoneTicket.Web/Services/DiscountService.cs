@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Data;
@@ -18,11 +19,21 @@
             this.repositories = repositories;
         }
 
-        public async Task<IEnumerable<Discount>> GetActive()
+        public async Task<IEnumerable<Discount>> GetActiveAsync()
         {
             var currentDate = DateTimeHelpers.DateTimeInArgentina;
 
             return await this.repositories.Discounts.Filter(d => d.StartDate <= currentDate && currentDate <= d.EndDate).ToListAsync();
+        }
+
+        public Task<IEnumerable<Discount>> GetActiveAndFutureAsync()
+        {
+            return this.repositories.Discounts.AllAsync();
+        }
+
+        public async Task<IEnumerable<Discount>> GetActiveAndFutureAsync(Expression<Func<Discount, bool>> filter)
+        {
+            return await this.repositories.Discounts.Filter(filter).ToListAsync();
         }
     }
 }

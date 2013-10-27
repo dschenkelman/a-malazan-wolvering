@@ -350,7 +350,7 @@
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId)).Returns(Task.FromResult((IEnumerable<Show>)shows)).Verifiable();
 
-            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(true);
+            this.currentUserRole.Setup(ur => ur.IsAdmin()).Returns(true);
 
             var controller = this.CreateController();
 

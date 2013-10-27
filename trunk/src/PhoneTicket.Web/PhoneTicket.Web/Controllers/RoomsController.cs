@@ -45,7 +45,7 @@
                 rooms = await this.roomService.GetAsync(r => r.Name.Contains(roomSearch));
             }
 
-            var userCanEdit = this.currentUserRole.UserIsAdmin();
+            var userCanEdit = this.currentUserRole.IsAdmin();
 
             ViewBag.CanEdit = userCanEdit;
 
@@ -60,7 +60,7 @@
             var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
             var availableRoomTypes = await this.roomTypeService.ListAsync(room.TypeId);
 
-            var userCanEdit = this.currentUserRole.UserIsAdmin();
+            var userCanEdit = this.currentUserRole.IsAdmin();
 
             var roomViewModel = ListRoomViewModel.FromRoom(room, userCanEdit);
             roomViewModel.AvailableComplexes = availableComplexes;
@@ -89,7 +89,7 @@
             var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
             var availableRoomTypes = await this.roomTypeService.ListAsync(room.TypeId);
 
-            var userCanEdit = this.currentUserRole.UserIsAdmin();
+            var userCanEdit = this.currentUserRole.IsAdmin();
 
             var roomViewModel = ListRoomViewModel.FromRoom(room, userCanEdit);
             roomViewModel.AvailableComplexes = availableComplexes;

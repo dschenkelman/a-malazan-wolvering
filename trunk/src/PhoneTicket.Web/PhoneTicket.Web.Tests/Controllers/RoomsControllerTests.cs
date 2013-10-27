@@ -191,7 +191,7 @@
 
             this.roomService.Setup(rs => rs.GetAsync()).Returns(Task.FromResult((IEnumerable<Room>)rooms));
 
-            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
+            this.currentUserRole.Setup(ur => ur.IsAdmin()).Returns(canEdit);
 
             var controller = this.CreateController();
 
@@ -381,7 +381,7 @@
             this.roomService.Setup(ms => ms.GetAsync(RoomId)).Returns(Task.FromResult(room));
             this.complexService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
             this.roomTypeService.Setup(rs => rs.ListAsync(It.IsAny<int?>())).Returns(Task.FromResult<IEnumerable<SelectListItem>>(null));
-            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
+            this.currentUserRole.Setup(ur => ur.IsAdmin()).Returns(canEdit);
 
             var roomVM = ListRoomViewModel.FromRoom(room,canEdit);
 
@@ -421,7 +421,7 @@
 
             this.roomService.Setup(ms => ms.GetAsync(RoomId)).Returns(Task.FromResult(existingRoom)).Verifiable();
             this.roomService.Setup(ms => ms.UpdateAsync(existingRoom)).Returns(Task.FromResult<object>(null)).Verifiable();
-            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
+            this.currentUserRole.Setup(ur => ur.IsAdmin()).Returns(canEdit);
 
             await controller.EditRoom(ListRoomViewModel.FromRoom(updatedRoom,canEdit));
 
@@ -457,7 +457,7 @@
 
             this.roomService.Setup(ms => ms.GetAsync(room.Id)).Returns(Task.FromResult(room));
             this.roomService.Setup(ms => ms.UpdateAsync(It.IsAny<Room>())).Returns(Task.FromResult<object>(null));
-            this.currentUserRole.Setup(ur => ur.UserIsAdmin()).Returns(canEdit);
+            this.currentUserRole.Setup(ur => ur.IsAdmin()).Returns(canEdit);
 
             var result = (ViewResult)await controller.EditRoom(ListRoomViewModel.FromRoom(room,canEdit));
 
