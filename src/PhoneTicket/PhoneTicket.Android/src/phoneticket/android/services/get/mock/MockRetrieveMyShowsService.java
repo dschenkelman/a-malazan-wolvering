@@ -24,7 +24,7 @@ public class MockRetrieveMyShowsService extends
 	@Override
 	protected String doInBackground(String... arg0) {
 		try {
-			Thread.sleep(fakeTimeout ? 1500 : 500);
+			Thread.sleep(fakeTimeout ? 1500 : 750);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -42,6 +42,72 @@ public class MockRetrieveMyShowsService extends
 
 	private Collection<IMyShow> createMocks() {
 		Collection<IMyShow> myShows = new ArrayList<IMyShow>();
+		myShows.add(new IMyShow() {
+			@Override
+			public int getId() {
+				return 1;
+			}
+			@Override
+			public boolean isBought() {
+				return true;
+			}
+			@Override
+			public String getMovieName() {
+				return "Aviones";
+			}
+			@Override
+			public String getShowTime() {
+				return "19/02 16:00 Hs";
+			}
+			@Override
+			public String getComplexAddress() {
+				return "Las Heras 999";
+			}
+		});
+		myShows.add(new IMyShow() {
+			@Override
+			public int getId() {
+				return 2;
+			}
+			@Override
+			public boolean isBought() {
+				return true;
+			}
+			@Override
+			public String getMovieName() {
+				return "El Conjuro";
+			}
+			@Override
+			public String getShowTime() {
+				return "21/02 19:00 Hs";
+			}
+			@Override
+			public String getComplexAddress() {
+				return "Las Heras 999";
+			}
+		});
+		myShows.add(new IMyShow() {
+			@Override
+			public int getId() {
+				return 3;
+			}
+			@Override
+			public boolean isBought() {
+				return false;
+			}
+			@Override
+			public String getMovieName() {
+				return "Dragon Ball";
+			}
+			@Override
+			public String getShowTime() {
+				return "23/02 5:30 Hs";
+			}
+			@Override
+			public String getComplexAddress() {
+				return "Av. Belgrano 456";
+			}
+		});
 		return myShows;
 	}
 }
