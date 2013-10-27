@@ -1,6 +1,5 @@
 package phoneticket.android.activities.fragments;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,8 +23,6 @@ import android.widget.Toast;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IArmChairsSelected;
-import phoneticket.android.activities.interfaces.IShareActionListener;
-import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.adapter.ArmChairAdapter;
 import phoneticket.android.adapter.ArmChairAdapter.ArmChairHolder;
 import phoneticket.android.model.ArmChair;
@@ -79,7 +76,18 @@ public class RoomFragment extends RoboFragment implements
 		LinearLayout layout = (LinearLayout) fragment.findViewById(R.id.room);
 		RelativeLayout loading = (RelativeLayout) inflater.inflate(
 				R.layout.loading, container, false);
+		RelativeLayout error = (RelativeLayout) inflater.inflate(
+				R.layout.error, container, false);
+		Button button = (Button) error.findViewById(R.id.refreshViewButton);
+		button.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				retreiveRoomInfo();
+			}
+
+		});
 		layout.addView(loading);
+		layout.addView(error);
 		layout.addView(zoomView);
 		return fragment;
 	}
@@ -88,13 +96,25 @@ public class RoomFragment extends RoboFragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		ticket = (Ticket) getArguments().getSerializable(TICKET_INFO);
+
+		TextView cinemaAddress = (TextView) getView().findViewById(
+				R.id.cinemaAddress);
+		cinemaAddress.setText(ticket.getCinemaAddress());
+
+		TextView movieDay = (TextView) getView().findViewById(R.id.movieDay);
+		movieDay.setText(ticket.getFunctionDay() + "  "
+				+ ticket.getFunctionTime());
+
+		TextView movieName = (TextView) getView().findViewById(R.id.movieName);
+		movieName.setText(ticket.getMovieTitle());
+
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
-		this.roomInfoService.retrieveRoomInfo(this, ticket.getRoomId());
+		retreiveRoomInfo();
 	}
 
 	@Override
@@ -114,6 +134,19 @@ public class RoomFragment extends RoboFragment implements
 		}
 	}
 
+	private void retreiveRoomInfo() {
+		RelativeLayout error = (RelativeLayout) getView().findViewById(
+				R.id.errorViewContainer);
+		error.setVisibility(RelativeLayout.GONE);
+		RelativeLayout loading = (RelativeLayout) getView().findViewById(
+				R.id.loadingDataLayout);
+		loading.setVisibility(RelativeLayout.VISIBLE);
+		GridView armChairSelection = (GridView) getView().findViewById(
+				R.id.armChairSelection);
+		armChairSelection.setVisibility(GridView.GONE);
+		this.roomInfoService.retrieveRoomInfo(this, ticket.getRoomId());
+	}
+
 	@Override
 	public void retrieveRoomInfoFinish(IRetrieveRoomInfoService service,
 			Collection<Collection<Integer>> armChairs) {
@@ -126,11 +159,22 @@ public class RoomFragment extends RoboFragment implements
 	public void retrieveRoomInfoFinishWithError(
 			IRetrieveRoomInfoService service, Integer errorCode) {
 		if (!ignoreServicesCallbacks) {
-
+			RelativeLayout error = (RelativeLayout) getView().findViewById(
+					R.id.errorViewContainer);
+			error.setVisibility(RelativeLayout.VISIBLE);
+			RelativeLayout loading = (RelativeLayout) getView().findViewById(
+					R.id.loadingDataLayout);
+			loading.setVisibility(RelativeLayout.GONE);
+			GridView armChairSelection = (GridView) getView().findViewById(
+					R.id.armChairSelection);
+			armChairSelection.setVisibility(GridView.GONE);
 		}
 	}
 
 	private void createArmChairs(Collection<Collection<Integer>> armChairs) {
+		RelativeLayout error = (RelativeLayout) getView().findViewById(
+				R.id.errorViewContainer);
+		error.setVisibility(RelativeLayout.GONE);
 		RelativeLayout loading = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
 		loading.setVisibility(RelativeLayout.GONE);

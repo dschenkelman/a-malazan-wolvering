@@ -47,8 +47,19 @@ public class MockRetrieveMovieFunctionsService extends
 					public int getRoomId() {
 						return 1;
 					}
+
+					@Override
+					public String getCompleteDay() {
+						return "2013/12/12";
+					}
 				});
 				functions.add(new IFunction() {
+
+					@Override
+					public String getCompleteDay() {
+						return "2013/12/12";
+					}
+
 					@Override
 					public String getTime() {
 						return "23:30";
@@ -70,6 +81,11 @@ public class MockRetrieveMovieFunctionsService extends
 					}
 				});
 				functions.add(new IFunction() {
+					@Override
+					public String getCompleteDay() {
+						return "2013/12/12";
+					}
+
 					@Override
 					public String getTime() {
 						return "16:15";
@@ -93,6 +109,11 @@ public class MockRetrieveMovieFunctionsService extends
 				});
 				functions.add(new IFunction() {
 					@Override
+					public String getCompleteDay() {
+						return "2013/12/12";
+					}
+
+					@Override
 					public String getTime() {
 						return "12:30";
 					}
@@ -114,6 +135,11 @@ public class MockRetrieveMovieFunctionsService extends
 					}
 				});
 				functions.add(new IFunction() {
+					@Override
+					public String getCompleteDay() {
+						return "2013/12/12";
+					}
+
 					@Override
 					public String getTime() {
 						return "19:40";
@@ -147,6 +173,11 @@ public class MockRetrieveMovieFunctionsService extends
 			public int getCinemaId() {
 				return 1;
 			}
+
+			@Override
+			public String getCinemaAddress() {
+				return "Cabildo 213";
+			}
 		};
 		IMovieFunctions cinemar2Functions = new IMovieFunctions() {
 			@Override
@@ -158,6 +189,11 @@ public class MockRetrieveMovieFunctionsService extends
 			public Collection<IFunction> getFunctions() {
 				Collection<IFunction> functions = new ArrayList<IFunction>();
 				functions.add(new IFunction() {
+					@Override
+					public String getCompleteDay() {
+						return "2013/12/12";
+					}
+
 					@Override
 					public String getTime() {
 						return "20:30";
@@ -180,6 +216,11 @@ public class MockRetrieveMovieFunctionsService extends
 					}
 				});
 				functions.add(new IFunction() {
+					@Override
+					public String getCompleteDay() {
+						return "2013/12/12";
+					}
+
 					@Override
 					public String getTime() {
 						return "21:30";
@@ -212,6 +253,11 @@ public class MockRetrieveMovieFunctionsService extends
 			@Override
 			public int getCinemaId() {
 				return 2;
+			}
+
+			@Override
+			public String getCinemaAddress() {
+				return "Callao 222";
 			}
 		};
 		Collection<IMovieFunctions> movieFunctions = new ArrayList<IMovieFunctions>();

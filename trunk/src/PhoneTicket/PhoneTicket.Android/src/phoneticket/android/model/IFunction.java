@@ -9,4 +9,6 @@ public interface IFunction {
 	String getTime();
 	
 	int getRoomId();
+
+	String getCompleteDay();
 }

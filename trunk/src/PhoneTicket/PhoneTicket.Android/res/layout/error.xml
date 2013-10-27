@@ -2,25 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/errorViewContainer"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_height="fill_parent"
     android:visibility="gone" >
 
     <TextView
         android:id="@+id/errorMessage"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/error_message_activity_cinemas"
-        android:textAlignment="center"
+        android:layout_centerHorizontal="true"
+        android:text="@string/error_obteniendo_sala"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/black" />
 
     <Button
         android:id="@+id/refreshViewButton"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/errorMessage"
+        android:layout_centerHorizontal="true"
         android:text="@string/error_button_activity_movie_list" />
 
 </RelativeLayout>

@@ -375,9 +375,10 @@ public class DetailMovieFragment extends RoboFragment implements
 						public void onClick(View v) {
 							Ticket ticket = new Ticket(movieFunctions
 									.getCinemaId(), movieFunctions
-									.getCinemaName(), "Address", movie.getId(),
-									movie.getTitle(), function.getId(),
-									function.getDay(), function.getTime(),
+									.getCinemaName(), movieFunctions
+									.getCinemaAddress(), movie.getId(), movie
+									.getTitle(), function.getId(), function
+									.getCompleteDay(), function.getTime(),
 									function.getRoomId());
 							functionSelectionListener
 									.onFunctionSelected(ticket);

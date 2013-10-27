@@ -10,5 +10,7 @@ public interface IMovieFunctions {
 
 	String getCinemaName();
 
+	String getCinemaAddress();
+
 	Collection<IFunction> getFunctions();
 }

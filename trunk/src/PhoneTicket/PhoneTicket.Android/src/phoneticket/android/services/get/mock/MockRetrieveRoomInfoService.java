@@ -49,5 +49,6 @@ public class MockRetrieveRoomInfoService extends
 	@Override
 	protected void onPostExecute(String result) {
 		delegate.retrieveRoomInfoFinish(this, this.getRoom());
+		// delegate.retrieveRoomInfoFinishWithError(this, 5);
 	}
 }
