@@ -1,5 +1,8 @@
 package phoneticket.android.activities;
 
+import java.io.Serializable;
+import java.util.List;
+
 import com.darvds.ribbonmenu.RibbonMenuView;
 import com.darvds.ribbonmenu.iRibbonMenuCallback;
 import com.facebook.Session.StatusCallback;
@@ -14,15 +17,20 @@ import phoneticket.android.activities.fragments.DetailCinemaFragment;
 
 import phoneticket.android.activities.fragments.DetailMovieFragment;
 import phoneticket.android.activities.fragments.MovieListFragment;
+import phoneticket.android.activities.fragments.PromotionFragment;
 import phoneticket.android.activities.fragments.RoomFragment;
 import phoneticket.android.activities.fragments.UserFragment;
+import phoneticket.android.activities.interfaces.IArmChairsSelected;
+
 import phoneticket.android.activities.fragments.UserShowsFragment;
+
 import phoneticket.android.activities.interfaces.IFunctionSelectionListener;
 import phoneticket.android.activities.interfaces.IUserShowsListener;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
+import phoneticket.android.model.ArmChair;
 import phoneticket.android.model.Ticket;
 import phoneticket.android.utils.UserManager;
 import roboguice.activity.RoboFragmentActivity;
@@ -48,7 +56,7 @@ import android.widget.TextView;
 public class MasterActivity extends RoboFragmentActivity implements
 		iRibbonMenuCallback, IOnCinemaSelectedListener,
 		IOnMovielistItemSelectedListener, IShareButtonsVisibilityListener,
-		IShareActionListener, IFunctionSelectionListener,
+		IShareActionListener, IFunctionSelectionListener, IArmChairsSelected,
 		IUserShowsListener {
 
 	private RibbonMenuView ribbonMenu;
@@ -282,7 +290,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		detailCinemaFragment.setArguments(cinemaData);
 		changeFragment(detailCinemaFragment, true);
 	}
-	
+
 	private void changeToUserShowsFragment() {
 		hideFacebookShareButton();
 		hideTwitterShareButton();
@@ -372,6 +380,23 @@ public class MasterActivity extends RoboFragmentActivity implements
 		RoomFragment roomFragment = new RoomFragment();
 		roomFragment.setArguments(bundle);
 		changeFragment(roomFragment, true);
+	}
+
+	@Override
+	public void onArmChairsSelected(List<ArmChair> armChairs) {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(PromotionFragment.ARM_CHAIRS_SELECTED,
+				(Serializable) armChairs);
+		changeToPromotionFragment(bundle);
+	}
+
+	private void changeToPromotionFragment(Bundle bundle) {
+		hideFacebookShareButton();
+		hideTwitterShareButton();
+		PromotionFragment r = new PromotionFragment();
+		r.setArguments(bundle);
+		changeFragment(r, true);
+
 	}
 
 	@Override
