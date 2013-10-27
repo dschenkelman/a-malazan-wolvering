@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="cancelShowButton">Cancelar Reserva</string>
+    <string name="boughtShowButton">Realizar compra</string>
+    <string name="qrCodeButton">Ver código QR</string>
+    
+</resources>
