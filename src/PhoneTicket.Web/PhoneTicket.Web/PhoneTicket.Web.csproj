@@ -281,6 +281,7 @@
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IMovieService.cs" />
     <Compile Include="Services\IGenreService.cs" />
+    <Compile Include="Services\IOperationService.cs" />
     <Compile Include="Services\IRatingService.cs" />
     <Compile Include="Services\IRoomService.cs" />
     <Compile Include="Services\IRoomTypeService.cs" />
@@ -288,6 +289,7 @@
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\MovieService.cs" />
+    <Compile Include="Services\OperationService.cs" />
     <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\RoomService.cs" />
     <Compile Include="Services\RoomTypeService.cs" />
@@ -310,6 +312,7 @@
     <Compile Include="ViewModels\Api\ShowInfoViewModel.cs" />
     <Compile Include="ViewModels\Api\ShowsPerComplexViewModel.cs" />
     <Compile Include="ViewModels\Api\UserInformationViewModel.cs" />
+    <Compile Include="ViewModels\Api\UserOperationsViewModel.cs" />
     <Compile Include="ViewModels\CreateDiscountViewModel.cs" />
     <Compile Include="ViewModels\CreateShowsViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />

@@ -23,6 +23,7 @@
             container.RegisterType<IRoomTypeService, RoomTypeService>();
             container.RegisterType<IShowService, ShowService>();
             container.RegisterType<IDiscountService, DiscountService>();
+            container.RegisterType<IOperationService, OperationService>();
 
             container.RegisterType<IRepository<User>, Repository<User>>();
             container.RegisterType<IRepository<Genre>, Repository<Genre>>();
