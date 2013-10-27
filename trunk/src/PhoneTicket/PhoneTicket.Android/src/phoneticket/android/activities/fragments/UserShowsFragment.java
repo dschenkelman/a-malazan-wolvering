@@ -9,8 +9,6 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IDetailUserShowListener;
-import phoneticket.android.model.Cinema;
-import phoneticket.android.model.ICinema;
 import phoneticket.android.model.IMyShow;
 import phoneticket.android.model.MyShow;
 import phoneticket.android.services.get.IRetrieveMyShowsService;

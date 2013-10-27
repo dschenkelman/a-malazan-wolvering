@@ -1,10 +1,6 @@
 package phoneticket.android.model;
 
 public class MyShow implements IMyShow{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
 	private int id;
 	private boolean isBought;

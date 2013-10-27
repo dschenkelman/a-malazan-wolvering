@@ -1,12 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Detalle de compra/reserva proximamente" />
+	<LinearLayout
+		android:id="@+id/errorLoadingDataView" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" >
+	    
+       <TextView
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="4dp"
+           android:gravity="center_vertical|center_horizontal"
+           android:text="@string/errorLoadingMyShowData"
+           android:textSize="15sp" />
 
+	    <Button
+	        android:id="@+id/reloadDataButton"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/reloadDataButton" />
+	  
+	</LinearLayout>
+
+   	<RelativeLayout
+       	android:id="@+id/loadingDataLayout"
+       	android:layout_width="fill_parent"
+       	android:layout_height="fill_parent"
+       	android:layout_gravity="center_vertical"
+       	android:orientation="vertical" >
+	
+		<TextView
+	        android:id="@+id/downloadingDataTextView"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="4dp"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:text="@string/loadingInfo"
+	        android:textSize="15sp" />
+	
+	    <ProgressBar
+	        android:id="@+id/downloadingDataProgressBar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/downloadingDataTextView"
+	        android:layout_centerHorizontal="true" />
+	    
+	</RelativeLayout>
+
+   	<ScrollView
+   	    android:id="@+id/dataScrollView"
+   	    android:layout_width="fill_parent"
+   	    android:layout_height="wrap_content" >
+
+   	    <LinearLayout
+   	        android:layout_width="fill_parent"
+   	        android:layout_height="wrap_content"
+   	        android:orientation="vertical" >
+
+   	        <TextView
+   	            android:id="@+id/movieNameAndShowTimeTextView"
+   	            android:layout_width="wrap_content"
+   	            android:layout_height="wrap_content"
+   	            android:text="Aviones - 15/9/13 16:00 Hs" />
+
+   	        <TextView
+   	            android:id="@+id/complexAddressTextView"
+   	            android:layout_width="wrap_content"
+   	            android:layout_height="wrap_content"
+   	            android:text="Belgrano 856 y Juramento" />
+
+   	        <TextView
+   	            android:id="@+id/placesCountTextView"
+   	            android:layout_width="wrap_content"
+   	            android:layout_height="wrap_content"
+   	            android:text="5 Entradas" />
+   	        
+   	        <TextView
+   	            android:layout_width="wrap_content"
+   	            android:layout_height="wrap_content"
+   	            android:text="Promociones:" />
+   	           	        
+   	        <TextView
+   	            android:id="@+id/discountsTextView"
+   	            android:layout_width="wrap_content"
+   	            android:layout_height="wrap_content"
+   	            android:text="1 2x1 cablevision\n3 precio fijo" />
+   	        
+   	        <TextView
+   	            android:layout_width="wrap_content"
+   	            android:layout_height="wrap_content"
+   	            android:text="Butacas:" />
+   	        
+   	        <TextView
+   	            android:id="@+id/placesCodesTextView"
+   	            android:layout_width="wrap_content"
+   	            android:layout_height="wrap_content"
+   	            android:text="G9 G10 G11 G12 G13" />
+   	        
+		    <Button
+		        android:id="@+id/cancelShowButton"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/cancelShowButton" />
+
+		    <Button
+		        android:id="@+id/boughtShowButton"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/boughtShowButton" />
+		  
+		    <Button
+		        android:id="@+id/qrCodeButton"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/qrCodeButton" />
+		  
+   	    </LinearLayout>
+   	    
+   	</ScrollView>
+   	
 </RelativeLayout>
