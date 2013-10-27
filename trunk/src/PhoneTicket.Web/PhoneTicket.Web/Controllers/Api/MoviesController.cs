@@ -51,20 +51,21 @@
                     {
                         s.Room.Complex.Id,
                         s.Room.Complex.Name,
-                        DateAndInfo = new { s.Date, Info = new ShowInfoViewModel { Id = s.Id, Day = s.Date.DayOfWeek.InSpanish(), Time = s.Date.ToString("HH:mm"), RoomId = s.RoomId } }
+                        s.Room.Complex.Address,
+                        DateAndInfo = new { s.Date, Info = new ShowInfoViewModel { Id = s.Id, Date = s.Date.ToString("yyyy/MM/dd"),Day = s.Date.DayOfWeek.InSpanish(), Time = s.Date.ToString("HH:mm"), RoomId = s.RoomId } }
                     })
-                .GroupBy(s => new { s.Id, s.Name });
+                .GroupBy(s => new { s.Id, s.Name, s.Address });
 
             var showsPerComplex = new List<ShowsPerComplexViewModel>();
 
             foreach (var groupedShow in groupedShows)
             {
-                var showsForThisComplex = new ShowsPerComplexViewModel { ComplexId = groupedShow.Key.Id, ComplexName = groupedShow.Key.Name };
+                var showsForThisComplex = new ShowsPerComplexViewModel { ComplexId = groupedShow.Key.Id, ComplexName = groupedShow.Key.Name, ComplexAddress = groupedShow.Key.Address };
 
                 foreach (var show in groupedShow)
                 {
                     showsForThisComplex.Functions.Add(
-                        new ShowInfoViewModel { Id = show.DateAndInfo.Info.Id, Day = show.DateAndInfo.Info.Day, Time = show.DateAndInfo.Info.Time , RoomId = show.DateAndInfo.Info.RoomId});
+                        new ShowInfoViewModel { Id = show.DateAndInfo.Info.Id, Date = show.DateAndInfo.Info.Date, Day = show.DateAndInfo.Info.Day, Time = show.DateAndInfo.Info.Time , RoomId = show.DateAndInfo.Info.RoomId});
                 }
 
                 showsPerComplex.Add(showsForThisComplex);
