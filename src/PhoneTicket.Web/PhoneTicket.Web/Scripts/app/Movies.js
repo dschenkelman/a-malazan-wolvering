@@ -4,6 +4,7 @@
         function updateImageSource() {
             var urlSrc = textBox.val();
             imageBox.attr("src", urlSrc);
+            imageBox.css("display", "block");
         }
 
         return {
@@ -18,7 +19,4 @@
         
         $("#refreshImage").on("click", movieController.updateImage);
     });
-
-   
-
 }());

@@ -7,7 +7,7 @@
 }
 
 @Styles.Render("~/Content/themes/base/css")
-@Styles.Render("~/Content/bootstrap.min.css")
+@Styles.Render("~/Content/bootstrap.css")
 @Styles.Render("~/Content/ListShows.css")
 
 <div class="row">
@@ -42,7 +42,7 @@
 
 @foreach (var day in this.Model.ShowsPerDay)
 {
-    <div class="panel panel-danger">
+    <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">
                 <label>Fecha:</label>
@@ -79,15 +79,14 @@
                         {
                             <a href="@Url.Action("ChangeAvailability", new { showId = show.Id, movieId = this.Model.MovieId })" 
                                         onclick="return confirm('¿Está seguro que desea marcar la función como no disponible?')">
-                                <span class="glyphicon glyphicon-arrow-down"></span>
-
+                                <i class="glyphicon glyphicon-arrow-down"></i>
                             </a>
                         }
                         else
                         {
                             <a href="@Url.Action("ChangeAvailability", new { showId = show.Id, movieId = this.Model.MovieId })" 
                                         onclick="return confirm('¿Está seguro que desea marcar la función como disponible?')">
-                                <span class="glyphicon glyphicon-arrow-up"></span>
+                                <i class="glyphicon glyphicon-arrow-up"></i>
                             </a>
                         }
                     </div>

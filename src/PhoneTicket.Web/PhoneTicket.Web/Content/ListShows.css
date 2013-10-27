@@ -1,10 +1,27 @@
 ﻿.show-info {
-    border: 1px solid #c09853;
+    color: #D17921;
+    border: 1px solid #BC131A;
     border-radius: 3px;
     margin: 2.5px 3px 2.5px 3px;
     width: auto;
     padding-left: 5px;
     padding-right: 5px;
+}
+
+.panel a {
+    color: #454343 !important;
+}
+
+.panel label, .panel span {
+    color: #D17921 !important;
+}
+
+.panel {
+    border-color: #454343;
+}
+
+.panel-heading {
+    background-color: #454343;
 }
 
 .unavailable-show {
