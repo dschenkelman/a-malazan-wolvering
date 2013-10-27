@@ -50,5 +50,18 @@
 
             return this.View(discountsViewModels.ToPagedList(page ?? 1, PageSize));
         }
+
+        public async Task<ActionResult> Delete(int discountId)
+        {
+            await this.discountService.DeleteAsync(discountId);
+
+            this.ViewBag.Message = string.Format("La promoción ha sido borrada.");
+            this.ViewBag.LinkText = "Aceptar";
+            this.ViewBag.Action = "Index";
+            this.ViewBag.Controller = "Discounts";
+            this.ViewBag.RouteValues = new { page = 1 };
+
+            return this.View("~/Views/Shared/Confirmation.cshtml");
+        }
     }
 }

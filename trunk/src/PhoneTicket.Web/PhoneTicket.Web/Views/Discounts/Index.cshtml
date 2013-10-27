@@ -82,10 +82,10 @@
                         <td>
                             @Html.ActionLink(
                                 linkText: "Borrar",
-                                actionName: "DeleteMovie",
-                                controllerName: "Movies",
-                                routeValues: new { movieId = Model[i].Id },
-                                htmlAttributes: new { onclick = "return confirm('¿Está seguro que desea borrar la película?')"}
+                                actionName: "Delete",
+                                controllerName: "Discounts",
+                                routeValues: new { discountId = Model[i].Id },
+                                htmlAttributes: new { onclick = "return confirm('¿Está seguro que desea borrar la promción?')"}
                                 )
                         </td>
                     }

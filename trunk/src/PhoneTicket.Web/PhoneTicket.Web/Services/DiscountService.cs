@@ -35,5 +35,11 @@
         {
             return await this.repositories.Discounts.Filter(filter).ToListAsync();
         }
+
+        public async Task DeleteAsync(int discountId)
+        {
+            await this.repositories.Discounts.DeleteAsync(discountId);
+            await this.repositories.Discounts.SaveAsync();
+        }
     }
 }
