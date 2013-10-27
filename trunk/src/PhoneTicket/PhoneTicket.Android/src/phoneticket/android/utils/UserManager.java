@@ -33,8 +33,9 @@ public class UserManager {
 			passwordCredential = sharePreferences.getString(
 					kSharePreferencesPasswordCredential, "");
 			user = new User(id, emailCredential, passwordCredential);
+		} else {
+			user = null;
 		}
-		user = null;
 	}
 
 	public void setCredentials(String emailAddress, String password) {

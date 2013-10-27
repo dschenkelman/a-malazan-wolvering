@@ -4,11 +4,13 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.LoginActivity;
+import phoneticket.android.activities.interfaces.IUserShowsListener;
 import phoneticket.android.model.User;
 import phoneticket.android.services.get.IRetrieveUserInfoService;
 import phoneticket.android.services.get.IRetrieveUserInfoServiceDelegate;
 import phoneticket.android.utils.UserManager;
 import roboguice.fragment.RoboFragment;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,11 +30,12 @@ public class UserFragment extends RoboFragment implements
 	private IRetrieveUserInfoService userInfoService;
 
 	private boolean ignoreServicesCallbacks;
-	
+
+	private IUserShowsListener myFunctionsListener;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		UserManager.initialize(getActivity().getPreferences(0));
 		View view = inflater.inflate(R.layout.fragment_user, container, false);
 		return view;
 	}
@@ -40,9 +43,9 @@ public class UserFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 		ignoreServicesCallbacks = false;
-		
+
 		if (UserManager.getInstance().isUserLoged()) {
 			if (shouldRetrieveUserInfo()) {
 				onLoadDataAction();
@@ -71,12 +74,21 @@ public class UserFragment extends RoboFragment implements
 			}
 		});
 
-		Button reloadDataButton = (Button) getView()
-				.findViewById(R.id.reloadDataButton);
+		Button reloadDataButton = (Button) getView().findViewById(
+				R.id.reloadDataButton);
 		reloadDataButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onLoadDataAction();
+			}
+		});
+
+		Button myFunctionsButton = (Button) getView().findViewById(
+				R.id.buyedAndReservedFunctionsButton);
+		myFunctionsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				myFunctionsListener.onShowUserShowsAction();
 			}
 		});
 	}
@@ -87,13 +99,29 @@ public class UserFragment extends RoboFragment implements
 		ignoreServicesCallbacks = true;
 	}
 
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			myFunctionsListener = (IUserShowsListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IMyFunctionsListener");
+		}
+	}
+
 	private boolean shouldRetrieveUserInfo() {
 		User user = UserManager.getInstance().getLogedUser();
-		boolean result = null == user.getFirstName();
-		result = result || null != user.getLastName();
-		result = result || null != user.getEmail();
-		result = result || null != user.getBirthday();
-		result = result || null != user.getCellPhone();
+		boolean result = null == user.getFirstName()
+				|| 0 == user.getFirstName().length();
+		result = result || null == user.getLastName()
+				|| 0 == user.getLastName().length();
+		result = result || null == user.getEmail()
+				|| 0 == user.getEmail().length();
+		result = result || null == user.getBirthday()
+				|| 0 == user.getBirthday().length();
+		result = result || null == user.getCellPhone()
+				|| 0 == user.getCellPhone().length();
 		return result;
 	}
 
@@ -109,8 +137,8 @@ public class UserFragment extends RoboFragment implements
 
 	protected void onLoadDataAction() {
 		showLoadingLayoutVisibility();
-		userInfoService.retrieveUserInfo(this, UserManager
-				.getInstance().getLogedUser().getDni());
+		userInfoService.retrieveUserInfo(this, UserManager.getInstance()
+				.getLogedUser().getDni());
 	}
 
 	private void showUserInfo() {
@@ -144,8 +172,8 @@ public class UserFragment extends RoboFragment implements
 				R.id.errorLoadingDataView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
-		ScrollView userView = (ScrollView) getView().findViewById(
-				R.id.userView);
+		ScrollView userView = (ScrollView) getView()
+				.findViewById(R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.VISIBLE);
 		errorView.setVisibility(LinearLayout.GONE);
@@ -160,8 +188,8 @@ public class UserFragment extends RoboFragment implements
 				R.id.errorLoadingDataView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
-		ScrollView userView = (ScrollView) getView().findViewById(
-				R.id.userView);
+		ScrollView userView = (ScrollView) getView()
+				.findViewById(R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.GONE);
 		errorView.setVisibility(LinearLayout.GONE);
@@ -176,8 +204,8 @@ public class UserFragment extends RoboFragment implements
 				R.id.errorLoadingDataView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
-		ScrollView userView = (ScrollView) getView().findViewById(
-				R.id.userView);
+		ScrollView userView = (ScrollView) getView()
+				.findViewById(R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.GONE);
 		errorView.setVisibility(LinearLayout.GONE);
@@ -192,8 +220,8 @@ public class UserFragment extends RoboFragment implements
 				R.id.errorLoadingDataView);
 		RelativeLayout loadingView = (RelativeLayout) getView().findViewById(
 				R.id.loadingDataLayout);
-		ScrollView userView = (ScrollView) getView().findViewById(
-				R.id.userView);
+		ScrollView userView = (ScrollView) getView()
+				.findViewById(R.id.userView);
 
 		noSessionView.setVisibility(LinearLayout.GONE);
 		errorView.setVisibility(LinearLayout.VISIBLE);
