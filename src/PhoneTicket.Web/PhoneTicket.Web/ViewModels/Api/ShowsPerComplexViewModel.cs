@@ -21,6 +21,11 @@
             get { return this.ComplexName; }
         }
 
+        public string CinemaAddress
+        {
+            get { return this.ComplexAddress; }
+        }
+
         public List<ShowInfoViewModel> Functions { get; set; }
         
         [JsonIgnore]
@@ -28,5 +33,8 @@
 
         [JsonIgnore]
         public int ComplexId { get; set; }
+
+        [JsonIgnore]
+        public string ComplexAddress { get; set; }
     }
 }

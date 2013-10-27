@@ -122,10 +122,11 @@
 
             var showTime = DateTime.Today.AddDays(1).AddHours(22).AddMinutes(30);
             const string ComplexName = "Complex3";
+            const string ComplexAddress = "Address";
             const int ComplexId = 3;
             const int ShowId = 8;
 
-            var show = new Show { Id = ShowId, Date = showTime, IsAvailable = true, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName } } };
+            var show = new Show { Id = ShowId, Date = showTime, IsAvailable = true, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName, Address = ComplexAddress } } };
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show }));
@@ -140,6 +141,7 @@
 
             Assert.AreEqual(ComplexId, complex3Shows.CinemaId);
             Assert.AreEqual(ComplexName, complex3Shows.CinemaName);
+            Assert.AreEqual(ComplexAddress, complex3Shows.CinemaAddress);
 
             Assert.AreEqual(1, complex3Shows.Functions.Count);
 
@@ -158,12 +160,13 @@
             var show1Time = DateTime.Today.AddDays(1).AddHours(22).AddMinutes(30);
             var show2Time = DateTime.Today.AddDays(1).AddHours(10).AddMinutes(15);
             const string ComplexName = "Complex3";
+            const string ComplexAddress = "Address";
             const int ComplexId = 3;
             const int Show1Id = 8;
             const int Show2Id = 31;
 
-            var show1 = new Show { Id = Show1Id, IsAvailable = true, Date = show1Time, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName } } };
-            var show2 = new Show { Id = Show2Id, IsAvailable = true, Date = show2Time, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName } } };
+            var show1 = new Show { Id = Show1Id, IsAvailable = true, Date = show1Time, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName, Address = ComplexAddress } } };
+            var show2 = new Show { Id = Show2Id, IsAvailable = true, Date = show2Time, Room = new Room { Complex = new Complex { Id = ComplexId, Name = ComplexName, Address = ComplexAddress } } };
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show1, show2 }));
@@ -178,6 +181,7 @@
 
             Assert.AreEqual(ComplexId, complex3Shows.CinemaId);
             Assert.AreEqual(ComplexName, complex3Shows.CinemaName);
+            Assert.AreEqual(ComplexAddress, complex3Shows.CinemaAddress);
 
             Assert.AreEqual(2, complex3Shows.Functions.Count);
 
@@ -200,11 +204,13 @@
             const string Complex2Name = "Complex4";
             const int Complex1Id = 3;
             const int Complex2Id = 4;
+            const string ComplexAddress1 = "Address1";
+            const string ComplexAddress2 = "Address2";
             const int Show1Id = 8;
             const int Show2Id = 31;
 
-            var show1 = new Show { Id = Show1Id, IsAvailable = true, Date = show1Time, Room = new Room { Complex = new Complex { Id = Complex1Id, Name = Complex1Name } } };
-            var show2 = new Show { Id = Show2Id, IsAvailable = true, Date = show2Time, Room = new Room { Complex = new Complex { Id = Complex2Id, Name = Complex2Name } } };
+            var show1 = new Show { Id = Show1Id, IsAvailable = true, Date = show1Time, Room = new Room { Complex = new Complex { Id = Complex1Id, Name = Complex1Name, Address = ComplexAddress1 } } };
+            var show2 = new Show { Id = Show2Id, IsAvailable = true, Date = show2Time, Room = new Room { Complex = new Complex { Id = Complex2Id, Name = Complex2Name, Address = ComplexAddress2 } } };
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show1, show2 }));
@@ -221,9 +227,11 @@
 
             Assert.AreEqual(Complex1Id, complex3Shows.CinemaId);
             Assert.AreEqual(Complex1Name, complex3Shows.CinemaName);
+            Assert.AreEqual(ComplexAddress1, complex3Shows.CinemaAddress);
 
             Assert.AreEqual(Complex2Id, complex4Shows.CinemaId);
             Assert.AreEqual(Complex2Name, complex4Shows.CinemaName);
+            Assert.AreEqual(ComplexAddress2, complex4Shows.CinemaAddress);
 
             Assert.AreEqual(1, complex3Shows.Functions.Count);
             Assert.AreEqual(1, complex4Shows.Functions.Count);
