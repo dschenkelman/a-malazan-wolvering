@@ -67,8 +67,14 @@ public class MasterActivity extends RoboFragmentActivity implements
 		UserManager.initialize(getPreferences(0));
 
 		MovieListFragment firstFragment = new MovieListFragment();
-		getSupportFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, firstFragment).commit();
+		
+		FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction().add(R.id.fragment_container, firstFragment);
+		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		transaction.addToBackStack(null);
+		transaction.commit();
+		
+		
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
 
 		setupActionBar();

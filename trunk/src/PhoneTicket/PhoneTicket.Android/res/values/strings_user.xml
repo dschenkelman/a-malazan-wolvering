@@ -5,5 +5,7 @@
     <string name="loginButton">Iniciar sesión</string>
     <string name="buyedAndReservedFunctions">Compras y Reservas</string>
     <string name="logoutButton">Cerrar sesión</string>
-		
+    <string name="errorLoadingData">Error al descargar datos del usuario. Intente nuevamente.</string>
+    <string name="reloadDataButton">Volver a intentar</string>
+
 </resources>
