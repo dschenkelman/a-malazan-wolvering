@@ -17,6 +17,8 @@
 
         Task<User> GetUserAsync(int id);
 
+        Task<User> GetUserAsync(string email);
+
         Task UpdateAsync(User user);
 
         Task<bool> HasConflict(User user);

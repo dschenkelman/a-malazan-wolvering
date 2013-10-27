@@ -45,6 +45,11 @@
             return finalUsers;
         }
 
+        public Task<User> GetUserAsync(string email)
+        {
+            return this.repositories.Users.Filter(u => u.EmailAddress == email).FirstAsync();
+        }
+
         public Task<User> GetUserAsync(int id)
         {
             return this.repositories.Users.GetByKeyValuesAsync(id);
