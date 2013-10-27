@@ -16,6 +16,7 @@ import phoneticket.android.activities.fragments.CinemasFragment;
 import phoneticket.android.activities.fragments.DetailCinemaFragment;
 
 import phoneticket.android.activities.fragments.DetailMovieFragment;
+import phoneticket.android.activities.fragments.DetailUserShowFragment;
 import phoneticket.android.activities.fragments.MovieListFragment;
 import phoneticket.android.activities.fragments.PromotionFragment;
 import phoneticket.android.activities.fragments.RoomFragment;
@@ -23,13 +24,14 @@ import phoneticket.android.activities.fragments.UserFragment;
 import phoneticket.android.activities.interfaces.IArmChairsSelected;
 
 import phoneticket.android.activities.fragments.UserShowsFragment;
-
+import phoneticket.android.activities.interfaces.IDetailUserShowListener;
 import phoneticket.android.activities.interfaces.IFunctionSelectionListener;
 import phoneticket.android.activities.interfaces.IUserShowsListener;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
+import phoneticket.android.model.IMyShow;
 import phoneticket.android.model.ArmChair;
 import phoneticket.android.model.Ticket;
 import phoneticket.android.utils.UserManager;
@@ -57,7 +59,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		iRibbonMenuCallback, IOnCinemaSelectedListener,
 		IOnMovielistItemSelectedListener, IShareButtonsVisibilityListener,
 		IShareActionListener, IFunctionSelectionListener, IArmChairsSelected,
-		IUserShowsListener {
+		IUserShowsListener, IDetailUserShowListener {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -298,6 +300,14 @@ public class MasterActivity extends RoboFragmentActivity implements
 		changeFragment(userShowsFragment, true);
 	}
 
+	private void changeToDetailUserShowFragment(Bundle userShowData) {
+		hideFacebookShareButton();
+		hideTwitterShareButton();
+		DetailUserShowFragment userShowFragment = new DetailUserShowFragment();
+		userShowFragment.setArguments(userShowData);
+		changeFragment(userShowFragment, true);
+	}
+
 	public void changeFragment(Fragment newFragment, boolean addToBackStack) {
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
@@ -372,6 +382,13 @@ public class MasterActivity extends RoboFragmentActivity implements
 	@Override
 	public void onShowUserShowsAction() {
 		changeToUserShowsFragment();
+	}
+
+	@Override
+	public void onShowDetailUserShowAction(IMyShow userShow) {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(DetailUserShowFragment.USER_SHOW_INFO, userShow);
+		changeToDetailUserShowFragment(bundle);
 	}
 
 	private void changeToRoomFragment(Bundle bundle) {
