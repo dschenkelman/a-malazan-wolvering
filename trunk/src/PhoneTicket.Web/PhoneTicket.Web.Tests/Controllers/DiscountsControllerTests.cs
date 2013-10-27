@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using System.Web.Mvc;
@@ -342,7 +343,7 @@
 
             var result = (ViewResult)controller.Create();
 
-            var viewModel = (CreateDiscountViewModel)result.Model;
+            var viewModel = (DiscountViewModel)result.Model;
 
             Assert.AreEqual(DateTimeHelpers.DateTimeInArgentina.Date, viewModel.StartDate.Date);
             Assert.AreEqual(DateTimeHelpers.DateTimeInArgentina.AddDays(7).Date, viewModel.EndDate.Date);
@@ -351,9 +352,9 @@
         }
 
         [TestMethod]
-        public void ShouldCreateDiscountCallingServiceWhenCreateIsCalled()
+        public async Task ShouldCreateDiscountCallingServiceWhenCreateIsCalled()
         {
-            var viewModel = new CreateDiscountViewModel()
+            var viewModel = new DiscountViewModel()
                                 {
                                     Description = "D1",
                                     StartDate = DateTimeHelpers.DateTimeInArgentina.AddDays(1),
@@ -376,29 +377,29 @@
 
             var controller = this.CreateController();
 
-            controller.Create(viewModel);
+            await controller.Create(viewModel);
 
             this.discountService.VerifyAll();
         }
 
         [TestMethod]
-        public void ShouldReturnSameViewIfModelIsNotValidWhenCreateIsCalledOnPost()
+        public async Task ShouldReturnSameViewIfModelIsNotValidWhenCreateIsCalledOnPost()
         {
-            var viewModel = new CreateDiscountViewModel();
+            var viewModel = new DiscountViewModel();
 
             var controller = this.CreateController();
 
             controller.ModelState.AddModelError("Error", "New Error");
 
-            var result = (ViewResult)controller.Create(viewModel);
+            var result = (ViewResult) await controller.Create(viewModel);
 
             Assert.AreSame(viewModel, result.Model);
         }
 
         [TestMethod]
-        public void ShouldReturnConfirmationViewWhenCreateIsCalled()
+        public async Task ShouldReturnConfirmationViewWhenCreateIsCalled()
         {
-            var viewModel = new CreateDiscountViewModel()
+            var viewModel = new DiscountViewModel()
             {
                 Description = "D1",
                 StartDate = DateTimeHelpers.DateTimeInArgentina.AddDays(1),
@@ -412,7 +413,118 @@
 
             var controller = this.CreateController();
 
-            var result = (ViewResult)controller.Create(viewModel);
+            var result = (ViewResult) await controller.Create(viewModel);
+
+            Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnInformationOfDiscountFromServiceWhenEditIsCalled()
+        {
+            var date = DateTimeHelpers.DateTimeInArgentina;
+            const int DiscountId = 3;
+
+            var discount = new Discount
+                               {
+                                   Description = "D3",
+                                   EndDate = date.AddDays(3),
+                                   StartDate = date.AddDays(2),
+                                   Id = DiscountId,
+                                   Type = DiscountType.Percentage,
+                                   Value = 0.3
+                               };
+
+            this.discountService.Setup(ds => ds.GetByIdAsync(3)).Returns(Task.FromResult(discount)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(3);
+
+            var viewModel = (DiscountViewModel)result.Model;
+
+            Assert.AreEqual(discount.Id, viewModel.Id);
+            Assert.AreEqual(discount.Description, viewModel.Description);
+            Assert.AreEqual(discount.StartDate, viewModel.StartDate);
+            Assert.AreEqual(discount.EndDate, viewModel.EndDate);
+            Assert.AreEqual(discount.Value * 100, viewModel.Value);
+            Assert.AreEqual((int)discount.Type, viewModel.Type);
+            Assert.AreEqual((int)discount.Type, Convert.ToInt32(viewModel.DiscountTypes.Single(dt => dt.Selected).Value));
+
+            this.discountService.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnSameViewIfModelIsNotValidWhenEditIsCalledOnPost()
+        {
+            var viewModel = new DiscountViewModel();
+
+            var controller = this.CreateController();
+
+            controller.ModelState.AddModelError("Error", "New Error");
+
+            var result = (ViewResult) await controller.Edit(viewModel);
+
+            Assert.AreSame(viewModel, result.Model);
+        }
+
+        [TestMethod]
+        public async Task ShouldUpdateExistingDiscountWhenEditIsCalled()
+        {
+            const int DiscountId = 4;
+            
+            var viewModel = new DiscountViewModel()
+            {
+                Id = DiscountId,
+                Description = "D1",
+                StartDate = DateTimeHelpers.DateTimeInArgentina.AddDays(1),
+                EndDate = DateTimeHelpers.DateTimeInArgentina.AddDays(3),
+                Type = (int)DiscountType.Percentage,
+                Value = 50,
+            };
+
+            this.discountService.Setup(ds => ds.GetByIdAsync(DiscountId)).Returns(Task.FromResult(new Discount())).Verifiable();
+
+            this.discountService.Setup(ds => ds.UpdateAsync(It.IsAny<Discount>())).Callback<Discount>(
+                d =>
+                {
+                    Assert.AreEqual(viewModel.StartDate, d.StartDate);
+                    Assert.AreEqual(viewModel.EndDate, d.EndDate);
+                    Assert.AreEqual(DiscountType.Percentage, d.Type);
+                    Assert.AreEqual(0.5, d.Value);
+                    Assert.AreEqual(viewModel.Description, d.Description);
+                })
+                    .Returns(Task.FromResult<object>(null))
+                    .Verifiable();
+
+            var controller = this.CreateController();
+
+            await controller.Edit(viewModel);
+
+            this.discountService.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnConfirmationViewWhenEditIsCalled()
+        {
+            const int DiscountId = 4;
+
+            var viewModel = new DiscountViewModel()
+            {
+                Id = DiscountId,
+                Description = "D1",
+                StartDate = DateTimeHelpers.DateTimeInArgentina.AddDays(1),
+                EndDate = DateTimeHelpers.DateTimeInArgentina.AddDays(3),
+                Type = (int)DiscountType.Percentage,
+                Value = 50,
+            };
+
+            this.discountService.Setup(ds => ds.GetByIdAsync(DiscountId)).Returns(Task.FromResult(new Discount()));
+
+            this.discountService.Setup(ds => ds.UpdateAsync(It.IsAny<Discount>()))
+                .Returns(Task.FromResult<object>(null));
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Edit(viewModel);
 
             Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
         }

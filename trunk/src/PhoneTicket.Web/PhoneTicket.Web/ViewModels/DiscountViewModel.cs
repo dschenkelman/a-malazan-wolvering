@@ -9,12 +9,14 @@
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Properties;
 
-    public class CreateDiscountViewModel : IValidatableObject
+    public class DiscountViewModel : IValidatableObject
     {
-        public CreateDiscountViewModel()
+        public DiscountViewModel()
         {
             this.DiscountTypes = new List<SelectListItem>();
         }
+
+        public int Id { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
         public string Description { get; set; }
@@ -58,50 +60,46 @@
             return results;
         }
 
-        public void PopulateDiscountTypes()
+        public void PopulateDiscountTypes(DiscountType selected = DiscountType.TwoForOne)
         {
-            this.DiscountTypes.Add(
-                new SelectListItem
-                {
-                    Selected = true,
-                    Text = DiscountType.TwoForOne.InSpanish(),
-                    Value = ((int)DiscountType.TwoForOne).ToString()
-                });
+            var values = new[] { DiscountType.TwoForOne, DiscountType.Percentage, DiscountType.FixedPrice };
 
-            this.DiscountTypes.Add(
+            foreach (var discountType in values)
+            {
+                this.DiscountTypes.Add(
                 new SelectListItem
                 {
-                    Selected = false,
-                    Text = DiscountType.Percentage.InSpanish(),
-                    Value = ((int)DiscountType.Percentage).ToString()
+                    Selected = selected == discountType,
+                    Text = discountType.InSpanish(),
+                    Value = ((int)discountType).ToString(),
                 });
-
-            this.DiscountTypes.Add(
-                new SelectListItem
-                {
-                    Selected = false,
-                    Text = DiscountType.FixedPrice.InSpanish(),
-                    Value = ((int)DiscountType.FixedPrice).ToString()
-                });
+            }
         }
 
         public Discount ToDiscount()
         {
-            var type = (DiscountType)this.Type;
+            var discount = new Discount();
 
-            return new Discount
-                    {
-                        Description = this.Description,
-                        EndDate = this.EndDate,
-                        StartDate = this.StartDate,
-                        Type = type,
-                        Value =
-                         this.Value.HasValue
-                         ? (type == DiscountType.FixedPrice
-                             ? this.Value.Value
-                             : this.Value.Value / 100)
-                         : (double?)null
-                    };
+            discount.UpdateFrom(this);
+
+            return discount;
+        }
+
+        public static DiscountViewModel FromDiscount(Discount discount)
+        {
+            return new DiscountViewModel 
+                        {
+                           Description = discount.Description,
+                           EndDate = discount.EndDate,
+                           StartDate = discount.StartDate,
+                           Id = discount.Id,
+                           Type = (int)discount.Type,
+                           Value = discount.Value.HasValue
+                                 ? (discount.Type == DiscountType.FixedPrice
+                                     ? discount.Value.Value
+                                     : discount.Value.Value * 100)
+                                 : (double?)null
+                       };
         }
     }
 }

@@ -313,7 +313,7 @@
     <Compile Include="ViewModels\Api\ShowsPerComplexViewModel.cs" />
     <Compile Include="ViewModels\Api\UserInformationViewModel.cs" />
     <Compile Include="ViewModels\Api\UserOperationsViewModel.cs" />
-    <Compile Include="ViewModels\CreateDiscountViewModel.cs" />
+    <Compile Include="ViewModels\DiscountViewModel.cs" />
     <Compile Include="ViewModels\CreateShowsViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
     <Compile Include="ViewModels\EditShowViewModel.cs" />
@@ -407,6 +407,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\logo.png" />
     <Content Include="Scripts\app\CreateDiscount.js" />
     <Content Include="Scripts\app\EditShows.js" />
     <Content Include="Scripts\app\Movies.js" />
@@ -495,6 +496,7 @@
     <Content Include="Views\Movies\Details.cshtml" />
     <Content Include="Views\Discounts\Index.cshtml" />
     <Content Include="Views\Discounts\Create.cshtml" />
+    <Content Include="Views\Discounts\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

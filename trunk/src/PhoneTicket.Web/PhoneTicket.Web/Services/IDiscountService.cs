@@ -18,5 +18,9 @@
         Task DeleteAsync(int discountId);
 
         Task CreateAsync(Discount discount);
+
+        Task<Discount> GetByIdAsync(int discountId);
+
+        Task UpdateAsync(Discount discount);
     }
 }

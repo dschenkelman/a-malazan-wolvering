@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
-    using System.Web;
     using System.Web.Mvc;
     using System.Web.Security;
 
@@ -18,7 +17,6 @@
     using PhoneTicket.Web.Models;
 
     using WebMatrix.WebData;
-    using PhoneTicket.Web.Helpers;
 
     [Authorize]
     [InitializeSimpleMembership]
