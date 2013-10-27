@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +54,9 @@ public class RoomFragment extends RoboFragment implements
 				false);
 		zoomView.addView(gridView);
 		LinearLayout layout = (LinearLayout) fragment.findViewById(R.id.room);
+		RelativeLayout loading = (RelativeLayout) inflater.inflate(
+				R.layout.loading, container, false);
+		layout.addView(loading);
 		layout.addView(zoomView);
 		return fragment;
 	}
@@ -93,18 +98,21 @@ public class RoomFragment extends RoboFragment implements
 	}
 
 	private void createArmChairs(Collection<Collection<Integer>> armChairs) {
+		RelativeLayout loading = (RelativeLayout) getView().findViewById(
+				R.id.loadingDataLayout);
+		loading.setVisibility(RelativeLayout.GONE);
 		GridView armChairSelection = (GridView) getView().findViewById(
 				R.id.armChairSelection);
-
+		armChairSelection.setVisibility(GridView.VISIBLE);
 		List<ArmChair> armChairsData = new ArrayList<ArmChair>();
-		int i = 1;
+		int rowNumber = 1;
 		for (Collection<Integer> row : armChairs) {
-			int j = 1;
+			int columnNumber = 1;
 			for (Integer state : row) {
-				armChairsData.add(new ArmChair(state, j, i));
-				j++;
+				armChairsData.add(new ArmChair(state, columnNumber, rowNumber));
+				columnNumber++;
 			}
-			i++;
+			rowNumber++;
 		}
 		final ArmChairAdapter imageAdapter = new ArmChairAdapter(getActivity(),
 				R.id.armChairView, armChairsData);

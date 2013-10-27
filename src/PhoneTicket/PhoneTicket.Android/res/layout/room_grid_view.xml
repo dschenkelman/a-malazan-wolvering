@@ -8,4 +8,5 @@
     android:scrollbars="vertical|horizontal"
     android:stretchMode="columnWidth"
     android:verticalScrollbarPosition="right"
-    android:verticalSpacing="1dp" />
+    android:verticalSpacing="1dp"
+    android:visibility="gone" />

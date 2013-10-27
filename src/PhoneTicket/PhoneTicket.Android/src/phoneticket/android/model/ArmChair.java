@@ -5,6 +5,8 @@ public class ArmChair {
 	public static final int OCUPADA = 1;
 	public static final int LIBRE = 2;
 	public static final int SELECCIONADA = 3;
+
+	private static final int INEXISTENTE = 0;
 	private int state;
 	private int column;
 	private int row;
@@ -41,6 +43,10 @@ public class ArmChair {
 
 	public boolean seleccionada() {
 		return state == SELECCIONADA;
+	}
+
+	public boolean existente() {
+		return state != INEXISTENTE;
 	}
 
 }
