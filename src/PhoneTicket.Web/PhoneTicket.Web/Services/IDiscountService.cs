@@ -16,5 +16,7 @@
         Task<IEnumerable<Discount>> GetActiveAndFutureAsync(Expression<Func<Discount, bool>> filter);
 
         Task DeleteAsync(int discountId);
+
+        Task CreateAsync(Discount discount);
     }
 }
