@@ -1,0 +1,63 @@
+﻿@model PhoneTicket.Web.ViewModels.CreateDiscountViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/themes/base/css")
+@Styles.Render("~/Content/bootstrap.min.css")
+
+<h2>Agregar promoción</h2>
+
+@using (Html.BeginForm("Create", "Discounts", FormMethod.Post)) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>CreateDiscountViewModel</legend>
+        <div class="editor-label">Descripcion</div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="editor-label">Tipo</div>
+        <div class="editor-field">
+            @Html.DropDownListFor(vm => vm.Type, Model.DiscountTypes)
+            @Html.ValidationMessageFor(m => m.Type)
+        </div>
+        
+        <div class="editor-label">Valor</div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Value)
+            @Html.ValidationMessageFor(model => model.Value)
+        </div>
+
+        <div class="editor-label">Desde</div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.StartDate)
+            @Html.ValidationMessageFor(model => model.StartDate)
+        </div>
+
+        <div class="editor-label">Hasta</div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.EndDate)
+            @Html.ValidationMessageFor(model => model.EndDate)
+        </div>
+
+        <p>
+            <input type="submit" value="Agregar" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Volver a la lista", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Scripts/app/CreateDiscount.js")
+}

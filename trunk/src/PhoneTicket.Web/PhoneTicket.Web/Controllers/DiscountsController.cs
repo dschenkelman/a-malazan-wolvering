@@ -51,6 +51,41 @@
             return this.View(discountsViewModels.ToPagedList(page ?? 1, PageSize));
         }
 
+        [HttpGet]
+        public ActionResult Create()
+        {
+            var viewModel = new CreateDiscountViewModel();
+
+            viewModel.PopulateDiscountTypes();
+
+            viewModel.StartDate = DateTimeHelpers.DateTimeInArgentina;
+            viewModel.EndDate = DateTimeHelpers.DateTimeInArgentina.AddDays(7);
+            
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(CreateDiscountViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                viewModel.PopulateDiscountTypes();
+                return this.View(viewModel);
+            }
+
+            var discount = viewModel.ToDiscount();
+
+            this.discountService.CreateAsync(discount);
+
+            this.ViewBag.Message = string.Format("La promoción ha sido creada.");
+            this.ViewBag.LinkText = "Aceptar";
+            this.ViewBag.Action = "Index";
+            this.ViewBag.Controller = "Discounts";
+            this.ViewBag.RouteValues = new { page = 1 };
+
+            return this.View("~/Views/Shared/Confirmation.cshtml");
+        }
+
         public async Task<ActionResult> Delete(int discountId)
         {
             await this.discountService.DeleteAsync(discountId);
@@ -63,5 +98,6 @@
 
             return this.View("~/Views/Shared/Confirmation.cshtml");
         }
+
     }
 }

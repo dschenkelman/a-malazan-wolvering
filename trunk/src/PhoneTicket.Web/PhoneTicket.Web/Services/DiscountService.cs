@@ -41,5 +41,11 @@
             await this.repositories.Discounts.DeleteAsync(discountId);
             await this.repositories.Discounts.SaveAsync();
         }
+
+        public Task CreateAsync(Discount discount)
+        {
+            this.repositories.Discounts.Insert(discount);
+            return this.repositories.Discounts.SaveAsync();
+        }
     }
 }

@@ -23,12 +23,10 @@
         @if (ViewBag.CanEdit)
         {
             <span>
-               @* @Html.ActionLink(
+                @Html.ActionLink(
                             linkText: "Agregar Promoción",
-                            actionName: "Add",
-                            controllerName: "Discounts",
-                            routeValues: new { movieId = -1 },
-                            htmlAttributes: null)*@
+                            actionName: "Create",
+                            controllerName: "Discounts")
             </span>
         }
     </div>
