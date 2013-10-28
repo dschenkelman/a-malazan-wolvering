@@ -28,6 +28,8 @@
 
         private Mock<IOccupiedSeatsService> occupiedSeatsService;
 
+        private Mock<IOperationDiscountsService> operationDiscountsService;
+
         [TestInitialize]
         public void Initialize()
         {
@@ -38,6 +40,8 @@
             this.operationService = this.mockRepository.Create<IOperationService>();
 
             this.occupiedSeatsService = this.mockRepository.Create<IOccupiedSeatsService>();
+
+            this.operationDiscountsService = this.mockRepository.Create<IOperationDiscountsService>();
         }
 
         [TestMethod]
@@ -115,9 +119,9 @@
             this.occupiedSeatsService.Verify(ocs => ocs.CreateAsync(It.IsAny<OccupiedSeat>()), Times.Once());
         }
 
-        private OperationsController CreateController()
+        private ReservationsController CreateController()
         {
-            return new OperationsController(this.operationService.Object,this.occupiedSeatsService.Object,this.userService.Object);
+            return new ReservationsController(this.operationService.Object, this.occupiedSeatsService.Object, this.userService.Object, this.operationDiscountsService.Object);
         }
     }
 }

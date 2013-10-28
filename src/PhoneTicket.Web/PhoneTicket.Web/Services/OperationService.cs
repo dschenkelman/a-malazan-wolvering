@@ -20,6 +20,11 @@
             this.repositories = repositories;
         }
 
+        public async Task<Operation> GetAsync(int operationId)
+        {
+            return await this.repositories.Operations.GetByKeyValuesAsync(operationId);
+        }
+
         public async Task<IEnumerable<Operation>> GetAsync(Expression<Func<Operation, bool>> filter)
         {
             return await this.repositories.Operations.Filter(filter).ToListAsync();
@@ -32,6 +37,13 @@
             await this.repositories.Operations.SaveAsync();
 
             return operation.Number;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await this.repositories.Operations.DeleteAsync(id);
+
+            await this.repositories.Operations.SaveAsync();
         }
     }
 }

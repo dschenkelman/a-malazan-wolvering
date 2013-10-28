@@ -8,6 +8,7 @@
 
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Data;
+    using System.Collections.ObjectModel;
 
     public class OccupiedSeatsService : IOccupiedSeatsService
     {
@@ -24,5 +25,6 @@
 
             await this.repositories.OccupiedSeats.SaveAsync();
         }
+
     }
 }

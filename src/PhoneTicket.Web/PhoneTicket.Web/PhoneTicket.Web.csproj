@@ -211,7 +211,7 @@
     <Compile Include="Controllers\Api\CurrentUserController.cs" />
     <Compile Include="Controllers\Api\DiscountsController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
-    <Compile Include="Controllers\Api\OperationsController.cs" />
+    <Compile Include="Controllers\Api\ReservationsController.cs" />
     <Compile Include="Controllers\Api\ShowsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\DiscountsController.cs" />
@@ -232,6 +232,7 @@
     </Compile>
     <Compile Include="Handlers\RequireHttpsMessageHandler.cs" />
     <Compile Include="Handlers\RequireSsl.cs" />
+    <Compile Include="Helpers\AvailableSeatsHelper.cs" />
     <Compile Include="Helpers\ComplexExtensions.cs" />
     <Compile Include="Helpers\CurrentUserRole.cs" />
     <Compile Include="Helpers\DateTimeHelpers.cs" />
@@ -309,6 +310,7 @@
     <Compile Include="Services\IMovieService.cs" />
     <Compile Include="Services\IGenreService.cs" />
     <Compile Include="Services\IOccupiedSeatsService.cs" />
+    <Compile Include="Services\IOperationDiscountsService.cs" />
     <Compile Include="Services\IOperationService.cs" />
     <Compile Include="Services\IRatingService.cs" />
     <Compile Include="Services\IRoomService.cs" />
@@ -318,6 +320,7 @@
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\MovieService.cs" />
     <Compile Include="Services\OccupiedSeatsService.cs" />
+    <Compile Include="Services\OperationDiscountsService.cs" />
     <Compile Include="Services\OperationService.cs" />
     <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\RoomService.cs" />
