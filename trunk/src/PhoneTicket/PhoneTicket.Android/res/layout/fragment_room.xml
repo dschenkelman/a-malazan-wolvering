@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/movieName"
-        android:textSize="25sp" />
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <View
         android:id="@+id/line"
@@ -27,8 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/armChairSelected"
         android:layout_centerInParent="true"
-        android:text="@string/selection_finished"
-        android:textSize="25sp" />
+        android:text="@string/selection_finished" />
 
     <TextView
         android:id="@+id/movieDay"
@@ -37,7 +36,7 @@
         android:layout_above="@+id/cinemaAddress"
         android:layout_alignParentRight="true"
         android:gravity="right"
-        android:textSize="25sp" />
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/movieName"
@@ -45,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:textSize="25sp" />
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/armChairText"
@@ -54,7 +53,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/line"
         android:text="@string/butacas"
-        android:textSize="25sp" />
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/armChairSelected"
@@ -63,7 +62,7 @@
         android:layout_below="@+id/line"
         android:layout_toLeftOf="@+id/armChairText"
         android:text="@string/initial_armchair_count"
-        android:textSize="25sp" />
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
         android:id="@+id/room"

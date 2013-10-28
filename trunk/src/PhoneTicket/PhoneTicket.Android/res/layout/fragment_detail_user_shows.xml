@@ -65,40 +65,47 @@
    	            android:id="@+id/movieNameAndShowTimeTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium" 
    	            android:text="Aviones - 15/9/13 16:00 Hs" />
 
    	        <TextView
    	            android:id="@+id/complexAddressTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium" 
    	            android:text="Belgrano 856 y Juramento" />
 
    	        <TextView
    	            android:id="@+id/placesCountTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium" 
    	            android:text="5 Entradas" />
    	        
    	        <TextView
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium" 
    	            android:text="Promociones:" />
    	           	        
    	        <TextView
    	            android:id="@+id/discountsTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium" 
    	            android:text="1 2x1 cablevision\n3 precio fijo" />
    	        
    	        <TextView
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium" 
    	            android:text="Butacas:" />
    	        
    	        <TextView
    	            android:id="@+id/placesCodesTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium" 
    	            android:text="G9 G10 G11 G12 G13" />
    	        
 		    <Button

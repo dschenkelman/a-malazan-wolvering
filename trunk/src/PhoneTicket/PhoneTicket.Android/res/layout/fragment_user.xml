@@ -86,35 +86,35 @@
 			    android:layout_margin="4dp"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceLarge" />
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
 		    	        
 			<TextView
 		      		android:id="@+id/dniTextView" 
 			    android:layout_margin="4dp"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceLarge" />
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
 			
 			<TextView
 		      		android:id="@+id/emailTextView" 
 			    android:layout_margin="4dp"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceLarge" />
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
 			
 			<TextView
 		      		android:id="@+id/birthdayTextView" 
 			    android:layout_margin="4dp"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceLarge" />
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
 		
 			<TextView
 		      		android:id="@+id/mobilePhoneTextView" 
 			    android:layout_margin="4dp"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceLarge" />
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
 			
 			<View
 		              android:layout_width="fill_parent"
