@@ -61,7 +61,7 @@
                 return new HttpResponseMessage(HttpStatusCode.Created);
             }
 
-            return new HttpResponseMessage(HttpStatusCode.Conflict); //409
+            return new HttpResponseMessage(HttpStatusCode.Conflict);
         }
 
         private bool ValidateArmChairs(List<ArmChairViewModel> wantedSeats, IEnumerable<OccupiedSeat> occupiedSeats)
