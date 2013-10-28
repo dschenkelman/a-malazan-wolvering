@@ -12,10 +12,10 @@
 
 <div class="center">
     <div>
-        <span>
+        <span class="search-field">
             @using (Html.BeginForm("Index", "Rooms", FormMethod.Post, new {style = "display: inline"}))
             {
-                <text>Buscar por Nombre</text>
+                <text>Buscar por Nombre:</text>
                 @Html.TextBox("roomSearch")  
                 <input type="submit" value="Buscar" />
             }
