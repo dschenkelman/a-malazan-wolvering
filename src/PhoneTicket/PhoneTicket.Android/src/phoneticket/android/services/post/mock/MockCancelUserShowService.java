@@ -14,7 +14,7 @@ public class MockCancelUserShowService extends
 	@Override
 	public void cancelUserShow(ICancelUserShowServiceDelegate delegate,
 			IDetailUserShow userShow) {
-		fakeTimeout = true;
+		fakeTimeout = false;
 		this.delegate = delegate;
 		execute("");
 	}
