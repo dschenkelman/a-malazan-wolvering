@@ -8,6 +8,7 @@
 
         public ShowSeats()
         {
+            this.Capacity = 0;
             this.seats = new SeatState[17][];
 
             for (int i = 0; i < 17; i++)
@@ -29,6 +30,8 @@
             }
         }
 
+        public int Capacity { get; private set; }
+
         public void MarkFree(int row, int column)
         {
             this.MarkSeat(row, column, SeatState.Free);
@@ -49,6 +52,11 @@
             if (column < 1 || column > 22)
             {
                 throw new ArgumentOutOfRangeException("row");
+            }
+
+            if (this.seats[row - 1][column - 1] == SeatState.NoSeat)
+            {
+                this.Capacity++;
             }
 
             this.seats[row - 1][column - 1] = state;

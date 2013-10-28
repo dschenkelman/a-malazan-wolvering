@@ -84,6 +84,7 @@
                 Assert.AreEqual(i, item.Id);
                 Assert.AreEqual(string.Format(RoomFormat, i), item.Name);
                 Assert.AreEqual(string.Format("Complex{0}", i), item.ComplexName);
+                Assert.AreEqual(i, item.Capacity);
             }
         }
 
@@ -129,6 +130,7 @@
                 Assert.AreEqual(i, item.Id);
                 Assert.AreEqual(string.Format(RoomFormat, i), item.Name);
                 Assert.AreEqual(string.Format("Complex{0}", i), item.ComplexName);
+                Assert.AreEqual(i, item.Capacity);
             }
         }
 
@@ -199,6 +201,7 @@
             {
                 var item = pagedList[i];
                 Assert.AreEqual(canEdit, item.CanEdit);
+                Assert.AreEqual(i, item.Capacity);
             }
         }
 
@@ -492,7 +495,56 @@
 
             this.roomXmlParser.Setup(rxp => rxp.Validate(FileContent)).Returns(Enumerable.Empty<RoomXmlError>()).Verifiable();
 
+            this.roomXmlParser.Setup(rxp => rxp.Parse(FileContent)).Returns(new ShowSeats()).Verifiable();
+
             this.roomService.Setup(rs => rs.CreateAsync(It.Is<Room>(r => r.File == FileContent))).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            var controller = this.CreateController();
+
+            // act
+            await controller.CreateRoom(viewModel);
+
+            this.mockRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldSetRoomCapacityFromParsedSeats()
+        {
+            // arrange
+            const string FileContent = "<Sala></Sala>";
+
+            var memoryStream = new MemoryStream();
+            var bytes = Encoding.UTF8.GetBytes(FileContent);
+            await memoryStream.WriteAsync(bytes, 0, bytes.Length);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            var viewModel = new ListRoomViewModel();
+            var file = this.mockRepository.Create<HttpPostedFileBase>();
+
+            file.Setup(f => f.InputStream).Returns(memoryStream).Verifiable();
+
+            var seats = new ShowSeats();
+
+            for (int i = 0; i < 17; i++)
+            {
+                for (int j = 0; j < 22; j++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        seats.MarkFree(i + 1, j + 1);
+                    }
+                }
+            }
+
+            Assert.AreEqual(198, seats.Capacity);
+
+            viewModel.RoomFile = file.Object;
+
+            this.roomXmlParser.Setup(rxp => rxp.Validate(FileContent)).Returns(Enumerable.Empty<RoomXmlError>()).Verifiable();
+
+            this.roomXmlParser.Setup(rxp => rxp.Parse(FileContent)).Returns(seats).Verifiable();
+
+            this.roomService.Setup(rs => rs.CreateAsync(It.Is<Room>(r => r.Capacity == 198))).Returns(Task.FromResult<object>(null)).Verifiable();
 
             var controller = this.CreateController();
 
