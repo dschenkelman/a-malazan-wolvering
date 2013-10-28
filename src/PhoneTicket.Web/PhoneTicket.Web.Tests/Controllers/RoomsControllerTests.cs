@@ -1,10 +1,7 @@
 ﻿namespace PhoneTicket.Web.Tests.Controllers
 {
-    
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -29,6 +26,8 @@
         private Mock<IComplexService> complexService;
         private Mock<ICurrentUserRole> currentUserRole;
 
+        private Mock<IRoomXmlParser> roomXmlParser;
+
         [TestInitialize]
         public void Initialize()
         {
@@ -36,6 +35,7 @@
             this.roomService = this.mockRepository.Create<IRoomService>();
             this.complexService = this.mockRepository.Create<IComplexService>();
             this.currentUserRole = this.mockRepository.Create<ICurrentUserRole>();
+            this.roomXmlParser = this.mockRepository.Create<IRoomXmlParser>();
         }
 
         [TestMethod]
@@ -77,7 +77,6 @@
             {
                 var item = pagedList[i];
                 Assert.AreEqual(i, item.Id);
-                Assert.AreEqual(i, item.Capacity);
                 Assert.AreEqual(string.Format(RoomFormat, i), item.Name);
                 Assert.AreEqual(string.Format("Complex{0}", i), item.ComplexName);
             }
@@ -123,7 +122,6 @@
             {
                 var item = pagedList[i];
                 Assert.AreEqual(i, item.Id);
-                Assert.AreEqual(i, item.Capacity);
                 Assert.AreEqual(string.Format(RoomFormat, i), item.Name);
                 Assert.AreEqual(string.Format("Complex{0}", i), item.ComplexName);
             }
@@ -215,7 +213,6 @@
             Assert.AreEqual(Undefined, room.Id);
             Assert.AreEqual(string.Empty, room.Name);
             Assert.AreEqual(string.Empty, room.ComplexName);
-            Assert.AreEqual(0, room.Capacity);
         }
 
         [TestMethod]
@@ -330,7 +327,6 @@
             var roomObtained = (ListRoomViewModel)result.Model;
 
             Assert.AreEqual(roomVM.Id, roomObtained.Id);
-            Assert.AreEqual(roomVM.Capacity, roomObtained.Capacity);
             Assert.AreEqual(roomVM.ComplexId, roomObtained.ComplexId);
         }
 
@@ -429,7 +425,7 @@
 
         private RoomsController CreateController()
         {
-            return new RoomsController(this.roomService.Object, this.complexService.Object, this.currentUserRole.Object);
+            return new RoomsController(this.roomService.Object, this.complexService.Object, this.currentUserRole.Object, this.roomXmlParser.Object);
         }
     }
 }

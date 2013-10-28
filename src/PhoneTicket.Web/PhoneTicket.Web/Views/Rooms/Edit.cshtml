@@ -30,11 +30,6 @@
                 @Html.DropDownListFor(m => m.ComplexId, Model.AvailableComplexes, "Seleccione Uno")
                 @Html.ValidationMessageFor(m => m.ComplexId)
             </li>
-            <li>
-                <label for="Capacity">Capacidad</label>
-                @Html.EditorFor(m => m.Capacity)
-                @Html.ValidationMessageFor(m => m.Capacity)
-            </li>
         </ol>
         <input type="submit" value="Guardar Cambios" />
     </fieldset>

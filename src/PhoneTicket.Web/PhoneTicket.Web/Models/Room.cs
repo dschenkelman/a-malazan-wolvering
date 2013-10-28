@@ -25,5 +25,7 @@
         [JsonIgnore]
         [DisplayName("Complejo")]
         public virtual Complex Complex { get; set; }
+
+        public string File { get; set; }
     }
 }
