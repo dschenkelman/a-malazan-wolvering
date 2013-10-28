@@ -26,6 +26,8 @@
         
         public bool CanEdit { get; set; }
 
+        public int Capacity { get; set; }
+
         [Required]
         public HttpPostedFileBase RoomFile { get; set; }
 
@@ -37,7 +39,8 @@
                 Name = room.Name,
                 ComplexName = room.Complex.Name,
                 ComplexId = room.ComplexId,
-                CanEdit = userCanEdit
+                CanEdit = userCanEdit,
+                Capacity = room.Capacity
             };
 
             return vm;

@@ -51,7 +51,7 @@
 
             ViewBag.CanEdit = userCanEdit;
 
-            var roomsViewModels = rooms.Select(r => ListRoomViewModel.FromRoom(r,userCanEdit));
+            var roomsViewModels = rooms.Select(r => ListRoomViewModel.FromRoom(r, userCanEdit));
 
             return this.View(roomsViewModels.ToPagedList(page ?? 1, PageSize));
         }
@@ -97,6 +97,10 @@
 
             var room = ListRoomViewModel.FromRoomViewModel(roomViewModel);
             room.File = xml;
+
+            var seats = this.roomXmlParser.Parse(xml);
+
+            room.Capacity = seats.Capacity;
 
             await this.roomService.CreateAsync(room);
 
