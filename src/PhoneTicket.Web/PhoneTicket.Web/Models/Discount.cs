@@ -33,7 +33,7 @@
                                 : (double?)null;
         }
 
-        public virtual Collection<Operation> Operations { get; set; }
+        public virtual Collection<OperationDiscount> OperationDiscounts { get; set; }
 
         [NotMapped]
         public int RelatedTickets
