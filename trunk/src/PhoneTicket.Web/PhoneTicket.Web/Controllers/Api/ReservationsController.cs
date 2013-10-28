@@ -14,9 +14,9 @@
     using PhoneTicket.Web.ViewModels.Api;
     using System.Net;
     using PhoneTicket.Web.Helpers;
-    
 
-    public class OperationsController : ApiController
+    [RoutePrefix("api/reservations")]
+    public class ReservationsController : ApiController
     {
         private readonly IUserService userService;
 
@@ -24,24 +24,28 @@
 
         private readonly IOccupiedSeatsService occupiedSeatsService;
 
-        public OperationsController(IOperationService operationService, IOccupiedSeatsService occupiedSeatsService, IUserService userService)
+        private readonly IOperationDiscountsService operationDiscounts;
+
+        public ReservationsController(IOperationService operationService, IOccupiedSeatsService occupiedSeatsService, IUserService userService, IOperationDiscountsService operationDiscounts)
         {
             this.operationService = operationService;
 
             this.occupiedSeatsService = occupiedSeatsService;
 
             this.userService = userService;
+
+            this.operationDiscounts = operationDiscounts;
         }
 
         [Authorize]
-        [HttpPost("api/currentUser/newReservation")]
+        [HttpPost("")]
         public async Task<HttpResponseMessage> NewReservation(NewOperationViewModel newOperationViewModel)
         {
             var operations = await this.operationService.GetAsync(o => o.ShowId == newOperationViewModel.ShowId);
 
             var occupiedSeats = operations.SelectMany(op => op.OccupiedSeats);
 
-            if (this.ValidateArmChairs(newOperationViewModel.ArmChairs, occupiedSeats))
+            if (AvailableSeatsHelper.ValidateSeats(newOperationViewModel.ArmChairs, occupiedSeats))
             {
                 var userId = await this.userService.GetIdAsync(Thread.CurrentPrincipal.Identity.Name);
 
@@ -64,10 +68,15 @@
             return new HttpResponseMessage(HttpStatusCode.Conflict);
         }
 
-        private bool ValidateArmChairs(List<ArmChairViewModel> wantedSeats, IEnumerable<OccupiedSeat> occupiedSeats)
+        [Authorize]
+        [HttpGet("{id}/cancel")]
+        public async Task<HttpResponseMessage> CancelReservation(int id)
         {
-            return ( wantedSeats.Count(ws => occupiedSeats.Any(os => os.Row == ws.Row && os.Column == ws.Column)) == 0 );
-        }
+            //By cascade, it also deletes occupied seats and discounts referenced to de operation.
 
+            await this.operationService.DeleteAsync(id);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
     }
 }

@@ -27,6 +27,8 @@
         IRepository<Discount> Discounts { get; }
 
         IRepository<OccupiedSeat> OccupiedSeats { get; }
+
+        IRepository<OperationDiscount> OperationDiscounts { get; }
     }
 }
 

@@ -11,8 +11,12 @@
 
     public interface IOperationService
     {
+        Task<Operation> GetAsync(int operationId);
+
         Task<IEnumerable<Operation>> GetAsync(Expression<Func<Operation, bool>> filter);
 
         Task<int> CreateAsync(Operation operation);
+
+        Task DeleteAsync(int id);
     }
 }

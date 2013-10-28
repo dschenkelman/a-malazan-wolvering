@@ -24,6 +24,7 @@
             container.RegisterType<IDiscountService, DiscountService>();
             container.RegisterType<IOperationService, OperationService>();
             container.RegisterType<IOccupiedSeatsService, OccupiedSeatsService>();
+            container.RegisterType<IOperationDiscountsService, OperationDiscountsService>();
             container.RegisterType<IRoomXmlParser, RoomXmlParser>();
 
             container.RegisterType<IRepository<User>, Repository<User>>();
@@ -37,6 +38,8 @@
             container.RegisterType<IRepository<Operation>, Repository<Operation>>();
             container.RegisterType<IRepository<Discount>, Repository<Discount>>();
             container.RegisterType<IRepository<OccupiedSeat>, Repository<OccupiedSeat>>();
+            container.RegisterType<IRepository<OperationDiscount>, Repository<OperationDiscount>>();
+
 
             container.RegisterType<IPhoneTicketRepositories, PhoneTicketRepositories>();
 
@@ -46,7 +49,7 @@
             container.RegisterType<PhoneTicket.Web.Controllers.Api.DiscountsController>();
             container.RegisterType<PhoneTicket.Web.Controllers.Api.CurrentUserController>();
             container.RegisterType<PhoneTicket.Web.Controllers.Api.ShowsController>();
-            container.RegisterType<PhoneTicket.Web.Controllers.Api.OperationsController>();
+            container.RegisterType<PhoneTicket.Web.Controllers.Api.ReservationsController>();
             container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.MoviesController>();
             container.RegisterType<PhoneTicket.Web.Controllers.RoomsController>();
