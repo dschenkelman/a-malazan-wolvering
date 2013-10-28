@@ -1,9 +1,7 @@
 ﻿namespace PhoneTicket.Web.Controllers.Api
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using System.Web.Http.ModelBinding;
 
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;

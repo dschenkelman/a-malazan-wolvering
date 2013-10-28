@@ -5,6 +5,7 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Properties;
     using PhoneTicket.Web.Services;
 
@@ -257,6 +258,39 @@
             var error1 = errors.ElementAt(0);
 
             Assert.AreEqual(2, error1.Line);
+        }
+
+        [TestMethod]
+        public void ShouldReturnFreeSeatsForThoseSpecifiedInXml()
+        {
+            string xml =
+                "<Sala>" + Environment.NewLine +
+                "<Fila numero='1' desde='1' hasta='9'></Fila>" + Environment.NewLine +
+                "<Fila numero='1' desde='8' hasta='11'></Fila>" + Environment.NewLine +
+                "<Fila numero='2' desde='17' hasta='22'></Fila>" + Environment.NewLine +
+                 "</Sala>";
+
+            var parser = this.CreateParser();
+
+            var seats = parser.Parse(xml);
+
+            for (int i = 0; i <= 21; i++)
+            {
+                Assert.AreEqual(i <= 10 ? SeatState.Free : SeatState.NoSeat, seats.Seats[0][i]);
+            }
+
+            for (int i = 0; i <= 21; i++)
+            {
+                Assert.AreEqual(i >= 16 ? SeatState.Free : SeatState.NoSeat, seats.Seats[1][i]);
+            }
+
+            for (int i = 2; i <= 16; i++)
+            {
+                for (int j = 0; j <= 21; j++)
+                {
+                    Assert.AreEqual(SeatState.NoSeat, seats.Seats[i][j]);
+                }
+            }
         }
 
         private RoomXmlParser CreateParser()

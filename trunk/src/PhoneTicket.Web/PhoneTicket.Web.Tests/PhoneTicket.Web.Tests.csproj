@@ -124,6 +124,7 @@
     <Compile Include="Controllers\Api\CurrentUserControllerTests.cs" />
     <Compile Include="Controllers\Api\DiscountsControllerTests.cs" />
     <Compile Include="Controllers\Api\MoviesControllerTests.cs" />
+    <Compile Include="Controllers\Api\ShowsControllerTests.cs" />
     <Compile Include="Controllers\DiscountsControllerTests.cs" />
     <Compile Include="Controllers\MoviesControllerTests.cs" />
     <Compile Include="Controllers\RoomsControllerTests.cs" />
