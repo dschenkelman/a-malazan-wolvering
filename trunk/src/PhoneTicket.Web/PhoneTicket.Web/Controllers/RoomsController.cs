@@ -84,7 +84,8 @@
             {
                 foreach (RoomXmlError error in errors)
                 {
-                    this.ModelState.AddModelError(string.Empty, string.Format("{0} Linea: {1}", error.Message, error.Line));    
+                    var fullMessage = string.Format("{0} Linea: {1}", error.Message, error.Line);
+                    this.ModelState.AddModelError(fullMessage, fullMessage);    
                 }
 
                 var availableComplexes = await this.complexService.ListAsync(roomViewModel.ComplexId);

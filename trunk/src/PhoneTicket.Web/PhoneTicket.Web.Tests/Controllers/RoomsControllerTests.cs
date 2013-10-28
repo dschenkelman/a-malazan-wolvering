@@ -2,20 +2,25 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Text;
     using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    
+
     using Moq;
-    
-    using PhoneTicket.Web.Services;
-    using PhoneTicket.Web.Models;
-    using PhoneTicket.Web.Controllers;
-    using PhoneTicket.Web.ViewModels;
+
     using PagedList;
-    using System.Web.Mvc;
-    using System.Linq.Expressions;
+
+    using PhoneTicket.Web.Controllers;
     using PhoneTicket.Web.Helpers;
+    using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.ViewModels;
 
     [TestClass]
     public class RoomsControllerTests
@@ -421,6 +426,80 @@
             var result = (ViewResult)await controller.Delete(RoomId);
 
             Assert.AreEqual("~/Views/Shared/Confirmation.cshtml", result.ViewName);
+        }
+
+        [TestMethod]
+        public async Task ShouldSetModelErrorsAndReturnSameViewIfXmlValidationFails()
+        {
+            // arrange
+            const string FileContent = "<Sala></Sala>";
+
+            var memoryStream = new MemoryStream();
+            var bytes = Encoding.UTF8.GetBytes(FileContent);
+            await memoryStream.WriteAsync(bytes, 0, bytes.Length);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            var viewModel = new ListRoomViewModel() { ComplexId = 3 };
+            var file = this.mockRepository.Create<HttpPostedFileBase>();
+
+            file.Setup(f => f.InputStream).Returns(memoryStream).Verifiable();
+
+            viewModel.RoomFile = file.Object;
+
+            var errors = new List<RoomXmlError> { new RoomXmlError(1, "M1"), new RoomXmlError(2, "M2") };
+
+            this.roomXmlParser.Setup(rxp => rxp.Validate(FileContent)).Returns(errors).Verifiable();
+
+            this.complexService.Setup(cs => cs.ListAsync(viewModel.ComplexId)).Returns(Task.FromResult(Enumerable.Empty<SelectListItem>())).Verifiable();
+
+            var controller = this.CreateController();
+            
+            // act
+            var result = (ViewResult)await controller.CreateRoom(viewModel);
+
+            // assert
+            Assert.AreEqual(2, controller.ModelState.Count);
+            Assert.AreEqual("Add", result.ViewName);
+            Assert.AreSame(viewModel, result.Model);
+
+            const string FullMessageFormat = "{0} Linea: {1}";
+            var fullMessage1 = string.Format(FullMessageFormat, errors[0].Message, errors[0].Line);
+            Assert.AreEqual(fullMessage1, controller.ModelState[fullMessage1].Errors[0].ErrorMessage);
+
+            var fullMessage2 = string.Format(FullMessageFormat, errors[1].Message, errors[1].Line);
+            Assert.AreEqual(fullMessage2, controller.ModelState[fullMessage2].Errors[0].ErrorMessage);
+
+            this.mockRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldSetFileContentToRoomFileProperty()
+        {
+            // arrange
+            const string FileContent = "<Sala></Sala>";
+
+            var memoryStream = new MemoryStream();
+            var bytes = Encoding.UTF8.GetBytes(FileContent);
+            await memoryStream.WriteAsync(bytes, 0, bytes.Length);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            var viewModel = new ListRoomViewModel();
+            var file = this.mockRepository.Create<HttpPostedFileBase>();
+
+            file.Setup(f => f.InputStream).Returns(memoryStream).Verifiable();
+
+            viewModel.RoomFile = file.Object;
+
+            this.roomXmlParser.Setup(rxp => rxp.Validate(FileContent)).Returns(Enumerable.Empty<RoomXmlError>()).Verifiable();
+
+            this.roomService.Setup(rs => rs.CreateAsync(It.Is<Room>(r => r.File == FileContent))).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            var controller = this.CreateController();
+
+            // act
+            await controller.CreateRoom(viewModel);
+
+            this.mockRepository.VerifyAll();
         }
 
         private RoomsController CreateController()
