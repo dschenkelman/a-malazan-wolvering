@@ -9,10 +9,8 @@
 
     using PhoneTicket.Web.Models;
 
-    public interface IOperationService
+    public interface IOcuppiedSeatsService
     {
-        Task<IEnumerable<Operation>> GetAsync(Expression<Func<Operation, bool>> filter);
-
-        Task<int> CreateAsync(Operation operation);
+        Task<IEnumerable<OccupiedSeat>> GetAsync(Expression<Func<OccupiedSeat, bool>> filter);
     }
 }

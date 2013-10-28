@@ -24,5 +24,14 @@
         {
             return await this.repositories.Operations.Filter(filter).ToListAsync();
         }
+
+        public async Task<int> CreateAsync(Operation operation)
+        {
+            this.repositories.Operations.Insert(operation);
+
+            await this.repositories.Operations.SaveAsync();
+
+            return operation.Number;
+        }
     }
 }
