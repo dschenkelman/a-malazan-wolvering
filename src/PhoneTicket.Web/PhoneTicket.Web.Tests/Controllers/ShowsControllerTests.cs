@@ -11,10 +11,10 @@
     using Moq;
 
     using PhoneTicket.Web.Controllers;
+    using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels;
-    using PhoneTicket.Web.Helpers;
 
     [TestClass]
     public class ShowsControllerTests
