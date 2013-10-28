@@ -162,4 +162,7 @@
   <data name="UrlField" xml:space="preserve">
     <value>El valor del campo debe ser una URL válida.</value>
   </data>
+  <data name="InvalidRepresentationFile" xml:space="preserve">
+    <value>El archivo de representación es obligatorio y debe tener formato xml.</value>
+  </data>
 </root>

@@ -124,6 +124,15 @@ namespace PhoneTicket.Web.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El archivo de representación es obligatorio y debe tener formato xml..
+        /// </summary>
+        public static string InvalidRepresentationFile {
+            get {
+                return ResourceManager.GetString("InvalidRepresentationFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Los elementos hijos de &lt;Sala&gt; deben ser de tipo &lt;Fila&gt;..
         /// </summary>
         public static string InvalidRoomChildElement {

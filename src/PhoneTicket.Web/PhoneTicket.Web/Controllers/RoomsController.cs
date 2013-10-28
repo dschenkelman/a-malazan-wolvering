@@ -10,6 +10,7 @@
 
     using PhoneTicket.Web.Handlers;
     using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.Properties;
     using PhoneTicket.Web.ViewModels;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.Helpers;
@@ -73,6 +74,13 @@
         {
             var xml = string.Empty;
 
+            if (roomViewModel.RoomFile == null || roomViewModel.RoomFile.ContentType != "text/xml")
+            {
+                this.ModelState.AddModelError(string.Empty, Resources.InvalidRepresentationFile);
+
+                return await this.ReturnAddViewWithError(roomViewModel);
+            }
+
             using (var reader = new StreamReader(roomViewModel.RoomFile.InputStream))
             {
                 xml = await reader.ReadToEndAsync();
@@ -88,11 +96,7 @@
                     this.ModelState.AddModelError(string.Empty, fullMessage);    
                 }
 
-                var availableComplexes = await this.complexService.ListAsync(roomViewModel.ComplexId);
-
-                roomViewModel.AvailableComplexes = availableComplexes;
-
-                return this.View("Add", roomViewModel);
+                return await this.ReturnAddViewWithError(roomViewModel);
             }
 
             var room = ListRoomViewModel.FromRoomViewModel(roomViewModel);
@@ -110,6 +114,15 @@
             this.ViewBag.Controller = "Rooms";
 
             return this.View("~/Views/Shared/Confirmation.cshtml");
+        }
+
+        private async Task<ActionResult> ReturnAddViewWithError(ListRoomViewModel roomViewModel)
+        {
+            var availableComplexes = await this.complexService.ListAsync(roomViewModel.ComplexId);
+
+            roomViewModel.AvailableComplexes = availableComplexes;
+
+            return this.View("Add", roomViewModel);
         }
 
         public async Task<ActionResult> Edit(int roomId)
