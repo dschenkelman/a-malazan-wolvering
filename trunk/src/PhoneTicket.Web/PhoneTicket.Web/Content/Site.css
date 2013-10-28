@@ -757,3 +757,11 @@ tr.pager td {
 footer > .content-wrapper > .float-left > p {
     color: #D1CFCD;
 }
+
+span.field-value {
+    color: #D17921;
+}
+
+.search-field {
+    color: #754C23;
+}
