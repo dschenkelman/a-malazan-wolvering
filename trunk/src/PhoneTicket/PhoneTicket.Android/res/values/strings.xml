@@ -28,18 +28,14 @@
     </string-array>
 
     <string name="title_activity_master">PhoneTicket</string>
-
     <string name="app_id">250416881779134</string>
-
     <string name="selection_finished">Continuar</string>
-
     <string name="butacas">/6 Butacas</string>
-
     <string name="initial_armchair_count">0</string>
-
     <string name="cinema_screen">Cinema Screen</string>
-
     <string name="error_obteniendo_sala">No se pudo obtener la informacion de la sala</string>
+    <string name="title_activity_buy_tickets">BuyTicketsActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
 
-    
 </resources>
