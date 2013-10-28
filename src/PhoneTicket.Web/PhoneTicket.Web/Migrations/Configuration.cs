@@ -147,11 +147,6 @@ namespace PhoneTicket.Web.Migrations
                     });
             }
 
-            if (!context.RoomTypes.Any())
-            {
-                context.RoomTypes.Add(new RoomType { Description = "Rectangular" });
-            }
-
             context.SaveChanges();
 
             if (!context.Rooms.Any())
@@ -161,7 +156,6 @@ namespace PhoneTicket.Web.Migrations
                     {
                         ComplexId = 1, // Belgrano
                         Name = "Sala 1",
-                        TypeId = 1,
                         Capacity = 200
                     });
 
@@ -170,7 +164,6 @@ namespace PhoneTicket.Web.Migrations
                     {
                         ComplexId = 1, // Belgrano
                         Name = "Sala 2",
-                        TypeId = 1,
                         Capacity = 250
                     });
 
@@ -179,7 +172,6 @@ namespace PhoneTicket.Web.Migrations
                     {
                         ComplexId = 2, // Microcentro
                         Name = "Sala 1",
-                        TypeId = 1,
                         Capacity = 150
                     });
 
@@ -188,7 +180,6 @@ namespace PhoneTicket.Web.Migrations
                     {
                         ComplexId = 2, // Microcentro
                         Name = "Sala 2",
-                        TypeId = 1,
                         Capacity = 100
                     });
             }

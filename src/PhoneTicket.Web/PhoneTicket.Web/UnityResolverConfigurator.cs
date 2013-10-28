@@ -20,7 +20,6 @@
             container.RegisterType<IRatingService, RatingService>();
             container.RegisterType<IComplexService, ComplexService>();
             container.RegisterType<IRoomService, RoomService>();
-            container.RegisterType<IRoomTypeService, RoomTypeService>();
             container.RegisterType<IShowService, ShowService>();
             container.RegisterType<IDiscountService, DiscountService>();
             container.RegisterType<IOperationService, OperationService>();
@@ -32,7 +31,6 @@
             container.RegisterType<IRepository<TemporaryUser>, Repository<TemporaryUser>>();
             container.RegisterType<IRepository<Complex>, Repository<Complex>>();
             container.RegisterType<IRepository<Room>, Repository<Room>>();
-            container.RegisterType<IRepository<RoomType>, Repository<RoomType>>();
             container.RegisterType<IRepository<Show>, Repository<Show>>();
             container.RegisterType<IRepository<Operation>, Repository<Operation>>();
             container.RegisterType<IRepository<Discount>, Repository<Discount>>();

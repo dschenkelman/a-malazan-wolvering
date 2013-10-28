@@ -2,18 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
-    using System.Web.Mvc;
     using System.ComponentModel.DataAnnotations;
-    using System.Threading.Tasks;
-    using System.ComponentModel;
+    using System.Web.Mvc;
 
     using PhoneTicket.Web.Models;
-    using PhoneTicket.Web.Services;
     using PhoneTicket.Web.Properties;
-    using PhoneTicket.Web.Helpers;
-    
 
     public class ListRoomViewModel
     {
@@ -30,17 +23,9 @@
 
         public IEnumerable<SelectListItem> AvailableComplexes { get; set; }
 
-        public IEnumerable<SelectListItem> AvailableRoomTypes { get; set; }
-
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
         [Range(1, int.MaxValue, ErrorMessage = "Ingrese un número entero de minutos mayor a uno.")]
         public int Capacity { get; set; }
-
-        public string TypeDescription { get; set; }
-
-        [UIHint("DropDownList")]
-        [Required(ErrorMessage = "Seleccione un Estilo de Sala")]
-        public int? TypeId { get; set; }
 
         public bool CanEdit { get; set; }
 
@@ -54,8 +39,6 @@
                 ComplexName = room.Complex.Name,
                 ComplexId = room.ComplexId,
                 Capacity = room.Capacity,
-                TypeDescription = room.Type.Description,
-                TypeId = room.TypeId,
                 CanEdit = userCanEdit
             };
 
@@ -70,7 +53,6 @@
                 Name = roomVM.Name,
                 ComplexId = Convert.ToInt32(roomVM.ComplexId),
                 Capacity = roomVM.Capacity,
-                TypeId = Convert.ToInt32(roomVM.TypeId)
             };
 
             return r;
