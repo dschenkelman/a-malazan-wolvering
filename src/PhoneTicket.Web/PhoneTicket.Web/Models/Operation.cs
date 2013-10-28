@@ -29,10 +29,10 @@
 
         public string CreditCardSecurityCode { get; set; }
 
-        public DateTime CreditCardExpirationDate { get; set; }
+        public DateTime? CreditCardExpirationDate { get; set; }
 
         [ForeignKey("CreditCardCompany")]
-        public int CreditCardCompanyId { get; set; }
+        public int? CreditCardCompanyId { get; set; }
 
         public virtual CreditCardCompany CreditCardCompany { get; set; }
 
