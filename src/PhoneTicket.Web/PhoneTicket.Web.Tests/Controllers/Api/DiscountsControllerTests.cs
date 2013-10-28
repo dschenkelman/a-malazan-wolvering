@@ -19,11 +19,14 @@
 
         private Mock<IDiscountService> discountService;
 
+        private Mock<IOperationService> operationService;
+
         [TestInitialize]
         public void TestInitialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Default);
             this.discountService = this.mockRepository.Create<IDiscountService>();
+            this.operationService = this.mockRepository.Create<IOperationService>();
         }
 
         [TestMethod]
@@ -86,7 +89,7 @@
 
         private DiscountsController CreateController()
         {
-            return new DiscountsController(this.discountService.Object);
+            return new DiscountsController(this.discountService.Object, this.operationService.Object);
         }
     }
 }
