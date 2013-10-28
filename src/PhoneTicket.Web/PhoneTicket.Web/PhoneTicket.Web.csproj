@@ -211,6 +211,7 @@
     <Compile Include="Controllers\Api\CurrentUserController.cs" />
     <Compile Include="Controllers\Api\DiscountsController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
+    <Compile Include="Controllers\Api\ShowsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\DiscountsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -335,6 +336,7 @@
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />
     <Compile Include="ViewModels\ShowReadOnlyViewModel.cs" />
+    <Compile Include="Models\ShowSeats.cs" />
     <Compile Include="ViewModels\TimesAndRoomViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

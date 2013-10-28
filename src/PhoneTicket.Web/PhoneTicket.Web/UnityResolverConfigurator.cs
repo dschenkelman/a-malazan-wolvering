@@ -44,6 +44,7 @@
             container.RegisterType<PhoneTicket.Web.Controllers.Api.ComplexesController>();
             container.RegisterType<PhoneTicket.Web.Controllers.Api.DiscountsController>();
             container.RegisterType<PhoneTicket.Web.Controllers.Api.CurrentUserController>();
+            container.RegisterType<PhoneTicket.Web.Controllers.Api.ShowsController>();
             container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.MoviesController>();
             container.RegisterType<PhoneTicket.Web.Controllers.RoomsController>();

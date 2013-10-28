@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Linq;
 
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
@@ -56,6 +57,13 @@
             show.IsAvailable = !show.IsAvailable;
 
             await this.repositories.Shows.SaveAsync();
+        }
+
+        public async Task<IEnumerable<OccupiedSeat>> GetOccupiedSeats(int showId)
+        {
+            var seats = await this.repositories.Operations.Filter(op => op.ShowId == showId).SelectMany(op => op.OccupiedSeats).ToListAsync();
+
+            return seats;
         }
 
         public void Dispose()

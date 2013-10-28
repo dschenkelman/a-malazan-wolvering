@@ -5,6 +5,7 @@
     using System.Xml.Linq;
 
     using PhoneTicket.Web.Helpers;
+    using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Properties;
 
     public class RoomXmlParser : IRoomXmlParser
@@ -102,6 +103,26 @@
             }
 
             return errors;
+        }
+
+        public ShowSeats Parse(string xml)
+        {
+            var seats = new ShowSeats();
+            var document = XDocument.Parse(xml);
+
+            foreach (var element in document.Root.Elements())
+            {
+                var row = element.Attribute("numero").ParseInt32();
+                var from = element.Attribute("desde").ParseInt32();
+                var to = element.Attribute("hasta").ParseInt32();
+
+                for (int col = from; col <= to; col++)
+                {
+                    seats.MarkFree(row, col);
+                }
+            }
+
+            return seats;
         }
     }
 

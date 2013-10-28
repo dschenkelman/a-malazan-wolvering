@@ -1,6 +1,7 @@
 ﻿namespace PhoneTicket.Web.Models
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -41,5 +42,7 @@
         public virtual Discount Discount { get; set; }
 
         public int? DiscountCount { get; set; }
+
+        public virtual Collection<OccupiedSeat> OccupiedSeats { get; set; }
     }
 }

@@ -8,7 +8,6 @@
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels.Api;
     using PhoneTicket.Web.Models;
-    using PhoneTicket.Web.Helpers;
 
     [RoutePrefix("api/complexes")]
     public class ComplexesController : ApiController
