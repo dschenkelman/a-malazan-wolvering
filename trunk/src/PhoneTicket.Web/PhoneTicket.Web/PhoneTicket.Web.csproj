@@ -238,6 +238,7 @@
     <Compile Include="Helpers\ICurrentUserRole.cs" />
     <Compile Include="Helpers\LocationExtension.cs" />
     <Compile Include="Helpers\MovieExtensions.cs" />
+    <Compile Include="Helpers\XElementExtensions.cs" />
     <Compile Include="HttpModules\BasicAuthHttpModule.cs" />
     <Compile Include="HttpModules\PhoneTicketBasicAuthHttpModule.cs" />
     <Compile Include="Migrations\201310132312464_Initial.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Services\IRatingService.cs" />
     <Compile Include="Services\IRoomService.cs" />
     <Compile Include="Services\IRoomTypeService.cs" />
+    <Compile Include="Services\IRoomXmlParser.cs" />
     <Compile Include="Services\IShowService.cs" />
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
@@ -293,6 +295,7 @@
     <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\RoomService.cs" />
     <Compile Include="Services\RoomTypeService.cs" />
+    <Compile Include="Services\RoomXmlParser.cs" />
     <Compile Include="Services\ShowService.cs" />
     <Compile Include="Services\TemporaryUserService.cs" />
     <Compile Include="Templates\EmailTemplate.Context.cs" />
@@ -515,7 +518,7 @@
       <DependentUpon>201310262216034_PurchaseModel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>

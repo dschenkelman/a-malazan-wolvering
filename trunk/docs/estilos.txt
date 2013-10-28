@@ -1,0 +1,10 @@
+Links=BC131A
+Fondo medio, menu= D1CFCD
+Fondo arriba=454343
+
+Letras header tabla=754C23
+Letras tabla=D17921
+
+Bordo=7F2628
+
+Azul=4359A3

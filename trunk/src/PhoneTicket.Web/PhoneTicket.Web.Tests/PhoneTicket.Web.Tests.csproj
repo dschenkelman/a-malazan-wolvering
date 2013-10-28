@@ -130,6 +130,7 @@
     <Compile Include="Controllers\ShowsControllerTests.cs" />
     <Compile Include="Controllers\UsersControllerTests.cs" />
     <Compile Include="Data\RepositoryTests.cs" />
+    <Compile Include="Services\RoomXmlParserTests.cs" />
     <Compile Include="UnityDependencyResolverTests.cs" />
     <Compile Include="Controllers\Api\UsersControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
