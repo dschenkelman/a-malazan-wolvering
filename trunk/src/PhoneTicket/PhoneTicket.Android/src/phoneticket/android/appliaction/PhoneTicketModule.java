@@ -6,6 +6,8 @@ import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
 import phoneticket.android.services.get.IRetrieveMovieListService;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.IRetrieveMyShowsService;
+import phoneticket.android.services.get.IRetrieveDiscountService;
+
 import phoneticket.android.services.get.IRetrieveUserShowInfoService;
 
 import phoneticket.android.services.get.IRetrieveRoomInfoService;
@@ -18,6 +20,7 @@ import phoneticket.android.services.get.impl.RetrieveMovieFunctionsServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMovieInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMovieListServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMyShowsServiceProxy;
+import phoneticket.android.services.get.impl.RetrieveDiscountsServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveUserInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveUserShowInfoServiceProxy;
 
@@ -58,11 +61,12 @@ public class PhoneTicketModule implements Module {
 				RetrieveUserInfoServiceProxy.class);
 		binder.bind(IRetrieveMyShowsService.class).to(
 				RetrieveMyShowsServiceProxy.class);
+		binder.bind(IRetrieveDiscountService.class).to(
+				RetrieveDiscountsServiceProxy.class);
 		binder.bind(IRetrieveUserShowInfoService.class).to(
 				RetrieveUserShowInfoServiceProxy.class);
 		binder.bind(ICancelUserShowService.class).to(
 				CancelUserShowServiceProxy.class);
-		
-	}
 
+	}
 }

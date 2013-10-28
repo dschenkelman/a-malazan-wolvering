@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,8 @@ public class RoomFragment extends RoboFragment implements
 			@Override
 			public void onClick(View v) {
 				if (selectedArmChair.size() > 0) {
-					armChairsSelected.onArmChairsSelected(selectedArmChair);
+					armChairsSelected.onArmChairsSelected(selectedArmChair,
+							ticket);
 				} else {
 					Toast t = Toast.makeText(getActivity(),
 							"Se debe seleccionar al menos una butaca",
@@ -182,11 +184,14 @@ public class RoomFragment extends RoboFragment implements
 				R.id.armChairSelection);
 		armChairSelection.setVisibility(GridView.VISIBLE);
 		List<ArmChair> armChairsData = new ArrayList<ArmChair>();
-		int rowNumber = 1;
+		int rowNumber = 0;
+		Resources resources = getResources();
+		String[] letters = resources.getStringArray(R.array.letters);
 		for (Collection<Integer> row : armChairs) {
 			int columnNumber = 1;
 			for (Integer state : row) {
-				armChairsData.add(new ArmChair(state, columnNumber, rowNumber));
+				armChairsData.add(new ArmChair(state, columnNumber,
+						letters[rowNumber]));
 				columnNumber++;
 			}
 			rowNumber++;
@@ -217,6 +222,7 @@ public class RoomFragment extends RoboFragment implements
 				armChairsCount.setText(String.valueOf(selectedArmChair.size()));
 			}
 		});
+		armChairsCount.setText(String.valueOf(selectedArmChair.size()));
 		imageAdapter.notifyDataSetChanged();
 	}
 

@@ -9,9 +9,9 @@ public class ArmChair {
 	private static final int INEXISTENTE = 0;
 	private int state;
 	private int column;
-	private int row;
+	private String row;
 
-	public ArmChair(int state, int column, int row) {
+	public ArmChair(int state, int column, String row) {
 		this.state = state;
 		this.column = column;
 		this.row = row;
@@ -25,7 +25,7 @@ public class ArmChair {
 		return column;
 	}
 
-	public int getRow() {
+	public String getRow() {
 		return row;
 	}
 
