@@ -18,7 +18,7 @@ import phoneticket.android.activities.fragments.DetailCinemaFragment;
 import phoneticket.android.activities.fragments.DetailMovieFragment;
 import phoneticket.android.activities.fragments.DetailUserShowFragment;
 import phoneticket.android.activities.fragments.MovieListFragment;
-import phoneticket.android.activities.fragments.PromotionFragment;
+import phoneticket.android.activities.fragments.DiscountFragment;
 import phoneticket.android.activities.fragments.RoomFragment;
 import phoneticket.android.activities.fragments.UserFragment;
 import phoneticket.android.activities.interfaces.IArmChairsSelected;
@@ -449,17 +449,18 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void onArmChairsSelected(List<ArmChair> armChairs) {
+	public void onArmChairsSelected(List<ArmChair> armChairs, Ticket ticket) {
 		Bundle bundle = new Bundle();
-		bundle.putSerializable(PromotionFragment.ARM_CHAIRS_SELECTED,
+		bundle.putSerializable(DiscountFragment.ARM_CHAIRS_SELECTED,
 				(Serializable) armChairs);
-		changeToPromotionFragment(bundle);
+		bundle.putSerializable(DiscountFragment.TICKET, (Serializable) ticket);
+		changeToDiscountFragment(bundle);
 	}
 
-	private void changeToPromotionFragment(Bundle bundle) {
+	private void changeToDiscountFragment(Bundle bundle) {
 		hideFacebookShareButton();
 		hideTwitterShareButton();
-		PromotionFragment r = new PromotionFragment();
+		DiscountFragment r = new DiscountFragment();
 		r.setArguments(bundle);
 		changeFragment(r, true);
 

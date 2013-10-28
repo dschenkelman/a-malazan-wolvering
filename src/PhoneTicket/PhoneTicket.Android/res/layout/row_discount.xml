@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/discountRow"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="10dp"
+    android:background="@drawable/layout_selector"
+    android:orientation="horizontal" >
+
+    <CheckBox
+        android:id="@+id/discountCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:checked="false" />
+
+    <TextView
+        android:id="@+id/discountDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/discountCheckBox"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/discountCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@+id/plusDiscountCount"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/plusDiscountCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@+id/decreaseDiscountCount"
+        android:contentDescription="@string/plus_discount"
+        android:text="@string/plus"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/decreaseDiscountCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/decrease_discount"
+        android:text="@string/less"
+        android:textSize="15sp" />
+
+</RelativeLayout>
