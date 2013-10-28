@@ -18,7 +18,7 @@
     using System.Threading.Tasks;
 
     [TestClass]
-    public class OperationsControllerTests
+    public class ReservationsControllerTests
     {
         private MockRepository mockRepository;
 
@@ -117,6 +117,22 @@
             this.userService.Verify(us => us.GetIdAsync(Email), Times.Once());
 
             this.occupiedSeatsService.Verify(ocs => ocs.CreateAsync(It.IsAny<OccupiedSeat>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnHttpOkMessageWhenCancelReservationIsCalled()
+        {
+            const int OperationId = 1;
+
+            this.operationService.Setup(os => os.DeleteAsync(OperationId)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var response = await controller.CancelReservation(OperationId);
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            this.operationService.Verify(os => os.DeleteAsync(OperationId), Times.Once());
         }
 
         private ReservationsController CreateController()
