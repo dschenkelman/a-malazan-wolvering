@@ -461,16 +461,16 @@
             var result = (ViewResult)await controller.CreateRoom(viewModel);
 
             // assert
-            Assert.AreEqual(2, controller.ModelState.Count);
+            Assert.AreEqual(1, controller.ModelState.Count);
             Assert.AreEqual("Add", result.ViewName);
             Assert.AreSame(viewModel, result.Model);
 
             const string FullMessageFormat = "{0} Linea: {1}";
             var fullMessage1 = string.Format(FullMessageFormat, errors[0].Message, errors[0].Line);
-            Assert.AreEqual(fullMessage1, controller.ModelState[fullMessage1].Errors[0].ErrorMessage);
+            Assert.AreEqual(fullMessage1, controller.ModelState[string.Empty].Errors[0].ErrorMessage);
 
             var fullMessage2 = string.Format(FullMessageFormat, errors[1].Message, errors[1].Line);
-            Assert.AreEqual(fullMessage2, controller.ModelState[fullMessage2].Errors[0].ErrorMessage);
+            Assert.AreEqual(fullMessage2, controller.ModelState[string.Empty].Errors[1].ErrorMessage);
 
             this.mockRepository.VerifyAll();
         }
