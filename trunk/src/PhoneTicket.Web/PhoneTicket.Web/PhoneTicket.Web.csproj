@@ -271,6 +271,10 @@
     <Compile Include="Migrations\201310281824267_DiscountWithMultipleOperations.Designer.cs">
       <DependentUpon>201310281824267_DiscountWithMultipleOperations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310281828340_AddedCountToDiscountForOperation.cs" />
+    <Compile Include="Migrations\201310281828340_AddedCountToDiscountForOperation.Designer.cs">
+      <DependentUpon>201310281828340_AddedCountToDiscountForOperation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Complex.cs" />
@@ -282,6 +286,7 @@
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\OccupiedSeat.cs" />
     <Compile Include="Models\Operation.cs" />
+    <Compile Include="Models\OperationDiscount.cs" />
     <Compile Include="Models\OperationType.cs" />
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\Room.cs" />
@@ -555,6 +560,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201310281824267_DiscountWithMultipleOperations.resx">
       <DependentUpon>201310281824267_DiscountWithMultipleOperations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310281828340_AddedCountToDiscountForOperation.resx">
+      <DependentUpon>201310281828340_AddedCountToDiscountForOperation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

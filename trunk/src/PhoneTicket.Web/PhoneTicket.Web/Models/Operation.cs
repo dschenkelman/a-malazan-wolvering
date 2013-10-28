@@ -36,9 +36,7 @@
 
         public virtual CreditCardCompany CreditCardCompany { get; set; }
 
-        public virtual Collection<Discount> Discounts { get; set; }
-
-        public int? DiscountCount { get; set; }
+        public virtual Collection<OperationDiscount> OperationDiscounts { get; set; }
 
         public virtual Collection<OccupiedSeat> OccupiedSeats { get; set; }
     }
