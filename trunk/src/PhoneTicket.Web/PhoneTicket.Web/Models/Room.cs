@@ -25,12 +25,5 @@
         [JsonIgnore]
         [DisplayName("Complejo")]
         public virtual Complex Complex { get; set; }
-
-        [ForeignKey("Type")]
-        public int TypeId { get; set; }
-
-        [JsonIgnore]
-        [DisplayName("Estilo de Sala")]
-        public virtual RoomType Type { get; set; }
     }
 }

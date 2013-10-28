@@ -35,11 +35,6 @@
                 @Html.EditorFor(m => m.Capacity)
                 @Html.ValidationMessageFor(m => m.Capacity)
             </li>
-            <li>
-                <label for="Type">Estilo</label>
-                @Html.DropDownListFor(m => m.TypeId, Model.AvailableRoomTypes, "Seleccione Uno")
-                @Html.ValidationMessageFor(m => m.TypeId)
-            </li>
         </ol>
         <input type="submit" value="Guardar Cambios" />
     </fieldset>

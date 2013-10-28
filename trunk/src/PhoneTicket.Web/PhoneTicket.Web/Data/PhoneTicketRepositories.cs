@@ -20,8 +20,6 @@
 
         private readonly IRepository<Room> rooms;
 
-        private readonly IRepository<RoomType> roomTypes;
-
         private readonly IRepository<Show> shows;
 
         private IRepository<Operation> operations;
@@ -38,7 +36,6 @@
             IRepository<User> users,
             IRepository<Complex> complexes, 
             IRepository<Room> rooms,
-            IRepository<RoomType> roomTypes,
             IRepository<Show> shows,
             IRepository<Operation> operations,
             IRepository<Discount> discounts,
@@ -51,7 +48,6 @@
             this.users = users;
             this.complexes = complexes;
             this.rooms = rooms;
-            this.roomTypes = roomTypes;
             this.shows = shows;
             this.operations = operations;
             this.discounts = discounts;
@@ -114,14 +110,6 @@
             }
         }
 
-        public IRepository<RoomType> RoomTypes
-        {
-            get
-            {
-                return this.roomTypes;
-            }
-        }
-
         public IRepository<Show> Shows
         {
             get
@@ -175,7 +163,6 @@
             this.OccupiedSeats.Dispose();
             this.Discounts.Dispose();
             this.Operations.Dispose();
-            this.RoomTypes.Dispose();
             this.Rooms.Dispose();
         }
     }

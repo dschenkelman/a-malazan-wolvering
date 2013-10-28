@@ -19,16 +19,14 @@
     {
         private readonly IRoomService roomService;
         private readonly IComplexService complexService;
-        private readonly IRoomTypeService roomTypeService;
         private readonly ICurrentUserRole currentUserRole;
 
         private const int PageSize = 5;
 
-        public RoomsController(IRoomService roomService, IComplexService complexService, IRoomTypeService roomTypeService, ICurrentUserRole currentUserRole)
+        public RoomsController(IRoomService roomService, IComplexService complexService, ICurrentUserRole currentUserRole)
         {
             this.roomService = roomService;
             this.complexService = complexService;
-            this.roomTypeService = roomTypeService;
             this.currentUserRole = currentUserRole;
         }
 
@@ -56,15 +54,13 @@
 
         public async Task<ActionResult> Add()
         {
-            var room = new Room() { Id = -1, Name = string.Empty, ComplexId = -1, Complex = new Complex { Name = string.Empty }, Capacity = 0, TypeId = -1, Type = new RoomType { Description = string.Empty } };
+            var room = new Room { Id = -1, Name = string.Empty, ComplexId = -1, Complex = new Complex { Name = string.Empty }, Capacity = 0 };
             var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
-            var availableRoomTypes = await this.roomTypeService.ListAsync(room.TypeId);
 
             var userCanEdit = this.currentUserRole.IsAdmin();
 
             var roomViewModel = ListRoomViewModel.FromRoom(room, userCanEdit);
             roomViewModel.AvailableComplexes = availableComplexes;
-            roomViewModel.AvailableRoomTypes = availableRoomTypes;
 
             return this.View(roomViewModel);
         }
@@ -87,13 +83,11 @@
         {
             var room = await this.roomService.GetAsync(roomId);
             var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
-            var availableRoomTypes = await this.roomTypeService.ListAsync(room.TypeId);
 
             var userCanEdit = this.currentUserRole.IsAdmin();
 
             var roomViewModel = ListRoomViewModel.FromRoom(room, userCanEdit);
             roomViewModel.AvailableComplexes = availableComplexes;
-            roomViewModel.AvailableRoomTypes = availableRoomTypes;
 
             return this.View(roomViewModel);
         }
@@ -107,7 +101,6 @@
             existingRoom.Name = updatedRoom.Name;
             existingRoom.ComplexId = updatedRoom.ComplexId;
             existingRoom.Capacity = updatedRoom.Capacity;
-            existingRoom.TypeId = updatedRoom.TypeId;
 
             await this.roomService.UpdateAsync(existingRoom);
 

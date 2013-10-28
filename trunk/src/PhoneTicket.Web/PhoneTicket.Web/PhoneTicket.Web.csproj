@@ -249,6 +249,10 @@
     <Compile Include="Migrations\201310262216034_PurchaseModel.Designer.cs">
       <DependentUpon>201310262216034_PurchaseModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310280423509_DeleteRoomStyles.cs" />
+    <Compile Include="Migrations\201310280423509_DeleteRoomStyles.Designer.cs">
+      <DependentUpon>201310280423509_DeleteRoomStyles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Complex.cs" />
@@ -263,7 +267,6 @@
     <Compile Include="Models\OperationType.cs" />
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\Room.cs" />
-    <Compile Include="Models\RoomType.cs" />
     <Compile Include="Models\Show.cs" />
     <Compile Include="Models\TemporaryUser.cs" />
     <Compile Include="Models\User.cs" />
@@ -285,7 +288,6 @@
     <Compile Include="Services\IOperationService.cs" />
     <Compile Include="Services\IRatingService.cs" />
     <Compile Include="Services\IRoomService.cs" />
-    <Compile Include="Services\IRoomTypeService.cs" />
     <Compile Include="Services\IRoomXmlParser.cs" />
     <Compile Include="Services\IShowService.cs" />
     <Compile Include="Services\ITemporaryUserService.cs" />
@@ -294,7 +296,6 @@
     <Compile Include="Services\OperationService.cs" />
     <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\RoomService.cs" />
-    <Compile Include="Services\RoomTypeService.cs" />
     <Compile Include="Services\RoomXmlParser.cs" />
     <Compile Include="Services\ShowService.cs" />
     <Compile Include="Services\TemporaryUserService.cs" />
@@ -516,6 +517,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201310262216034_PurchaseModel.resx">
       <DependentUpon>201310262216034_PurchaseModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310280423509_DeleteRoomStyles.resx">
+      <DependentUpon>201310280423509_DeleteRoomStyles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

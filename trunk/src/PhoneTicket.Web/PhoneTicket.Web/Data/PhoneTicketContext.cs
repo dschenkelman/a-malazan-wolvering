@@ -29,8 +29,6 @@
 
         public DbSet<Room> Rooms { get; set; }
 
-        public DbSet<RoomType> RoomTypes { get; set; }
-
         public DbSet<Discount> Discounts { get; set; }
 
         public DbSet<Operation> Operations { get; set; }
