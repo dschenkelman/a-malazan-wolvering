@@ -123,11 +123,41 @@
   <data name="ConfirmationLinkFormat" xml:space="preserve">
     <value>https://phoneticket.apphb.com/api/users/{0}/confirm?secret={1}</value>
   </data>
+  <data name="ErrorParsingContent" xml:space="preserve">
+    <value>El contenido no pudo ser interpretado. Verifique que el archivo este bien formado.</value>
+  </data>
+  <data name="FromAttributeIsRequired" xml:space="preserve">
+    <value>El atributo 'desde' es obligatorio para los elementos de tipo &lt;Fila&gt;.</value>
+  </data>
+  <data name="FromHigherThanToError" xml:space="preserve">
+    <value>El atributo 'desde' debe ser menor o igual al atributo 'hasta'.</value>
+  </data>
+  <data name="FromRangeError" xml:space="preserve">
+    <value>El atributo 'desde' debe ser un valor entre 1 y 22.</value>
+  </data>
   <data name="GreaterThanZero" xml:space="preserve">
     <value>El valor del campo debe ser mayor a 0.</value>
   </data>
+  <data name="InvalidRoomChildElement" xml:space="preserve">
+    <value>Los elementos hijos de &lt;Sala&gt; deben ser de tipo &lt;Fila&gt;.</value>
+  </data>
+  <data name="InvalidRootElement" xml:space="preserve">
+    <value>El elemento raiz debe ser &lt;Sala&gt;.</value>
+  </data>
   <data name="RequiredField" xml:space="preserve">
     <value>El campo es obligatorio.</value>
+  </data>
+  <data name="RowNumberIsRequired" xml:space="preserve">
+    <value>El atributo 'numero' es obligatorio para los elementos de tipo &lt;Fila&gt;.</value>
+  </data>
+  <data name="RowNumberRangeError" xml:space="preserve">
+    <value>El atributo 'numero' debe ser un valor entre 1 y 17.</value>
+  </data>
+  <data name="ToAttributeIsRequired" xml:space="preserve">
+    <value>El atributo 'hasta' es obligatorio para los elementos de tipo &lt;Fila&gt;.</value>
+  </data>
+  <data name="ToRangeError" xml:space="preserve">
+    <value>El atributo 'hasta' debe ser un valor entre 1 y 22.</value>
   </data>
   <data name="UrlField" xml:space="preserve">
     <value>El valor del campo debe ser una URL válida.</value>
