@@ -1,14 +1,19 @@
 package phoneticket.android.activities.fragments;
 
+import java.util.ArrayList;
+
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.BuyTicketsActivity;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment.IConfirmShowReserveCancelationDialogDelegate;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.activities.interfaces.IUserShowsActionListener;
+import phoneticket.android.model.DetailUserShow;
 import phoneticket.android.model.IDetailUserShow;
+import phoneticket.android.model.IMyShow;
 import phoneticket.android.services.get.IRetrieveUserShowInfoService;
 import phoneticket.android.services.get.IRetrieveUserShowInfoServiceDelegate;
 import phoneticket.android.services.post.ICancelUserShowService;
@@ -16,6 +21,8 @@ import phoneticket.android.services.post.ICancelUserShowServiceDelegate;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -37,6 +44,13 @@ public class DetailUserShowFragment extends RoboFragment implements
 	public static final String TAG = "DetailUserShowFragment.tag";
 	public static final String USER_SHOW_INFO = "usershow.info";
 
+	private static final String STATE_USER_SHOW_ID = "usershow.id";
+	private static final String STATE_USER_SHOW_TICKETS_COUNT = "usershow.ticketscount";
+	private static final String STATE_USER_SHOW_MOVIE_NAME = "usershow.moviename";
+	private static final String STATE_USER_SHOW_SHOW_TIME = "usershow.showtime";
+	private static final String STATE_USER_SHOW_COMPLEX_ADDRESS = "usershow.complexaddress";
+	private static final String STATE_USER_IS_BOUGHT = "usershow.isbought";
+	
 	private boolean ignoreServicesCallbacks;
 
 	private int showId;
@@ -67,7 +81,9 @@ public class DetailUserShowFragment extends RoboFragment implements
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
-
+		
+		loadDetailUserShow();
+		
 		if (shouldRetrieveUserShow()) {
 			onRetrieveUserShowAction();
 		} else {
@@ -88,11 +104,13 @@ public class DetailUserShowFragment extends RoboFragment implements
 	public void onPause() {
 		super.onPause();
 		ignoreServicesCallbacks = true;
+		saveDetailUserShow();
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
+		deleteDetailUserShow();
 		shareButtonsVisibilityListener.hideCalendarButton();
 		shareButtonsVisibilityListener.hideFacebookShareButton();
 		shareButtonsVisibilityListener.hideTwitterShareButton();
@@ -121,9 +139,55 @@ public class DetailUserShowFragment extends RoboFragment implements
 		}
 	}
 
+	private void deleteDetailUserShow() {
+		SharedPreferences.Editor editor = getActivity().getPreferences(0)
+				.edit();
+		editor.remove(STATE_USER_SHOW_ID);
+		editor.commit();
+	}
+
+	private void saveDetailUserShow() {
+		if (null != userShow) {
+			SharedPreferences.Editor editor = getActivity().getPreferences(0)
+					.edit();
+				editor.putInt(STATE_USER_SHOW_ID, userShow.getId());
+				editor.putBoolean(STATE_USER_IS_BOUGHT, userShow.isBought());
+				editor.putString(STATE_USER_SHOW_MOVIE_NAME, userShow.getMovieName());
+				editor.putString(STATE_USER_SHOW_SHOW_TIME, userShow.getShowTime());
+				editor.putString(STATE_USER_SHOW_COMPLEX_ADDRESS, userShow.getComplexAddress());
+				editor.putInt(STATE_USER_SHOW_TICKETS_COUNT, userShow.getTicketsCount());
+			editor.commit();
+		}
+	}
+
+	private void loadDetailUserShow() {
+		SharedPreferences preferences = getActivity().getPreferences(0);
+		int invalidId = -1;
+		int id = preferences.getInt(STATE_USER_SHOW_ID, invalidId);
+
+		if (invalidId != id) {
+			doLoadDetailUserShow();
+		}
+	}
+
+	private void doLoadDetailUserShow() {
+		int id, ticketsCount;
+		boolean isBought;
+		String movieName, showTime, complexAddress;
+
+		SharedPreferences preferences = getActivity().getPreferences(0);
+		id = preferences.getInt(STATE_USER_SHOW_ID, 0);
+		isBought = preferences.getBoolean(STATE_USER_IS_BOUGHT, false);
+		ticketsCount = preferences.getInt(STATE_USER_SHOW_TICKETS_COUNT, 0);
+		movieName = preferences.getString(STATE_USER_SHOW_MOVIE_NAME, "-");
+		showTime = preferences.getString(STATE_USER_SHOW_SHOW_TIME, "-");
+		complexAddress = preferences.getString(STATE_USER_SHOW_COMPLEX_ADDRESS, "-");
+		
+		userShow = new DetailUserShow(id, isBought, movieName, showTime, complexAddress, ticketsCount);
+	}
+
 	private boolean shouldRetrieveUserShow() {
-		// TODO Auto-generated method stub
-		return true;
+		return null == userShow;
 	}
 
 	private void onRetrieveUserShowAction() {
@@ -137,8 +201,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	protected void onBuyReservationAction() {
-		// TODO Auto-generated method stub
-
+		Intent intent = new Intent(getActivity(), BuyTicketsActivity.class);
+		startActivity(intent);
 	}
 
 	protected void onCancelReservationAction() {
@@ -249,6 +313,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 			IRetrieveUserShowInfoService delegate, IDetailUserShow userShow) {
 		if (false == ignoreServicesCallbacks) {
 			this.userShow = userShow;
+			saveDetailUserShow();
 			populateUserShowView();
 			showUserShowListLayout();
 		}
