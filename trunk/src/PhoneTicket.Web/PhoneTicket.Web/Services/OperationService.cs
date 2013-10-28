@@ -2,18 +2,18 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Data.Entity;
-    using System.Web;
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
     using System.Linq.Expressions;
 
+    using PhoneTicket.Web.ViewModels.Api;
+
     public class OperationService : IOperationService
     {
-        private IPhoneTicketRepositories repositories;
+        private readonly IPhoneTicketRepositories repositories;
 
         public OperationService(IPhoneTicketRepositories repositories)
         {
@@ -42,6 +42,16 @@
         public async Task DeleteAsync(int id)
         {
             await this.repositories.Operations.DeleteAsync(id);
+
+            await this.repositories.Operations.SaveAsync();
+        }
+
+        public async Task AddDiscountsAsync(Operation operation, IEnumerable<DiscountForOperationViewModel> discounts)
+        {
+            foreach (var discount in discounts)
+            {
+                operation.OperationDiscounts.Add(new OperationDiscount { DiscountId = discount.DiscountId, Count = discount.Count });
+            }
 
             await this.repositories.Operations.SaveAsync();
         }

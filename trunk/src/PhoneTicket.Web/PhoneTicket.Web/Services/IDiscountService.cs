@@ -20,6 +20,8 @@
         Task CreateAsync(Discount discount);
 
         Task<Discount> GetByIdAsync(int discountId);
+        
+        Task<IEnumerable<Discount>> GetByIdsAsync(params int[] discountIds);
 
         Task UpdateAsync(Discount discount);
     }

@@ -446,6 +446,7 @@
             var file = this.mockRepository.Create<HttpPostedFileBase>();
 
             file.Setup(f => f.InputStream).Returns(memoryStream).Verifiable();
+            file.Setup(f => f.ContentType).Returns("text/xml").Verifiable();
 
             viewModel.RoomFile = file.Object;
 
@@ -490,6 +491,7 @@
             var file = this.mockRepository.Create<HttpPostedFileBase>();
 
             file.Setup(f => f.InputStream).Returns(memoryStream).Verifiable();
+            file.Setup(f => f.ContentType).Returns("text/xml").Verifiable();
 
             viewModel.RoomFile = file.Object;
 
@@ -522,6 +524,7 @@
             var file = this.mockRepository.Create<HttpPostedFileBase>();
 
             file.Setup(f => f.InputStream).Returns(memoryStream).Verifiable();
+            file.Setup(f => f.ContentType).Returns("text/xml").Verifiable();
 
             var seats = new ShowSeats();
 

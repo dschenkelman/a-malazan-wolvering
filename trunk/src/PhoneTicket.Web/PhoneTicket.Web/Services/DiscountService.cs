@@ -1,6 +1,7 @@
 ﻿namespace PhoneTicket.Web.Services
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq.Expressions;
@@ -51,6 +52,11 @@
         public Task<Discount> GetByIdAsync(int discountId)
         {
             return this.repositories.Discounts.GetByKeyValuesAsync(discountId);
+        }
+
+        public async Task<IEnumerable<Discount>> GetByIdsAsync(params int[] discountIds)
+        {
+            return await this.repositories.Discounts.Filter(d => discountIds.Contains(d.Id)).ToListAsync();
         }
 
         public Task UpdateAsync(Discount discount)

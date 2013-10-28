@@ -2,12 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Linq.Expressions;
-    using System.Text;
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.ViewModels.Api;
 
     public interface IOperationService
     {
@@ -18,5 +17,7 @@
         Task<int> CreateAsync(Operation operation);
 
         Task DeleteAsync(int id);
+
+        Task AddDiscountsAsync(Operation operation, IEnumerable<DiscountForOperationViewModel> discounts);
     }
 }

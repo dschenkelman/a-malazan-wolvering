@@ -339,6 +339,7 @@
     <Compile Include="ViewModels\Api\ArmChairViewModel.cs" />
     <Compile Include="ViewModels\Api\ComplexListItemViewModel.cs" />
     <Compile Include="ViewModels\Api\ComplexViewModel.cs" />
+    <Compile Include="ViewModels\Api\DiscountForOperationViewModel.cs" />
     <Compile Include="ViewModels\Api\DiscountInfoViewModel.cs" />
     <Compile Include="ViewModels\Api\MovieListItemViewModel .cs" />
     <Compile Include="ViewModels\Api\MovieViewModel.cs" />
