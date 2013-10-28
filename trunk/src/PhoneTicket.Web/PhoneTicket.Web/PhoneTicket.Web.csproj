@@ -258,6 +258,10 @@
     <Compile Include="Migrations\201310280453449_AddRoomXmlFile.Designer.cs">
       <DependentUpon>201310280453449_AddRoomXmlFile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310281645368_OptionalCreditCardFieldsInOperation.cs" />
+    <Compile Include="Migrations\201310281645368_OptionalCreditCardFieldsInOperation.Designer.cs">
+      <DependentUpon>201310281645368_OptionalCreditCardFieldsInOperation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Complex.cs" />
@@ -529,6 +533,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201310280453449_AddRoomXmlFile.resx">
       <DependentUpon>201310280453449_AddRoomXmlFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310281645368_OptionalCreditCardFieldsInOperation.resx">
+      <DependentUpon>201310281645368_OptionalCreditCardFieldsInOperation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
