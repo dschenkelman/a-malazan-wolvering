@@ -1,0 +1,64 @@
+﻿namespace PhoneTicket.Web.Models
+{
+    using System;
+
+    public class ShowSeats
+    {
+        private readonly SeatState[][] seats;
+
+        public ShowSeats()
+        {
+            this.seats = new SeatState[17][];
+
+            for (int i = 0; i < 17; i++)
+            {
+                this.seats[i] = new SeatState[22];
+
+                for (int j = 0; j < 22; j++)
+                {
+                    this.seats[i][j] = SeatState.NoSeat;
+                }
+            }
+        }
+
+        public SeatState[][] Seats
+        {
+            get
+            {
+                return this.seats;
+            }
+        }
+
+        public void MarkFree(int row, int column)
+        {
+            this.MarkSeat(row, column, SeatState.Free);
+        }
+
+        public void MarkTaken(int row, int column)
+        {
+            this.MarkSeat(row, column, SeatState.Taken);
+        }
+
+        private void MarkSeat(int row, int column, SeatState state)
+        {
+            if (row < 1 || row > 17)
+            {
+                throw new ArgumentOutOfRangeException("row");
+            }
+
+            if (column < 1 || column > 22)
+            {
+                throw new ArgumentOutOfRangeException("row");
+            }
+
+            this.seats[row - 1][column - 1] = state;
+        }
+    }
+
+    public enum SeatState
+    {
+        NoSeat,
+        Taken,
+        Free,
+    }
+}

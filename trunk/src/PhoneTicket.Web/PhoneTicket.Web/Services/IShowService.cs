@@ -13,5 +13,6 @@
         Task<IEnumerable<Show>> GetForMovieAsync(int movieId);
         Task DeleteAsync(int showId);
         Task ChangeAvailability(int showId);
+        Task<IEnumerable<OccupiedSeat>> GetOccupiedSeats(int showId);
     }
 }
