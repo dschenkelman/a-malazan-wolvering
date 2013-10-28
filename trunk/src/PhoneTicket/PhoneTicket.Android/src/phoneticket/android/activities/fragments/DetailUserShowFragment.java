@@ -3,8 +3,8 @@ package phoneticket.android.activities.fragments;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
-import phoneticket.android.activities.dialog.ConfirmShowReserveCancelationDialogFragment;
-import phoneticket.android.activities.dialog.ConfirmShowReserveCancelationDialogFragment.IConfirmShowReserveCancelationDialogDelegate;
+import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
+import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment.IConfirmShowReserveCancelationDialogDelegate;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.activities.interfaces.IUserShowsActionListener;
@@ -14,6 +14,8 @@ import phoneticket.android.services.get.IRetrieveUserShowInfoServiceDelegate;
 import phoneticket.android.services.post.ICancelUserShowService;
 import phoneticket.android.services.post.ICancelUserShowServiceDelegate;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -272,7 +274,20 @@ public class DetailUserShowFragment extends RoboFragment implements
 			ICancelUserShowService delegate, int errorCode) {
 		if (false == ignoreServicesCallbacks) {
 			showUserShowListLayout();
-			// TODO show an error dialog
+			
+
+			DialogFragment dialog = new DialogFragment(){
+				@Override
+				public Dialog onCreateDialog(Bundle savedInstanceState) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+					builder.setMessage("Error al cancelar la reserva. Vuelva a intentarlo.")
+							.setTitle("Error")
+							.setPositiveButton(R.string.errorDialogContinue, null);
+					return builder.create();
+				}
+			};
+			dialog.show(getFragmentManager(), "dialog.confirmation");
 		}
 	}
 

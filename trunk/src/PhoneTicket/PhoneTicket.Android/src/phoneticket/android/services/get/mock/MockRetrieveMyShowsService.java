@@ -49,7 +49,7 @@ public class MockRetrieveMyShowsService extends
 			}
 			@Override
 			public boolean isBought() {
-				return true;
+				return false;
 			}
 			@Override
 			public String getMovieName() {

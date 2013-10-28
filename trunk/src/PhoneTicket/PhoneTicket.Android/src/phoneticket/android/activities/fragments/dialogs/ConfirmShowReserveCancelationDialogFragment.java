@@ -1,4 +1,4 @@
-package phoneticket.android.activities.dialog;
+package phoneticket.android.activities.fragments.dialogs;
 
 import phoneticket.android.activities.fragments.DetailUserShowFragment;
 import android.annotation.SuppressLint;
