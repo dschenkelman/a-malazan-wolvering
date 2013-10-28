@@ -253,6 +253,10 @@
     <Compile Include="Migrations\201310280423509_DeleteRoomStyles.Designer.cs">
       <DependentUpon>201310280423509_DeleteRoomStyles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310280453449_AddRoomXmlFile.cs" />
+    <Compile Include="Migrations\201310280453449_AddRoomXmlFile.Designer.cs">
+      <DependentUpon>201310280453449_AddRoomXmlFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Complex.cs" />
@@ -520,6 +524,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201310280423509_DeleteRoomStyles.resx">
       <DependentUpon>201310280423509_DeleteRoomStyles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310280453449_AddRoomXmlFile.resx">
+      <DependentUpon>201310280453449_AddRoomXmlFile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

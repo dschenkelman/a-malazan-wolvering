@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Web;
     using System.Web.Mvc;
 
     using PhoneTicket.Web.Models;
@@ -22,37 +23,33 @@
         public int? ComplexId { get; set; }
 
         public IEnumerable<SelectListItem> AvailableComplexes { get; set; }
-
-        [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
-        [Range(1, int.MaxValue, ErrorMessage = "Ingrese un número entero de minutos mayor a uno.")]
-        public int Capacity { get; set; }
-
+        
         public bool CanEdit { get; set; }
+
+        [Required]
+        public HttpPostedFileBase RoomFile { get; set; }
 
         public static ListRoomViewModel FromRoom(Room room, bool userCanEdit)
         {
-
             var vm = new ListRoomViewModel
             {
                 Id = room.Id,
                 Name = room.Name,
                 ComplexName = room.Complex.Name,
                 ComplexId = room.ComplexId,
-                Capacity = room.Capacity,
                 CanEdit = userCanEdit
             };
 
             return vm;
         }
 
-        public static Room FromRoomViewModel(ListRoomViewModel roomVM)
+        public static Room FromRoomViewModel(ListRoomViewModel roomViewModel)
         {
             var r = new Room
             {
-                Id = roomVM.Id,
-                Name = roomVM.Name,
-                ComplexId = Convert.ToInt32(roomVM.ComplexId),
-                Capacity = roomVM.Capacity,
+                Id = roomViewModel.Id,
+                Name = roomViewModel.Name,
+                ComplexId = Convert.ToInt32(roomViewModel.ComplexId),
             };
 
             return r;

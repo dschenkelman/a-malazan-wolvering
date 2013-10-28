@@ -1,6 +1,7 @@
 ﻿namespace PhoneTicket.Web.Controllers
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
@@ -21,13 +22,16 @@
         private readonly IComplexService complexService;
         private readonly ICurrentUserRole currentUserRole;
 
+        private readonly IRoomXmlParser roomXmlParser;
+
         private const int PageSize = 5;
 
-        public RoomsController(IRoomService roomService, IComplexService complexService, ICurrentUserRole currentUserRole)
+        public RoomsController(IRoomService roomService, IComplexService complexService, ICurrentUserRole currentUserRole, IRoomXmlParser roomXmlParser)
         {
             this.roomService = roomService;
             this.complexService = complexService;
             this.currentUserRole = currentUserRole;
+            this.roomXmlParser = roomXmlParser;
         }
 
         public async Task<ActionResult> Index(string roomSearch, int? page)
@@ -67,7 +71,31 @@
 
         public async Task<ActionResult> CreateRoom(ListRoomViewModel roomViewModel)
         {
+            var xml = string.Empty;
+
+            using (var reader = new StreamReader(roomViewModel.RoomFile.InputStream))
+            {
+                xml = await reader.ReadToEndAsync();
+            }
+
+            var errors = this.roomXmlParser.Validate(xml);
+
+            if (errors.Any())
+            {
+                foreach (RoomXmlError error in errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, string.Format("{0} Linea: {1}", error.Message, error.Line));    
+                }
+
+                var availableComplexes = await this.complexService.ListAsync(roomViewModel.ComplexId);
+
+                roomViewModel.AvailableComplexes = availableComplexes;
+
+                return this.View("Add", roomViewModel);
+            }
+
             var room = ListRoomViewModel.FromRoomViewModel(roomViewModel);
+            room.File = xml;
 
             await this.roomService.CreateAsync(room);
 
