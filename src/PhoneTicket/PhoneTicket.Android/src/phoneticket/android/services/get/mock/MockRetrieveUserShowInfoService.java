@@ -6,13 +6,13 @@ import phoneticket.android.services.get.IRetrieveUserShowInfoService;
 import phoneticket.android.services.get.IRetrieveUserShowInfoServiceDelegate;
 
 public class MockRetrieveUserShowInfoService extends
-AsyncTask<String, String, String> implements
+		AsyncTask<String, String, String> implements
 		IRetrieveUserShowInfoService {
 
 	private IRetrieveUserShowInfoServiceDelegate delegate;
 	private boolean fakeTimeout;
 	private int id;
-	
+
 	@Override
 	public void retrieveUserShowInfo(
 			IRetrieveUserShowInfoServiceDelegate delegate, int userShowId) {
@@ -42,19 +42,36 @@ AsyncTask<String, String, String> implements
 	}
 
 	private IDetailUserShow createMocks() {
-		IDetailUserShow detail =  new IDetailUserShow() {
+		IDetailUserShow detail = new IDetailUserShow() {
 			@Override
-			public int getId() { return id; }
+			public int getId() {
+				return id;
+			}
+
 			@Override
-			public boolean isBought() { return 0 == (id % 2); }
+			public boolean isBought() {
+				return 0 == (id % 2);
+			}
+
 			@Override
-			public String getMovieName() { return "Aviones"; }
+			public String getMovieName() {
+				return "Aviones";
+			}
+
 			@Override
-			public String getShowTime() { return "19/02 16:00 Hs"; }
+			public String getShowTime() {
+				return "19/02 16:00 Hs";
+			}
+
 			@Override
-			public String getComplexAddress() { return "Las Heras 999"; }
+			public String getComplexAddress() {
+				return "Las Heras 999";
+			}
+
 			@Override
-			public int getTicketsCount() { return 4; }
+			public int getTicketsCount() {
+				return 4;
+			}
 		};
 		return detail;
 	}

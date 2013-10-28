@@ -24,8 +24,10 @@ import phoneticket.android.services.get.impl.RetrieveUserShowInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveRoomInfoServiceProxy;
 
 import phoneticket.android.services.post.IAuthService;
+import phoneticket.android.services.post.ICancelUserShowService;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.impl.AuthServiceProxy;
+import phoneticket.android.services.post.impl.CancelUserShowServiceProxy;
 import phoneticket.android.services.post.impl.RegisterUserServiceProxy;
 import phoneticket.android.validator.FormValidatorImpl;
 import phoneticket.android.validator.IFormValidator;
@@ -58,6 +60,8 @@ public class PhoneTicketModule implements Module {
 				RetrieveMyShowsServiceProxy.class);
 		binder.bind(IRetrieveUserShowInfoService.class).to(
 				RetrieveUserShowInfoServiceProxy.class);
+		binder.bind(ICancelUserShowService.class).to(
+				CancelUserShowServiceProxy.class);
 		
 	}
 

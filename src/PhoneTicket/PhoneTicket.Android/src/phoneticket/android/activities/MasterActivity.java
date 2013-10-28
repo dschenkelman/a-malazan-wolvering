@@ -26,11 +26,13 @@ import phoneticket.android.activities.interfaces.IArmChairsSelected;
 import phoneticket.android.activities.fragments.UserShowsFragment;
 import phoneticket.android.activities.interfaces.IDetailUserShowListener;
 import phoneticket.android.activities.interfaces.IFunctionSelectionListener;
+import phoneticket.android.activities.interfaces.IUserShowsActionListener;
 import phoneticket.android.activities.interfaces.IUserShowsListener;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
 import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
+import phoneticket.android.model.IDetailUserShow;
 import phoneticket.android.model.IMyShow;
 import phoneticket.android.model.ArmChair;
 import phoneticket.android.model.Ticket;
@@ -59,7 +61,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		iRibbonMenuCallback, IOnCinemaSelectedListener,
 		IOnMovielistItemSelectedListener, IShareButtonsVisibilityListener,
 		IShareActionListener, IFunctionSelectionListener, IArmChairsSelected,
-		IUserShowsListener, IDetailUserShowListener {
+		IUserShowsListener, IDetailUserShowListener, IUserShowsActionListener {
 
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
@@ -73,6 +75,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private StatusCallback callback;
 	private String facebookUrl;
 	private String facebookMessage;
+	
+	private IOnUserShowChangesListener listener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -315,6 +319,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideTwitterShareButton();
 		hideCalendarButton();
 		UserShowsFragment userShowsFragment = new UserShowsFragment();
+		listener = userShowsFragment;
 		changeFragment(userShowsFragment, true);
 	}
 
@@ -531,5 +536,17 @@ public class MasterActivity extends RoboFragmentActivity implements
 	public void shareTextonFacebook(String message) {
 		this.facebookMessage = message;
 		this.facebookUrl = null;
+	}
+
+	@Override
+	public void onCanceledUserShowAction(IDetailUserShow userShow) {
+		onBackPressed();
+		listener.userShowCanceled(userShow);
+	}
+	
+	public interface IOnUserShowChangesListener {
+
+		void userShowCanceled(IDetailUserShow userShow);
+		
 	}
 }
