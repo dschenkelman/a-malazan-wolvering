@@ -36,10 +36,7 @@
 
         public virtual CreditCardCompany CreditCardCompany { get; set; }
 
-        [ForeignKey("Discount")]
-        public int? DiscountId { get; set; }
-
-        public virtual Discount Discount { get; set; }
+        public virtual Collection<Discount> Discounts { get; set; }
 
         public int? DiscountCount { get; set; }
 

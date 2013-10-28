@@ -1,6 +1,8 @@
 ﻿namespace PhoneTicket.Web.Models
 {
     using System;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using PhoneTicket.Web.ViewModels;
 
@@ -29,6 +31,17 @@
             this.Value = viewModel.Value.HasValue
                                 ? (type == DiscountType.FixedPrice ? viewModel.Value.Value : viewModel.Value.Value / 100)
                                 : (double?)null;
+        }
+
+        public virtual Collection<Operation> Operations { get; set; }
+
+        [NotMapped]
+        public int RelatedTickets
+        {
+            get
+            {
+                return (this.Type == DiscountType.TwoForOne) ? 2 : 1;
+            }
         }
     }
 }
