@@ -23,6 +23,7 @@
             container.RegisterType<IShowService, ShowService>();
             container.RegisterType<IDiscountService, DiscountService>();
             container.RegisterType<IOperationService, OperationService>();
+            container.RegisterType<IOccupiedSeatsService, OccupiedSeatsService>();
             container.RegisterType<IRoomXmlParser, RoomXmlParser>();
 
             container.RegisterType<IRepository<User>, Repository<User>>();
@@ -45,6 +46,7 @@
             container.RegisterType<PhoneTicket.Web.Controllers.Api.DiscountsController>();
             container.RegisterType<PhoneTicket.Web.Controllers.Api.CurrentUserController>();
             container.RegisterType<PhoneTicket.Web.Controllers.Api.ShowsController>();
+            container.RegisterType<PhoneTicket.Web.Controllers.Api.OperationsController>();
             container.RegisterType<PhoneTicket.Web.Controllers.UsersController>();
             container.RegisterType<PhoneTicket.Web.Controllers.MoviesController>();
             container.RegisterType<PhoneTicket.Web.Controllers.RoomsController>();

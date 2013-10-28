@@ -211,6 +211,7 @@
     <Compile Include="Controllers\Api\CurrentUserController.cs" />
     <Compile Include="Controllers\Api\DiscountsController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
+    <Compile Include="Controllers\Api\OperationsController.cs" />
     <Compile Include="Controllers\Api\ShowsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\DiscountsController.cs" />
@@ -294,6 +295,7 @@
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IMovieService.cs" />
     <Compile Include="Services\IGenreService.cs" />
+    <Compile Include="Services\IOccupiedSeatsService.cs" />
     <Compile Include="Services\IOperationService.cs" />
     <Compile Include="Services\IRatingService.cs" />
     <Compile Include="Services\IRoomService.cs" />
@@ -302,6 +304,7 @@
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\MovieService.cs" />
+    <Compile Include="Services\OccupiedSeatsService.cs" />
     <Compile Include="Services\OperationService.cs" />
     <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\RoomService.cs" />
@@ -317,11 +320,13 @@
     <Compile Include="UnityDependencyResolver.cs" />
     <Compile Include="UnityResolverConfigurator.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="ViewModels\Api\ArmChairViewModel.cs" />
     <Compile Include="ViewModels\Api\ComplexListItemViewModel.cs" />
     <Compile Include="ViewModels\Api\ComplexViewModel.cs" />
     <Compile Include="ViewModels\Api\DiscountInfoViewModel.cs" />
     <Compile Include="ViewModels\Api\MovieListItemViewModel .cs" />
     <Compile Include="ViewModels\Api\MovieViewModel.cs" />
+    <Compile Include="ViewModels\Api\NewOperationViewModel.cs" />
     <Compile Include="ViewModels\Api\ShowInfoViewModel.cs" />
     <Compile Include="ViewModels\Api\ShowsPerComplexViewModel.cs" />
     <Compile Include="ViewModels\Api\UserInformationViewModel.cs" />

@@ -1,8 +1,5 @@
 ﻿namespace PhoneTicket.Web.Controllers.Api
 {
-    using PhoneTicket.Web.Models;
-    using PhoneTicket.Web.Services;
-    using PhoneTicket.Web.ViewModels.Api;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,6 +7,10 @@
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Http;
+
+    using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.ViewModels.Api;
 
     [RoutePrefix("api/currentUser")]
     public class CurrentUserController : ApiController
