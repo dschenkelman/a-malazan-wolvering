@@ -8,7 +8,9 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.MasterActivity.IOnUserShowChangesListener;
 import phoneticket.android.activities.interfaces.IDetailUserShowListener;
+import phoneticket.android.model.IDetailUserShow;
 import phoneticket.android.model.IMyShow;
 import phoneticket.android.model.MyShow;
 import phoneticket.android.services.get.IRetrieveMyShowsService;
@@ -33,7 +35,7 @@ import android.widget.TextView;
 import roboguice.fragment.RoboFragment;
 
 public class UserShowsFragment extends RoboFragment implements
-		IRetrieveMyShowsServiceDelegate {
+		IRetrieveMyShowsServiceDelegate, IOnUserShowChangesListener {
 
 	private static final String STATE_SHOWS_STREAM = "state.usershows.stream";
 	private static final String STATE_SHOWS_SEPARATOR_ITEMS = "]";
@@ -83,7 +85,28 @@ public class UserShowsFragment extends RoboFragment implements
 	public void onPause() {
 		super.onPause();
 		ignoreServicesCallbacks = true;
-		
+		saveMyShows();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		deleteSavedShowsData();
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		try {
+			detailListener = (IDetailUserShowListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IDetailUserShowListener");
+		}
+	}
+
+	private void saveMyShows() {
 		if (null != myShows) {
 			String showsStream = "";
 			for (IMyShow cinemaItem : myShows) {
@@ -102,24 +125,6 @@ public class UserShowsFragment extends RoboFragment implements
 					.edit();
 			editor.putString(STATE_SHOWS_STREAM, showsStream);
 			editor.commit();
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		deleteSavedShowsData();
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		try {
-			detailListener = (IDetailUserShowListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement IDetailUserShowListener");
 		}
 	}
 
@@ -239,7 +244,7 @@ public class UserShowsFragment extends RoboFragment implements
 			}
 		});
 	}
-
+	
 	@Override
 	public void retrieveMyShowsServiceFinished(IRetrieveMyShowsService service,
 			Collection<IMyShow> myShows) {
@@ -309,6 +314,25 @@ public class UserShowsFragment extends RoboFragment implements
 			}
 
 			return rowView;
+		}
+	}
+
+	@Override
+	public void userShowCanceled(IDetailUserShow userShow) {
+		IMyShow show = null;
+		for (IMyShow myShow : myShows) {
+			if (myShow.getId() == userShow.getId()) {
+				show = myShow;
+				break;
+			}
+		}
+		if (null != show) {
+			myShows.remove(show);
+			saveMyShows();
+			
+			ListView myShowsList = (ListView) getView().findViewById(
+					R.id.myShowsListView);
+			((MyShowsAdapter)myShowsList.getAdapter()).remove(show);
 		}
 	}
 }

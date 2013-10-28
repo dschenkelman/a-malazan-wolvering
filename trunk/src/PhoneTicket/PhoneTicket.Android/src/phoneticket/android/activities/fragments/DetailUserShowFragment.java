@@ -7,9 +7,12 @@ import phoneticket.android.activities.dialog.ConfirmShowReserveCancelationDialog
 import phoneticket.android.activities.dialog.ConfirmShowReserveCancelationDialogFragment.IConfirmShowReserveCancelationDialogDelegate;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
+import phoneticket.android.activities.interfaces.IUserShowsActionListener;
 import phoneticket.android.model.IDetailUserShow;
 import phoneticket.android.services.get.IRetrieveUserShowInfoService;
 import phoneticket.android.services.get.IRetrieveUserShowInfoServiceDelegate;
+import phoneticket.android.services.post.ICancelUserShowService;
+import phoneticket.android.services.post.ICancelUserShowServiceDelegate;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -26,7 +29,8 @@ import roboguice.fragment.RoboFragment;
 
 public class DetailUserShowFragment extends RoboFragment implements
 		IRetrieveUserShowInfoServiceDelegate,
-		IConfirmShowReserveCancelationDialogDelegate {
+		IConfirmShowReserveCancelationDialogDelegate,
+		ICancelUserShowServiceDelegate {
 
 	public static final String TAG = "DetailUserShowFragment.tag";
 	public static final String USER_SHOW_INFO = "usershow.info";
@@ -37,11 +41,14 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 	@Inject
 	private IRetrieveUserShowInfoService infoService;
+	@Inject
+	private ICancelUserShowService cancelService;
 
 	private IDetailUserShow userShow;
 
 	private IShareButtonsVisibilityListener shareButtonsVisibilityListener;
 	private IShareActionListener shareActionListener;
+	private IUserShowsActionListener userShowStateListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,6 +110,12 @@ public class DetailUserShowFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IShareActionListener");
+		}
+		try {
+			userShowStateListener = (IUserShowsActionListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IUserShowsActionListener");
 		}
 	}
 
@@ -248,12 +261,28 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	@Override
+	public void cancelUserShowFinished(ICancelUserShowService delegate) {
+		if (false == ignoreServicesCallbacks) {
+			userShowStateListener.onCanceledUserShowAction(userShow);
+		}
+	}
+
+	@Override
+	public void cancelUserShowFinishedWithError(
+			ICancelUserShowService delegate, int errorCode) {
+		if (false == ignoreServicesCallbacks) {
+			showUserShowListLayout();
+			// TODO show an error dialog
+		}
+	}
+
+	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
 		showCancelingLayout();
 		shareButtonsVisibilityListener.hideCalendarButton();
 		shareButtonsVisibilityListener.hideFacebookShareButton();
 		shareButtonsVisibilityListener.hideTwitterShareButton();
-		
+		cancelService.cancelUserShow(this, this.userShow);
 	}
 
 }
