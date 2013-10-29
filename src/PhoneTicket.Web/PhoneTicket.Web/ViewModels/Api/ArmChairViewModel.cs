@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.ViewModels.Api
 {
+    using PhoneTicket.Web.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,5 +11,10 @@
         public int Row { get; set; }
 
         public int Column { get; set; }
+
+        public static ArmChairViewModel FromOccupiedSeat(OccupiedSeat seat)
+        {
+            return new ArmChairViewModel { Row = seat.Row, Column = seat.Column };
+        }
     }
 }

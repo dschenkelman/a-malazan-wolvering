@@ -49,6 +49,29 @@
 
             return viewModel;
         }
+
+        [Authorize]
+        [HttpGet("operations/{id}")]
+        public async Task<OperationDetailViewModel> Operations(int id)
+        {
+            var op = await this.operationService.GetAsync(id);
+
+            var seats = op.OccupiedSeats.Select(s => ArmChairViewModel.FromOccupiedSeat(s)).ToList();
+
+            var discounts = op.OperationDiscounts.Select(d => DiscountForOperationViewModel.FromOperationDiscount(d)).ToList();
+
+            var viewModel = new OperationDetailViewModel
+            {
+                MovieTitle = op.Show.Movie.Title,
+                ShowDateAndTime = op.Show.Date.ToString("dd/MM hh:mm") + "Hs",
+                ComplexAddress = op.Show.Room.Complex.Address,
+                ShowPrice = op.Show.Price,
+                Seats = seats,
+                Discounts = discounts
+            };
+
+            return viewModel;
+        }
     }
 
 }
