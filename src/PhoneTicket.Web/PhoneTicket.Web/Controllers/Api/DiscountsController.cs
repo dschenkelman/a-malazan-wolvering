@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
 
@@ -34,17 +33,17 @@
         [HttpPost("api/operations/{opNumber}/discounts")]
         public async Task<IHttpActionResult> SetDiscounts(int opNumber, IEnumerable<DiscountForOperationViewModel> discountsForOperation)
         {
-            var discountForOperationViewModels = discountsForOperation as DiscountForOperationViewModel[] ?? discountsForOperation.ToArray();
-            var discountIds = discountForOperationViewModels.Select(dfo => dfo.DiscountId).ToArray();
-
-            var discounts = await this.discountService.GetByIdsAsync(discountIds);
-
             var operation = (await this.operationService.GetAsync(o => o.Number == opNumber)).FirstOrDefault();
 
             if (operation == null)
             {
                 return this.BadRequest("La operación no existe");
             }
+
+            var discountForOperationViewModels = discountsForOperation as DiscountForOperationViewModel[] ?? discountsForOperation.ToArray();
+            var discountIds = discountForOperationViewModels.Select(dfo => dfo.DiscountId).ToArray();
+
+            var discounts = await this.discountService.GetByIdsAsync(discountIds);
 
             var enumerable = discounts as Discount[] ?? discounts.ToArray();
             if (enumerable.Sum(d => d.RelatedTickets * discountForOperationViewModels.First(dfo => dfo.DiscountId == d.Id).Count)
