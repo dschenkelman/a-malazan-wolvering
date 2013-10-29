@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/discountsLayout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
     <TextView
         android:id="@+id/filmInfo"
@@ -15,84 +13,111 @@
         android:id="@+id/cinemaAddress"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/filmInfo"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/armChairs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/cinemaAddress"
         android:textSize="20sp" />
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+    <TextView
+        android:id="@+id/amountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/armChairs"
+        android:text="@string/total_sin_promociones"
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/amountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/total_sin_promociones"
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/armChairs"
+        android:layout_toRightOf="@+id/amountText"
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/amountText"
-            android:textSize="20sp" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/totalText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amountText"
+        android:text="@string/precio_final_text"
+        android:textSize="20sp" />
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/totalText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/precio_final_text"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/totalText"
-            android:textSize="20sp" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amountText"
+        android:layout_toRightOf="@+id/totalText"
+        android:textSize="20sp" />
 
     <View
         android:id="@+id/line"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
+        android:layout_below="@+id/totalText"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:background="@android:color/black" />
 
-    <Button
-        android:id="@+id/comprarButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/comprar" />
-
-    <Button
-        android:id="@+id/reservarButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/reservar" />
-
     <TextView
+        android:id="@+id/discountsText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/line"
         android:layout_margin="5dp"
         android:text="@string/promociones"
         android:textSize="20sp" />
 
-    <ListView
-        android:id="@+id/discounts"
+    <LinearLayout
+        android:id="@+id/discountsLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:visibility="gone" >
-    </ListView>
+        android:layout_above="@+id/actions"
+        android:layout_below="@+id/discountsText" >
 
-</LinearLayout>
+        <ListView
+            android:id="@+id/discounts"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone" >
+        </ListView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/actions"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/cancelarButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancelar" />
+
+            <Button
+                android:id="@+id/comprarButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comprar" />
+
+            <Button
+                android:id="@+id/reservarButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reservar" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

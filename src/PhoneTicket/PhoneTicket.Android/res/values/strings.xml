@@ -76,5 +76,6 @@
     <string name="decrease_discount">Para decrementar la promocion</string>
     <string name="plus">+</string>
     <string name="less">-</string>
+    <string name="cancelar">Cancelar</string>
 
 </resources>
