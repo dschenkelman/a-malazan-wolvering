@@ -344,6 +344,7 @@
     <Compile Include="ViewModels\Api\MovieListItemViewModel .cs" />
     <Compile Include="ViewModels\Api\MovieViewModel.cs" />
     <Compile Include="ViewModels\Api\NewOperationViewModel.cs" />
+    <Compile Include="ViewModels\Api\OperationDetailViewModel.cs" />
     <Compile Include="ViewModels\Api\ShowInfoViewModel.cs" />
     <Compile Include="ViewModels\Api\ShowsPerComplexViewModel.cs" />
     <Compile Include="ViewModels\Api\UserInformationViewModel.cs" />
