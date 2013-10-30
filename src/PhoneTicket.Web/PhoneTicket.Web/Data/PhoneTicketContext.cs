@@ -35,6 +35,8 @@
 
         public DbSet<OccupiedSeat> OccupiedSeats { get; set; }
 
+        public DbSet<CreditCardCompany> CreditCardCompanies { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
            Database.SetInitializer(new MigrateDatabaseToLatestVersion<PhoneTicketContext, Configuration>());
