@@ -77,5 +77,6 @@
     <string name="plus">+</string>
     <string name="less">-</string>
     <string name="cancelar">Cancelar</string>
+    <string name="title_activity_qrcode">QRCodeActivity</string>
 
 </resources>
