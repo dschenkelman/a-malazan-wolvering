@@ -117,8 +117,12 @@
         [HttpGet("{id}/cancel")]
         public async Task<HttpResponseMessage> CancelReservation(Guid id)
         {
-            // By cascade, it also deletes occupied seats and discounts referenced to de operation.
+            var showId = (await this.operationService.GetAsync(id)).ShowId;
+            
+            // By cascade, it also deletes occupied seats and discounts referenced to the operation.
             await this.operationService.DeleteAsync(id);
+
+            await this.showService.ManageAvailability(showId);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }

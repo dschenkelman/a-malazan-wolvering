@@ -378,7 +378,6 @@
         {
             const bool CanEdit = true;
             const int ComplexId = 4;
-            const int TypeId = 2;
             var room = new Room()
             {
                 Id = 2,
