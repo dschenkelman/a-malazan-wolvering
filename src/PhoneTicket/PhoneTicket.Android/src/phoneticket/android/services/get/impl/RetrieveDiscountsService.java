@@ -32,7 +32,7 @@ public class RetrieveDiscountsService extends GetService implements
 			return;
 		}
 		this.delegate = delegate;
-		execute(APIService.getRetrieveCinemaListServiceGetURL());
+		execute(APIService.getRetrieveDiscountsListServiceGetURL());
 	}
 
 	@Override

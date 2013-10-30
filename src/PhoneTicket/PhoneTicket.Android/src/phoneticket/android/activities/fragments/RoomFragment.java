@@ -146,7 +146,7 @@ public class RoomFragment extends RoboFragment implements
 		GridView armChairSelection = (GridView) getView().findViewById(
 				R.id.armChairSelection);
 		armChairSelection.setVisibility(GridView.GONE);
-		this.roomInfoService.retrieveRoomInfo(this, ticket.getRoomId());
+		this.roomInfoService.retrieveRoomInfo(this, ticket.getFunctionId());
 	}
 
 	@Override
