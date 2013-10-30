@@ -167,7 +167,7 @@
             };
 
             var seat = new OccupiedSeat { OperationId = operationNumber, Column = Col, Row = Row};
-            var discount = new OperationDiscount { DiscountId = DiscountId, Count = DiscountCount };
+            var discount = new OperationDiscount { DiscountId = DiscountId, Discount = new Discount { Id = DiscountId }, Count = DiscountCount };
 
             var operation = new Operation
             {

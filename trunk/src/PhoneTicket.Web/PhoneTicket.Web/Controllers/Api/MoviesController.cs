@@ -52,7 +52,19 @@
                         s.Room.Complex.Id,
                         s.Room.Complex.Name,
                         s.Room.Complex.Address,
-                        DateAndInfo = new { s.Date, Info = new ShowInfoViewModel { Id = s.Id, Date = s.Date.ToString("yyyy/MM/dd"),Day = s.Date.DayOfWeek.InSpanish(), Time = s.Date.ToString("HH:mm"), RoomId = s.RoomId } }
+                        DateAndInfo = new
+                        {
+                            s.Date,
+                            Info = new ShowInfoViewModel
+                            {
+                                Id = s.Id,
+                                Date = s.Date.ToString("yyyy/MM/dd"),
+                                Day = s.Date.DayOfWeek.InSpanish(),
+                                Time = s.Date.ToString("HH:mm"),
+                                RoomId = s.RoomId,
+                                ShowPrice = s.Price
+                            }
+                        }
                     })
                 .GroupBy(s => new { s.Id, s.Name, s.Address });
 
@@ -65,7 +77,15 @@
                 foreach (var show in groupedShow)
                 {
                     showsForThisComplex.Functions.Add(
-                        new ShowInfoViewModel { Id = show.DateAndInfo.Info.Id, Date = show.DateAndInfo.Info.Date, Day = show.DateAndInfo.Info.Day, Time = show.DateAndInfo.Info.Time , RoomId = show.DateAndInfo.Info.RoomId});
+                        new ShowInfoViewModel
+                        {
+                            Id = show.DateAndInfo.Info.Id,
+                            Date = show.DateAndInfo.Info.Date,
+                            Day = show.DateAndInfo.Info.Day,
+                            Time = show.DateAndInfo.Info.Time,
+                            RoomId = show.DateAndInfo.Info.RoomId,
+                            ShowPrice = show.DateAndInfo.Info.ShowPrice
+                        });
                 }
 
                 showsPerComplex.Add(showsForThisComplex);

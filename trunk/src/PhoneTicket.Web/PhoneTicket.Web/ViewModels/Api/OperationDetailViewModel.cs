@@ -17,6 +17,6 @@
 
         public List<ArmChairViewModel> Seats { get; set; }
 
-        public List<DiscountForOperationViewModel> Discounts { get; set; }
+        public List<OperationDiscountDetailViewModel> Discounts { get; set; }
     }
 }
