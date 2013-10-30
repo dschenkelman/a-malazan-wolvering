@@ -534,7 +534,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void shareTextonFacebook(String message) {
+	public void setShareMessageOnFacebook(String message) {
 		this.facebookMessage = message;
 		this.facebookUrl = null;
 	}
@@ -549,5 +549,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 		void userShowCanceled(IDetailUserShow userShow);
 		
+	}
+
+	@Override
+	public void setShareOnTwitterMessage(String message) {
+		twitterMessage = message;
 	}
 }

@@ -20,6 +20,11 @@ public class DetailUserShow implements IDetailUserShow {
 		private int row;
 		private int column;
 
+		public Seat(int row, int column) {
+			this.row = row;
+			this.column = column;
+		}
+
 		@Override
 		public int getRow() {
 			return row;
@@ -120,6 +125,21 @@ public class DetailUserShow implements IDetailUserShow {
 			return discountPrice;
 		} else {
 			return showPrice;
+		}
+	}
+
+	public void addSeat(int row, int column) {
+		Seat seat = new Seat(row, column);
+		if (null == seats) {
+			seats = new Seat[1];
+			seats[0] = seat;
+		} else {
+			Seat aux[] = new Seat[seats.length + 1];
+			for (int i = 0; i < seats.length; i++) {
+				aux[i] = seats[i];
+			}
+			aux[seats.length] = seat;
+			seats = aux;
 		}
 	}
 }
