@@ -2,10 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
+    using PhoneTicket.Web.Constants;
     using PhoneTicket.Web.Handlers;
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
@@ -24,12 +26,20 @@
 
         private readonly ICurrentUserRole currentUserRole;
 
-        public ShowsController(IShowService showService, IRoomService roomService, IMovieService movieService, ICurrentUserRole currentUserRole)
+        private readonly ISettingsService settingsService;
+
+        public ShowsController(
+            IShowService showService,
+            IRoomService roomService,
+            IMovieService movieService,
+            ICurrentUserRole currentUserRole,
+            ISettingsService settingsService)
         {
             this.showService = showService;
             this.roomService = roomService;
             this.movieService = movieService;
             this.currentUserRole = currentUserRole;
+            this.settingsService = settingsService;
         }
         
         [HttpGet]
@@ -69,9 +79,13 @@
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return this.View();
+            var value = await this.settingsService.GetAsync(SettingsConstants.DefaultShowPrice);
+
+            double defaultPrice = double.Parse(value, CultureInfo.InvariantCulture);
+
+            return this.View(defaultPrice);
         }
 
         [HttpPost]

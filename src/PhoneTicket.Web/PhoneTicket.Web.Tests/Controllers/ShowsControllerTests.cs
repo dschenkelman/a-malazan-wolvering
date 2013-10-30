@@ -10,6 +10,7 @@
 
     using Moq;
 
+    using PhoneTicket.Web.Constants;
     using PhoneTicket.Web.Controllers;
     using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Models;
@@ -24,6 +25,7 @@
         private Mock<IRoomService> roomService;
         private Mock<IMovieService> movieService;
         private Mock<ICurrentUserRole> currentUserRole;
+        private Mock<ISettingsService> settingsService;
 
         [TestInitialize]
         public void Initialize()
@@ -33,6 +35,7 @@
             this.roomService = this.mockRepository.Create<IRoomService>();
             this.movieService = this.mockRepository.Create<IMovieService>();
             this.currentUserRole = this.mockRepository.Create<ICurrentUserRole>();
+            this.settingsService = this.mockRepository.Create<ISettingsService>();
         }
 
         [TestMethod]
@@ -528,9 +531,30 @@
             this.showService.VerifyAll();
         }
 
+        [TestMethod]
+        public async Task ShouldRetrieveDefaultPriceFromServiceWhenCreatingShows()
+        {
+            const string Price = "50.3";
+
+            this.settingsService.Setup(ss => ss.GetAsync(SettingsConstants.DefaultShowPrice)).Returns(Task.FromResult(Price)).Verifiable();
+            
+            var controller = this.CreateController();
+
+            var result = (ViewResult)await controller.Create();
+
+            this.mockRepository.VerifyAll();
+
+            Assert.AreEqual(50.3, result.Model);
+        }
+
         private ShowsController CreateController()
         {
-            return new ShowsController(this.showService.Object, this.roomService.Object, this.movieService.Object, this.currentUserRole.Object);
+            return new ShowsController(
+                this.showService.Object, 
+                this.roomService.Object,
+                this.movieService.Object,
+                this.currentUserRole.Object,
+                this.settingsService.Object);
         }
     }
 }
