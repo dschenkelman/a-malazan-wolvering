@@ -233,6 +233,7 @@ public class DetailMovieFragment extends RoboFragment implements
 		clasification.setText(clasificationString);
 		synopsis.setText(movie.getSynopsis());
 
+		shareButtonsVisibilityListener.showTwitterShareButton();
 		shareButtonsVisibilityListener.showFacebookShareButton();
 		shareActionListener.shareMovieOnFacebook(movie.getTrailerUrl());
 
