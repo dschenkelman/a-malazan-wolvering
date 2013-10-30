@@ -52,13 +52,13 @@
 
         [Authorize]
         [HttpGet("operations/{id}")]
-        public async Task<OperationDetailViewModel> Operations(int id)
+        public async Task<OperationDetailViewModel> Operations(Guid id)
         {
             var op = await this.operationService.GetAsync(id);
 
-            var seats = op.OccupiedSeats.Select(s => ArmChairViewModel.FromOccupiedSeat(s)).ToList();
+            var seats = op.OccupiedSeats.Select(ArmChairViewModel.FromOccupiedSeat).ToList();
 
-            var discounts = op.OperationDiscounts.Select(d => DiscountForOperationViewModel.FromOperationDiscount(d)).ToList();
+            var discounts = op.OperationDiscounts.Select(DiscountForOperationViewModel.FromOperationDiscount).ToList();
 
             var viewModel = new OperationDetailViewModel
             {

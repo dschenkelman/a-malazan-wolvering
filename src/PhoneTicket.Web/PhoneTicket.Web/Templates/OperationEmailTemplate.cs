@@ -12,16 +12,15 @@ namespace PhoneTicket.Web.Templates
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
-    using PhoneTicket.Web.Properties;
     using System;
     
     /// <summary>
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\EmailTemplate.tt"
+    #line 1 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\OperationEmailTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "11.0.0.0")]
-    public partial class EmailTemplate : EmailTemplateBase
+    public partial class OperationEmailTemplate : OperationEmailTemplateBase
     {
 #line hidden
         /// <summary>
@@ -29,29 +28,49 @@ namespace PhoneTicket.Web.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n<body>\r\n<h3>Estimado ");
+            this.Write("\r\n<body>\r\n<h3>Hola ");
             
-            #line 9 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\EmailTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.User.FirstName));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 9 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\EmailTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.User.LastName));
+            #line 8 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\OperationEmailTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.name));
             
             #line default
             #line hidden
-            this.Write(" </h3>\r\n<p>Su solicitud de registro ha sido procesada exitosamente. Para activar " +
-                    "su cuenta por favor haga click \r\n<a href=\"");
+            this.Write(" </h3>\r\n<p>Confirmamos la ");
             
-            #line 11 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\EmailTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Format(Resources.ConfirmationLinkFormat, this.User.Id, this.Secret)));
+            #line 9 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\OperationEmailTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.operation));
             
             #line default
             #line hidden
-            this.Write("\">aqui</a>.</p>\r\n<p>Muchas gracias,</p>\r\n<p>CinemAR</p>\r\n</body>");
+            this.Write(" realizada para la función del día ");
+            
+            #line 9 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\OperationEmailTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.date));
+            
+            #line default
+            #line hidden
+            this.Write(" a las ");
+            
+            #line 9 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\OperationEmailTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.time));
+            
+            #line default
+            #line hidden
+            this.Write(" de la película ");
+            
+            #line 9 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\OperationEmailTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.movie));
+            
+            #line default
+            #line hidden
+            this.Write(" en el cine CinemAR ");
+            
+            #line 9 "C:\Users\Damian\Documents\UBA\2do Cuat 2013\TallerDesarrollo2\src\PhoneTicket.Web\PhoneTicket.Web\Templates\OperationEmailTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.complex));
+            
+            #line default
+            #line hidden
+            this.Write(".</p>\r\n<p>Muchas gracias,</p>\r\n<p>CinemAR</p>\r\n</body>\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -63,7 +82,7 @@ namespace PhoneTicket.Web.Templates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "11.0.0.0")]
-    public class EmailTemplateBase
+    public class OperationEmailTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

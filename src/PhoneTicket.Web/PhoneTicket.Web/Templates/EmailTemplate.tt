@@ -9,4 +9,6 @@
 <h3>Estimado <#=this.User.FirstName#> <#=this.User.LastName#> </h3>
 <p>Su solicitud de registro ha sido procesada exitosamente. Para activar su cuenta por favor haga click 
 <a href="<#= string.Format(Resources.ConfirmationLinkFormat, this.User.Id, this.Secret) #>">aqui</a>.</p>
+<p>Muchas gracias,</p>
+<p>CinemAR</p>
 </body>

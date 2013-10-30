@@ -2,15 +2,22 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing.Imaging;
+    using System.IO;
     using System.Linq;
     using System.Net.Http;
+    using System.Net.Mail;
+    using System.Net.Mime;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Http;
 
+    using MessagingToolkit.QRCode.Codec;
+
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.Templates;
     using PhoneTicket.Web.ViewModels.Api;
     using System.Net;
     using PhoneTicket.Web.Helpers;
@@ -20,21 +27,28 @@
     {
         private readonly IUserService userService;
 
+        private readonly IEmailService emailService;
+
+        private readonly IShowService showService;
+
         private readonly IOperationService operationService;
 
         private readonly IOccupiedSeatsService occupiedSeatsService;
 
-        private readonly IOperationDiscountsService operationDiscounts;
-
-        public ReservationsController(IOperationService operationService, IOccupiedSeatsService occupiedSeatsService, IUserService userService, IOperationDiscountsService operationDiscounts)
+        public ReservationsController(
+            IOperationService operationService,
+            IOccupiedSeatsService occupiedSeatsService,
+            IUserService userService,
+            IEmailService emailService,
+            IShowService showService)
         {
             this.operationService = operationService;
 
             this.occupiedSeatsService = occupiedSeatsService;
 
             this.userService = userService;
-
-            this.operationDiscounts = operationDiscounts;
+            this.emailService = emailService;
+            this.showService = showService;
         }
 
         [Authorize]
@@ -47,19 +61,50 @@
 
             if (AvailableSeatsHelper.ValidateSeats(newOperationViewModel.ArmChairs, occupiedSeats))
             {
-                var userId = await this.userService.GetIdAsync(Thread.CurrentPrincipal.Identity.Name);
+                var user = await this.userService.GetUserAsync(Thread.CurrentPrincipal.Identity.Name);
 
-                var operation = new Operation { UserId = userId, Date = DateTimeHelpers.DateTimeInArgentina, ShowId = newOperationViewModel.ShowId,
-                                                Type = OperationType.Reservation};
+                var operation = new Operation
+                                    {
+                                        UserId = user.Id,
+                                        Date = DateTimeHelpers.DateTimeInArgentina,
+                                        ShowId = newOperationViewModel.ShowId,
+                                        Type = OperationType.Reservation
+                                    };
 
                 var operationId = await this.operationService.CreateAsync(operation);
 
                 foreach (ArmChairViewModel wantedSeat in newOperationViewModel.ArmChairs)
                 {
-                    var newSeat = new OccupiedSeat { OperationId = operationId, Row = wantedSeat.Row, Column = wantedSeat.Column};
+                    var newSeat = new OccupiedSeat
+                                      {
+                                          OperationId = operationId,
+                                          Row = wantedSeat.Row,
+                                          Column = wantedSeat.Column
+                                      };
 
                     await this.occupiedSeatsService.CreateAsync(newSeat);
+                }
 
+                var show = await this.showService.GetAsync(operation.ShowId);
+
+                var template = new OperationEmailTemplate(user, operation, show);
+
+                var message = this.emailService.CreateMessage(
+                    "[CinemAR] Confirmación de operación", template.TransformText(), user.EmailAddress);
+
+                var encoder = new QRCodeEncoder();
+                using (var bitmap = encoder.Encode(operation.Number.ToString()))
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        bitmap.Save(stream, ImageFormat.Bmp);
+
+                        stream.Seek(0, SeekOrigin.Begin);
+
+                        message.Attachments.Add(new Attachment(stream, new ContentType("image/bmp"){ Name = "CodigoQR" }));
+
+                        await this.emailService.SendAsync(message);
+                    }
                 }
 
                 return new HttpResponseMessage(HttpStatusCode.Created);
@@ -70,10 +115,9 @@
 
         [Authorize]
         [HttpGet("{id}/cancel")]
-        public async Task<HttpResponseMessage> CancelReservation(int id)
+        public async Task<HttpResponseMessage> CancelReservation(Guid id)
         {
-            //By cascade, it also deletes occupied seats and discounts referenced to de operation.
-
+            // By cascade, it also deletes occupied seats and discounts referenced to de operation.
             await this.operationService.DeleteAsync(id);
 
             return new HttpResponseMessage(HttpStatusCode.OK);

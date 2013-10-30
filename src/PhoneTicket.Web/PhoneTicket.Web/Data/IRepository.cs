@@ -18,6 +18,8 @@
 
         Task DeleteAsync(int id);
 
+        Task DeleteAsync(Guid id);
+
         Task SaveAsync();
     }
 }

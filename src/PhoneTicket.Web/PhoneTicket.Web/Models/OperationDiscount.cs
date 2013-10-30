@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,7 +9,7 @@
         public int Count { get; set; }
 
         [Key, ForeignKey("Operation"), Column(Order = 0)]
-        public int OperationId { get; set; } 
+        public Guid OperationId { get; set; } 
 
         public Operation Operation { get; set; }
 

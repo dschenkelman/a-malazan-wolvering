@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.Controllers.Api
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -31,7 +32,7 @@
         }
 
         [HttpPost("api/operations/{opNumber}/discounts")]
-        public async Task<IHttpActionResult> SetDiscounts(int opNumber, IEnumerable<DiscountForOperationViewModel> discountsForOperation)
+        public async Task<IHttpActionResult> SetDiscounts(Guid opNumber, IEnumerable<DiscountForOperationViewModel> discountsForOperation)
         {
             var operation = (await this.operationService.GetAsync(o => o.Number == opNumber)).FirstOrDefault();
 

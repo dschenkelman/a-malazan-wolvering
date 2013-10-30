@@ -1,8 +1,10 @@
 ﻿namespace PhoneTicket.Web.ViewModels.Api
 {
+    using System;
+
     public class UserOperationsViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         
         public bool IsBought { get; set; }
 

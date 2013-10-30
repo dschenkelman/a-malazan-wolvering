@@ -1,21 +1,24 @@
 ﻿namespace PhoneTicket.Web.Tests.Controllers.Api
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Moq;
-    using PhoneTicket.Web.Controllers.Api;
-    using PhoneTicket.Web.Models;
-    using PhoneTicket.Web.Services;
-    using PhoneTicket.Web.ViewModels.Api;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Linq.Expressions;
     using System.Net;
+    using System.Net.Mail;
     using System.Security.Principal;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using Moq;
+
+    using PhoneTicket.Web.Controllers.Api;
+    using PhoneTicket.Web.Helpers;
+    using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.Services;
+    using PhoneTicket.Web.ViewModels.Api;
 
     [TestClass]
     public class ReservationsControllerTests
@@ -28,7 +31,9 @@
 
         private Mock<IOccupiedSeatsService> occupiedSeatsService;
 
-        private Mock<IOperationDiscountsService> operationDiscountsService;
+        private Mock<IEmailService> emailService;
+
+        private Mock<IShowService> showService;
 
         [TestInitialize]
         public void Initialize()
@@ -41,29 +46,32 @@
 
             this.occupiedSeatsService = this.mockRepository.Create<IOccupiedSeatsService>();
 
-            this.operationDiscountsService = this.mockRepository.Create<IOperationDiscountsService>();
+            this.emailService = this.mockRepository.Create<IEmailService>();
+
+            this.showService = this.mockRepository.Create<IShowService>();
         }
 
         [TestMethod]
         public async Task ShouldReturnHttpConflictMessageWhenNewReservationIsCalled()
         {
-            const int OldOperationId = 1;
+            var oldOperationId = Guid.NewGuid();
             const int ShowId = 1;
             const int Row = 1;
             const int Col = 1;
-            var ArmChairs = new ArmChairViewModel { Column = Col, Row = Row };
-            var OperationVM = new NewOperationViewModel { ShowId = ShowId, ArmChairs = new List<ArmChairViewModel>{ArmChairs} };
+            
+            var armChairs = new ArmChairViewModel { Column = Col, Row = Row };
+            var operationVm = new NewOperationViewModel { ShowId = ShowId, ArmChairs = new List<ArmChairViewModel> { armChairs } };
 
-            var occupiedSeat = new OccupiedSeat{ OperationId = OldOperationId, Row = Row, Column = Col};
-            var OldOperation = new Operation { OccupiedSeats = new Collection<OccupiedSeat> { occupiedSeat } };
+            var occupiedSeat = new OccupiedSeat { OperationId = oldOperationId, Row = Row, Column = Col };
+            var oldOperation = new Operation { OccupiedSeats = new Collection<OccupiedSeat> { occupiedSeat } };
 
             this.operationService.Setup(os => os.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()))
-                .Returns(Task.FromResult((IEnumerable<Operation>)new List<Operation> { OldOperation }))
+                .Returns(Task.FromResult((IEnumerable<Operation>)new List<Operation> { oldOperation }))
                 .Verifiable();
 
             var controller = this.CreateController();
 
-            var response = await controller.NewReservation(OperationVM);
+            var response = await controller.NewReservation(operationVm);
 
             Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode);
 
@@ -74,70 +82,92 @@
         public async Task ShouldReturnHttpCreatedMessageWhenNewReservationIsCalled()
         {
             const string Email = "e@mail";
-            const int UserId = 1;
-            const int OldOperationId = 1;
-            const int NewOperationId = 2;
+            var oldOperationId = Guid.NewGuid();
+            var newOperationId = Guid.NewGuid();
             const int ShowId = 1;
             const int Row1 = 1;
             const int Col1 = 1;
             const int Row2 = 2;
             const int Col2 = 2;
-            var ArmChairs = new ArmChairViewModel { Column = Col1, Row = Row1 };
-            var OperationVM = new NewOperationViewModel { ShowId = ShowId, ArmChairs = new List<ArmChairViewModel> { ArmChairs } };
+            
+            var armChairs = new ArmChairViewModel { Column = Col1, Row = Row1 };
+            var operationVm = new NewOperationViewModel { ShowId = ShowId, ArmChairs = new List<ArmChairViewModel> { armChairs } };
 
-            var occupiedSeat = new OccupiedSeat { OperationId = OldOperationId, Row = Row2, Column = Col2 };
-            var OldOperation = new Operation { OccupiedSeats = new Collection<OccupiedSeat> { occupiedSeat } };
+            var occupiedSeat = new OccupiedSeat { OperationId = oldOperationId, Row = Row2, Column = Col2 };
+            var oldOperation = new Operation { OccupiedSeats = new Collection<OccupiedSeat> { occupiedSeat } };
+
+            var showDate = DateTimeHelpers.DateTimeInArgentina;
+
+            var show = new Show
+                           {
+                               Id = ShowId,
+                               Date = showDate,
+                               Room = new Room { Complex = new Complex { Name = "ComplexName" } },
+                               Movie = new Movie { Title = "MovieTitle" }
+                           };
+
+            var user = new User { EmailAddress = Email };
 
             this.operationService.Setup(os => os.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()))
-                .Returns(Task.FromResult((IEnumerable<Operation>)new List<Operation> { OldOperation }))
+                .Returns(Task.FromResult((IEnumerable<Operation>)new List<Operation> { oldOperation }))
                 .Verifiable();
 
-            this.userService.Setup(us => us.GetIdAsync(Email)).Returns(Task.FromResult(UserId)).Verifiable();
+            this.userService.Setup(us => us.GetUserAsync(Email)).Returns(Task.FromResult(user)).Verifiable();
 
-            this.operationService.Setup(os => os.CreateAsync(It.IsAny<Operation>())).Returns(Task.FromResult(NewOperationId)).Verifiable();
+            this.operationService.Setup(os => os.CreateAsync(It.IsAny<Operation>())).Returns(Task.FromResult(newOperationId)).Verifiable();
 
             this.occupiedSeatsService.Setup(ocs => ocs.CreateAsync(It.IsAny<OccupiedSeat>())).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            this.showService.Setup(ss => ss.GetAsync(ShowId)).Returns(Task.FromResult(show)).Verifiable();
+
+            var emailMessage = new MailMessage();
+
+            this.emailService.Setup(
+                es => es.CreateMessage("[CinemAR] Confirmación de operación", It.IsAny<string>(), Email)).Returns(emailMessage).Verifiable();
             
+            this.emailService.Setup(es => es.SendAsync(emailMessage))
+                .Callback<MailMessage>(mm => Assert.AreEqual("CodigoQR", mm.Attachments[0].Name))
+                .Returns(Task.FromResult<object>(null))
+                .Verifiable();
+
             var oldPrincipal = Thread.CurrentPrincipal;
             var identity = new GenericIdentity(Email);
             Thread.CurrentPrincipal = new GenericPrincipal(identity, null);
 
             var controller = this.CreateController();
 
-            var response = await controller.NewReservation(OperationVM);
+            var response = await controller.NewReservation(operationVm);
 
             Thread.CurrentPrincipal = oldPrincipal;
 
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
-            this.operationService.Verify(os => os.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()), Times.Once());
-
-            this.operationService.Verify(os => os.CreateAsync(It.IsAny<Operation>()), Times.Once());
-
-            this.userService.Verify(us => us.GetIdAsync(Email), Times.Once());
-
-            this.occupiedSeatsService.Verify(ocs => ocs.CreateAsync(It.IsAny<OccupiedSeat>()), Times.Once());
+            this.mockRepository.VerifyAll();
         }
 
         [TestMethod]
         public async Task ShouldReturnHttpOkMessageWhenCancelReservationIsCalled()
         {
-            const int OperationId = 1;
+            var operationNumber = Guid.NewGuid();
 
-            this.operationService.Setup(os => os.DeleteAsync(OperationId)).Returns(Task.FromResult<object>(null)).Verifiable();
+            this.operationService.Setup(os => os.DeleteAsync(operationNumber)).Returns(Task.FromResult<object>(null)).Verifiable();
 
             var controller = this.CreateController();
 
-            var response = await controller.CancelReservation(OperationId);
+            var response = await controller.CancelReservation(operationNumber);
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            this.operationService.Verify(os => os.DeleteAsync(OperationId), Times.Once());
+            this.operationService.Verify(os => os.DeleteAsync(operationNumber), Times.Once());
         }
 
         private ReservationsController CreateController()
         {
-            return new ReservationsController(this.operationService.Object, this.occupiedSeatsService.Object, this.userService.Object, this.operationDiscountsService.Object);
+            return new ReservationsController(this.operationService.Object,
+                this.occupiedSeatsService.Object,
+                this.userService.Object,
+                this.emailService.Object,
+                this.showService.Object);
         }
     }
 }
