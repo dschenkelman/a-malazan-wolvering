@@ -15,6 +15,7 @@
     using PhoneTicket.Web.Controllers.Api;
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
+    using System.Collections.ObjectModel;
     
     
 
@@ -139,6 +140,64 @@
             this.userService.Verify(us => us.GetIdAsync(Email), Times.Once);
             this.operationService.Verify(us => us.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()), Times.Once);
 
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnCorrectOperationDetailViewModelWhenOperationsIsCalledWithOperationId()
+        {
+            const int OperationId = 1;
+            const int Row = 1;
+            const int Col = 1;
+            const int DiscountId = 1;
+            const int DiscountCount = 1;
+
+            const int ShowId = 1;
+            const string MovieTitle = "asd";
+            var showDate = new DateTime(2013, 10, 29, 12, 30, 00);
+            const string ComplexAddress = "address";
+            const double ShowPrice = 10;
+
+            var show = new Show
+            {
+                Id = ShowId,
+                Movie = new Movie { Title = MovieTitle },
+                Date = showDate,
+                Room = new Room { Complex = new Complex { Address = ComplexAddress } },
+                Price = ShowPrice
+            };
+
+            var seat = new OccupiedSeat { OperationId = OperationId, Column = Col, Row = Row};
+            var discount = new OperationDiscount { DiscountId = DiscountId, Count = DiscountCount };
+
+            var operation = new Operation
+            {
+                Number = OperationId,
+                Show = show,
+                OccupiedSeats = new Collection<OccupiedSeat> { seat },
+                OperationDiscounts = new Collection<OperationDiscount> { discount }
+            };
+
+
+            this.operationService.Setup(os => os.GetAsync(OperationId)).Returns(Task.FromResult(operation)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var response = await controller.Operations(OperationId);
+
+            Assert.AreEqual(MovieTitle,response.MovieTitle);
+            Assert.AreEqual(showDate.ToString("dd/MM hh:mm") + "Hs", response.ShowDateAndTime);
+            Assert.AreEqual(ComplexAddress, response.ComplexAddress);
+            Assert.AreEqual(ShowPrice, response.ShowPrice);
+
+            Assert.AreEqual(1, response.Seats.Count());
+            Assert.AreEqual(seat.Row, response.Seats.ElementAt(0).Row);
+            Assert.AreEqual(seat.Column, response.Seats.ElementAt(0).Column);
+
+            Assert.AreEqual(1, response.Discounts.Count());
+            Assert.AreEqual(discount.DiscountId, response.Discounts.ElementAt(0).DiscountId);
+            Assert.AreEqual(discount.Count, response.Discounts.ElementAt(0).Count);
+
+            this.operationService.Verify(os => os.GetAsync(OperationId), Times.Once);
         }
 
         private CurrentUserController CreateController()
