@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
 
+    using Newtonsoft.Json;
+
     using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Models;
 
@@ -16,7 +18,16 @@
 
         public string CreditCardSecurityCode { get; set; }
 
-        public DateTime? CreditCardExpirationDate { get; set; }
+        public string CreditCardExpiration { private get; set; }
+
+        [JsonIgnore]
+        public DateTime? CreditCardExpirationDate 
+        { 
+            get
+            {
+                return DateTime.Parse(this.CreditCardExpiration);
+            }
+        }
 
         public int? CreditCardCompanyId { get; set; }
 

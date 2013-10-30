@@ -245,6 +245,13 @@ namespace PhoneTicket.Web.Migrations
                     });
             }
 
+            if (!context.CreditCardCompanies.Any())
+            {
+                context.CreditCardCompanies.Add(new CreditCardCompany { Name = "Visa" });
+                context.CreditCardCompanies.Add(new CreditCardCompany { Name = "Master Card" });
+                context.CreditCardCompanies.Add(new CreditCardCompany { Name = "American Express" });
+            }
+
             context.SaveChanges();
         }
     }
