@@ -11,5 +11,7 @@
         public string Time { get; set; }
 
         public int RoomId { get; set; }
+
+        public double ShowPrice { get; set; }
     }
 }

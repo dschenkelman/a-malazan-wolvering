@@ -126,7 +126,7 @@
                 .Callback<Operation>(o =>
                     {
                         Assert.AreEqual(operationVm.CreditCardCompanyId, o.CreditCardCompanyId);
-                        Assert.AreEqual(operationVm.CreditCardExpirationDate, o.CreditCardExpirationDate);
+                        Assert.AreEqual(DateTime.Parse(operationVm.CreditCardExpiration), o.CreditCardExpirationDate);
                         Assert.AreEqual(operationVm.CreditCardNumber, o.CreditCardNumber);
                         Assert.AreEqual(operationVm.CreditCardSecurityCode, o.CreditCardSecurityCode);
                         Assert.AreEqual(OperationType.PurchaseWithReservation, o.Type);

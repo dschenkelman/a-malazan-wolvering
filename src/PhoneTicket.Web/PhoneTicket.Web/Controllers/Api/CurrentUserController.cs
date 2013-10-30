@@ -58,7 +58,7 @@
 
             var seats = op.OccupiedSeats.Select(ArmChairViewModel.FromOccupiedSeat).ToList();
 
-            var discounts = op.OperationDiscounts.Select(DiscountForOperationViewModel.FromOperationDiscount).ToList();
+            var discounts = op.OperationDiscounts.Select(OperationDiscountDetailViewModel.FromOperationDiscount).ToList();
 
             var viewModel = new OperationDetailViewModel
             {

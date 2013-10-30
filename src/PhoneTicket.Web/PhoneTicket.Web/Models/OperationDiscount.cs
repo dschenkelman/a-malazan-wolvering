@@ -16,6 +16,6 @@
         [Key, ForeignKey("Discount"), Column(Order = 1)]
         public int DiscountId { get; set; }
 
-        public Discount Discount { get; set; }
+        public virtual Discount Discount { get; set; }
     }
 }

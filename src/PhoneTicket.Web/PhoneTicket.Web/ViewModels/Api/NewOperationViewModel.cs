@@ -18,16 +18,16 @@
 
         public string CreditCardSecurityCode { get; set; }
 
-        public string CreditCardExpiration { private get; set; }
+        public string CreditCardExpiration { get; set; }
 
-        [JsonIgnore]
-        public DateTime? CreditCardExpirationDate 
+        /*[JsonIgnore]
+        public DateTime CreditCardExpirationDate 
         { 
             get
             {
                 return DateTime.Parse(this.CreditCardExpiration);
             }
-        }
+        }*/
 
         public int? CreditCardCompanyId { get; set; }
 
@@ -45,7 +45,7 @@
             {
                 operation.CreditCardNumber = this.CreditCardNumber;
                 operation.CreditCardSecurityCode = this.CreditCardSecurityCode;
-                operation.CreditCardExpirationDate = this.CreditCardExpirationDate;
+                operation.CreditCardExpirationDate = DateTime.Parse(this.CreditCardExpiration);
                 operation.CreditCardCompanyId = this.CreditCardCompanyId;
             }
 
