@@ -114,9 +114,9 @@ public class UserShowsFragment extends RoboFragment implements
 						+ STATE_SHOWS_SEPARATOR_PROPERTIES
 						+ cinemaItem.isBought()
 						+ STATE_SHOWS_SEPARATOR_PROPERTIES
-						+ cinemaItem.getMovieName()
+						+ cinemaItem.getMovieTitle()
 						+ STATE_SHOWS_SEPARATOR_PROPERTIES
-						+ cinemaItem.getShowTime().toString()
+						+ cinemaItem.getShowDateAndTime().toString()
 						+ STATE_SHOWS_SEPARATOR_PROPERTIES
 						+ cinemaItem.getComplexAddress().toString()
 						+ STATE_SHOWS_SEPARATOR_ITEMS;
@@ -303,8 +303,8 @@ public class UserShowsFragment extends RoboFragment implements
 			ImageView imageView = (ImageView) rowView
 					.findViewById(R.id.userShowIcon);
 
-			moviewNameTextView.setText(myShow.getMovieName());
-			showTimeTextView.setText(myShow.getShowTime());
+			moviewNameTextView.setText(myShow.getMovieTitle());
+			showTimeTextView.setText(myShow.getShowDateAndTime());
 			addressTextView.setText(myShow.getComplexAddress());
 
 			if (myShow.isBought()) {

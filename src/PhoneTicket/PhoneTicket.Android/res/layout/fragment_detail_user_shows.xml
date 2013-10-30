@@ -76,6 +76,13 @@
    	            android:text="Belgrano 856 y Juramento" />
 
    	        <TextView
+   	            android:id="@+id/showPriceTextView"
+   	            android:layout_width="wrap_content"
+   	            android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium" 
+   	            android:text="Precio final: $100" />
+   	        
+   	        <TextView
    	            android:id="@+id/placesCountTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
