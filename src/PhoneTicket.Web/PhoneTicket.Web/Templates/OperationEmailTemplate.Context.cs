@@ -23,7 +23,7 @@
             this.name = string.Format("{0} {1}", user.FirstName, user.LastName);
             this.operation = operation.Type == OperationType.Reservation ? "reserva" : "compra";
             this.date = show.Date.ToString("yyyy-MM-dd");
-            this.time = show.Date.ToString("hh:mm");
+            this.time = show.Date.ToString("HH:mm");
             this.movie = show.Movie.Title;
             this.complex = show.Room.Complex.Name;
         }

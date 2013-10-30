@@ -128,7 +128,7 @@
             {
                 Assert.AreEqual(number, response.ElementAt(i).Id);
                 Assert.AreEqual(MovieTitle, response.ElementAt(i).MovieTitle);
-                Assert.AreEqual(showDate.ToString("dd/MM hh:mm") + "Hs", response.ElementAt(i).ShowDateAndTime);
+                Assert.AreEqual(showDate.ToString("dd/MM HH:mm") + "Hs", response.ElementAt(i).ShowDateAndTime);
                 Assert.AreEqual(ComplexAddress, response.ElementAt(i).ComplexAddress);
             }
             
@@ -185,7 +185,7 @@
             var response = await controller.Operations(operationNumber);
 
             Assert.AreEqual(MovieTitle,response.MovieTitle);
-            Assert.AreEqual(showDate.ToString("dd/MM hh:mm") + "Hs", response.ShowDateAndTime);
+            Assert.AreEqual(showDate.ToString("dd/MM HH:mm") + "Hs", response.ShowDateAndTime);
             Assert.AreEqual(ComplexAddress, response.ComplexAddress);
             Assert.AreEqual(ShowPrice, response.ShowPrice);
 
