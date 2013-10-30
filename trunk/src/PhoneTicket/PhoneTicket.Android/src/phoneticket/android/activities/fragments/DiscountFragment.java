@@ -90,8 +90,8 @@ public class DiscountFragment extends RoboFragment implements
 		}
 		((TextView) getView().findViewById(R.id.cinemaAddress)).setText(ticket
 				.getCinemaAddress());
-		((TextView) getView().findViewById(R.id.armChairs)).setText("Butacas: "
-				+ armChairs);
+		((TextView) getView().findViewById(R.id.armChairs))
+				.setText(armChairsSelected.size() + " Butacas: " + armChairs);
 
 		((TextView) getView().findViewById(R.id.amount)).setText(String
 				.valueOf(armChairsSelected.size() * PRECIO));

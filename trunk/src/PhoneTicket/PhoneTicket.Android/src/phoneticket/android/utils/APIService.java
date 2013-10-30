@@ -2,7 +2,7 @@ package phoneticket.android.utils;
 
 public class APIService {
 
-	static private String host = "https://phoneticket.apphb.com/";
+	static private String host = "https://phoneticket.apphb.com";
 
 	public static String baseAPIURL() {
 		return host + "/API/";
@@ -36,9 +36,24 @@ public class APIService {
 		return getRetrieveMovieGetURL(movieId) + "/weeklyShows";
 	}
 
-	public static String getRetrieveRoomInfoServiceGetURL(String roomId) {
-		return baseAPIURL() + "room" + "/" + roomId;
+	public static String getRetrieveRoomInfoServiceGetURL(String functionId) {
+		return baseAPIURL() + "shows" + "/" + functionId + "/seats";
 
 	}
 
+	public static String getRetrieveDiscountsListServiceGetURL() {
+		return baseAPIURL() + "discounts";
+	}
+
+	public static String getRegisterPurchasePostURL() {
+		return baseAPIURL() + "purchases";
+	}
+
+	public static String getRegisterReservationPostURL() {
+		return baseAPIURL() + "reservations";
+	}
+
+	public static String getRegisterDiscountsPostURL(String uuid) {
+		return baseAPIURL() + "operations/" + uuid + "/discounts";
+	}
 }

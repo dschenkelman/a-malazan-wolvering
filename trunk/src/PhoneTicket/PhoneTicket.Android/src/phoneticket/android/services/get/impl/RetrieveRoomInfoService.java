@@ -7,9 +7,6 @@ import java.util.LinkedList;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.gson.Gson;
 
 import phoneticket.android.services.get.GetService;
 import phoneticket.android.services.get.IRetrieveRoomInfoService;
@@ -27,13 +24,13 @@ public class RetrieveRoomInfoService extends GetService implements
 
 	@Override
 	public void retrieveRoomInfo(IRetrieveRoomInfoServiceDelegate delegate,
-			int roomId) {
+			int functionId) {
 		if (true == performingRequest || null == delegate) {
 			return;
 		}
 		this.delegate = delegate;
 		execute(APIService.getRetrieveRoomInfoServiceGetURL(String
-				.valueOf(roomId)));
+				.valueOf(functionId)));
 	}
 
 	@Override
@@ -50,11 +47,9 @@ public class RetrieveRoomInfoService extends GetService implements
 					JSONArray jsonRow = jsonRoom.getJSONArray(i);
 					LinkedList<Integer> row = new LinkedList<Integer>();
 					for (int j = 0; j < jsonRow.length(); j++) {
-						JSONObject jsonArmchair = jsonRoom.getJSONObject(j);
-						Integer armchair = new Gson().fromJson(
-								jsonArmchair.toString(), Integer.class);
-						if (null != armchair) {
-							row.addLast(armchair);
+						Integer armChair = (Integer) jsonRow.get(j);
+						if (null != armChair) {
+							row.addLast(armChair);
 						}
 					}
 					room.addLast(row);
