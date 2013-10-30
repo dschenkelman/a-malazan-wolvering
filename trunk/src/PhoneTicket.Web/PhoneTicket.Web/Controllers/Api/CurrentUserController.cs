@@ -44,7 +44,7 @@
             var operations = await this.operationService.GetAsync(o => o.UserId == userId);
 
             var viewModel = operations.Select(o => new UserOperationsViewModel { Id = o.Number, IsBought = (!o.Type.Equals(OperationType.Reservation)), 
-                                                                                MovieTitle = o.Show.Movie.Title, ShowDateAndTime = o.Show.Date.ToString("dd/MM hh:mm")+"Hs", 
+                                                                                MovieTitle = o.Show.Movie.Title, ShowDateAndTime = o.Show.Date.ToString("dd/MM HH:mm")+"Hs", 
                                                                                 ComplexAddress = o.Show.Room.Complex.Address });
 
             return viewModel;
@@ -63,7 +63,7 @@
             var viewModel = new OperationDetailViewModel
             {
                 MovieTitle = op.Show.Movie.Title,
-                ShowDateAndTime = op.Show.Date.ToString("dd/MM hh:mm") + "Hs",
+                ShowDateAndTime = op.Show.Date.ToString("dd/MM HH:mm") + "Hs",
                 ComplexAddress = op.Show.Room.Complex.Address,
                 ShowPrice = op.Show.Price,
                 Seats = seats,
