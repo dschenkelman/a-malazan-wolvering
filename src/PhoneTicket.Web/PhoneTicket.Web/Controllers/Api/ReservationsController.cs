@@ -31,7 +31,7 @@
         }
 
         [Authorize]
-        [HttpGet("{id}/cancel")]
+        [HttpDelete("{id}")]
         public async Task<HttpResponseMessage> CancelReservation(Guid id)
         {
             var showId = (await this.OperationService.GetAsync(id)).ShowId;
@@ -42,6 +42,28 @@
             await this.ShowService.ManageAvailability(showId);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        [Authorize]
+        [HttpPost("{id}/confirm")]
+        public async Task<IHttpActionResult> ConfirmReservation(Guid id, ConfirmReservationViewModel reservationViewModel)
+        {
+            var operation = await this.OperationService.GetAsync(id);
+
+            if (operation.Type != OperationType.Reservation)
+            {
+                return this.BadRequest("Solo se puede confirmar una reserva");
+            }
+
+            operation.CreditCardCompanyId = reservationViewModel.CreditCardCompanyId;
+            operation.CreditCardExpirationDate = reservationViewModel.CreditCardExpirationDate;
+            operation.CreditCardSecurityCode = reservationViewModel.CreditCardSecurityCode;
+            operation.CreditCardNumber = reservationViewModel.CreditCardNumber;
+            operation.Type = OperationType.PurchaseWithReservation;
+
+            await this.OperationService.SaveAsync(operation);
+
+            return this.Ok();
         }
     }
 }

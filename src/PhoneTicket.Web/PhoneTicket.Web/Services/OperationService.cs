@@ -55,5 +55,10 @@
 
             await this.repositories.Operations.SaveAsync();
         }
+
+        public Task SaveAsync(Operation operation)
+        {
+            return this.repositories.Operations.SaveAsync();
+        }
     }
 }

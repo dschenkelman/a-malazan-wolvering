@@ -332,6 +332,7 @@
     <Compile Include="ViewModels\Api\OperationDetailViewModel.cs" />
     <Compile Include="ViewModels\Api\ShowInfoViewModel.cs" />
     <Compile Include="ViewModels\Api\ShowsPerComplexViewModel.cs" />
+    <Compile Include="ViewModels\Api\ConfirmReservationViewModel.cs" />
     <Compile Include="ViewModels\Api\UserInformationViewModel.cs" />
     <Compile Include="ViewModels\Api\UserOperationsViewModel.cs" />
     <Compile Include="ViewModels\DiscountViewModel.cs" />

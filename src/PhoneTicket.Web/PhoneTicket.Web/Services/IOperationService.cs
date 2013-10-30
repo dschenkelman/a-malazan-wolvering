@@ -20,5 +20,6 @@
 
         Task AddDiscountsAsync(Operation operation, IEnumerable<DiscountForOperationViewModel> discounts);
 
+        Task SaveAsync(Operation operation);
     }
 }
