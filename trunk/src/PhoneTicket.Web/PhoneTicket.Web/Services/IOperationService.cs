@@ -19,5 +19,6 @@
         Task DeleteAsync(Guid id);
 
         Task AddDiscountsAsync(Operation operation, IEnumerable<DiscountForOperationViewModel> discounts);
+
     }
 }

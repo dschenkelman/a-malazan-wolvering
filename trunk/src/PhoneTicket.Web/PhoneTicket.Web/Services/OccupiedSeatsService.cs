@@ -14,16 +14,33 @@
     {
         private IPhoneTicketRepositories repositories;
 
-        public OccupiedSeatsService(IPhoneTicketRepositories repositories)
+        private IOperationService operationService;
+
+        private IShowService showService;
+
+        public OccupiedSeatsService(IPhoneTicketRepositories repositories, IOperationService operationService, IShowService showService)
         {
             this.repositories = repositories;
 
+            this.operationService = operationService;
+
+            this.showService = showService;
         }
+
         public async Task CreateAsync(OccupiedSeat occupiedSeat)
         {
             this.repositories.OccupiedSeats.Insert(occupiedSeat);
 
             await this.repositories.OccupiedSeats.SaveAsync();
+
+            await this.ManageShowAvailability(occupiedSeat.OperationId);
+        }
+
+        public async Task ManageShowAvailability(Guid OperationId)
+        {
+            var showId = (await this.operationService.GetAsync(OperationId)).ShowId;
+
+            await this.showService.ManageAvailability(showId);
         }
 
     }

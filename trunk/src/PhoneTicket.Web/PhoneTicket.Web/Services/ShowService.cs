@@ -66,6 +66,24 @@
             return seats;
         }
 
+        public async Task ManageAvailability(int showId)
+        {
+            var occupiedSeatsCount = (await this.GetOccupiedSeats(showId)).Count();
+
+            var show = await this.GetAsync(showId);
+
+            if (show.Room.Capacity == occupiedSeatsCount)
+            {
+                show.IsAvailable = false;
+            }
+            else if (show.Room.Capacity > occupiedSeatsCount)
+            {
+                show.IsAvailable = true;
+            }
+
+            await this.repositories.Shows.SaveAsync();
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
