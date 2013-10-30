@@ -52,11 +52,11 @@ public class MockRetrieveMyShowsService extends
 				return false;
 			}
 			@Override
-			public String getMovieName() {
+			public String getMovieTitle() {
 				return "Aviones";
 			}
 			@Override
-			public String getShowTime() {
+			public String getShowDateAndTime() {
 				return "19/02 16:00 Hs";
 			}
 			@Override
@@ -74,11 +74,11 @@ public class MockRetrieveMyShowsService extends
 				return true;
 			}
 			@Override
-			public String getMovieName() {
+			public String getMovieTitle() {
 				return "El Conjuro";
 			}
 			@Override
-			public String getShowTime() {
+			public String getShowDateAndTime() {
 				return "21/02 19:00 Hs";
 			}
 			@Override
@@ -96,11 +96,11 @@ public class MockRetrieveMyShowsService extends
 				return false;
 			}
 			@Override
-			public String getMovieName() {
+			public String getMovieTitle() {
 				return "Dragon Ball";
 			}
 			@Override
-			public String getShowTime() {
+			public String getShowDateAndTime() {
 				return "23/02 5:30 Hs";
 			}
 			@Override

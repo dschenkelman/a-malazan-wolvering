@@ -1,7 +1,15 @@
 package phoneticket.android.model;
 
+import java.util.Collection;
+
 public interface IDetailUserShow extends IMyShow {
 
-	int getTicketsCount();
+	Collection<ISeat> getSeats();
+	
+	Collection<IDiscount> getDiscounts();
 
+	String getQRString();
+
+	int getShowPrice(boolean whitDiscount);
+	
 }

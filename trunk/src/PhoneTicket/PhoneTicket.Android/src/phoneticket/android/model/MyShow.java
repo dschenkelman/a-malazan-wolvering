@@ -23,12 +23,12 @@ public class MyShow implements IMyShow{
 	}
 
 	@Override
-	public String getShowTime() {
+	public String getShowDateAndTime() {
 		return showTime;
 	}
 
 	@Override
-	public String getMovieName() {
+	public String getMovieTitle() {
 		return movieName;
 	}
 

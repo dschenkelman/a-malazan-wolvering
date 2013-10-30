@@ -1,7 +1,5 @@
 package phoneticket.android.activities.fragments;
 
-import java.util.ArrayList;
-
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
@@ -14,7 +12,6 @@ import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener
 import phoneticket.android.activities.interfaces.IUserShowsActionListener;
 import phoneticket.android.model.DetailUserShow;
 import phoneticket.android.model.IDetailUserShow;
-import phoneticket.android.model.IMyShow;
 import phoneticket.android.services.get.IRetrieveUserShowInfoService;
 import phoneticket.android.services.get.IRetrieveUserShowInfoServiceDelegate;
 import phoneticket.android.services.post.ICancelUserShowService;
@@ -46,12 +43,13 @@ public class DetailUserShowFragment extends RoboFragment implements
 	public static final String USER_SHOW_INFO = "usershow.info";
 
 	private static final String STATE_USER_SHOW_ID = "usershow.id";
-	private static final String STATE_USER_SHOW_TICKETS_COUNT = "usershow.ticketscount";
 	private static final String STATE_USER_SHOW_MOVIE_NAME = "usershow.moviename";
-	private static final String STATE_USER_SHOW_SHOW_TIME = "usershow.showtime";
+	private static final String STATE_USER_SHOW_TIME = "usershow.showtime";
 	private static final String STATE_USER_SHOW_COMPLEX_ADDRESS = "usershow.complexaddress";
-	private static final String STATE_USER_IS_BOUGHT = "usershow.isbought";
-	
+	private static final String STATE_USER_SHOW_IS_BOUGHT = "usershow.isbought";
+	private static final String STATE_USER_SHOW_QR_STRING = "usershow.qrstring";
+	private static final String STATE_USER_SHOW_PRICE = "usershow.price";
+
 	private boolean ignoreServicesCallbacks;
 
 	private int showId;
@@ -82,9 +80,9 @@ public class DetailUserShowFragment extends RoboFragment implements
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
-		
+
 		loadDetailUserShow();
-		
+
 		if (shouldRetrieveUserShow()) {
 			onRetrieveUserShowAction();
 		} else {
@@ -151,12 +149,17 @@ public class DetailUserShowFragment extends RoboFragment implements
 		if (null != userShow) {
 			SharedPreferences.Editor editor = getActivity().getPreferences(0)
 					.edit();
-				editor.putInt(STATE_USER_SHOW_ID, userShow.getId());
-				editor.putBoolean(STATE_USER_IS_BOUGHT, userShow.isBought());
-				editor.putString(STATE_USER_SHOW_MOVIE_NAME, userShow.getMovieName());
-				editor.putString(STATE_USER_SHOW_SHOW_TIME, userShow.getShowTime());
-				editor.putString(STATE_USER_SHOW_COMPLEX_ADDRESS, userShow.getComplexAddress());
-				editor.putInt(STATE_USER_SHOW_TICKETS_COUNT, userShow.getTicketsCount());
+			editor.putInt(STATE_USER_SHOW_ID, userShow.getId());
+			editor.putBoolean(STATE_USER_SHOW_IS_BOUGHT, userShow.isBought());
+			editor.putString(STATE_USER_SHOW_MOVIE_NAME,
+					userShow.getMovieTitle());
+			editor.putString(STATE_USER_SHOW_TIME,
+					userShow.getShowDateAndTime());
+			editor.putString(STATE_USER_SHOW_COMPLEX_ADDRESS,
+					userShow.getComplexAddress());
+			editor.putString(STATE_USER_SHOW_QR_STRING, userShow.getQRString());
+			editor.putInt(STATE_USER_SHOW_PRICE, userShow.getShowPrice(false));
+
 			editor.commit();
 		}
 	}
@@ -172,19 +175,22 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	private void doLoadDetailUserShow() {
-		int id, ticketsCount;
+		int id, price;
 		boolean isBought;
-		String movieName, showTime, complexAddress;
+		String movieName, showTime, complexAddress, qrstring;
 
 		SharedPreferences preferences = getActivity().getPreferences(0);
 		id = preferences.getInt(STATE_USER_SHOW_ID, 0);
-		isBought = preferences.getBoolean(STATE_USER_IS_BOUGHT, false);
-		ticketsCount = preferences.getInt(STATE_USER_SHOW_TICKETS_COUNT, 0);
+		price = preferences.getInt(STATE_USER_SHOW_PRICE, 0);
+		isBought = preferences.getBoolean(STATE_USER_SHOW_IS_BOUGHT, false);
 		movieName = preferences.getString(STATE_USER_SHOW_MOVIE_NAME, "-");
-		showTime = preferences.getString(STATE_USER_SHOW_SHOW_TIME, "-");
-		complexAddress = preferences.getString(STATE_USER_SHOW_COMPLEX_ADDRESS, "-");
-		
-		userShow = new DetailUserShow(id, isBought, movieName, showTime, complexAddress, ticketsCount);
+		showTime = preferences.getString(STATE_USER_SHOW_TIME, "-");
+		complexAddress = preferences.getString(STATE_USER_SHOW_COMPLEX_ADDRESS,
+				"-");
+		qrstring = preferences.getString(STATE_USER_SHOW_QR_STRING, "-");
+
+		userShow = new DetailUserShow(id, isBought, movieName, showTime,
+				complexAddress, qrstring, price);
 	}
 
 	private boolean shouldRetrieveUserShow() {
@@ -197,9 +203,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	protected void onGetQRCodeAction() {
-		// TODO Auto-generated method stub
 		Intent intent = new Intent(getActivity(), QRCodeActivity.class);
-		intent.putExtra(QRCodeActivity.EXTRA_QR_STRING, "pokemon");
+		intent.putExtra(QRCodeActivity.EXTRA_QR_STRING, userShow.getQRString());
 		startActivity(intent);
 	}
 
@@ -218,12 +223,14 @@ public class DetailUserShowFragment extends RoboFragment implements
 		shareButtonsVisibilityListener.showTwitterShareButton();
 		shareButtonsVisibilityListener.showCalendarButton();
 		shareActionListener.shareTextonFacebook("Me voy a ver "
-				+ userShow.getMovieName() + " a CINEMAR");
+				+ userShow.getMovieTitle() + " a CINEMAR");
 
 		TextView nameAndTimeTextView = (TextView) getView().findViewById(
 				R.id.movieNameAndShowTimeTextView);
 		TextView cinemaAddressTextView = (TextView) getView().findViewById(
 				R.id.complexAddressTextView);
+		TextView showPriceTextView = (TextView) getView().findViewById(
+				R.id.showPriceTextView);
 		TextView placesCountTextView = (TextView) getView().findViewById(
 				R.id.placesCountTextView);
 		TextView discountsTextView = (TextView) getView().findViewById(
@@ -238,11 +245,12 @@ public class DetailUserShowFragment extends RoboFragment implements
 		Button qrCodeButton = (Button) getView()
 				.findViewById(R.id.qrCodeButton);
 
-		nameAndTimeTextView.setText(userShow.getMovieName() + " - "
-				+ userShow.getShowTime());
+		nameAndTimeTextView.setText(userShow.getMovieTitle() + " - "
+				+ userShow.getShowDateAndTime());
 		cinemaAddressTextView.setText(userShow.getComplexAddress());
-		placesCountTextView.setText(userShow.getTicketsCount() + " Lugar"
-				+ ((1 != userShow.getTicketsCount()) ? "es" : ""));
+		showPriceTextView.setText("Precio final: $" + userShow.getShowPrice(true));
+		placesCountTextView.setText(userShow.getSeats().size() + " Lugar"
+				+ ((1 != userShow.getSeats().size()) ? "es" : ""));
 		discountsTextView.setText("discounts");
 		placesCodesTextView.setText("places codes");
 
@@ -277,8 +285,9 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	private void showLoadingLayout() {
-		TextView message = (TextView)((RelativeLayout) getView().findViewById(
-				R.id.loadingDataLayout)).findViewById(R.id.downloadingDataTextView);
+		TextView message = (TextView) ((RelativeLayout) getView().findViewById(
+				R.id.loadingDataLayout))
+				.findViewById(R.id.downloadingDataTextView);
 		message.setText("Cargando los datos. Por Favor, espere un momento.");
 		layoutVisibility(LinearLayout.GONE, RelativeLayout.VISIBLE,
 				ScrollView.GONE);
@@ -290,8 +299,9 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	private void showCancelingLayout() {
-		TextView message = (TextView)((RelativeLayout) getView().findViewById(
-				R.id.loadingDataLayout)).findViewById(R.id.downloadingDataTextView);
+		TextView message = (TextView) ((RelativeLayout) getView().findViewById(
+				R.id.loadingDataLayout))
+				.findViewById(R.id.downloadingDataTextView);
 		message.setText("Cancelando la reserva. Por Favor, espere un momento");
 		layoutVisibility(LinearLayout.GONE, RelativeLayout.VISIBLE,
 				ScrollView.GONE);
@@ -342,16 +352,18 @@ public class DetailUserShowFragment extends RoboFragment implements
 			ICancelUserShowService delegate, int errorCode) {
 		if (false == ignoreServicesCallbacks) {
 			showUserShowListLayout();
-			
 
-			DialogFragment dialog = new DialogFragment(){
+			DialogFragment dialog = new DialogFragment() {
 				@Override
 				public Dialog onCreateDialog(Bundle savedInstanceState) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							getActivity());
 
-					builder.setMessage("Error al cancelar la reserva. Vuelva a intentarlo.")
+					builder.setMessage(
+							"Error al cancelar la reserva. Vuelva a intentarlo.")
 							.setTitle("Error")
-							.setPositiveButton(R.string.errorDialogContinue, null);
+							.setPositiveButton(R.string.errorDialogContinue,
+									null);
 					return builder.create();
 				}
 			};

@@ -6,9 +6,9 @@ public interface IMyShow {
 
 	boolean isBought();
 
-	String getMovieName();
+	String getMovieTitle();
 
-	String getShowTime();
+	String getShowDateAndTime();
 
 	String getComplexAddress();
 
