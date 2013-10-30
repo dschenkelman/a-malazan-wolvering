@@ -30,6 +30,8 @@
 
         private IRepository<OperationDiscount> operationDiscounts;
 
+        private IRepository<CreditCardCompany> creditCardCompanies;
+
         public PhoneTicketRepositories(
             IRepository<TemporaryUser> temporaryUsers,
             IRepository<Rating> ratings,
@@ -42,7 +44,8 @@
             IRepository<Operation> operations,
             IRepository<Discount> discounts,
             IRepository<OccupiedSeat> occupiedSeats,
-            IRepository<OperationDiscount> operationDiscounts)
+            IRepository<OperationDiscount> operationDiscounts,
+            IRepository<CreditCardCompany> creditCardCompanies)
         {
             this.temporaryUsers = temporaryUsers;
             this.ratings = ratings;
@@ -56,6 +59,7 @@
             this.discounts = discounts;
             this.occupiedSeats = occupiedSeats;
             this.operationDiscounts = operationDiscounts;
+            this.creditCardCompanies = creditCardCompanies;
         }
 
         public IRepository<User> Users
@@ -151,6 +155,14 @@
             get
             {
                 return this.operationDiscounts;
+            }
+        }
+
+        public IRepository<CreditCardCompany> CreditCardCompanies
+        {
+            get
+            {
+                return this.creditCardCompanies;
             }
         }
 

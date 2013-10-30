@@ -29,6 +29,8 @@
         IRepository<OccupiedSeat> OccupiedSeats { get; }
 
         IRepository<OperationDiscount> OperationDiscounts { get; }
+
+        IRepository<CreditCardCompany> CreditCardCompanies { get; }
     }
 }
 
