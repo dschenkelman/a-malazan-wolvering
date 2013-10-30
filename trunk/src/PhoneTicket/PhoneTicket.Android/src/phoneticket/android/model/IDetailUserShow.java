@@ -11,5 +11,5 @@ public interface IDetailUserShow extends IMyShow {
 	String getQRString();
 
 	int getShowPrice(boolean whitDiscount);
-	
+
 }

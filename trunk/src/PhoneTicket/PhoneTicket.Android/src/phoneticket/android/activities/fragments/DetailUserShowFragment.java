@@ -12,6 +12,8 @@ import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener
 import phoneticket.android.activities.interfaces.IUserShowsActionListener;
 import phoneticket.android.model.DetailUserShow;
 import phoneticket.android.model.IDetailUserShow;
+import phoneticket.android.model.IDiscount;
+import phoneticket.android.model.ISeat;
 import phoneticket.android.services.get.IRetrieveUserShowInfoService;
 import phoneticket.android.services.get.IRetrieveUserShowInfoServiceDelegate;
 import phoneticket.android.services.post.ICancelUserShowService;
@@ -49,6 +51,10 @@ public class DetailUserShowFragment extends RoboFragment implements
 	private static final String STATE_USER_SHOW_IS_BOUGHT = "usershow.isbought";
 	private static final String STATE_USER_SHOW_QR_STRING = "usershow.qrstring";
 	private static final String STATE_USER_SHOW_PRICE = "usershow.price";
+	private static final String STATE_USER_SHOW_SEATS = "usershow.seats";
+
+	private static final String SEPARATOR_STATE_USER_SHOW_SEATS = "a";
+	private static final String SEPARATOR_STATE_USER_ITEM_SHOW_SEATS = ",";
 
 	private boolean ignoreServicesCallbacks;
 
@@ -160,6 +166,14 @@ public class DetailUserShowFragment extends RoboFragment implements
 			editor.putString(STATE_USER_SHOW_QR_STRING, userShow.getQRString());
 			editor.putInt(STATE_USER_SHOW_PRICE, userShow.getShowPrice(false));
 
+			String seatStream = "";
+			for (ISeat seat : userShow.getSeats()) {
+				seatStream += seat.getRow()
+						+ SEPARATOR_STATE_USER_ITEM_SHOW_SEATS
+						+ seat.getColumn() + SEPARATOR_STATE_USER_SHOW_SEATS;
+			}
+			editor.putString(STATE_USER_SHOW_SEATS, seatStream);
+
 			editor.commit();
 		}
 	}
@@ -177,7 +191,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 	private void doLoadDetailUserShow() {
 		int id, price;
 		boolean isBought;
-		String movieName, showTime, complexAddress, qrstring;
+		String movieName, showTime, complexAddress, qrstring, seatsStream;
 
 		SharedPreferences preferences = getActivity().getPreferences(0);
 		id = preferences.getInt(STATE_USER_SHOW_ID, 0);
@@ -189,8 +203,21 @@ public class DetailUserShowFragment extends RoboFragment implements
 				"-");
 		qrstring = preferences.getString(STATE_USER_SHOW_QR_STRING, "-");
 
-		userShow = new DetailUserShow(id, isBought, movieName, showTime,
-				complexAddress, qrstring, price);
+		DetailUserShow userShow = new DetailUserShow(id, isBought, movieName,
+				showTime, complexAddress, qrstring, price);
+
+		seatsStream = preferences.getString(STATE_USER_SHOW_SEATS, "");
+		for (String seatString : seatsStream
+				.split(SEPARATOR_STATE_USER_SHOW_SEATS)) {
+			String pair[] = seatString
+					.split(SEPARATOR_STATE_USER_ITEM_SHOW_SEATS);
+			if (2 == pair.length) {
+				userShow.addSeat(Integer.parseInt(pair[0]),
+						Integer.parseInt(pair[1]));
+			}
+		}
+		this.userShow = userShow;
+
 	}
 
 	private boolean shouldRetrieveUserShow() {
@@ -222,7 +249,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 		shareButtonsVisibilityListener.showFacebookShareButton();
 		shareButtonsVisibilityListener.showTwitterShareButton();
 		shareButtonsVisibilityListener.showCalendarButton();
-		shareActionListener.shareTextonFacebook("Me voy a ver "
+		shareActionListener.setShareMessageOnFacebook("Me voy a ver "
 				+ userShow.getMovieTitle() + " a CINEMAR");
 
 		TextView nameAndTimeTextView = (TextView) getView().findViewById(
@@ -248,11 +275,34 @@ public class DetailUserShowFragment extends RoboFragment implements
 		nameAndTimeTextView.setText(userShow.getMovieTitle() + " - "
 				+ userShow.getShowDateAndTime());
 		cinemaAddressTextView.setText(userShow.getComplexAddress());
-		showPriceTextView.setText("Precio final: $" + userShow.getShowPrice(true));
-		placesCountTextView.setText(userShow.getSeats().size() + " Lugar"
-				+ ((1 != userShow.getSeats().size()) ? "es" : ""));
-		discountsTextView.setText("discounts");
-		placesCodesTextView.setText("places codes");
+		showPriceTextView.setText("Precio final: $"
+				+ userShow.getShowPrice(true));
+		placesCountTextView.setText(userShow.getSeats().size() + " Entrada"
+				+ ((1 != userShow.getSeats().size()) ? "s" : ""));
+
+		if (0 == userShow.getDiscounts().size()) {
+			discountsTextView.setText("No se seleciconaron descuentos.");
+		} else {
+			String discountText = "";
+			int number = 1;
+			for (IDiscount discount : userShow.getDiscounts()) {
+				discountText += discount.getCount() + ": Descuento " + discount.getId();
+				if (userShow.getDiscounts().size() != number) {
+					discountText += "\n";
+				}
+				number++;
+			}
+			discountsTextView.setText(discountText);
+		}
+
+		String seatCodes = "";
+		if (0 < userShow.getSeats().size()) {
+			for (ISeat seat : userShow.getSeats()) {
+				seatCodes += seat.getRow() + "-" + seat.getColumn() + " ";
+			}
+		}
+
+		placesCodesTextView.setText(seatCodes);
 
 		cancelButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -276,6 +326,14 @@ public class DetailUserShowFragment extends RoboFragment implements
 		if (userShow.isBought()) {
 			cancelButton.setVisibility(Button.GONE);
 			buyButton.setVisibility(Button.GONE);
+		}
+		
+		if (userShow.isBought()) {
+			shareActionListener.setShareOnTwitterMessage("He comprado entradas para " + 
+			userShow.getMovieTitle() + " en CINEMARK");
+		} else {
+			shareActionListener.setShareOnTwitterMessage("He reservado entradas para " + 
+			userShow.getMovieTitle() + " en CINEMARK");
 		}
 	}
 

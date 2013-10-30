@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.LoginActivity;
+import phoneticket.android.activities.interfaces.IShareActionListener;
+import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.activities.interfaces.IUserShowsListener;
 import phoneticket.android.model.User;
 import phoneticket.android.services.get.IRetrieveUserInfoService;
@@ -32,7 +34,9 @@ public class UserFragment extends RoboFragment implements
 	private boolean ignoreServicesCallbacks;
 
 	private IUserShowsListener myFunctionsListener;
-
+	private IShareButtonsVisibilityListener shareButtonsVisibilityListener;
+	private IShareActionListener shareActionListener;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -91,6 +95,10 @@ public class UserFragment extends RoboFragment implements
 				myFunctionsListener.onShowUserShowsAction();
 			}
 		});
+		
+		shareButtonsVisibilityListener.showFacebookShareButton();
+		shareButtonsVisibilityListener.showTwitterShareButton();
+		shareActionListener.setShareOnTwitterMessage("Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar");
 	}
 
 	@Override
@@ -107,6 +115,18 @@ public class UserFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IMyFunctionsListener");
+		}
+		try {
+			shareActionListener = (IShareActionListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IShareActionListener");
+		}
+		try {
+			shareButtonsVisibilityListener = (IShareButtonsVisibilityListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IShareButtonsVisibilityListener");
 		}
 	}
 
