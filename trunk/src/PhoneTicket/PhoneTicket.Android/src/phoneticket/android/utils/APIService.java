@@ -60,4 +60,8 @@ public class APIService {
 	public static String getRetrieveUserInfoServiceGetURL() {
 		return baseAPIURL() + "currentUser/info";
 	}
+
+	public static String getRetrieveMyShowsServiceGetURL() {
+		return baseAPIURL() + "currentUser/operations";
+	}
 }
