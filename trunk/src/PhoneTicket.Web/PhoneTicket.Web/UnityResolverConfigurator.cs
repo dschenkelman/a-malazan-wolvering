@@ -14,6 +14,7 @@
         public IDependencyResolver Configure(IUnityContainer container)
         {
             container.RegisterType<ITemporaryUserService, TemporaryUserService>();
+            container.RegisterType<ISettingsService, SettingsService>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IMovieService, MovieService>();
             container.RegisterType<IGenreService, GenreService>();
@@ -41,7 +42,7 @@
             container.RegisterType<IRepository<OccupiedSeat>, Repository<OccupiedSeat>>();
             container.RegisterType<IRepository<OperationDiscount>, Repository<OperationDiscount>>();
             container.RegisterType<IRepository<CreditCardCompany>, Repository<CreditCardCompany>>();
-
+            container.RegisterType<IRepository<Setting>, Repository<Setting>>();
 
             container.RegisterType<IPhoneTicketRepositories, PhoneTicketRepositories>();
 

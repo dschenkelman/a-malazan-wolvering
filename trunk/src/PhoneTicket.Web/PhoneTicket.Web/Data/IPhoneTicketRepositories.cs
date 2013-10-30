@@ -31,6 +31,8 @@
         IRepository<OperationDiscount> OperationDiscounts { get; }
 
         IRepository<CreditCardCompany> CreditCardCompanies { get; }
+
+        IRepository<Setting> Settings { get; }
     }
 }
 

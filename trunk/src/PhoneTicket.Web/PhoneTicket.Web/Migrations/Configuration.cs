@@ -5,6 +5,7 @@ namespace PhoneTicket.Web.Migrations
     using System.Data.Entity.Spatial;
     using System.Linq;
 
+    using PhoneTicket.Web.Constants;
     using PhoneTicket.Web.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<PhoneTicket.Web.Data.PhoneTicketContext>
@@ -250,6 +251,11 @@ namespace PhoneTicket.Web.Migrations
                 context.CreditCardCompanies.Add(new CreditCardCompany { Name = "Visa" });
                 context.CreditCardCompanies.Add(new CreditCardCompany { Name = "Master Card" });
                 context.CreditCardCompanies.Add(new CreditCardCompany { Name = "American Express" });
+            }
+
+            if (!context.Settings.Any())
+            {
+                context.Settings.Add(new Setting { Key = SettingsConstants.DefaultShowPrice, Value = "50" });
             }
 
             context.SaveChanges();

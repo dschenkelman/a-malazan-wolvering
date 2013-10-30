@@ -44,6 +44,7 @@
             this.container.Setup(c => c.RegisterType(typeof(IOccupiedSeatsService), typeof(OccupiedSeatsService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IOperationDiscountsService), typeof(OperationDiscountsService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(ICreditCardsService), typeof(CreditCardsService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(typeof(ISettingsService), typeof(SettingsService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
 
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicketContext), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IContext), typeof(PhoneTicketContext), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
@@ -78,6 +79,7 @@
             this.container.Setup(c => c.RegisterType(typeof(IRepository<OccupiedSeat>), typeof(Repository<OccupiedSeat>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IRepository<OperationDiscount>), typeof(Repository<OperationDiscount>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IRepository<CreditCardCompany>), typeof(Repository<CreditCardCompany>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(typeof(IRepository<Setting>), typeof(Repository<Setting>), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IPhoneTicketRepositories), typeof(PhoneTicketRepositories), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
 
 
@@ -91,6 +93,7 @@
             this.container.Verify(c => c.RegisterType(typeof(IGenreService), typeof(GenreService), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IRatingService), typeof(RatingService), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IRoomService), typeof(RoomService), null, It.IsAny<LifetimeManager>()), Times.Once());
+            this.container.Verify(c => c.RegisterType(typeof(ISettingsService), typeof(SettingsService), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterInstance(typeof(IEmailService), null, It.IsAny<EmailService>(), It.IsAny<ContainerControlledLifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(PhoneTicketContext), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(UsersController), null, It.IsAny<LifetimeManager>()), Times.Once());
@@ -115,6 +118,7 @@
             this.container.Verify(c => c.RegisterType(typeof(IRepository<Discount>), typeof(Repository<Discount>), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IRepository<Operation>), typeof(Repository<Operation>), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IRepository<OccupiedSeat>), typeof(Repository<OccupiedSeat>), null, It.IsAny<LifetimeManager>()), Times.Once());
+            this.container.Verify(c => c.RegisterType(typeof(IRepository<Setting>), typeof(Repository<Setting>), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IPhoneTicketRepositories), typeof(PhoneTicketRepositories), null, It.IsAny<LifetimeManager>()), Times.Once());
         }
 

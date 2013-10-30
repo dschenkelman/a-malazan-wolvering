@@ -209,6 +209,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Constants\SettingsConstants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\BaseOperationsController.cs" />
     <Compile Include="Controllers\Api\ComplexesController.cs" />
@@ -254,10 +255,15 @@
     <Compile Include="Migrations\201310301533366_Initial.Designer.cs">
       <DependentUpon>201310301533366_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310301843575_AddedSettings.cs" />
+    <Compile Include="Migrations\201310301843575_AddedSettings.Designer.cs">
+      <DependentUpon>201310301843575_AddedSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Complex.cs" />
     <Compile Include="Models\CreditCardCompany.cs" />
+    <Compile Include="Models\DefaultValues.cs" />
     <Compile Include="Models\Discount.cs" />
     <Compile Include="Models\DiscountType.cs" />
     <Compile Include="Models\Genre.cs" />
@@ -295,6 +301,7 @@
     <Compile Include="Services\IRatingService.cs" />
     <Compile Include="Services\IRoomService.cs" />
     <Compile Include="Services\IRoomXmlParser.cs" />
+    <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\IShowService.cs" />
     <Compile Include="Services\ITemporaryUserService.cs" />
     <Compile Include="Services\IUserService.cs" />
@@ -305,6 +312,7 @@
     <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\RoomService.cs" />
     <Compile Include="Services\RoomXmlParser.cs" />
+    <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\ShowService.cs" />
     <Compile Include="Services\TemporaryUserService.cs" />
     <Compile Include="Templates\EmailTemplate.Context.cs" />
@@ -538,6 +546,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201310301533366_Initial.resx">
       <DependentUpon>201310301533366_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310301843575_AddedSettings.resx">
+      <DependentUpon>201310301843575_AddedSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
