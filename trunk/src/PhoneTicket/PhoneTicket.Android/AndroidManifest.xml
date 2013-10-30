@@ -72,6 +72,10 @@
             android:name="phoneticket.android.activities.BuyTicketsActivity"
             android:label="@string/title_activity_buy_tickets" >
         </activity>
+        <activity
+            android:name="phoneticket.android.activities.QRCodeActivity"
+            android:label="@string/title_activity_qrcode" >
+        </activity>
     </application>
 
 </manifest>

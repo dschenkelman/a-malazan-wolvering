@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/StaggeredGridView"/>
 	<classpathentry exported="true" kind="lib" path="/StaggeredGridView/libs/android-support-v4.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/RibbonMenuLib"/>
+	<classpathentry kind="lib" path="libs/zxing-2.0-core.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

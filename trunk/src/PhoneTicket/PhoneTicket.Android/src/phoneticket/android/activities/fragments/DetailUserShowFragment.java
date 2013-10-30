@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.BuyTicketsActivity;
+import phoneticket.android.activities.QRCodeActivity;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment.IConfirmShowReserveCancelationDialogDelegate;
 import phoneticket.android.activities.interfaces.IShareActionListener;
@@ -197,7 +198,9 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 	protected void onGetQRCodeAction() {
 		// TODO Auto-generated method stub
-
+		Intent intent = new Intent(getActivity(), QRCodeActivity.class);
+		intent.putExtra(QRCodeActivity.EXTRA_QR_STRING, "pokemon");
+		startActivity(intent);
 	}
 
 	protected void onBuyReservationAction() {
