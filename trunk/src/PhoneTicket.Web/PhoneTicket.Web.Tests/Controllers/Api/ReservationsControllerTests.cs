@@ -9,6 +9,8 @@
     using System.Security.Principal;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Web.Http;
+    using System.Web.Http.Results;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -168,6 +170,61 @@
 
             this.operationService.Verify(os => os.DeleteAsync(operationNumber), Times.Once());
             this.showService.Verify(ss => ss.ManageAvailability(It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnBadRequestIfOperationIsNotReservationWhenConfirmReservationIsCalled()
+        {
+            var opNumber = Guid.NewGuid();
+
+            this.operationService.Setup(os => os.GetAsync(opNumber))
+                .Returns(Task.FromResult(new Operation() { Type = OperationType.PurchaseWithoutReservation })).Verifiable();
+
+            var controller = this.CreateController();
+
+            var result = (BadRequestErrorMessageResult)await controller.ConfirmReservation(opNumber, null);
+
+            Assert.AreEqual("Solo se puede confirmar una reserva", result.Message);
+
+            this.mockRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task ShouldSaveOperationWithCreditCardDataWhenReservationIsCalled()
+        {
+            var opNumber = Guid.NewGuid();
+
+            var operation = new Operation { Type = OperationType.Reservation };
+
+            this.operationService.Setup(os => os.GetAsync(opNumber))
+                .Returns(Task.FromResult(operation))
+                .Verifiable();
+
+            this.operationService.Setup(os => os.SaveAsync(operation))
+                .Returns(Task.FromResult<object>(null))
+                .Verifiable();
+
+            var controller = this.CreateController();
+
+            var viewModel = new ConfirmReservationViewModel 
+                                {
+                                    CreditCardCompanyId = 30,
+                                    CreditCardExpiration = "2013-10-30",
+                                    CreditCardNumber = "2000-3001-4002-5003",
+                                    CreditCardSecurityCode = "987",
+                                };
+
+            var result = await controller.ConfirmReservation(opNumber, viewModel);
+
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+
+            this.mockRepository.VerifyAll();
+
+            Assert.AreEqual(viewModel.CreditCardCompanyId, operation.CreditCardCompanyId);
+            Assert.AreEqual(viewModel.CreditCardExpirationDate, operation.CreditCardExpirationDate);
+            Assert.AreEqual(viewModel.CreditCardNumber, operation.CreditCardNumber);
+            Assert.AreEqual(viewModel.CreditCardSecurityCode, operation.CreditCardSecurityCode);
+            Assert.AreEqual(OperationType.PurchaseWithReservation, operation.Type);
         }
 
         private ReservationsController CreateController()
