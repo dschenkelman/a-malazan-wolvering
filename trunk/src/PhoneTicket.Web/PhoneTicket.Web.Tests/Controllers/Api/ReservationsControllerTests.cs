@@ -148,9 +148,17 @@
         [TestMethod]
         public async Task ShouldReturnHttpOkMessageWhenCancelReservationIsCalled()
         {
+            const int ShowId = 1;
+
             var operationNumber = Guid.NewGuid();
 
+            var operation = new Operation { ShowId = ShowId };
+
+            this.operationService.Setup(os => os.GetAsync(operationNumber)).Returns(Task.FromResult < Operation > (operation) );
+
             this.operationService.Setup(os => os.DeleteAsync(operationNumber)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            this.showService.Setup(ss => ss.ManageAvailability(It.IsAny<int>())).Returns(Task.FromResult<object>(null)).Verifiable();
 
             var controller = this.CreateController();
 
@@ -159,6 +167,7 @@
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             this.operationService.Verify(os => os.DeleteAsync(operationNumber), Times.Once());
+            this.showService.Verify(ss => ss.ManageAvailability(It.IsAny<int>()), Times.Once());
         }
 
         private ReservationsController CreateController()
