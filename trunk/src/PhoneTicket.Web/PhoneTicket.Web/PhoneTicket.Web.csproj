@@ -210,10 +210,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\BaseOperationsController.cs" />
     <Compile Include="Controllers\Api\ComplexesController.cs" />
     <Compile Include="Controllers\Api\CurrentUserController.cs" />
     <Compile Include="Controllers\Api\DiscountsController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
+    <Compile Include="Controllers\Api\PurchasesController.cs" />
     <Compile Include="Controllers\Api\ReservationsController.cs" />
     <Compile Include="Controllers\Api\ShowsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
