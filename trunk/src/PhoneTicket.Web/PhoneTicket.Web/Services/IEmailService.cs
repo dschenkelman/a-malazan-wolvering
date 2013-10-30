@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Mail;
-
-namespace PhoneTicket.Web.Services
+﻿namespace PhoneTicket.Web.Services
 {
+    using System.Net.Mail;
+    using System.Threading.Tasks;
+
     public interface IEmailService
     {
         MailMessage CreateMessage(string subject, string body, params string[] toAddresses);

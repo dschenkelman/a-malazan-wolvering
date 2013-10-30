@@ -45,6 +45,12 @@
             this.dbSet.Remove(t);
         }
 
+        public async Task DeleteAsync(Guid id)
+        {
+            T t = await this.dbSet.FindAsync(id);
+            this.dbSet.Remove(t);
+        }
+
         public Task SaveAsync()
         {
             return this.context.SaveChangesAsync();

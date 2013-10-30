@@ -10,13 +10,13 @@
 
     public interface IOperationService
     {
-        Task<Operation> GetAsync(int operationId);
+        Task<Operation> GetAsync(Guid operationId);
 
         Task<IEnumerable<Operation>> GetAsync(Expression<Func<Operation, bool>> filter);
 
-        Task<int> CreateAsync(Operation operation);
+        Task<Guid> CreateAsync(Operation operation);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Guid id);
 
         Task AddDiscountsAsync(Operation operation, IEnumerable<DiscountForOperationViewModel> discounts);
     }

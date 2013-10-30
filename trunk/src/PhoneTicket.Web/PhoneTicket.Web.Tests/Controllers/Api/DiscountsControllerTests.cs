@@ -96,6 +96,8 @@
         [TestMethod]
         public async Task ShouldReturnBadRequestWhenSetDiscountsForAnInexistentOperationIsCalled()
         {
+            var operationNumber = Guid.NewGuid();
+
             this.operationService
                 .Setup(os => os.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()))
                 .Returns(Task.FromResult(Enumerable.Empty<Operation>()))
@@ -103,7 +105,7 @@
 
             var controller = this.CreateController();
 
-            var result = (BadRequestErrorMessageResult)await controller.SetDiscounts(2, Enumerable.Empty<DiscountForOperationViewModel>());
+            var result = (BadRequestErrorMessageResult)await controller.SetDiscounts(operationNumber, Enumerable.Empty<DiscountForOperationViewModel>());
 
             Assert.AreEqual("La operación no existe", result.Message);
         }
@@ -111,6 +113,8 @@
         [TestMethod]
         public async Task ShouldReturnBadRequestWhenDiscountTicketsAreGreaterThatOccupiedSeatsForOperation()
         {
+            var operationNumber = Guid.NewGuid();
+
             var operation = new Operation
                                 {
                                     OccupiedSeats =
@@ -152,7 +156,7 @@
 
             var controller = this.CreateController();
 
-            var result = (BadRequestErrorMessageResult)await controller.SetDiscounts(2, discountsForOperation);
+            var result = (BadRequestErrorMessageResult)await controller.SetDiscounts(operationNumber, discountsForOperation);
 
             Assert.AreEqual("La cantidad de asientos de la promociones es mayor a la cantidad de asientos reservados", result.Message);
 
@@ -162,6 +166,8 @@
         [TestMethod]
         public async Task ShouldAddDiscountsWhenSetDiscountsIsCalled()
         {
+            var operationNumber = Guid.NewGuid();
+
             var operation = new Operation
             {
                 OccupiedSeats =
@@ -208,7 +214,7 @@
 
             var controller = this.CreateController();
 
-            var result = await controller.SetDiscounts(2, discountsForOperation);
+            var result = await controller.SetDiscounts(operationNumber, discountsForOperation);
 
             Assert.IsInstanceOfType(result, typeof(OkResult));
 

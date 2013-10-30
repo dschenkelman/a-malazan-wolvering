@@ -48,6 +48,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.0-rc1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="MessagingToolkit.QRCode">
+      <HintPath>..\packages\MessagingToolkit.QRCode.1.3.0\lib\MessagingToolkit.QRCode.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -244,37 +247,9 @@
     <Compile Include="Helpers\XElementExtensions.cs" />
     <Compile Include="HttpModules\BasicAuthHttpModule.cs" />
     <Compile Include="HttpModules\PhoneTicketBasicAuthHttpModule.cs" />
-    <Compile Include="Migrations\201310132312464_Initial.cs" />
-    <Compile Include="Migrations\201310132312464_Initial.Designer.cs">
-      <DependentUpon>201310132312464_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310262216034_PurchaseModel.cs" />
-    <Compile Include="Migrations\201310262216034_PurchaseModel.Designer.cs">
-      <DependentUpon>201310262216034_PurchaseModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310280423509_DeleteRoomStyles.cs" />
-    <Compile Include="Migrations\201310280423509_DeleteRoomStyles.Designer.cs">
-      <DependentUpon>201310280423509_DeleteRoomStyles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310280453449_AddRoomXmlFile.cs" />
-    <Compile Include="Migrations\201310280453449_AddRoomXmlFile.Designer.cs">
-      <DependentUpon>201310280453449_AddRoomXmlFile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310281645368_OptionalCreditCardFieldsInOperation.cs" />
-    <Compile Include="Migrations\201310281645368_OptionalCreditCardFieldsInOperation.Designer.cs">
-      <DependentUpon>201310281645368_OptionalCreditCardFieldsInOperation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310281823162_OperationWithMultipleDiscounts.cs" />
-    <Compile Include="Migrations\201310281823162_OperationWithMultipleDiscounts.Designer.cs">
-      <DependentUpon>201310281823162_OperationWithMultipleDiscounts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310281824267_DiscountWithMultipleOperations.cs" />
-    <Compile Include="Migrations\201310281824267_DiscountWithMultipleOperations.Designer.cs">
-      <DependentUpon>201310281824267_DiscountWithMultipleOperations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310281828340_AddedCountToDiscountForOperation.cs" />
-    <Compile Include="Migrations\201310281828340_AddedCountToDiscountForOperation.Designer.cs">
-      <DependentUpon>201310281828340_AddedCountToDiscountForOperation.cs</DependentUpon>
+    <Compile Include="Migrations\201310301533366_Initial.cs" />
+    <Compile Include="Migrations\201310301533366_Initial.Designer.cs">
+      <DependentUpon>201310301533366_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -332,6 +307,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EmailTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\OperationEmailTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OperationEmailTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="UnityDependencyResolver.cs" />
     <Compile Include="UnityResolverConfigurator.cs" />
@@ -534,6 +514,11 @@
     <Content Include="Views\Discounts\Index.cshtml" />
     <Content Include="Views\Discounts\Create.cshtml" />
     <Content Include="Views\Discounts\Edit.cshtml" />
+    <Content Include="Templates\OperationEmailTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>OperationEmailTemplate.cs</LastGenOutput>
+    </Content>
+    <Compile Include="Templates\OperationEmailTemplate.Context.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -545,29 +530,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201310132312464_Initial.resx">
-      <DependentUpon>201310132312464_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310262216034_PurchaseModel.resx">
-      <DependentUpon>201310262216034_PurchaseModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310280423509_DeleteRoomStyles.resx">
-      <DependentUpon>201310280423509_DeleteRoomStyles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310280453449_AddRoomXmlFile.resx">
-      <DependentUpon>201310280453449_AddRoomXmlFile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310281645368_OptionalCreditCardFieldsInOperation.resx">
-      <DependentUpon>201310281645368_OptionalCreditCardFieldsInOperation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310281823162_OperationWithMultipleDiscounts.resx">
-      <DependentUpon>201310281823162_OperationWithMultipleDiscounts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310281824267_DiscountWithMultipleOperations.resx">
-      <DependentUpon>201310281824267_DiscountWithMultipleOperations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310281828340_AddedCountToDiscountForOperation.resx">
-      <DependentUpon>201310281828340_AddedCountToDiscountForOperation.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201310301533366_Initial.resx">
+      <DependentUpon>201310301533366_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

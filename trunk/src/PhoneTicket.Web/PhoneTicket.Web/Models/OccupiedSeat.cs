@@ -1,12 +1,13 @@
 ﻿namespace PhoneTicket.Web.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
     public class OccupiedSeat
     {
         [Key, Column(Order = 0), ForeignKey("Operation")]
-        public int OperationId { get; set; }
+        public Guid OperationId { get; set; }
 
         public virtual Operation Operation { get; set; }
 

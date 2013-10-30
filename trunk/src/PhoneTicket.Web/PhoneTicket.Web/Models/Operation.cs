@@ -9,7 +9,7 @@
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int Number { get; set; }
+        public Guid Number { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }

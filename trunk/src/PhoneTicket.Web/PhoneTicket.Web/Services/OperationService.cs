@@ -20,7 +20,7 @@
             this.repositories = repositories;
         }
 
-        public async Task<Operation> GetAsync(int operationId)
+        public async Task<Operation> GetAsync(Guid operationId)
         {
             return await this.repositories.Operations.GetByKeyValuesAsync(operationId);
         }
@@ -30,7 +30,7 @@
             return await this.repositories.Operations.Filter(filter).ToListAsync();
         }
 
-        public async Task<int> CreateAsync(Operation operation)
+        public async Task<Guid> CreateAsync(Operation operation)
         {
             this.repositories.Operations.Insert(operation);
 
@@ -39,7 +39,7 @@
             return operation.Number;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Guid id)
         {
             await this.repositories.Operations.DeleteAsync(id);
 

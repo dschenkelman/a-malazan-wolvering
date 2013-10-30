@@ -78,40 +78,40 @@
         {
             const string Email = "e@mail";
             
-            const int Number = 1;
+            var number = Guid.NewGuid();
             const int UserId = 0;
             const OperationType Type0 = OperationType.Reservation;
             const OperationType Type1 = OperationType.PurchaseWithoutReservation;
 
             const int ShowId = 1;
             const string MovieTitle = "asd";
-            var ShowDate = new DateTime(2013,10,29);
+            var showDate = new DateTime(2013, 10, 29);
             const string ComplexAddress = "address";
 
-            var Show = new Show { Id = 1, Movie = new Movie { Title = MovieTitle }, Date = ShowDate, Room = new Room { Complex = new Complex { Address = ComplexAddress } } };
+            var show = new Show { Id = 1, Movie = new Movie { Title = MovieTitle }, Date = showDate, Room = new Room { Complex = new Complex { Address = ComplexAddress } } };
 
-            var Operation1 = new Operation
+            var operation1 = new Operation
             {
-                Number = Number,
+                Number = number,
                 UserId = UserId,
                 ShowId = ShowId,
-                Show = Show,
+                Show = show,
                 Type = Type0,
             };
 
-            var Operation2 = new Operation
+            var operation2 = new Operation
             {
-                Number = Number,
+                Number = number,
                 UserId = UserId,
                 ShowId = ShowId,
-                Show = Show,
+                Show = show,
                 Type = Type1,
             };
 
             this.userService.Setup(us => us.GetIdAsync(Email)).Returns(Task.FromResult(UserId)).Verifiable();
 
             this.operationService.Setup(os => os.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()))
-                .Returns(Task.FromResult((IEnumerable<Operation>)new List<Operation> { Operation1, Operation2 }))
+                .Returns(Task.FromResult((IEnumerable<Operation>)new List<Operation> { operation1, operation2 }))
                 .Verifiable();
 
 
@@ -126,9 +126,9 @@
 
             for (int i = 0; i < response.Count(); i++)
             {
-                Assert.AreEqual(Number, response.ElementAt(i).Id);
+                Assert.AreEqual(number, response.ElementAt(i).Id);
                 Assert.AreEqual(MovieTitle, response.ElementAt(i).MovieTitle);
-                Assert.AreEqual(ShowDate.ToString("dd/MM hh:mm") + "Hs", response.ElementAt(i).ShowDateAndTime);
+                Assert.AreEqual(showDate.ToString("dd/MM hh:mm") + "Hs", response.ElementAt(i).ShowDateAndTime);
                 Assert.AreEqual(ComplexAddress, response.ElementAt(i).ComplexAddress);
             }
             
@@ -145,7 +145,7 @@
         [TestMethod]
         public async Task ShouldReturnCorrectOperationDetailViewModelWhenOperationsIsCalledWithOperationId()
         {
-            const int OperationId = 1;
+            var operationNumber = Guid.NewGuid();
             const int Row = 1;
             const int Col = 1;
             const int DiscountId = 1;
@@ -166,23 +166,23 @@
                 Price = ShowPrice
             };
 
-            var seat = new OccupiedSeat { OperationId = OperationId, Column = Col, Row = Row};
+            var seat = new OccupiedSeat { OperationId = operationNumber, Column = Col, Row = Row};
             var discount = new OperationDiscount { DiscountId = DiscountId, Count = DiscountCount };
 
             var operation = new Operation
             {
-                Number = OperationId,
+                Number = operationNumber,
                 Show = show,
                 OccupiedSeats = new Collection<OccupiedSeat> { seat },
                 OperationDiscounts = new Collection<OperationDiscount> { discount }
             };
 
 
-            this.operationService.Setup(os => os.GetAsync(OperationId)).Returns(Task.FromResult(operation)).Verifiable();
+            this.operationService.Setup(os => os.GetAsync(operationNumber)).Returns(Task.FromResult(operation)).Verifiable();
 
             var controller = this.CreateController();
 
-            var response = await controller.Operations(OperationId);
+            var response = await controller.Operations(operationNumber);
 
             Assert.AreEqual(MovieTitle,response.MovieTitle);
             Assert.AreEqual(showDate.ToString("dd/MM hh:mm") + "Hs", response.ShowDateAndTime);
@@ -197,7 +197,7 @@
             Assert.AreEqual(discount.DiscountId, response.Discounts.ElementAt(0).DiscountId);
             Assert.AreEqual(discount.Count, response.Discounts.ElementAt(0).Count);
 
-            this.operationService.Verify(os => os.GetAsync(OperationId), Times.Once);
+            this.operationService.Verify(os => os.GetAsync(operationNumber), Times.Once);
         }
 
         private CurrentUserController CreateController()
