@@ -12,8 +12,7 @@ public class MockRetrieveUserInfoService extends
 	private boolean fakeTimeout;
 	
 	@Override
-	public void retrieveUserInfo(IRetrieveUserInfoServiceDelegate delegate,
-			int userId) {
+	public void retrieveUserInfo(IRetrieveUserInfoServiceDelegate delegate) {
 		fakeTimeout = false;
 		this.delegate = delegate;
 		execute("");

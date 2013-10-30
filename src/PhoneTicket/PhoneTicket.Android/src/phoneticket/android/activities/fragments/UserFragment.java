@@ -36,7 +36,7 @@ public class UserFragment extends RoboFragment implements
 	private IUserShowsListener myFunctionsListener;
 	private IShareButtonsVisibilityListener shareButtonsVisibilityListener;
 	private IShareActionListener shareActionListener;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -95,10 +95,11 @@ public class UserFragment extends RoboFragment implements
 				myFunctionsListener.onShowUserShowsAction();
 			}
 		});
-		
+
 		shareButtonsVisibilityListener.showFacebookShareButton();
 		shareButtonsVisibilityListener.showTwitterShareButton();
-		shareActionListener.setShareOnTwitterMessage("Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar");
+		shareActionListener
+				.setShareOnTwitterMessage("Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar");
 	}
 
 	@Override
@@ -157,8 +158,7 @@ public class UserFragment extends RoboFragment implements
 
 	protected void onLoadDataAction() {
 		showLoadingLayoutVisibility();
-		userInfoService.retrieveUserInfo(this, UserManager.getInstance()
-				.getLogedUser().getDni());
+		userInfoService.retrieveUserInfo(this);
 	}
 
 	private void showUserInfo() {

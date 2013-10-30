@@ -1,5 +1,5 @@
 package phoneticket.android.services.get;
 
 public interface IRetrieveUserInfoService {
-	void retrieveUserInfo(IRetrieveUserInfoServiceDelegate delegate, int userId);
+	void retrieveUserInfo(IRetrieveUserInfoServiceDelegate delegate);
 }

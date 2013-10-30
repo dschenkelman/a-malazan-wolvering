@@ -56,4 +56,8 @@ public class APIService {
 	public static String getRegisterDiscountsPostURL(String uuid) {
 		return baseAPIURL() + "operations/" + uuid + "/discounts";
 	}
+
+	public static String getRetrieveUserInfoServiceGetURL() {
+		return baseAPIURL() + "currentUser/info";
+	}
 }
