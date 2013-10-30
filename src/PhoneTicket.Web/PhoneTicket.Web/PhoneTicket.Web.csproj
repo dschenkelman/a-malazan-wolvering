@@ -212,6 +212,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\BaseOperationsController.cs" />
     <Compile Include="Controllers\Api\ComplexesController.cs" />
+    <Compile Include="Controllers\Api\CreditCardsController.cs" />
     <Compile Include="Controllers\Api\CurrentUserController.cs" />
     <Compile Include="Controllers\Api\DiscountsController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
@@ -278,10 +279,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\ComplexService.cs" />
+    <Compile Include="Services\CreditCardsService.cs" />
     <Compile Include="Services\DiscountService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\GenreService.cs" />
     <Compile Include="Services\IComplexService.cs" />
+    <Compile Include="Services\ICreditCardsService.cs" />
     <Compile Include="Services\IDiscountService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IMovieService.cs" />
