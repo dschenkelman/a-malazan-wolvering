@@ -8,6 +8,7 @@
     using System.Web;
     using System.Web.Http;
 
+    using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels.Api;
@@ -19,11 +20,14 @@
 
         private readonly IOperationService operationService;
 
-        public CurrentUserController(IUserService userService, IOperationService operationService)
+        private readonly IShowService showService;
+
+        public CurrentUserController(IUserService userService, IOperationService operationService, IShowService showService)
         {
             this.userService = userService;
 
             this.operationService = operationService;
+            this.showService = showService;
         }
 
         [Authorize]
@@ -41,11 +45,22 @@
         {
             var userId = await this.userService.GetIdAsync(Thread.CurrentPrincipal.Identity.Name);
 
-            var operations = await this.operationService.GetAsync(o => o.UserId == userId);
+            var operationsToDelete = await this.operationService.GetDeprecatedForUserAsync(userId);
 
-            var viewModel = operations.Select(o => new UserOperationsViewModel { Id = o.Number, IsBought = (!o.Type.Equals(OperationType.Reservation)), 
+            foreach (var operation in operationsToDelete)
+            {
+                // cascades to delete seats
+                await this.operationService.DeleteAsync(operation.Number);
+
+                await this.showService.ManageAvailabilityAsync(operation.ShowId);
+            }
+
+            var operations = await this.operationService.GetForUserAsync(userId);
+
+           var viewModel = operations.Select(o => new UserOperationsViewModel { Id = o.Number, IsBought = (!o.Type.Equals(OperationType.Reservation)), 
                                                                                 MovieTitle = o.Show.Movie.Title, ShowDateAndTime = o.Show.Date.ToString("dd/MM HH:mm")+"Hs", 
                                                                                 ComplexAddress = o.Show.Room.Complex.Address });
+
 
             return viewModel;
         }

@@ -40,7 +40,7 @@
         {
             var showId = (await this.operationService.GetAsync(OperationId)).ShowId;
 
-            await this.showService.ManageAvailability(showId);
+            await this.showService.ManageAvailabilityAsync(showId);
         }
 
     }

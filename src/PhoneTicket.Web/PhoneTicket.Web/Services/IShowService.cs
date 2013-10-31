@@ -14,6 +14,6 @@
         Task DeleteAsync(int showId);
         Task ChangeAvailability(int showId);
         Task<IEnumerable<OccupiedSeat>> GetOccupiedSeats(int showId);
-        Task ManageAvailability(int showId);
+        Task ManageAvailabilityAsync(int showId);
     }
 }
