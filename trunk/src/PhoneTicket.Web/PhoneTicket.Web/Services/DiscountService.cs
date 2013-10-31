@@ -27,16 +27,20 @@
             return await this.repositories.Discounts.Filter(d => d.StartDate <= currentDate && currentDate <= d.EndDate).ToListAsync();
         }
 
-        public Task<IEnumerable<Discount>> GetActiveAndFutureAsync()
+        public async Task<IEnumerable<Discount>> GetActiveAndFutureAsync()
         {
-            return this.repositories.Discounts.AllAsync();
+            var currentDate = DateTimeHelpers.DateTimeInArgentina;
+
+            return await this.repositories.Discounts.Filter(d => d.EndDate >= currentDate).ToListAsync();
         }
 
         public async Task<IEnumerable<Discount>> GetActiveAndFutureAsync(Expression<Func<Discount, bool>> filter)
         {
-            return await this.repositories.Discounts.Filter(filter).ToListAsync();
-        }
+            var currentDate = DateTimeHelpers.DateTimeInArgentina;
 
+            return await this.repositories.Discounts.Filter(filter).Where(d => d.EndDate >= currentDate).ToListAsync();
+        }
+        
         public async Task DeleteAsync(int discountId)
         {
             await this.repositories.Discounts.DeleteAsync(discountId);
