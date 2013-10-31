@@ -25,7 +25,9 @@
         { 
             get
             {
-                return DateTime.Parse(this.CreditCardExpiration);
+                return this.CreditCardExpiration != null 
+                ? DateTime.Parse(this.CreditCardExpiration)
+                : (DateTime?)null;
             }
         }*/
 

@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Data;
+    using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Models;
     using System.Linq.Expressions;
 
@@ -28,6 +29,20 @@
         public async Task<IEnumerable<Operation>> GetAsync(Expression<Func<Operation, bool>> filter)
         {
             return await this.repositories.Operations.Filter(filter).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Operation>> GetForUserAsync(int userId)
+        {
+            return await this.repositories.Operations.Filter(o => o.UserId == userId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Operation>> GetDeprecatedForUserAsync(int userId)
+        {
+            var futureTimeInArgentina = DateTimeHelpers.DateTimeInArgentina.AddHours(1);
+
+            return await this.repositories.Operations.Filter(o => o.UserId == userId 
+                && o.Type == OperationType.Reservation 
+                && futureTimeInArgentina > o.Show.Date).ToListAsync();
         }
 
         public async Task<Guid> CreateAsync(Operation operation)

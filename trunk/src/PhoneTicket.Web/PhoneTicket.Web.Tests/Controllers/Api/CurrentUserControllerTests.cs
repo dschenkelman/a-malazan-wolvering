@@ -1,12 +1,13 @@
 ﻿namespace PhoneTicket.Web.Tests.Controllers.Api
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Linq.Expressions;
     using System.Security.Principal;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Collections.Generic;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,9 +16,6 @@
     using PhoneTicket.Web.Controllers.Api;
     using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
-    using System.Collections.ObjectModel;
-    
-    
 
     [TestClass]
     public class CurrentUserControllerTests
@@ -28,6 +26,8 @@
 
         private Mock<IOperationService> operationService;
 
+        private Mock<IShowService> showService;
+
         [TestInitialize]
         public void Initialize()
         {
@@ -36,6 +36,8 @@
             this.userService = this.mockRepository.Create<IUserService>();
 
             this.operationService = this.mockRepository.Create<IOperationService>();
+
+            this.showService = this.mockRepository.Create<IShowService>();
         }
 
         [TestMethod]
@@ -110,10 +112,11 @@
 
             this.userService.Setup(us => us.GetIdAsync(Email)).Returns(Task.FromResult(UserId)).Verifiable();
 
-            this.operationService.Setup(os => os.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()))
+            this.operationService.Setup(os => os.GetForUserAsync(UserId))
                 .Returns(Task.FromResult((IEnumerable<Operation>)new List<Operation> { operation1, operation2 }))
                 .Verifiable();
 
+            this.operationService.Setup(os => os.GetDeprecatedForUserAsync(UserId)).Returns(Task.FromResult(Enumerable.Empty<Operation>())).Verifiable();
 
             var controller = this.CreateController();
 
@@ -137,9 +140,7 @@
 
             Thread.CurrentPrincipal = oldPrincipal;
 
-            this.userService.Verify(us => us.GetIdAsync(Email), Times.Once);
-            this.operationService.Verify(us => us.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()), Times.Once);
-
+            this.mockRepository.VerifyAll();
         }
 
         [TestMethod]
@@ -184,7 +185,7 @@
 
             var response = await controller.Operations(operationNumber);
 
-            Assert.AreEqual(MovieTitle,response.MovieTitle);
+            Assert.AreEqual(MovieTitle, response.MovieTitle);
             Assert.AreEqual(showDate.ToString("dd/MM HH:mm") + "Hs", response.ShowDateAndTime);
             Assert.AreEqual(ComplexAddress, response.ComplexAddress);
             Assert.AreEqual(ShowPrice, response.ShowPrice);
@@ -200,9 +201,76 @@
             this.operationService.Verify(os => os.GetAsync(operationNumber), Times.Once);
         }
 
+        [TestMethod]
+        public async Task ShouldDeleteDeprecatedOperationsWhenListingOperationsForTheCurrentUser()
+        {
+            const string Email = "e@mail";
+
+            var number = Guid.NewGuid();
+            const int UserId = 0;
+            const OperationType Type0 = OperationType.Reservation;
+            const OperationType Type1 = OperationType.Reservation;
+
+            const int Show1Id = 1;
+            const int Show2Id = 1;
+            const string MovieTitle = "asd";
+            var showDate = new DateTime(2013, 10, 29);
+            const string ComplexAddress = "address";
+
+            var show = new Show { Id = 1, Movie = new Movie { Title = MovieTitle }, Date = showDate, Room = new Room { Complex = new Complex { Address = ComplexAddress } } };
+
+            var operation1 = new Operation
+            {
+                Number = number,
+                UserId = UserId,
+                ShowId = Show1Id,
+                Show = show,
+                Type = Type0,
+            };
+
+            var operation2 = new Operation
+            {
+                Number = number,
+                UserId = UserId,
+                ShowId = Show2Id,
+                Show = show,
+                Type = Type1,
+            };
+
+            this.userService.Setup(us => us.GetIdAsync(Email)).Returns(Task.FromResult(UserId)).Verifiable();
+
+            this.operationService.Setup(os => os.GetForUserAsync(UserId))
+                .Returns(Task.FromResult(Enumerable.Empty<Operation>()))
+                .Verifiable();
+
+            this.operationService.Setup(os => os.GetDeprecatedForUserAsync(UserId))
+                .Returns(Task.FromResult((IEnumerable<Operation>)new List<Operation> { operation1, operation2 }))
+                .Verifiable();
+
+            this.operationService.Setup(os => os.DeleteAsync(operation1.Number)).Returns(Task.FromResult<object>(null)).Verifiable();
+            this.operationService.Setup(os => os.DeleteAsync(operation2.Number)).Returns(Task.FromResult<object>(null)).Verifiable();
+            this.showService.Setup(ss => ss.ManageAvailabilityAsync(Show1Id)).Returns(Task.FromResult<object>(null)).Verifiable();
+            this.showService.Setup(ss => ss.ManageAvailabilityAsync(Show2Id)).Returns(Task.FromResult<object>(null)).Verifiable();
+
+            var controller = this.CreateController();
+
+            var oldPrincipal = Thread.CurrentPrincipal;
+
+            var identity = new GenericIdentity(Email);
+            Thread.CurrentPrincipal = new GenericPrincipal(identity, null);
+
+            var response = await controller.Operations();
+
+            Assert.AreEqual(0, response.Count());
+
+            Thread.CurrentPrincipal = oldPrincipal;
+
+            this.mockRepository.VerifyAll();
+        }
+
         private CurrentUserController CreateController()
         {
-            return new CurrentUserController(this.userService.Object, this.operationService.Object);
+            return new CurrentUserController(this.userService.Object, this.operationService.Object, this.showService.Object);
         }
     }
 }

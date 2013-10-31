@@ -14,6 +14,10 @@
 
         Task<IEnumerable<Operation>> GetAsync(Expression<Func<Operation, bool>> filter);
 
+        Task<IEnumerable<Operation>> GetForUserAsync(int userId);
+
+        Task<IEnumerable<Operation>> GetDeprecatedForUserAsync(int userId);
+
         Task<Guid> CreateAsync(Operation operation);
 
         Task DeleteAsync(Guid id);

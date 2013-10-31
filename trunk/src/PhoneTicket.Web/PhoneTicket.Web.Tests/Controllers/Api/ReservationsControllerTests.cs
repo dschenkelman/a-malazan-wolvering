@@ -160,7 +160,7 @@
 
             this.operationService.Setup(os => os.DeleteAsync(operationNumber)).Returns(Task.FromResult<object>(null)).Verifiable();
 
-            this.showService.Setup(ss => ss.ManageAvailability(It.IsAny<int>())).Returns(Task.FromResult<object>(null)).Verifiable();
+            this.showService.Setup(ss => ss.ManageAvailabilityAsync(It.IsAny<int>())).Returns(Task.FromResult<object>(null)).Verifiable();
 
             var controller = this.CreateController();
 
@@ -169,7 +169,7 @@
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             this.operationService.Verify(os => os.DeleteAsync(operationNumber), Times.Once());
-            this.showService.Verify(ss => ss.ManageAvailability(It.IsAny<int>()), Times.Once());
+            this.showService.Verify(ss => ss.ManageAvailabilityAsync(It.IsAny<int>()), Times.Once());
         }
 
         [TestMethod]

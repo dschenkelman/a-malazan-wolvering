@@ -66,7 +66,7 @@
             return seats;
         }
 
-        public async Task ManageAvailability(int showId)
+        public async Task ManageAvailabilityAsync(int showId)
         {
             var occupiedSeatsCount = (await this.GetOccupiedSeats(showId)).Count();
 
