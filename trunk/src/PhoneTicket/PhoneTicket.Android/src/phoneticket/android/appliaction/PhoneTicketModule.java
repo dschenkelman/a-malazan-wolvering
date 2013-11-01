@@ -28,9 +28,12 @@ import phoneticket.android.services.get.impl.RetrieveRoomInfoServiceProxy;
 
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.ICancelUserShowService;
+import phoneticket.android.services.post.IRegisterReservationService;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.impl.AuthServiceProxy;
 import phoneticket.android.services.post.impl.CancelUserShowServiceProxy;
+import phoneticket.android.services.post.impl.RegisterReservationService;
+import phoneticket.android.services.post.impl.RegisterReservationServiceProxy;
 import phoneticket.android.services.post.impl.RegisterUserServiceProxy;
 import phoneticket.android.validator.FormValidatorImpl;
 import phoneticket.android.validator.IFormValidator;
@@ -67,6 +70,8 @@ public class PhoneTicketModule implements Module {
 				RetrieveUserShowInfoServiceProxy.class);
 		binder.bind(ICancelUserShowService.class).to(
 				CancelUserShowServiceProxy.class);
+		binder.bind(IRegisterReservationService.class).to(
+				RegisterReservationServiceProxy.class);
 
 	}
 }
