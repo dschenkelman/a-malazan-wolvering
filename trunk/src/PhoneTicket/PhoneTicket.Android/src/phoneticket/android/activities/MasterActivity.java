@@ -63,6 +63,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 		IShareActionListener, IFunctionSelectionListener, IArmChairsSelected,
 		IUserShowsListener, IDetailUserShowListener, IUserShowsActionListener {
 
+	public static final int PURCHASE_DATA_REQUEST_CODE = 12;
+	public static final int PURCHASE_DATA_RESULT_CODE_OK = 45789;
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
 	private TextView actionTitle;
@@ -75,8 +77,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private StatusCallback callback;
 	private String facebookUrl;
 	private String facebookMessage;
-	
+
 	private IOnUserShowChangesListener listener;
+
+	private IOnPurchaseDataResultListener purchaseResultListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,24 +111,41 @@ public class MasterActivity extends RoboFragmentActivity implements
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (uiHelper != null)
-			uiHelper.onActivityResult(requestCode, resultCode, data,
-					new FacebookDialog.Callback() {
-						@Override
-						public void onError(
-								FacebookDialog.PendingCall pendingCall,
-								Exception error, Bundle data) {
-							Log.e("Activity", String.format("Error: %s",
-									error.toString()));
-						}
+		switch (resultCode) {
+		case PURCHASE_DATA_RESULT_CODE_OK: {
+			if (null != purchaseResultListener) {
+				purchaseResultListener
+						.onPurchaseDataResult(
+								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_CARD_NUMBER),
+								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_SECURIRY_NUMBER),
+								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_VENCIMIENTO),
+								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_CARD_TYPE));
+			}
+			break;
+		}
+		default: {
+			if (uiHelper != null)
+				uiHelper.onActivityResult(requestCode, resultCode, data,
+						new FacebookDialog.Callback() {
+							@Override
+							public void onError(
+									FacebookDialog.PendingCall pendingCall,
+									Exception error, Bundle data) {
+								Log.e("Activity",
+										String.format("Error: %s",
+												error.toString()));
+							}
 
-						@Override
-						public void onComplete(
-								FacebookDialog.PendingCall pendingCall,
-								Bundle data) {
-							Log.i("Activity", "Success!");
-						}
-					});
+							@Override
+							public void onComplete(
+									FacebookDialog.PendingCall pendingCall,
+									Bundle data) {
+								Log.i("Activity", "Success!");
+							}
+						});
+			break;
+		}
+		}
 	}
 
 	@Override
@@ -329,6 +350,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideCalendarButton();
 		twitterMessage = "Voy a CINEMAR. Visita www.cinemar.com.ar";
 		DetailUserShowFragment userShowFragment = new DetailUserShowFragment();
+		purchaseResultListener = userShowFragment;
 		userShowFragment.setArguments(userShowData);
 		changeFragment(userShowFragment, true, DetailUserShowFragment.TAG);
 	}
@@ -544,11 +566,16 @@ public class MasterActivity extends RoboFragmentActivity implements
 		onBackPressed();
 		listener.userShowCanceled(userShow);
 	}
-	
+
+	public interface IOnPurchaseDataResultListener {
+		void onPurchaseDataResult(String cardNumber, String securityNumber,
+				String vencimiento, String cardType);
+	}
+
 	public interface IOnUserShowChangesListener {
 
 		void userShowCanceled(IDetailUserShow userShow);
-		
+
 	}
 
 	@Override

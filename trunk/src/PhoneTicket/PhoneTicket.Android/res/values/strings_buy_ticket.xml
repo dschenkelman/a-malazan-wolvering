@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="buy_ticket_hint_first_name">Nombre *</string>
+    <string name="buy_ticket_hint_last_name">Apellido *</string>
+    <string name="buy_ticket_hint_card_number">Numero de tarjeta *</string>
+    <string name="buy_ticket_hint_security_code">Código de seguridad *</string>
+    <string name="buy_ticket_hint_vencimiento">Fecha de vencimiento *</string>
+    <string name="buy_ticket_hint_card_type">Medio de pago *</string>
+    <string name="buy_ticket_hint_buy_button">Realizar compra</string>
+    
+    <string name="validator_invalid_creditcardnumber">Número de tarjeta consta de 16 números.</string>
+    <string name="validator_invalid_securitynumber">Código de seguridad consta de tres números.</string>
+    <string name="validator_invalid_vencimiento">Vencimiento DD/MM invalidos.</string>
+    
+</resources>
