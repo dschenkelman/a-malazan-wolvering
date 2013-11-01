@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.BuyTicketsActivity;
+import phoneticket.android.activities.MasterActivity;
+import phoneticket.android.activities.MasterActivity.IOnPurchaseDataResultListener;
 import phoneticket.android.activities.QRCodeActivity;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment.IConfirmShowReserveCancelationDialogDelegate;
@@ -25,6 +27,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +42,7 @@ import roboguice.fragment.RoboFragment;
 public class DetailUserShowFragment extends RoboFragment implements
 		IRetrieveUserShowInfoServiceDelegate,
 		IConfirmShowReserveCancelationDialogDelegate,
-		ICancelUserShowServiceDelegate {
+		ICancelUserShowServiceDelegate, IOnPurchaseDataResultListener {
 
 	public static final String TAG = "DetailUserShowFragment.tag";
 	public static final String USER_SHOW_INFO = "usershow.info";
@@ -237,7 +240,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 	protected void onBuyReservationAction() {
 		Intent intent = new Intent(getActivity(), BuyTicketsActivity.class);
-		startActivity(intent);
+		startActivityForResult(intent,
+				31);
 	}
 
 	protected void onCancelReservationAction() {
@@ -286,7 +290,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 			String discountText = "";
 			int number = 1;
 			for (IDiscount discount : userShow.getDiscounts()) {
-				discountText += discount.getCount() + ": Descuento " + discount.getId();
+				discountText += discount.getCount() + ": Descuento "
+						+ discount.getId();
 				if (userShow.getDiscounts().size() != number) {
 					discountText += "\n";
 				}
@@ -327,13 +332,15 @@ public class DetailUserShowFragment extends RoboFragment implements
 			cancelButton.setVisibility(Button.GONE);
 			buyButton.setVisibility(Button.GONE);
 		}
-		
+
 		if (userShow.isBought()) {
-			shareActionListener.setShareOnTwitterMessage("He comprado entradas para " + 
-			userShow.getMovieTitle() + " en CINEMARK");
+			shareActionListener
+					.setShareOnTwitterMessage("He comprado entradas para "
+							+ userShow.getMovieTitle() + " en CINEMARK");
 		} else {
-			shareActionListener.setShareOnTwitterMessage("He reservado entradas para " + 
-			userShow.getMovieTitle() + " en CINEMARK");
+			shareActionListener
+					.setShareOnTwitterMessage("He reservado entradas para "
+							+ userShow.getMovieTitle() + " en CINEMARK");
 		}
 	}
 
@@ -436,6 +443,13 @@ public class DetailUserShowFragment extends RoboFragment implements
 		shareButtonsVisibilityListener.hideFacebookShareButton();
 		shareButtonsVisibilityListener.hideTwitterShareButton();
 		cancelService.cancelUserShow(this, this.userShow);
+	}
+
+	@Override
+	public void onPurchaseDataResult(String cardNumber, String securityNumber,
+			String vencimiento, String cardType) {
+		Log.d("PhoneTicket", "onPurchaseDataResult: " + cardNumber + " "
+				+ securityNumber + " " + vencimiento + " " + cardType);
 	}
 
 }
