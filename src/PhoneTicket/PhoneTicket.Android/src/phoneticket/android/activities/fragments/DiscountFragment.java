@@ -7,15 +7,22 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
+import phoneticket.android.activities.fragments.dialogs.ErrorOnTicketReservationDialogFragment;
 import phoneticket.android.activities.interfaces.IDiscountSelectedListener;
 import phoneticket.android.adapter.DiscountAdapter;
 import phoneticket.android.model.ArmChair;
 import phoneticket.android.model.Discount;
 import phoneticket.android.model.DiscountCountable;
+import phoneticket.android.model.PostedArmChair;
+import phoneticket.android.model.PostedTicket;
 import phoneticket.android.model.Ticket;
 import phoneticket.android.services.get.IRetrieveDiscountService;
 import phoneticket.android.services.get.IRetrieveDiscountsServiceDelegate;
+import phoneticket.android.services.post.IRegisterReservationService;
+import phoneticket.android.services.post.IRegisterReservationServiceDelegate;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +35,8 @@ import android.widget.TextView;
 import roboguice.fragment.RoboFragment;
 
 public class DiscountFragment extends RoboFragment implements
-		IRetrieveDiscountsServiceDelegate, IDiscountSelectedListener {
+		IRetrieveDiscountsServiceDelegate, IDiscountSelectedListener,
+		IRegisterReservationServiceDelegate {
 
 	private static final int TWO_PAID_ONE = 0;
 	private static final int PRICE = 1;
@@ -43,6 +51,9 @@ public class DiscountFragment extends RoboFragment implements
 	private boolean ignoreServicesCallbacks;
 	private Ticket ticket;
 	private int remainChairWithoutDiscount;
+
+	@Inject
+	private IRegisterReservationService reservationService;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,9 +74,36 @@ public class DiscountFragment extends RoboFragment implements
 			}
 
 		});
+
+		((Button) fragment.findViewById(R.id.reservarButton))
+				.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						onReservationButtonAction();
+					}
+				});
+
 		layout.addView(loading);
 		layout.addView(error);
 		return fragment;
+	}
+
+	protected void onReservationButtonAction() {
+		PostedTicket ticket = createTicket();
+		reservationService.reserveTicket(this, ticket);
+	}
+
+	private PostedTicket createTicket() {
+		List<PostedArmChair> postedArmChairs = new ArrayList<PostedArmChair>();
+		for (ArmChair armChair : armChairsSelected) {
+			int rowInt = armChair.getRow().toCharArray()[0] - 'A' + 1;
+			PostedArmChair posted = new PostedArmChair(rowInt,
+					armChair.getColumn());
+			postedArmChairs.add(posted);
+		}
+		PostedTicket ticket = new PostedTicket(this.ticket.getFunctionId(),
+				postedArmChairs);
+		return ticket;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -258,5 +296,18 @@ public class DiscountFragment extends RoboFragment implements
 			break;
 		}
 		}
+	}
+
+	@Override
+	public void reserveTicketFinish(IRegisterReservationService service,
+			String uuid) {
+		Log.d("PhoneTicket", "Reserva hecha");
+	}
+
+	@Override
+	public void reserveTicketFinishWithError(
+			IRegisterReservationService service, int statusCode) {
+		ErrorOnTicketReservationDialogFragment dialog = new ErrorOnTicketReservationDialogFragment();
+		dialog.show(getFragmentManager(), "dialog.error.ticketreservation");
 	}
 }
