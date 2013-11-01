@@ -68,7 +68,7 @@
             Assert.AreEqual(LastName, response.LastName);
             Assert.AreEqual(Email, response.EmailAddress);
             Assert.AreEqual(CellPhoneNumber, response.CellPhoneNumber);
-            Assert.AreEqual(string.Empty, response.Bithday);
+            Assert.AreEqual(string.Empty, response.Birthday);
 
             Thread.CurrentPrincipal = oldPrincipal;
 

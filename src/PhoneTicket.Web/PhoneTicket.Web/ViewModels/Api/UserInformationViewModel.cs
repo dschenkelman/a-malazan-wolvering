@@ -16,7 +16,7 @@
 
         public string EmailAddress { get; set; }
 
-        public string Bithday { get; set; }
+        public string Birthday { get; set; }
 
         public string CellPhoneNumber { get; set; }
 
@@ -28,7 +28,7 @@
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 EmailAddress = user.EmailAddress,
-                Bithday = user.BirthDate.HasValue ? user.BirthDate.Value.ToString("dd/MM/yyyy") : string.Empty,
+                Birthday = user.BirthDate.HasValue ? user.BirthDate.Value.ToString("dd/MM/yyyy") : string.Empty,
                 CellPhoneNumber = user.CellPhoneNumber
             };
 
