@@ -2,7 +2,7 @@ package phoneticket.android.services.post.impl;
 
 import com.google.gson.Gson;
 
-import phoneticket.android.model.PostedTicket;
+import phoneticket.android.model.PurchaseTicket;
 import phoneticket.android.services.post.IRegisterPurchaseService;
 import phoneticket.android.services.post.IRegisterPurchaseServiceDelegate;
 import phoneticket.android.services.post.PostService;
@@ -11,7 +11,7 @@ import phoneticket.android.utils.APIService;
 public class RegisterPurchaseService extends PostService implements
 		IRegisterPurchaseService {
 
-	private PostedTicket postObject;
+	private PurchaseTicket postObject;
 	private IRegisterPurchaseServiceDelegate delegate;
 
 	public RegisterPurchaseService() {
@@ -20,14 +20,14 @@ public class RegisterPurchaseService extends PostService implements
 
 	@Override
 	public void purchaseTicket(IRegisterPurchaseServiceDelegate delegate,
-			PostedTicket purchaseTicket) {
+			PurchaseTicket ticket) {
 		if (true == performingRequest)
 			return;
-		if (null == delegate || null == purchaseTicket)
+		if (null == delegate || null == ticket)
 			return;
 		performingRequest = true;
 		this.delegate = delegate;
-		postObject = purchaseTicket;
+		postObject = ticket;
 		connectionSuccess = false;
 		execute(APIService.getRegisterPurchasePostURL());
 	}
@@ -51,7 +51,7 @@ public class RegisterPurchaseService extends PostService implements
 
 	@Override
 	protected String generatePostBodyObject() {
-		String jsonString = new Gson().toJson(postObject, PostedTicket.class);
+		String jsonString = new Gson().toJson(postObject, PurchaseTicket.class);
 		return jsonString;
 	}
 }

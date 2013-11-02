@@ -52,8 +52,17 @@ public class MockRetrieveMovieFunctionsService extends
 					public String getDate() {
 						return "2013/12/12";
 					}
+
+					@Override
+					public int getShowPrice() {
+						return 50;
+					}
 				});
 				functions.add(new IFunction() {
+					@Override
+					public int getShowPrice() {
+						return 50;
+					}
 
 					@Override
 					public String getDate() {
@@ -87,6 +96,11 @@ public class MockRetrieveMovieFunctionsService extends
 					}
 
 					@Override
+					public int getShowPrice() {
+						return 50;
+					}
+
+					@Override
 					public String getTime() {
 						return "16:15";
 					}
@@ -114,6 +128,11 @@ public class MockRetrieveMovieFunctionsService extends
 					}
 
 					@Override
+					public int getShowPrice() {
+						return 50;
+					}
+
+					@Override
 					public String getTime() {
 						return "12:30";
 					}
@@ -138,6 +157,11 @@ public class MockRetrieveMovieFunctionsService extends
 					@Override
 					public String getDate() {
 						return "2013/12/12";
+					}
+
+					@Override
+					public int getShowPrice() {
+						return 50;
 					}
 
 					@Override
@@ -210,6 +234,11 @@ public class MockRetrieveMovieFunctionsService extends
 					}
 
 					@Override
+					public int getShowPrice() {
+						return 50;
+					}
+
+					@Override
 					public int getRoomId() {
 						// TODO Auto-generated method stub
 						return 2;
@@ -229,6 +258,11 @@ public class MockRetrieveMovieFunctionsService extends
 					@Override
 					public int getId() {
 						return 2;
+					}
+
+					@Override
+					public int getShowPrice() {
+						return 50;
 					}
 
 					@Override

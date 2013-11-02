@@ -2,11 +2,11 @@ package phoneticket.android.model;
 
 import java.util.List;
 
-public class PostedTicket {
+public class ReserveTicket {
 	private int showId;
 	private List<PostedArmChair> armChairs;
 
-	public PostedTicket(int showId, List<PostedArmChair> armChairs) {
+	public ReserveTicket(int showId, List<PostedArmChair> armChairs) {
 		super();
 		this.showId = showId;
 		this.armChairs = armChairs;

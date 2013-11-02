@@ -26,9 +26,15 @@ public class MockRetrieveRoomInfoService extends
 		Random r = new Random();
 		for (int i = 0; i < 17; i++) {
 			Collection<Integer> row = new LinkedList<Integer>();
-			for (int j = 0; j < 22; j++) {
+			for (int j = 0; j < 5; j++) {
+				row.add(0);
+			}
+			for (int j = 5; j < 17; j++) {
 				Integer random = r.nextInt(3);
 				row.add(random);
+			}
+			for (int j = 17; j < 22; j++) {
+				row.add(0);
 			}
 			movieList.add(row);
 		}

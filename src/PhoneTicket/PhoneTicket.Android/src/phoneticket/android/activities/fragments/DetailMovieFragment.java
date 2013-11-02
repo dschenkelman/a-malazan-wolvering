@@ -379,8 +379,8 @@ public class DetailMovieFragment extends RoboFragment implements
 									.getCinemaName(), movieFunctions
 									.getCinemaAddress(), movie.getId(), movie
 									.getTitle(), function.getId(), function
-									.getDate(), function.getTime(),
-									function.getRoomId());
+									.getDate(), function.getTime(), function
+									.getRoomId(), function.getShowPrice());
 							functionSelectionListener
 									.onFunctionSelected(ticket);
 						}

@@ -7,8 +7,10 @@ public interface IFunction {
 	String getDay();
 
 	String getTime();
-	
+
 	int getRoomId();
 
 	String getDate();
+
+	int getShowPrice();
 }

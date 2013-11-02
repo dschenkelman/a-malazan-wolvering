@@ -1,10 +1,10 @@
 package phoneticket.android.services.post;
 
-import phoneticket.android.model.PostedTicket;
+import phoneticket.android.model.PurchaseTicket;
 
 public interface IRegisterPurchaseService {
 
 	public void purchaseTicket(IRegisterPurchaseServiceDelegate delegate,
-			PostedTicket ticket);
+			PurchaseTicket ticket);
 
 }

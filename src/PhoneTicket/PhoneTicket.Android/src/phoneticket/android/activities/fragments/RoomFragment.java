@@ -8,7 +8,9 @@ import com.google.inject.Inject;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,6 +48,9 @@ public class RoomFragment extends RoboFragment implements
 	private Ticket ticket;
 	private List<ArmChair> selectedArmChair;
 	private TextView armChairsCount;
+	private int numColumns;
+	private int firstColumn;
+	private int lastColumn;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -183,21 +188,29 @@ public class RoomFragment extends RoboFragment implements
 		GridView armChairSelection = (GridView) getView().findViewById(
 				R.id.armChairSelection);
 		armChairSelection.setVisibility(GridView.VISIBLE);
+		Display display = getActivity().getWindowManager().getDefaultDisplay();
+		Point point = new Point();
+		display.getSize(point);
+		int width = point.x;
+		this.checkColumnsToShow(armChairs);
+		armChairSelection.setNumColumns(numColumns + 1);
 		List<ArmChair> armChairsData = new ArrayList<ArmChair>();
 		int rowNumber = 0;
 		Resources resources = getResources();
 		String[] letters = resources.getStringArray(R.array.letters);
 		for (Collection<Integer> row : armChairs) {
-			int columnNumber = 1;
+			int columnNumber = 0;
 			for (Integer state : row) {
-				armChairsData.add(new ArmChair(state, columnNumber,
-						letters[rowNumber]));
+				if (columnNumber >= firstColumn && columnNumber <= lastColumn)
+					armChairsData.add(new ArmChair(state, columnNumber + 1,
+							letters[rowNumber]));
 				columnNumber++;
 			}
 			rowNumber++;
 		}
+
 		final ArmChairAdapter imageAdapter = new ArmChairAdapter(getActivity(),
-				R.id.armChairView, armChairsData);
+				R.id.armChairView, armChairsData, numColumns + 1, width);
 		armChairSelection.setAdapter(imageAdapter);
 		armChairSelection.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,
@@ -224,6 +237,24 @@ public class RoomFragment extends RoboFragment implements
 		});
 		armChairsCount.setText(String.valueOf(selectedArmChair.size()));
 		imageAdapter.notifyDataSetChanged();
+	}
+
+	private void checkColumnsToShow(Collection<Collection<Integer>> armChairs) {
+		numColumns = 1;
+		firstColumn = 21;
+		lastColumn = 0;
+		for (Collection<Integer> rows : armChairs) {
+			int columnNumber = 0;
+			for (Integer columnState : rows) {
+				if (columnState == ArmChair.LIBRE && columnNumber < firstColumn)
+					firstColumn = columnNumber;
+				if (columnState == ArmChair.LIBRE && columnNumber > lastColumn)
+					lastColumn = columnNumber;
+				columnNumber++;
+			}
+		}
+		numColumns = (lastColumn - firstColumn) > numColumns ? (lastColumn - firstColumn)
+				: numColumns;
 	}
 
 }

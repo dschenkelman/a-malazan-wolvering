@@ -11,16 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ArmChairAdapter extends ArrayAdapter<ArmChair> {
 
 	private List<ArmChair> armChairs;
+	private int width;
+	private int columns;
 
 	public ArmChairAdapter(Context context, int resource,
-			List<ArmChair> armChairs) {
+			List<ArmChair> armChairs, int columns, int width) {
 		super(context, resource, armChairs);
 		this.armChairs = armChairs;
+		this.width = width;
+		this.columns = columns;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -31,7 +36,6 @@ public class ArmChairAdapter extends ArrayAdapter<ArmChair> {
 			LayoutInflater inflater = ((Activity) getContext())
 					.getLayoutInflater();
 			row = inflater.inflate(R.layout.row_arm_chair, parent, false);
-
 			holder = new ArmChairHolder();
 			holder.setArmChairView((ArmChairView) row
 					.findViewById(R.id.armChairView));
@@ -42,7 +46,9 @@ public class ArmChairAdapter extends ArrayAdapter<ArmChair> {
 						String.valueOf(armChair.getColumn()));
 			}
 			holder.getArmChairView().setState(armChair.getState());
-
+			int viewWidth = width / (columns + 3);
+			holder.getArmChairView().setLayoutParams(
+					new RelativeLayout.LayoutParams(viewWidth, viewWidth));
 			row.setTag(holder);
 		} else {
 			holder = (ArmChairHolder) row.getTag();

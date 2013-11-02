@@ -7,7 +7,6 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
-import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
 import phoneticket.android.activities.fragments.dialogs.ErrorOnTicketReservationDialogFragment;
 import phoneticket.android.activities.interfaces.IDiscountSelectedListener;
 import phoneticket.android.adapter.DiscountAdapter;
@@ -15,7 +14,7 @@ import phoneticket.android.model.ArmChair;
 import phoneticket.android.model.Discount;
 import phoneticket.android.model.DiscountCountable;
 import phoneticket.android.model.PostedArmChair;
-import phoneticket.android.model.PostedTicket;
+import phoneticket.android.model.ReserveTicket;
 import phoneticket.android.model.Ticket;
 import phoneticket.android.services.get.IRetrieveDiscountService;
 import phoneticket.android.services.get.IRetrieveDiscountsServiceDelegate;
@@ -43,7 +42,6 @@ public class DiscountFragment extends RoboFragment implements
 	private static final int PERCENTAGE = 2;
 	public static String TICKET = "ticket";
 	public static String ARM_CHAIRS_SELECTED = "armchairs.selected";
-	private static int PRECIO = 40;
 
 	@Inject
 	private IRetrieveDiscountService retrieveDiscountService;
@@ -89,11 +87,11 @@ public class DiscountFragment extends RoboFragment implements
 	}
 
 	protected void onReservationButtonAction() {
-		PostedTicket ticket = createTicket();
+		ReserveTicket ticket = createReserveTicket();
 		reservationService.reserveTicket(this, ticket);
 	}
 
-	private PostedTicket createTicket() {
+	private ReserveTicket createReserveTicket() {
 		List<PostedArmChair> postedArmChairs = new ArrayList<PostedArmChair>();
 		for (ArmChair armChair : armChairsSelected) {
 			int rowInt = armChair.getRow().toCharArray()[0] - 'A' + 1;
@@ -101,7 +99,7 @@ public class DiscountFragment extends RoboFragment implements
 					armChair.getColumn());
 			postedArmChairs.add(posted);
 		}
-		PostedTicket ticket = new PostedTicket(this.ticket.getFunctionId(),
+		ReserveTicket ticket = new ReserveTicket(this.ticket.getFunctionId(),
 				postedArmChairs);
 		return ticket;
 	}
@@ -132,9 +130,9 @@ public class DiscountFragment extends RoboFragment implements
 				.setText(armChairsSelected.size() + " Butacas: " + armChairs);
 
 		((TextView) getView().findViewById(R.id.amount)).setText(String
-				.valueOf(armChairsSelected.size() * PRECIO));
+				.valueOf(armChairsSelected.size() * ticket.getPrice()));
 		((TextView) getView().findViewById(R.id.total)).setText(String
-				.valueOf(armChairsSelected.size() * PRECIO));
+				.valueOf(armChairsSelected.size() * ticket.getPrice()));
 	}
 
 	@Override
@@ -218,7 +216,7 @@ public class DiscountFragment extends RoboFragment implements
 		case TWO_PAID_ONE: {
 			if (remainChairWithoutDiscount >= 2) {
 				remainChairWithoutDiscount -= 2;
-				total -= PRECIO;
+				total -= ticket.getPrice();
 				totalText.setText(total.toString());
 				return true;
 			}
@@ -236,7 +234,7 @@ public class DiscountFragment extends RoboFragment implements
 		case PERCENTAGE: {
 			if (remainChairWithoutDiscount >= 1) {
 				remainChairWithoutDiscount -= 1;
-				total -= PRECIO * discount.getValue();
+				total -= ticket.getPrice() * discount.getValue();
 				totalText.setText(total.toString());
 				return true;
 			}
@@ -253,7 +251,7 @@ public class DiscountFragment extends RoboFragment implements
 		switch (discount.getType()) {
 		case TWO_PAID_ONE: {
 			remainChairWithoutDiscount += 2;
-			total += PRECIO;
+			total += ticket.getPrice();
 			totalText.setText(total.toString());
 			break;
 		}
@@ -265,7 +263,7 @@ public class DiscountFragment extends RoboFragment implements
 		}
 		case PERCENTAGE: {
 			remainChairWithoutDiscount += 1;
-			total += PRECIO * discount.getValue();
+			total += ticket.getPrice() * discount.getValue();
 			totalText.setText(total.toString());
 			break;
 		}
@@ -279,7 +277,7 @@ public class DiscountFragment extends RoboFragment implements
 		switch (discount.getType()) {
 		case TWO_PAID_ONE: {
 			remainChairWithoutDiscount += 2 * discount.getCount();
-			total += PRECIO * discount.getCount();
+			total += ticket.getPrice() * discount.getCount();
 			totalText.setText(total.toString());
 			break;
 		}
@@ -291,7 +289,8 @@ public class DiscountFragment extends RoboFragment implements
 		}
 		case PERCENTAGE: {
 			remainChairWithoutDiscount += 1 * discount.getCount();
-			total += PRECIO * discount.getValue() * discount.getCount();
+			total += ticket.getPrice() * discount.getValue()
+					* discount.getCount();
 			totalText.setText(total.toString());
 			break;
 		}
