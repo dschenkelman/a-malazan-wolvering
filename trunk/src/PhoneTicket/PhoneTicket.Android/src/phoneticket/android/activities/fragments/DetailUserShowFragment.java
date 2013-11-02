@@ -182,10 +182,10 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 	private void loadDetailUserShow() {
 		SharedPreferences preferences = getActivity().getPreferences(0);
-		int invalidId = -1;
-		int id = preferences.getInt(STATE_USER_SHOW_ID, invalidId);
+		String invalidId = "invalid";
+		String id = preferences.getString(STATE_USER_SHOW_ID, invalidId);
 
-		if (invalidId != id) {
+		if (id.equalsIgnoreCase(invalidId)) {
 			doLoadDetailUserShow();
 		}
 	}
@@ -226,7 +226,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	private boolean shouldRetrieveUserShow() {
-		return null == userShow;
+		return true;
 	}
 
 	private void onRetrieveUserShowAction() {
@@ -292,8 +292,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 			String discountText = "";
 			int number = 1;
 			for (IDiscount discount : userShow.getDiscounts()) {
-				discountText += discount.getCount() + ": Descuento "
-						+ discount.getId();
+				discountText += discount.getCount() + ": "
+						+ discount.getDescription();
 				if (userShow.getDiscounts().size() != number) {
 					discountText += "\n";
 				}
@@ -305,7 +305,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 		String seatCodes = "";
 		if (0 < userShow.getSeats().size()) {
 			for (ISeat seat : userShow.getSeats()) {
-				seatCodes += seat.getRow() + "-" + seat.getColumn() + " ";
+				String code = Character.toString(Character.toChars(64 + seat.getRow())[0]);
+				seatCodes += code + seat.getColumn() + " ";
 			}
 		}
 

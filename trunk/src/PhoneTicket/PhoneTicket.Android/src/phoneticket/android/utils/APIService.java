@@ -1,5 +1,7 @@
 package phoneticket.android.utils;
 
+import com.facebook.widget.LoginButton.UserInfoChangedCallback;
+
 public class APIService {
 
 	static private String host = "https://phoneticket.apphb.com";
@@ -63,5 +65,9 @@ public class APIService {
 
 	public static String getRetrieveMyShowsServiceGetURL() {
 		return baseAPIURL() + "currentUser/operations";
+	}
+
+	public static String getRetrieveUserShowInfoServiceGetURL(String userShowId) {
+		return baseAPIURL() + "currentUser/operations/" + userShowId;
 	}
 }
