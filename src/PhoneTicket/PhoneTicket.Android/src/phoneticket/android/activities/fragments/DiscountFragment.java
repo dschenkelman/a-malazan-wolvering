@@ -7,21 +7,33 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.BuyTicketsActivity;
+import phoneticket.android.activities.MasterActivity.IOnPurchaseDataResultListener;
 import phoneticket.android.activities.fragments.dialogs.ErrorOnTicketReservationDialogFragment;
+import phoneticket.android.activities.fragments.dialogs.SuccessTicketSentDialogFragment;
 import phoneticket.android.activities.interfaces.IDiscountSelectedListener;
+import phoneticket.android.activities.interfaces.IOnMovieSelected;
 import phoneticket.android.adapter.DiscountAdapter;
 import phoneticket.android.model.ArmChair;
 import phoneticket.android.model.Discount;
 import phoneticket.android.model.DiscountCountable;
 import phoneticket.android.model.PostedArmChair;
+import phoneticket.android.model.PostedDiscounts;
+import phoneticket.android.model.PurchaseTicket;
 import phoneticket.android.model.ReserveTicket;
 import phoneticket.android.model.Ticket;
 import phoneticket.android.services.get.IRetrieveDiscountService;
 import phoneticket.android.services.get.IRetrieveDiscountsServiceDelegate;
+import phoneticket.android.services.post.IRegisterDiscountsService;
+import phoneticket.android.services.post.IRegisterDiscountsServiceDelegate;
+import phoneticket.android.services.post.IRegisterPurchaseService;
+import phoneticket.android.services.post.IRegisterPurchaseServiceDelegate;
 import phoneticket.android.services.post.IRegisterReservationService;
 import phoneticket.android.services.post.IRegisterReservationServiceDelegate;
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +47,10 @@ import roboguice.fragment.RoboFragment;
 
 public class DiscountFragment extends RoboFragment implements
 		IRetrieveDiscountsServiceDelegate, IDiscountSelectedListener,
-		IRegisterReservationServiceDelegate {
+		IRegisterReservationServiceDelegate, IOnPurchaseDataResultListener,
+		IRegisterPurchaseServiceDelegate,
+		android.content.DialogInterface.OnClickListener,
+		IRegisterDiscountsServiceDelegate {
 
 	private static final int TWO_PAID_ONE = 0;
 	private static final int PRICE = 1;
@@ -45,13 +60,24 @@ public class DiscountFragment extends RoboFragment implements
 
 	@Inject
 	private IRetrieveDiscountService retrieveDiscountService;
+	@Inject
+	private IRegisterReservationService reservationService;
+	@Inject
+	private IRegisterPurchaseService purchaseService;
+	@Inject
+	private IRegisterDiscountsService discountsService;
+
 	private List<ArmChair> armChairsSelected;
 	private boolean ignoreServicesCallbacks;
 	private Ticket ticket;
 	private int remainChairWithoutDiscount;
-
-	@Inject
-	private IRegisterReservationService reservationService;
+	private String cardNumber;
+	private String securityNumber;
+	private String vencimiento;
+	private String cardType;
+	private ArrayList<DiscountCountable> discountsBaseInfo;
+	private String uuid;
+	private IOnMovieSelected movieSelectedListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,10 +106,35 @@ public class DiscountFragment extends RoboFragment implements
 						onReservationButtonAction();
 					}
 				});
+		((Button) fragment.findViewById(R.id.purchaseButton))
+				.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						onPurchaseAction();
+					}
+				});
+		((Button) fragment.findViewById(R.id.cancelarButton))
+				.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						goToMovie();
+					}
+				});
 
 		layout.addView(loading);
 		layout.addView(error);
 		return fragment;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			this.movieSelectedListener = (IOnMovieSelected) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IShareButtonsVisibilityListener");
+		}
 	}
 
 	protected void onReservationButtonAction() {
@@ -92,6 +143,30 @@ public class DiscountFragment extends RoboFragment implements
 	}
 
 	private ReserveTicket createReserveTicket() {
+		ReserveTicket ticket = new ReserveTicket(this.ticket.getFunctionId(),
+				this.createPostArmChairs());
+		return ticket;
+	}
+
+	protected void onPurchaseAction() {
+		if (this.cardNumber == null || this.securityNumber == null
+				|| this.vencimiento == null || this.cardType == null) {
+			Intent intent = new Intent(getActivity(), BuyTicketsActivity.class);
+			startActivityForResult(intent, 31);
+		} else {
+			this.purchaseService.purchaseTicket(this, createPurchaseTicket());
+		}
+	}
+
+	private PurchaseTicket createPurchaseTicket() {
+		// TODO vencimiento y tipo
+		PurchaseTicket purchaseTicket = new PurchaseTicket(
+				this.ticket.getFunctionId(), this.createPostArmChairs(),
+				this.cardNumber, this.securityNumber, null, 1);
+		return purchaseTicket;
+	}
+
+	private List<PostedArmChair> createPostArmChairs() {
 		List<PostedArmChair> postedArmChairs = new ArrayList<PostedArmChair>();
 		for (ArmChair armChair : armChairsSelected) {
 			int rowInt = armChair.getRow().toCharArray()[0] - 'A' + 1;
@@ -99,9 +174,7 @@ public class DiscountFragment extends RoboFragment implements
 					armChair.getColumn());
 			postedArmChairs.add(posted);
 		}
-		ReserveTicket ticket = new ReserveTicket(this.ticket.getFunctionId(),
-				postedArmChairs);
-		return ticket;
+		return postedArmChairs;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -179,7 +252,7 @@ public class DiscountFragment extends RoboFragment implements
 		ListView discountsListView = (ListView) getView().findViewById(
 				R.id.discounts);
 		discountsListView.setVisibility(ListView.VISIBLE);
-		List<DiscountCountable> discountsBaseInfo = new ArrayList<DiscountCountable>();
+		discountsBaseInfo = new ArrayList<DiscountCountable>();
 		for (Discount discount : discounts) {
 			DiscountCountable discountCountable = new DiscountCountable(
 					discount);
@@ -298,9 +371,48 @@ public class DiscountFragment extends RoboFragment implements
 	}
 
 	@Override
+	public void onPurchaseDataResult(String cardNumber, String securityNumber,
+			String vencimiento, String cardType) {
+		this.cardNumber = cardNumber;
+		this.securityNumber = securityNumber;
+		this.vencimiento = vencimiento;
+		this.cardType = cardType;
+	}
+
+	@Override
+	public void purchaseTicketFinish(IRegisterPurchaseService service,
+			String uuid) {
+		this.uuid = uuid;
+		this.onTicketSent();
+	}
+
+	@Override
 	public void reserveTicketFinish(IRegisterReservationService service,
 			String uuid) {
-		Log.d("PhoneTicket", "Reserva hecha");
+		this.uuid = uuid;
+		this.onTicketSent();
+	}
+
+	private void onTicketSent() {
+		List<PostedDiscounts> discounts = this.getDiscountsSelected();
+		this.discountsService.registerDiscounts(this, discounts, this.uuid);
+		if (discounts.size() > 0) {
+
+		} else {
+			this.createSuccessTicketSentDialog();
+		}
+	}
+
+	@Override
+	public void registerDiscountsFinish(IRegisterDiscountsService service) {
+		this.createSuccessTicketSentDialog();
+	}
+
+	@Override
+	public void purchaseTicketFinishWithError(IRegisterPurchaseService service,
+			int statusCode) {
+		ErrorOnTicketReservationDialogFragment dialog = new ErrorOnTicketReservationDialogFragment();
+		dialog.show(getFragmentManager(), "dialog.error.ticketreservation");
 	}
 
 	@Override
@@ -309,4 +421,38 @@ public class DiscountFragment extends RoboFragment implements
 		ErrorOnTicketReservationDialogFragment dialog = new ErrorOnTicketReservationDialogFragment();
 		dialog.show(getFragmentManager(), "dialog.error.ticketreservation");
 	}
+
+	@Override
+	public void registerDiscountsFinishWithError(
+			IRegisterDiscountsService service, int statusCode) {
+		this.createSuccessTicketSentDialog();
+	}
+
+	private void createSuccessTicketSentDialog() {
+		SuccessTicketSentDialogFragment dialog = new SuccessTicketSentDialogFragment();
+		dialog.setListener(this);
+		dialog.show(getFragmentManager(), "dialog.success.ticketsent");
+	}
+
+	private List<PostedDiscounts> getDiscountsSelected() {
+
+		List<PostedDiscounts> discountsSelected = new ArrayList<PostedDiscounts>();
+		for (DiscountCountable discount : this.discountsBaseInfo) {
+			if (discount.isSelected())
+				discountsSelected.add(new PostedDiscounts(discount.getId(),
+						discount.getCount()));
+		}
+		return discountsSelected;
+	}
+
+	@Override
+	public void onClick(DialogInterface arg0, int arg1) {
+		goToMovie();
+	}
+
+	private void goToMovie() {
+		movieSelectedListener.onMovieSelected(ticket.getMovieId(),
+				ticket.getMovieTitle());
+	}
+
 }
