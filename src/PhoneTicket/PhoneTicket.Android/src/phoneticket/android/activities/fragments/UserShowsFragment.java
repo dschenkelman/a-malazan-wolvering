@@ -321,7 +321,7 @@ public class UserShowsFragment extends RoboFragment implements
 	public void userShowCanceled(IDetailUserShow userShow) {
 		IMyShow show = null;
 		for (IMyShow myShow : myShows) {
-			if (myShow.getId() == userShow.getId()) {
+			if (myShow.getId().equals(userShow.getId())) {
 				show = myShow;
 				break;
 			}

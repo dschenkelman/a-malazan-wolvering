@@ -1,9 +1,9 @@
-package phoneticket.android.services.post.mock;
+package phoneticket.android.services.delete.mock;
 
 import android.os.AsyncTask;
 import phoneticket.android.model.IDetailUserShow;
-import phoneticket.android.services.post.ICancelUserShowService;
-import phoneticket.android.services.post.ICancelUserShowServiceDelegate;
+import phoneticket.android.services.delete.ICancelUserShowService;
+import phoneticket.android.services.delete.ICancelUserShowServiceDelegate;
 
 public class MockCancelUserShowService extends
 		AsyncTask<String, String, String> implements ICancelUserShowService {

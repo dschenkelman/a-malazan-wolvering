@@ -1,5 +1,7 @@
 package phoneticket.android.appliaction;
 
+import phoneticket.android.services.delete.ICancelUserShowService;
+import phoneticket.android.services.delete.impl.CancelUserShowServiceProxy;
 import phoneticket.android.services.get.IRetrieveCinemaInfoService;
 import phoneticket.android.services.get.IRetrieveCinemaListService;
 import phoneticket.android.services.get.IRetrieveMovieFunctionsService;
@@ -21,13 +23,11 @@ import phoneticket.android.services.get.impl.RetrieveUserInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveUserShowInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveRoomInfoServiceProxy;
 import phoneticket.android.services.post.IAuthService;
-import phoneticket.android.services.post.ICancelUserShowService;
 import phoneticket.android.services.post.IRegisterDiscountsService;
 import phoneticket.android.services.post.IRegisterPurchaseService;
 import phoneticket.android.services.post.IRegisterReservationService;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.impl.AuthServiceProxy;
-import phoneticket.android.services.post.impl.CancelUserShowServiceProxy;
 import phoneticket.android.services.post.impl.RegisterDiscountsServiceProxy;
 import phoneticket.android.services.post.impl.RegisterPurchaseServiceProxy;
 import phoneticket.android.services.post.impl.RegisterReservationServiceProxy;
