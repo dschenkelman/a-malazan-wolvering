@@ -7,13 +7,16 @@ public class Function implements IFunction {
 	private String time;
 	private int roomId;
 	private String date;
+	private int showPrice;
 
-	public Function(int id, String day, String time, int roomId, String date) {
+	public Function(int id, String day, String time, int roomId, String date,
+			int showPrice) {
 		this.id = id;
 		this.day = day;
 		this.time = time;
 		this.roomId = roomId;
 		this.date = date;
+		this.showPrice = showPrice;
 	}
 
 	@Override
@@ -44,6 +47,10 @@ public class Function implements IFunction {
 	@Override
 	public String getDate() {
 		return this.date;
+	}
+
+	public int getShowPrice() {
+		return showPrice;
 	}
 
 }

@@ -6,7 +6,7 @@
     android:horizontalSpacing="1dp"
     android:numColumns="22"
     android:scrollbarStyle="outsideOverlay"
-    android:scrollbars="vertical|horizontal"
+    android:scrollbars="vertical"
     android:stretchMode="columnWidth"
     android:verticalScrollbarPosition="right"
     android:verticalSpacing="1dp"

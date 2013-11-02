@@ -7,13 +7,9 @@ import phoneticket.android.services.get.IRetrieveMovieListService;
 import phoneticket.android.services.get.IRetrieveMovieInfoService;
 import phoneticket.android.services.get.IRetrieveMyShowsService;
 import phoneticket.android.services.get.IRetrieveDiscountService;
-
 import phoneticket.android.services.get.IRetrieveUserShowInfoService;
-
 import phoneticket.android.services.get.IRetrieveRoomInfoService;
-
 import phoneticket.android.services.get.IRetrieveUserInfoService;
-
 import phoneticket.android.services.get.impl.RetrieveCinemaInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveCinemaListServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveMovieFunctionsServiceProxy;
@@ -23,16 +19,17 @@ import phoneticket.android.services.get.impl.RetrieveMyShowsServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveDiscountsServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveUserInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveUserShowInfoServiceProxy;
-
 import phoneticket.android.services.get.impl.RetrieveRoomInfoServiceProxy;
-
 import phoneticket.android.services.post.IAuthService;
 import phoneticket.android.services.post.ICancelUserShowService;
+import phoneticket.android.services.post.IRegisterDiscountsService;
+import phoneticket.android.services.post.IRegisterPurchaseService;
 import phoneticket.android.services.post.IRegisterReservationService;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.impl.AuthServiceProxy;
 import phoneticket.android.services.post.impl.CancelUserShowServiceProxy;
-import phoneticket.android.services.post.impl.RegisterReservationService;
+import phoneticket.android.services.post.impl.RegisterDiscountsServiceProxy;
+import phoneticket.android.services.post.impl.RegisterPurchaseServiceProxy;
 import phoneticket.android.services.post.impl.RegisterReservationServiceProxy;
 import phoneticket.android.services.post.impl.RegisterUserServiceProxy;
 import phoneticket.android.validator.FormValidatorImpl;
@@ -72,6 +69,10 @@ public class PhoneTicketModule implements Module {
 				CancelUserShowServiceProxy.class);
 		binder.bind(IRegisterReservationService.class).to(
 				RegisterReservationServiceProxy.class);
+		binder.bind(IRegisterPurchaseService.class).to(
+				RegisterPurchaseServiceProxy.class);
+		binder.bind(IRegisterDiscountsService.class).to(
+				RegisterDiscountsServiceProxy.class);
 
 	}
 }
