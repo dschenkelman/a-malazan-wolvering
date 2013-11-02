@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class DetailUserShow implements IDetailUserShow {
-
+	
+	private static final int TWO_PAID_ONE = 0;
+	private static final int PRICE = 1;
+	private static final int PERCENTAGE = 2;
+	
 	private String id;
 	private boolean isBought;
 	private int showPrice;
@@ -38,17 +42,35 @@ public class DetailUserShow implements IDetailUserShow {
 
 	private class Discount implements IDiscount {
 
-		private int id;
+		private int discountId;
 		private int count;
+		private double value;
+		private int type;
+		private String description;
 
 		@Override
 		public int getId() {
-			return id;
+			return discountId;
 		}
 
 		@Override
 		public int getCount() {
 			return count;
+		}
+
+		@Override
+		public double getValue() {
+			return value;
+		}
+
+		@Override
+		public int getType() {
+			return type;
+		}
+
+		@Override
+		public String getDescription() {
+			return description;
 		}
 	}
 
@@ -120,12 +142,32 @@ public class DetailUserShow implements IDetailUserShow {
 	@Override
 	public int getShowPrice(boolean withDiscount) {
 		if (withDiscount) {
-			int discountPrice = showPrice;
-			// TODO get discount
+			int discountPrice = showPrice * seats.length;
+			if (null != discounts) {
+				for (Discount discount : discounts) {
+					double disc = getDiscount(discount);
+					discountPrice -= disc;
+				}
+			}
 			return discountPrice;
 		} else {
-			return showPrice;
+			return showPrice * seats.length;
 		}
+	}
+
+	private double getDiscount(Discount discount) {
+		switch (discount.getType()) {
+		case TWO_PAID_ONE: {
+			return showPrice * discount.getCount();
+		}
+		case PRICE: {
+			return discount.getValue() * discount.getCount();
+		}
+		case PERCENTAGE: {
+			return showPrice * discount.getValue() * discount.getCount();
+		}
+		}
+		return 0;
 	}
 
 	public void addSeat(int row, int column) {

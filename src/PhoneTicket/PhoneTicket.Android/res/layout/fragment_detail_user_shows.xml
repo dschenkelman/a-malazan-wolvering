@@ -99,6 +99,7 @@
    	            android:id="@+id/discountsTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
+   	            android:paddingLeft="10dp"
 			    android:textAppearance="?android:attr/textAppearanceMedium" 
    	            android:text="1 2x1 cablevision\n3 precio fijo" />
    	        
@@ -112,6 +113,7 @@
    	            android:id="@+id/placesCodesTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
+   	            android:paddingLeft="10dp"
 			    android:textAppearance="?android:attr/textAppearanceMedium" 
    	            android:text="G9 G10 G11 G12 G13" />
    	        
