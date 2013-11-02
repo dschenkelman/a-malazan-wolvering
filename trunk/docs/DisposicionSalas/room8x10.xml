@@ -1,0 +1,18 @@
+<Sala>
+	<Fila numero="1" desde="1" hasta="10"/>
+
+	<Fila numero="2" desde="1" hasta="10"/>
+
+	<Fila numero="3" desde="1" hasta="10"/>
+
+	<Fila numero="4" desde="1" hasta="10"/>
+
+	<Fila numero="5" desde="1" hasta="10"/>
+
+	<Fila numero="6" desde="1" hasta="10"/>
+
+	<Fila numero="7" desde="1" hasta="10"/>
+
+	<Fila numero="8" desde="1" hasta="10"/>
+
+</Sala>
