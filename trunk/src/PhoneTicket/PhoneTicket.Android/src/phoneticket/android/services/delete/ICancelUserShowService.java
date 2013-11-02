@@ -1,4 +1,4 @@
-package phoneticket.android.services.post;
+package phoneticket.android.services.delete;
 
 import phoneticket.android.model.IDetailUserShow;
 

@@ -1,4 +1,4 @@
-package phoneticket.android.services.post;
+package phoneticket.android.services.delete;
 
 public interface ICancelUserShowServiceDelegate {
 
