@@ -65,6 +65,9 @@
                         <a href="@Url.Action("Details", new { showId = show.Id, movieId = this.Model.MovieId })" >
                             <i class="glyphicon glyphicon-info-sign"></i>
                         </a>
+                        <a href="@Url.Action("ForShow", "Reports", new { showId = show.Id })" >
+                            <i class="glyphicon glyphicon-stats"></i>
+                        </a>
                         @if (show.CanEdit)
                         {
                             <a href="@Url.Action("Edit", new { showId = show.Id })" >
