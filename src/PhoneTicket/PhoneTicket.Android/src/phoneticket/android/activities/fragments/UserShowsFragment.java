@@ -37,7 +37,7 @@ import roboguice.fragment.RoboFragment;
 public class UserShowsFragment extends RoboFragment implements
 		IRetrieveMyShowsServiceDelegate, IOnUserShowChangesListener {
 
-	private static final String STATE_SHOWS_STREAM = "state.usershows.stream";
+	public static final String STATE_SHOWS_STREAM = "state.usershows.stream";
 	private static final String STATE_SHOWS_SEPARATOR_ITEMS = "]";
 	private static final String STATE_SHOWS_SEPARATOR_PROPERTIES = "#";
 	

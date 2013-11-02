@@ -72,4 +72,9 @@ public class APIService {
 	public static String getCancelUserShowServiceDeleteURL(String id) {
 		return baseAPIURL() + "reservations/" + id;
 	}
+
+	public static String getConfirmReservationServicePostURL(
+			String reservationId) {
+		return baseAPIURL() + "reservations/" + reservationId + "/confirm";
+	}
 }
