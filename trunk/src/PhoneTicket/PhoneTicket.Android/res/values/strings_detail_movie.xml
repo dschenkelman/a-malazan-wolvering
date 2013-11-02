@@ -20,4 +20,6 @@
     <string name="goToCinemaDescription">Goes to cinema</string>
     <string name="error_message_activity_cinemas">No se pudo cardar la informacion de los Complejos</string>
 
+    <string name="errorLoadingCreditCardsData">Error cargando datos de trajeta de crédito. Intente nuevamente.</string>
+    
 </resources>
