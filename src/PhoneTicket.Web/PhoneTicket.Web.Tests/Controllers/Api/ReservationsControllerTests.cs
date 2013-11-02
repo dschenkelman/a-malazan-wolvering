@@ -73,10 +73,19 @@
 
             var controller = this.CreateController();
 
-            var response = await controller.NewReservation(operationVm);
+            bool exceptionThrown = false;
 
-            Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode);
+            try
+            {
+                var response = await controller.NewReservation(operationVm);
+            }
+            catch (HttpResponseException e)
+            {
+                Assert.AreEqual(HttpStatusCode.Conflict, e.Response.StatusCode);
+                exceptionThrown = true;
+            }
 
+            Assert.IsTrue(exceptionThrown);
             this.operationService.Verify(os => os.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()), Times.Once());
         }
 
@@ -116,7 +125,9 @@
 
             this.userService.Setup(us => us.GetUserAsync(Email)).Returns(Task.FromResult(user)).Verifiable();
 
-            this.operationService.Setup(os => os.CreateAsync(It.IsAny<Operation>())).Returns(Task.FromResult(newOperationId)).Verifiable();
+            this.operationService.Setup(os => os.CreateAsync(It.IsAny<Operation>()))
+                .Returns(Task.FromResult(newOperationId))
+                .Verifiable();
 
             this.occupiedSeatsService.Setup(ocs => ocs.CreateAsync(It.IsAny<OccupiedSeat>())).Returns(Task.FromResult<object>(null)).Verifiable();
 
@@ -142,7 +153,7 @@
 
             Thread.CurrentPrincipal = oldPrincipal;
 
-            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.AreEqual(newOperationId, response);
 
             this.mockRepository.VerifyAll();
         }

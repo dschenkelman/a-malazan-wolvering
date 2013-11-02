@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.Controllers.Api
 {
+    using System;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
@@ -22,7 +23,7 @@
 
         [Authorize]
         [HttpPost("")]
-        public async Task<HttpResponseMessage> NewPurchase(NewOperationViewModel newOperationViewModel)
+        public async Task<Guid> NewPurchase(NewOperationViewModel newOperationViewModel)
         {
             return await this.NewOperation(newOperationViewModel, OperationType.PurchaseWithReservation);
         }

@@ -1,5 +1,6 @@
 ﻿namespace PhoneTicket.Web.Controllers.Api
 {
+    using System;
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
@@ -47,7 +48,7 @@
 
         protected IOperationService OperationService { get; private set; }
 
-        protected async Task<HttpResponseMessage> NewOperation(NewOperationViewModel newOperationViewModel, OperationType type)
+        protected async Task<Guid> NewOperation(NewOperationViewModel newOperationViewModel, OperationType type)
         {
             var operations = await this.OperationService.GetAsync(o => o.ShowId == newOperationViewModel.ShowId);
 
@@ -95,10 +96,10 @@
                     }
                 }
 
-                return new HttpResponseMessage(HttpStatusCode.Created);
+                return operationId;
             }
 
-            return new HttpResponseMessage(HttpStatusCode.Conflict);
+            throw new HttpResponseException(HttpStatusCode.Conflict);
         }
     }
 }

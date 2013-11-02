@@ -4,6 +4,8 @@
 
     public class ShowSeatMapViewModel
     {
+        public int ShowId { get; set; }
+
         public ReportShowSeats ReportShowSeats { get; set; }
 
         public string Complex { get; set; }
