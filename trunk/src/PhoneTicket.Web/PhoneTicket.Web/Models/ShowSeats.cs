@@ -42,6 +42,24 @@
             this.MarkSeat(row, column, SeatState.Taken);
         }
 
+        public ReportShowSeats ToReport()
+        {
+            var reportShowSeats = new ReportShowSeats();
+
+            for (int i = 0; i < 17; i++)
+            {
+                for (int j = 0; j < 22; j++)
+                {
+                    if (this.seats[i][j] == SeatState.Free)
+                    {
+                        reportShowSeats.MarkFree(i + 1, j + 1);
+                    }
+                }
+            }
+
+            return reportShowSeats;
+        }
+
         private void MarkSeat(int row, int column, SeatState state)
         {
             if (row < 1 || row > 17)

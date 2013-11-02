@@ -1,0 +1,84 @@
+﻿@using PhoneTicket.Web.Models
+@model PhoneTicket.Web.ViewModels.ShowSeatMapViewModel
+
+@{
+    ViewBag.Title = "ForShow";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Entradas vendidas y reservas por función</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-6">Complejo:</div>
+            <div class="col-md-6">@Model.Complex</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-6">Película:</div>
+            <div class="col-md-6">@Model.Movie</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-6">Función:</div>
+            <div class="col-md-6">@Model.Show</div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-6">Vendidos:</div>
+            <div class="col-md-6">@Model.ReportShowSeats.Purchased</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-6">Reservados:</div>
+            <div class="col-md-6">@Model.ReportShowSeats.Reserved</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-6">Vacíos:</div>
+            <div class="col-md-6">@Model.ReportShowSeats.Free</div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" style="background: black; color: white; text-align: center; margin: 10px 0 10px 0">
+        PANTALLA
+    </div>
+</div>
+
+@foreach (var row in Model.ReportShowSeats.Seats)
+{
+    <div class="row">
+        @foreach (var cell in row)
+        {
+            <div style="display: inline;" >
+                @if (cell == ReportSeatState.Free)
+                {
+                    <img width="4.15%" src="@Url.Content("~/Images/empty.png")"/>   
+                }
+                @if (cell == ReportSeatState.Purchased)
+                {
+                    <img width="4.15%" src="@Url.Content("~/Images/purchased.png")"/>   
+                }
+                @if (cell == ReportSeatState.Reserved)
+                {
+                    <img width="4.15%" src="@Url.Content("~/Images/reserved.png")"/>
+                }
+                @if (cell == ReportSeatState.NoSeat)
+                {
+                    <img width="4.15%" style="margin-left: 0; margin-right: 0" src="@Url.Content("~/Images/noSeat.png")"/>
+                }
+            </div>
+        }
+    </div>
+}

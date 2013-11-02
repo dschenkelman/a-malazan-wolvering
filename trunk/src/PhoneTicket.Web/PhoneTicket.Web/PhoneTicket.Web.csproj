@@ -224,6 +224,7 @@
     <Compile Include="Controllers\DiscountsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\ShowsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -274,6 +275,7 @@
     <Compile Include="Models\OperationDiscount.cs" />
     <Compile Include="Models\OperationType.cs" />
     <Compile Include="Models\Rating.cs" />
+    <Compile Include="Models\ReportShowSeats.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\Show.cs" />
     <Compile Include="Models\TemporaryUser.cs" />
@@ -299,6 +301,7 @@
     <Compile Include="Services\IOperationDiscountsService.cs" />
     <Compile Include="Services\IOperationService.cs" />
     <Compile Include="Services\IRatingService.cs" />
+    <Compile Include="Services\IReportService.cs" />
     <Compile Include="Services\IRoomService.cs" />
     <Compile Include="Services\IRoomXmlParser.cs" />
     <Compile Include="Services\ISettingsService.cs" />
@@ -310,6 +313,7 @@
     <Compile Include="Services\OperationDiscountsService.cs" />
     <Compile Include="Services\OperationService.cs" />
     <Compile Include="Services\RatingService.cs" />
+    <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\RoomService.cs" />
     <Compile Include="Services\RoomXmlParser.cs" />
     <Compile Include="Services\SettingsService.cs" />
@@ -359,6 +363,7 @@
     <Compile Include="ViewModels\ListUserViewModel.cs" />
     <Compile Include="ViewModels\ShowReadOnlyViewModel.cs" />
     <Compile Include="Models\ShowSeats.cs" />
+    <Compile Include="ViewModels\ShowSeatMapViewModel.cs" />
     <Compile Include="ViewModels\TimesAndRoomViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -439,7 +444,11 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\empty.png" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\noSeat.png" />
+    <Content Include="Images\purchased.png" />
+    <Content Include="Images\reserved.png" />
     <Content Include="Scripts\app\CreateDiscount.js" />
     <Content Include="Scripts\app\EditShows.js" />
     <Content Include="Scripts\app\Movies.js" />
@@ -452,6 +461,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\ListShows.css" />
+    <Content Include="Content\Reports.css" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -534,6 +544,7 @@
       <LastGenOutput>OperationEmailTemplate.cs</LastGenOutput>
     </Content>
     <Compile Include="Templates\OperationEmailTemplate.Context.cs" />
+    <Content Include="Views\Reports\ForShow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

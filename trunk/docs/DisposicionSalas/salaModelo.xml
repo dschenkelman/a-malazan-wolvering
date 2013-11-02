@@ -1,0 +1,36 @@
+<Sala>
+	<Fila numero="1" desde="3" hasta="10"/>
+	<Fila numero="1" desde="13" hasta="20"/>
+	<Fila numero="2" desde="3" hasta="10"/>
+	<Fila numero="2" desde="13" hasta="20"/>
+	<Fila numero="3" desde="3" hasta="10"/>
+	<Fila numero="3" desde="13" hasta="20"/>
+	<Fila numero="4" desde="3" hasta="10"/>
+	<Fila numero="4" desde="13" hasta="20"/>
+	<Fila numero="5" desde="3" hasta="10"/>
+	<Fila numero="5" desde="13" hasta="20"/>
+	<Fila numero="6" desde="3" hasta="10"/>
+	<Fila numero="6" desde="13" hasta="20"/>
+	<Fila numero="7" desde="3" hasta="10"/>
+	<Fila numero="7" desde="13" hasta="20"/>
+	<Fila numero="8" desde="3" hasta="10"/>
+	<Fila numero="8" desde="13" hasta="20"/>
+	<Fila numero="9" desde="3" hasta="10"/>
+	<Fila numero="9" desde="13" hasta="20"/>
+	<Fila numero="10" desde="3" hasta="10"/>
+	<Fila numero="10" desde="13" hasta="20"/>
+	<Fila numero="11" desde="3" hasta="10"/>
+	<Fila numero="11" desde="13" hasta="20"/>
+	<Fila numero="12" desde="3" hasta="10"/>
+	<Fila numero="12" desde="13" hasta="20"/>
+	<Fila numero="13" desde="3" hasta="10"/>
+	<Fila numero="13" desde="13" hasta="20"/>
+	<Fila numero="14" desde="3" hasta="10"/>
+	<Fila numero="14" desde="13" hasta="20"/>
+	<Fila numero="15" desde="3" hasta="10"/>
+	<Fila numero="15" desde="13" hasta="20"/>
+	<Fila numero="16" desde="3" hasta="10"/>
+	<Fila numero="16" desde="13" hasta="20"/>
+	<Fila numero="17" desde="3" hasta="10"/>
+	<Fila numero="17" desde="13" hasta="20"/>
+</Sala>

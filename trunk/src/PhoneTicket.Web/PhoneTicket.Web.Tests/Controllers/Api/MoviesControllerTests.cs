@@ -77,6 +77,14 @@
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show }));
 
+            this.showService.Setup(ss => ss.GetWithinNextHourForMovieAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Show>()))
+                .Verifiable();
+
+            this.operationService.Setup(os => os.GetReservationsForShowsAsync(It.IsAny<int[]>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Operation>()))
+                .Verifiable();
+
             var controller = this.CreateController();
 
             var showsByComplex = await controller.WeekShowsForMovie(MovieId);
@@ -94,6 +102,14 @@
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show }));
 
+            this.showService.Setup(ss => ss.GetWithinNextHourForMovieAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Show>()))
+                .Verifiable();
+
+            this.operationService.Setup(os => os.GetReservationsForShowsAsync(It.IsAny<int[]>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Operation>()))
+                .Verifiable();
+
             var controller = this.CreateController();
 
             var showsByComplex = await controller.WeekShowsForMovie(MovieId);
@@ -110,6 +126,14 @@
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show }));
+
+            this.showService.Setup(ss => ss.GetWithinNextHourForMovieAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Show>()))
+                .Verifiable();
+
+            this.operationService.Setup(os => os.GetReservationsForShowsAsync(It.IsAny<int[]>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Operation>()))
+                .Verifiable();
 
             var controller = this.CreateController();
 
@@ -133,6 +157,14 @@
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show }));
+
+            this.showService.Setup(ss => ss.GetWithinNextHourForMovieAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Show>()))
+                .Verifiable();
+
+            this.operationService.Setup(os => os.GetReservationsForShowsAsync(It.IsAny<int[]>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Operation>()))
+                .Verifiable();
 
             var controller = this.CreateController();
 
@@ -173,6 +205,14 @@
 
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show1, show2 }));
+
+            this.showService.Setup(ss => ss.GetWithinNextHourForMovieAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Show>()))
+                .Verifiable();
+
+            this.operationService.Setup(os => os.GetReservationsForShowsAsync(It.IsAny<int[]>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Operation>()))
+                .Verifiable();
 
             var controller = this.CreateController();
 
@@ -218,6 +258,13 @@
             this.showService.Setup(ss => ss.GetForMovieAsync(MovieId))
                 .Returns(Task.FromResult((IEnumerable<Show>)new List<Show> { show1, show2 }));
 
+            this.showService.Setup(ss => ss.GetWithinNextHourForMovieAsync(It.IsAny<int>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Show>()))
+                .Verifiable();
+
+            this.operationService.Setup(os => os.GetReservationsForShowsAsync(It.IsAny<int[]>()))
+                .Returns(Task.FromResult(Enumerable.Empty<Operation>()))
+                .Verifiable();
 
             var controller = this.CreateController();
 
