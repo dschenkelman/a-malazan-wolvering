@@ -97,6 +97,10 @@ public class MockRetrieveUserShowInfoService extends
 			public void setBought() {
 				isBought = true;
 			}
+			@Override
+			public int getShowDuration() {
+				return 90;
+			}
 		};
 		return detail;
 	}

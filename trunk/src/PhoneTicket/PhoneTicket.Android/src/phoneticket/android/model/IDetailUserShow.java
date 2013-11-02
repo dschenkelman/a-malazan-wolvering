@@ -18,4 +18,6 @@ public interface IDetailUserShow extends IMyShow {
 
 	void setBought();
 
+	int getShowDuration();
+
 }
