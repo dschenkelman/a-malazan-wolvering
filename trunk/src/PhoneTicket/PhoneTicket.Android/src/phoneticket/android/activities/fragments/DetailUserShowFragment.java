@@ -394,6 +394,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 			IRetrieveUserShowInfoService delegate, IDetailUserShow userShow) {
 		if (false == ignoreServicesCallbacks) {
 			this.userShow = userShow;
+			this.userShow.setId(showId);
 			saveDetailUserShow();
 			populateUserShowView();
 			showUserShowListLayout();
