@@ -51,6 +51,8 @@ public class RoomFragment extends RoboFragment implements
 	private int numColumns;
 	private int firstColumn;
 	private int lastColumn;
+	private int firstRow;
+	private int lastRow;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -193,24 +195,28 @@ public class RoomFragment extends RoboFragment implements
 		display.getSize(point);
 		int width = point.x;
 		this.checkColumnsToShow(armChairs);
-		armChairSelection.setNumColumns(numColumns + 1);
+		armChairSelection.setNumColumns(numColumns);
 		List<ArmChair> armChairsData = new ArrayList<ArmChair>();
-		int rowNumber = 0;
 		Resources resources = getResources();
 		String[] letters = resources.getStringArray(R.array.letters);
+		int rowNumber = 0;
 		for (Collection<Integer> row : armChairs) {
-			int columnNumber = 0;
-			for (Integer state : row) {
-				if (columnNumber >= firstColumn && columnNumber <= lastColumn)
-					armChairsData.add(new ArmChair(state, columnNumber + 1,
-							letters[rowNumber]));
-				columnNumber++;
+			if (rowNumber >= this.firstRow && rowNumber <= this.lastRow) {
+				int columnNumber = 0;
+				for (Integer state : row) {
+					if (columnNumber >= firstColumn
+							&& columnNumber <= lastColumn) {
+						armChairsData.add(new ArmChair(state, columnNumber + 1,
+								letters[rowNumber]));
+					}
+					columnNumber++;
+				}
 			}
 			rowNumber++;
 		}
 
 		final ArmChairAdapter imageAdapter = new ArmChairAdapter(getActivity(),
-				R.id.armChairView, armChairsData, numColumns + 1, width);
+				R.id.armChairView, armChairsData, numColumns, width);
 		armChairSelection.setAdapter(imageAdapter);
 		armChairSelection.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,
@@ -240,21 +246,37 @@ public class RoomFragment extends RoboFragment implements
 	}
 
 	private void checkColumnsToShow(Collection<Collection<Integer>> armChairs) {
-		numColumns = 1;
-		firstColumn = 21;
-		lastColumn = 0;
+		this.numColumns = 0;
+		this.firstColumn = 21;
+		this.lastColumn = 0;
+		this.firstRow = 16;
+		this.lastRow = 0;
+		int rowNumber = 0;
 		for (Collection<Integer> rows : armChairs) {
 			int columnNumber = 0;
 			for (Integer columnState : rows) {
-				if (columnState == ArmChair.LIBRE && columnNumber < firstColumn)
-					firstColumn = columnNumber;
-				if (columnState == ArmChair.LIBRE && columnNumber > lastColumn)
-					lastColumn = columnNumber;
+				if (columnState == ArmChair.LIBRE) {
+					if (columnNumber < firstColumn) {
+						firstColumn = columnNumber;
+					}
+					if (columnNumber > lastColumn) {
+						lastColumn = columnNumber;
+					}
+					if (rowNumber < firstRow) {
+						firstRow = rowNumber;
+					}
+					if (rowNumber > lastRow) {
+						lastRow = rowNumber;
+					}
+				}
 				columnNumber++;
 			}
+			rowNumber++;
 		}
 		numColumns = (lastColumn - firstColumn) > numColumns ? (lastColumn - firstColumn)
 				: numColumns;
+		numColumns++;
+
 	}
 
 }
