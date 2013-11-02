@@ -26,6 +26,7 @@ import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectResource;
 import android.os.Bundle;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
@@ -114,7 +115,7 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 			service.registerUser(user, this);
 		}
 	}
-	
+
 	private void hideKeyboard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		EditText field = (EditText) findViewById(R.id.inputBirthday);
@@ -134,7 +135,7 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 		field = (EditText) findViewById(R.id.inputPassword);
 		imm.hideSoftInputFromWindow(field.getWindowToken(), 0);
 	}
-	
+
 	private void showProgressDialog() {
 		if (null == progressDialog)
 			progressDialog = new ProgressDialogFragment();
@@ -172,6 +173,9 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 		hideProgressDialog();
 		ConfirmUserRegisterDialogFragment dialog = new ConfirmUserRegisterDialogFragment();
 		dialog.show(getSupportFragmentManager(), "dialog.confirmuser");
+		Intent resultData = new Intent();
+		setResult(MasterActivity.LOGIN_RESULT_CODE_OK, resultData);
+		finish();
 	}
 
 	@Override

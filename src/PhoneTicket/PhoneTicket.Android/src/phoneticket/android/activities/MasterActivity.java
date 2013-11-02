@@ -67,6 +67,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	public static final int PURCHASE_DATA_REQUEST_CODE = 12;
 	public static final int PURCHASE_DATA_RESULT_CODE_OK = 45789;
+	public static final int LOGIN_RESULT_CODE_OK = 45788;
 	private RibbonMenuView ribbonMenu;
 	private int ribbonMenuItemIdSelected;
 	private TextView actionTitle;
@@ -83,6 +84,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private IOnUserShowChangesListener listener;
 
 	private IOnPurchaseDataResultListener purchaseResultListener;
+	private Ticket ticket;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +125,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_VENCIMIENTO),
 								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_CARD_TYPE));
 			}
+			break;
+		}
+		case LOGIN_RESULT_CODE_OK: {
+			this.onFunctionSelected(ticket);
 			break;
 		}
 		default: {
@@ -448,9 +454,15 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	@Override
 	public void onFunctionSelected(Ticket ticket) {
-		Bundle bundle = new Bundle();
-		bundle.putSerializable(RoomFragment.TICKET_INFO, ticket);
-		changeToRoomFragment(bundle);
+		if (UserManager.getInstance().getLogedUser() != null) {
+			Bundle bundle = new Bundle();
+			bundle.putSerializable(RoomFragment.TICKET_INFO, ticket);
+			changeToRoomFragment(bundle);
+		} else {
+			this.ticket = ticket;
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivityForResult(intent, 31);
+		}
 	}
 
 	@Override
@@ -577,7 +589,6 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	public interface IOnUserShowChangesListener {
-
 		void userShowCanceled(IDetailUserShow userShow);
 
 	}

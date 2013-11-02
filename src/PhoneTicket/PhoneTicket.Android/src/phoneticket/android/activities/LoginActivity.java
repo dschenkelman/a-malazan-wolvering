@@ -111,13 +111,15 @@ public class LoginActivity extends RoboFragmentActivity implements
 
 	public void onRegisterButtonAction(View sender) {
 		Intent intent = new Intent(this, RegisterUserActivity.class);
-		startActivity(intent);
+		startActivityForResult(intent, 1);
 	}
 
 	@Override
 	public void authServiceDelegateFinish(IAuthService service, LoginUser user) {
 		hideProgressDialog();
-		onBackPressed();
+		Intent resultData = new Intent();
+		setResult(MasterActivity.LOGIN_RESULT_CODE_OK, resultData);
+		finish();
 	}
 
 	@Override
@@ -147,6 +149,13 @@ public class LoginActivity extends RoboFragmentActivity implements
 	@Override
 	public String getProgressMessageTitle() {
 		return "Espera un momento";
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Intent resultData = new Intent();
+		setResult(0, resultData);
+		finish();
 	}
 
 }
