@@ -1,6 +1,7 @@
 ﻿namespace PhoneTicket.Web.Services
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Threading.Tasks;
@@ -43,6 +44,11 @@
             return await this.repositories.Operations.Filter(o => o.UserId == userId 
                 && o.Type == OperationType.Reservation 
                 && futureTimeInArgentina > o.Show.Date).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Operation>> GetReservationsForShowsAsync(params int[] showIds)
+        {
+            return await this.repositories.Operations.Filter(o => showIds.Contains(o.ShowId)).ToListAsync();
         }
 
         public async Task<Guid> CreateAsync(Operation operation)

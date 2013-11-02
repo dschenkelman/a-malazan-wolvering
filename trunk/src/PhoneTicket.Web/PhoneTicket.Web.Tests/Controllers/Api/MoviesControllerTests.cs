@@ -23,12 +23,15 @@
 
         private Mock<IShowService> showService;
 
+        private Mock<IOperationService> operationService;
+
         [TestInitialize]
         public void Initialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Default);
             this.movieService = this.mockRepository.Create<IMovieService>();
             this.showService = this.mockRepository.Create<IShowService>();
+            this.operationService = this.mockRepository.Create<IOperationService>();
         }
 
 
@@ -248,7 +251,7 @@
             var genre = new Genre { Id = 1, Name = "Genre1" };
             var rating = new Rating { Id = 1, Description = "Rating1" };
 
-            return new Movie()
+            return new Movie 
             {
                 Id = 1,
                 Title = "Movie",
@@ -265,9 +268,8 @@
 
         private MoviesController CreateController()
         {
-            return new MoviesController(this.movieService.Object, this.showService.Object);
+            return new MoviesController(this.movieService.Object, this.showService.Object, this.operationService.Object);
         }
-
     }
 }
 

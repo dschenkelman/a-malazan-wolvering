@@ -18,6 +18,8 @@
 
         Task<IEnumerable<Operation>> GetDeprecatedForUserAsync(int userId);
 
+        Task<IEnumerable<Operation>> GetReservationsForShowsAsync(params int[] showIds);
+
         Task<Guid> CreateAsync(Operation operation);
 
         Task DeleteAsync(Guid id);
