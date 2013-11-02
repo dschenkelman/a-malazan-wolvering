@@ -1,0 +1,43 @@
+<Sala>
+
+	<Fila numero="1" desde="1" hasta="2"/>
+	<Fila numero="1" desde="4" hasta="9"/>
+	<Fila numero="1" desde="11" hasta="12"/>
+
+	<Fila numero="2" desde="1" hasta="2"/>
+	<Fila numero="2" desde="4" hasta="9"/>
+	<Fila numero="2" desde="11" hasta="12"/>
+
+	<Fila numero="3" desde="1" hasta="2"/>
+	<Fila numero="3" desde="4" hasta="9"/>
+	<Fila numero="3" desde="11" hasta="12"/>
+
+	<Fila numero="4" desde="1" hasta="2"/>
+	<Fila numero="4" desde="4" hasta="9"/>
+	<Fila numero="4" desde="11" hasta="12"/>
+
+	<Fila numero="5" desde="1" hasta="2"/>
+	<Fila numero="5" desde="4" hasta="9"/>
+	<Fila numero="5" desde="11" hasta="12"/>
+
+	<Fila numero="6" desde="1" hasta="2"/>
+	<Fila numero="6" desde="4" hasta="9"/>
+	<Fila numero="6" desde="11" hasta="12"/>
+
+	<Fila numero="7" desde="1" hasta="2"/>
+	<Fila numero="7" desde="4" hasta="9"/>
+	<Fila numero="7" desde="11" hasta="12"/>
+
+	<Fila numero="8" desde="1" hasta="2"/>
+	<Fila numero="8" desde="4" hasta="9"/>
+	<Fila numero="8" desde="11" hasta="12"/>
+
+	<Fila numero="9" desde="1" hasta="2"/>
+	<Fila numero="9" desde="4" hasta="9"/>
+	<Fila numero="9" desde="11" hasta="12"/>
+
+	<Fila numero="10" desde="1" hasta="2"/>
+	<Fila numero="10" desde="4" hasta="9"/>
+	<Fila numero="10" desde="11" hasta="12"/>
+
+</Sala>
