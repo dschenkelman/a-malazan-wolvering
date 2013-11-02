@@ -21,8 +21,8 @@ public class BuyTicketsActivity extends RoboFragmentActivity {
 
 	public static final String EXTRA_RESULT_PURCHASE_CARD_NUMBER = "extra.buyticket.cardnumber";
 	public static final String EXTRA_RESULT_PURCHASE_SECURIRY_NUMBER = "extra.buyticket.securittnumber";
-	public static final String EXTRA_RESULT_PURCHASE_VENCIMIENTO = "extra.buyticket.vencimiento";
-	public static final String EXTRA_RESULT_PURCHASE_CARD_TYPE = "extra.buyticket.cardtype";
+	public static final String EXTRA_RESULT_PURCHASE_EXPIRATION = "extra.buyticket.vencimiento";
+	public static final String EXTRA_RESULT_PURCHASE_COMPANY_ID = "extra.buyticket.cardtype";
 
 	@Inject
 	private IFormValidator purchaseForm;
@@ -109,10 +109,10 @@ public class BuyTicketsActivity extends RoboFragmentActivity {
 					.getText().toString());
 			resultData.putExtra(EXTRA_RESULT_PURCHASE_SECURIRY_NUMBER,
 					securityNumber.getText().toString());
-			resultData.putExtra(EXTRA_RESULT_PURCHASE_VENCIMIENTO, vencimiento
+			resultData.putExtra(EXTRA_RESULT_PURCHASE_EXPIRATION, vencimiento
 					.getText().toString());
-			resultData.putExtra(EXTRA_RESULT_PURCHASE_CARD_TYPE, cardType
-					.getText().toString());
+			// TODO
+			resultData.putExtra(EXTRA_RESULT_PURCHASE_COMPANY_ID, 1);
 			setResult(MasterActivity.PURCHASE_DATA_RESULT_CODE_OK, resultData);
 			finish();
 		}

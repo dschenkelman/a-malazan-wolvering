@@ -11,6 +11,7 @@ import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancel
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.activities.interfaces.IUserShowsActionListener;
+import phoneticket.android.model.CreditCardData;
 import phoneticket.android.model.DetailUserShow;
 import phoneticket.android.model.IDetailUserShow;
 import phoneticket.android.model.IDiscount;
@@ -19,6 +20,8 @@ import phoneticket.android.services.delete.ICancelUserShowService;
 import phoneticket.android.services.delete.ICancelUserShowServiceDelegate;
 import phoneticket.android.services.get.IRetrieveUserShowInfoService;
 import phoneticket.android.services.get.IRetrieveUserShowInfoServiceDelegate;
+import phoneticket.android.services.post.IConfirmReservationService;
+import phoneticket.android.services.post.IConfirmReservationServiceDelegate;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -26,7 +29,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +43,14 @@ import roboguice.fragment.RoboFragment;
 public class DetailUserShowFragment extends RoboFragment implements
 		IRetrieveUserShowInfoServiceDelegate,
 		IConfirmShowReserveCancelationDialogDelegate,
-		ICancelUserShowServiceDelegate, IOnPurchaseDataResultListener {
+		ICancelUserShowServiceDelegate, IOnPurchaseDataResultListener,
+		IConfirmReservationServiceDelegate {
 
 	public static final String TAG = "DetailUserShowFragment.tag";
 	public static final String USER_SHOW_INFO = "usershow.info";
+	public static final String USER_SHOW_INFO_IS_BOUGHT = "usershow.info.isbought";
 
-	private static final String STATE_USER_SHOW_ID = "usershow.id";
+	public static final String STATE_USER_SHOW_ID = "usershow.id";
 	private static final String STATE_USER_SHOW_MOVIE_NAME = "usershow.moviename";
 	private static final String STATE_USER_SHOW_TIME = "usershow.showtime";
 	private static final String STATE_USER_SHOW_COMPLEX_ADDRESS = "usershow.complexaddress";
@@ -61,11 +65,14 @@ public class DetailUserShowFragment extends RoboFragment implements
 	private boolean ignoreServicesCallbacks;
 
 	private String showId;
+	private boolean isBought;
 
 	@Inject
 	private IRetrieveUserShowInfoService infoService;
 	@Inject
 	private ICancelUserShowService cancelService;
+	@Inject
+	private IConfirmReservationService confirmService;
 
 	private IDetailUserShow userShow;
 
@@ -79,7 +86,10 @@ public class DetailUserShowFragment extends RoboFragment implements
 		View view = inflater.inflate(R.layout.fragment_detail_user_shows,
 				container, false);
 
-		showId = getArguments().getString(DetailUserShowFragment.USER_SHOW_INFO);
+		showId = getArguments()
+				.getString(DetailUserShowFragment.USER_SHOW_INFO);
+		isBought = getArguments()
+				.getBoolean(DetailUserShowFragment.USER_SHOW_INFO_IS_BOUGHT);
 
 		return view;
 	}
@@ -166,7 +176,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 			editor.putString(STATE_USER_SHOW_COMPLEX_ADDRESS,
 					userShow.getComplexAddress());
 			editor.putString(STATE_USER_SHOW_QR_STRING, userShow.getQRString());
-			editor.putInt(STATE_USER_SHOW_PRICE, userShow.getShowPrice(false));
+			editor.putInt(STATE_USER_SHOW_PRICE,
+					userShow.getSingleTicketShowPrice());
 
 			String seatStream = "";
 			for (ISeat seat : userShow.getSeats()) {
@@ -185,7 +196,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 		String invalidId = "invalid";
 		String id = preferences.getString(STATE_USER_SHOW_ID, invalidId);
 
-		if (id.equalsIgnoreCase(invalidId)) {
+		if (!id.equalsIgnoreCase(invalidId)) {
 			doLoadDetailUserShow();
 		}
 	}
@@ -202,12 +213,12 @@ public class DetailUserShowFragment extends RoboFragment implements
 			isBought = preferences.getBoolean(STATE_USER_SHOW_IS_BOUGHT, false);
 			movieName = preferences.getString(STATE_USER_SHOW_MOVIE_NAME, "-");
 			showTime = preferences.getString(STATE_USER_SHOW_TIME, "-");
-			complexAddress = preferences.getString(STATE_USER_SHOW_COMPLEX_ADDRESS,
-					"-");
+			complexAddress = preferences.getString(
+					STATE_USER_SHOW_COMPLEX_ADDRESS, "-");
 			qrstring = preferences.getString(STATE_USER_SHOW_QR_STRING, "-");
 
-			DetailUserShow userShow = new DetailUserShow(id, isBought, movieName,
-					showTime, complexAddress, qrstring, price);
+			DetailUserShow userShow = new DetailUserShow(id, isBought,
+					movieName, showTime, complexAddress, qrstring, price);
 
 			seatsStream = preferences.getString(STATE_USER_SHOW_SEATS, "");
 			for (String seatString : seatsStream
@@ -226,7 +237,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	private boolean shouldRetrieveUserShow() {
-		return true;
+		return null == userShow;
 	}
 
 	private void onRetrieveUserShowAction() {
@@ -242,8 +253,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 	protected void onBuyReservationAction() {
 		Intent intent = new Intent(getActivity(), BuyTicketsActivity.class);
-		startActivityForResult(intent,
-				31);
+		startActivityForResult(intent, 31);
 	}
 
 	protected void onCancelReservationAction() {
@@ -305,7 +315,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 		String seatCodes = "";
 		if (0 < userShow.getSeats().size()) {
 			for (ISeat seat : userShow.getSeats()) {
-				String code = Character.toString(Character.toChars(64 + seat.getRow())[0]);
+				String code = Character.toString(Character.toChars(64 + seat
+						.getRow())[0]);
 				seatCodes += code + seat.getColumn() + " ";
 			}
 		}
@@ -375,6 +386,15 @@ public class DetailUserShowFragment extends RoboFragment implements
 				ScrollView.GONE);
 	}
 
+	private void showConfirmingLayout() {
+		TextView message = (TextView) ((RelativeLayout) getView().findViewById(
+				R.id.loadingDataLayout))
+				.findViewById(R.id.downloadingDataTextView);
+		message.setText("Confirmando la reserva. Por Favor, espere un momento");
+		layoutVisibility(LinearLayout.GONE, RelativeLayout.VISIBLE,
+				ScrollView.GONE);
+	}
+
 	private void layoutVisibility(int erroVisibility, int loadingVisibility,
 			int myShowsVisibilty) {
 		LinearLayout errorView = (LinearLayout) getView().findViewById(
@@ -395,6 +415,9 @@ public class DetailUserShowFragment extends RoboFragment implements
 		if (false == ignoreServicesCallbacks) {
 			this.userShow = userShow;
 			this.userShow.setId(showId);
+			if (isBought) {
+				this.userShow.setBought();
+			}
 			saveDetailUserShow();
 			populateUserShowView();
 			showUserShowListLayout();
@@ -451,9 +474,65 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 	@Override
 	public void onPurchaseDataResult(String cardNumber, String securityNumber,
-			String vencimiento, String cardType) {
-		Log.d("PhoneTicket", "onPurchaseDataResult: " + cardNumber + " "
-				+ securityNumber + " " + vencimiento + " " + cardType);
+			String expiration, int cardCompany) {
+		showConfirmingLayout();
+		confirmService.confirmReservation(this, new CreditCardData(cardNumber,
+				securityNumber, cardCompany, expiration), showId);
+	}
+
+	@Override
+	public void confirmReservationFinished(IConfirmReservationService service) {
+		if (false == ignoreServicesCallbacks) {
+			this.userShow.setBought();
+			populateUserShowView();
+			showUserShowListLayout();
+
+			DialogFragment dialog = new DialogFragment() {
+				@Override
+				public Dialog onCreateDialog(Bundle savedInstanceState) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							getActivity());
+
+					builder.setMessage(
+							"Usted ha comprado la reserva con exito.")
+							.setTitle("Exito")
+							.setPositiveButton(R.string.messageDialogContinue,
+									null);
+					return builder.create();
+				}
+			};
+			dialog.show(getFragmentManager(), "dialog.message");
+			
+
+			SharedPreferences.Editor editor = getActivity().getPreferences(0)
+					.edit();
+			editor.remove(UserShowsFragment.STATE_SHOWS_STREAM);
+			editor.commit();
+		}
+	}
+
+	@Override
+	public void confirmReservationFinishedWithError(
+			IConfirmReservationService service, int errorCode) {
+		if (false == ignoreServicesCallbacks) {
+			showUserShowListLayout();
+
+			DialogFragment dialog = new DialogFragment() {
+				@Override
+				public Dialog onCreateDialog(Bundle savedInstanceState) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							getActivity());
+
+					builder.setMessage(
+							"Error al efectivizar la reserva. Vuelva a intentarlo.")
+							.setTitle("Error")
+							.setPositiveButton(R.string.errorDialogContinue,
+									null);
+					return builder.create();
+				}
+			};
+			dialog.show(getFragmentManager(), "dialog.error");
+		}
 	}
 
 }

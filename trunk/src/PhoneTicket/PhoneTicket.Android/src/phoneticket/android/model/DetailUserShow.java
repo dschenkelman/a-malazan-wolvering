@@ -17,7 +17,6 @@ public class DetailUserShow implements IDetailUserShow {
 	private String complexAddress;
 	private Seat[] seats;
 	private Discount[] discounts;
-	private String qrstring;
 
 	private class Seat implements ISeat {
 
@@ -84,7 +83,6 @@ public class DetailUserShow implements IDetailUserShow {
 		this.movieTitle = movieName;
 		this.showDateAndTime = showTime;
 		this.complexAddress = complexAddress;
-		this.qrstring = qrstring;
 	}
 
 	@Override
@@ -188,5 +186,15 @@ public class DetailUserShow implements IDetailUserShow {
 	@Override
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	@Override
+	public int getSingleTicketShowPrice() {
+		return showPrice;
+	}
+
+	@Override
+	public void setBought() {
+		isBought = true;
 	}
 }

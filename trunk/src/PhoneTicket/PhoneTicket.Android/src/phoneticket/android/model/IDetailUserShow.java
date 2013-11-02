@@ -14,4 +14,8 @@ public interface IDetailUserShow extends IMyShow {
 
 	void setId(String showId);
 
+	int getSingleTicketShowPrice();
+
+	void setBought();
+
 }

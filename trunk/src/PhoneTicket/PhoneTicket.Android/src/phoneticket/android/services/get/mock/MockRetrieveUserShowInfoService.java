@@ -48,10 +48,11 @@ public class MockRetrieveUserShowInfoService extends
 
 	private IDetailUserShow createMocks() {
 		IDetailUserShow detail = new IDetailUserShow() {
+			private boolean isBought = false;
 			@Override
 			public String getId() { return id; }
 			@Override
-			public boolean isBought() { return true; }
+			public boolean isBought() { return isBought; }
 			@Override
 			public String getMovieTitle() { return "Aviones"; }
 			@Override
@@ -87,6 +88,14 @@ public class MockRetrieveUserShowInfoService extends
 			}
 			@Override
 			public void setId(String showId) {
+			}
+			@Override
+			public int getSingleTicketShowPrice() {
+				return 50;
+			}
+			@Override
+			public void setBought() {
+				isBought = true;
 			}
 		};
 		return detail;

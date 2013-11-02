@@ -74,7 +74,7 @@ public class DiscountFragment extends RoboFragment implements
 	private String cardNumber;
 	private String securityNumber;
 	private String vencimiento;
-	private String cardType;
+	private int cardType;
 	private ArrayList<DiscountCountable> discountsBaseInfo;
 	private String uuid;
 	private IOnMovieSelected movieSelectedListener;
@@ -150,7 +150,7 @@ public class DiscountFragment extends RoboFragment implements
 
 	protected void onPurchaseAction() {
 		if (this.cardNumber == null || this.securityNumber == null
-				|| this.vencimiento == null || this.cardType == null) {
+				|| this.vencimiento == null) {
 			Intent intent = new Intent(getActivity(), BuyTicketsActivity.class);
 			startActivityForResult(intent, 31);
 		} else {
@@ -388,11 +388,11 @@ public class DiscountFragment extends RoboFragment implements
 
 	@Override
 	public void onPurchaseDataResult(String cardNumber, String securityNumber,
-			String vencimiento, String cardType) {
+			String expiration, int companyId) {
 		this.cardNumber = cardNumber;
 		this.securityNumber = securityNumber;
-		this.vencimiento = vencimiento;
-		this.cardType = cardType;
+		this.vencimiento = expiration;
+		this.cardType = companyId;
 	}
 
 	@Override

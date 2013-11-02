@@ -46,6 +46,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -122,8 +123,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 						.onPurchaseDataResult(
 								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_CARD_NUMBER),
 								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_SECURIRY_NUMBER),
-								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_VENCIMIENTO),
-								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_CARD_TYPE));
+								data.getStringExtra(BuyTicketsActivity.EXTRA_RESULT_PURCHASE_EXPIRATION),
+								data.getIntExtra(
+										BuyTicketsActivity.EXTRA_RESULT_PURCHASE_COMPANY_ID,
+										0));
 			}
 			break;
 		}
@@ -297,6 +300,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	public void changeToUserFragment() {
+		SharedPreferences.Editor editor = getPreferences(0).edit();
+		editor.remove(UserShowsFragment.STATE_SHOWS_STREAM);
+		editor.remove(DetailUserShowFragment.STATE_USER_SHOW_ID);
+		editor.commit();
 		showFacebookShareButton();
 		showTwitterShareButton();
 		hideCalendarButton();
@@ -473,7 +480,10 @@ public class MasterActivity extends RoboFragmentActivity implements
 	@Override
 	public void onShowDetailUserShowAction(IMyShow userShow) {
 		Bundle bundle = new Bundle();
-		bundle.putString(DetailUserShowFragment.USER_SHOW_INFO, userShow.getId());
+		bundle.putString(DetailUserShowFragment.USER_SHOW_INFO,
+				userShow.getId());
+		bundle.putBoolean(DetailUserShowFragment.USER_SHOW_INFO_IS_BOUGHT,
+				userShow.isBought());
 		changeToDetailUserShowFragment(bundle);
 	}
 
@@ -585,7 +595,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	public interface IOnPurchaseDataResultListener {
 		void onPurchaseDataResult(String cardNumber, String securityNumber,
-				String vencimiento, String cardType);
+				String expiration, int companyId);
 	}
 
 	public interface IOnUserShowChangesListener {

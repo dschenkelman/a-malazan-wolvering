@@ -23,11 +23,13 @@ import phoneticket.android.services.get.impl.RetrieveUserInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveUserShowInfoServiceProxy;
 import phoneticket.android.services.get.impl.RetrieveRoomInfoServiceProxy;
 import phoneticket.android.services.post.IAuthService;
+import phoneticket.android.services.post.IConfirmReservationService;
 import phoneticket.android.services.post.IRegisterDiscountsService;
 import phoneticket.android.services.post.IRegisterPurchaseService;
 import phoneticket.android.services.post.IRegisterReservationService;
 import phoneticket.android.services.post.IRegisterUserService;
 import phoneticket.android.services.post.impl.AuthServiceProxy;
+import phoneticket.android.services.post.impl.ConfirmReservationServiceProxy;
 import phoneticket.android.services.post.impl.RegisterDiscountsServiceProxy;
 import phoneticket.android.services.post.impl.RegisterPurchaseServiceProxy;
 import phoneticket.android.services.post.impl.RegisterReservationServiceProxy;
@@ -73,6 +75,7 @@ public class PhoneTicketModule implements Module {
 				RegisterPurchaseServiceProxy.class);
 		binder.bind(IRegisterDiscountsService.class).to(
 				RegisterDiscountsServiceProxy.class);
-
+		binder.bind(IConfirmReservationService.class).to(
+				ConfirmReservationServiceProxy.class);
 	}
 }
