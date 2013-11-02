@@ -45,6 +45,7 @@
             this.container.Setup(c => c.RegisterType(typeof(IOperationDiscountsService), typeof(OperationDiscountsService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(ICreditCardsService), typeof(CreditCardsService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(ISettingsService), typeof(SettingsService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(typeof(IReportService), typeof(ReportService), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
 
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicketContext), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IContext), typeof(PhoneTicketContext), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
@@ -62,6 +63,7 @@
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.RoomsController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.ShowsController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.DiscountsController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
+            this.container.Setup(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.ReportsController), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
 
             this.container.Setup(c => c.RegisterType(typeof(ICurrentUserRole), typeof(CurrentUserRole), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
             this.container.Setup(c => c.RegisterType(typeof(IRoomXmlParser), typeof(RoomXmlParser), null, It.IsAny<LifetimeManager>())).Returns(this.container.Object).Verifiable();
@@ -94,6 +96,7 @@
             this.container.Verify(c => c.RegisterType(typeof(IRatingService), typeof(RatingService), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IRoomService), typeof(RoomService), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(ISettingsService), typeof(SettingsService), null, It.IsAny<LifetimeManager>()), Times.Once());
+            this.container.Verify(c => c.RegisterType(typeof(IReportService), typeof(ReportService), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterInstance(typeof(IEmailService), null, It.IsAny<EmailService>(), It.IsAny<ContainerControlledLifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(PhoneTicketContext), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(UsersController), null, It.IsAny<LifetimeManager>()), Times.Once());
@@ -106,6 +109,7 @@
             this.container.Verify(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.RoomsController), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.ShowsController), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.DiscountsController), null, It.IsAny<LifetimeManager>()), Times.Once());
+            this.container.Verify(c => c.RegisterType(null, typeof(PhoneTicket.Web.Controllers.ReportsController), null, It.IsAny<LifetimeManager>()), Times.Once());
 
             this.container.Verify(c => c.RegisterType(typeof(IRepository<User>), typeof(Repository<User>), null, It.IsAny<LifetimeManager>()), Times.Once());
             this.container.Verify(c => c.RegisterType(typeof(IRepository<Genre>), typeof(Repository<Genre>), null, It.IsAny<LifetimeManager>()), Times.Once());
