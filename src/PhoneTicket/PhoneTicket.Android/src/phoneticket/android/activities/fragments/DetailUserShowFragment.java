@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.BuyTicketsActivity;
-import phoneticket.android.activities.MasterActivity;
 import phoneticket.android.activities.MasterActivity.IOnPurchaseDataResultListener;
 import phoneticket.android.activities.QRCodeActivity;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
@@ -61,7 +60,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 	private boolean ignoreServicesCallbacks;
 
-	private int showId;
+	private String showId;
 
 	@Inject
 	private IRetrieveUserShowInfoService infoService;
@@ -80,7 +79,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 		View view = inflater.inflate(R.layout.fragment_detail_user_shows,
 				container, false);
 
-		showId = getArguments().getInt(DetailUserShowFragment.USER_SHOW_INFO);
+		showId = getArguments().getString(DetailUserShowFragment.USER_SHOW_INFO);
 
 		return view;
 	}
@@ -158,7 +157,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 		if (null != userShow) {
 			SharedPreferences.Editor editor = getActivity().getPreferences(0)
 					.edit();
-			editor.putInt(STATE_USER_SHOW_ID, userShow.getId());
+			editor.putString(STATE_USER_SHOW_ID, userShow.getId());
 			editor.putBoolean(STATE_USER_SHOW_IS_BOUGHT, userShow.isBought());
 			editor.putString(STATE_USER_SHOW_MOVIE_NAME,
 					userShow.getMovieTitle());
@@ -192,35 +191,38 @@ public class DetailUserShowFragment extends RoboFragment implements
 	}
 
 	private void doLoadDetailUserShow() {
-		int id, price;
+		int price;
 		boolean isBought;
-		String movieName, showTime, complexAddress, qrstring, seatsStream;
+		String id, movieName, showTime, complexAddress, qrstring, seatsStream;
 
-		SharedPreferences preferences = getActivity().getPreferences(0);
-		id = preferences.getInt(STATE_USER_SHOW_ID, 0);
-		price = preferences.getInt(STATE_USER_SHOW_PRICE, 0);
-		isBought = preferences.getBoolean(STATE_USER_SHOW_IS_BOUGHT, false);
-		movieName = preferences.getString(STATE_USER_SHOW_MOVIE_NAME, "-");
-		showTime = preferences.getString(STATE_USER_SHOW_TIME, "-");
-		complexAddress = preferences.getString(STATE_USER_SHOW_COMPLEX_ADDRESS,
-				"-");
-		qrstring = preferences.getString(STATE_USER_SHOW_QR_STRING, "-");
+		try {
+			SharedPreferences preferences = getActivity().getPreferences(0);
+			id = preferences.getString(STATE_USER_SHOW_ID, "");
+			price = preferences.getInt(STATE_USER_SHOW_PRICE, 0);
+			isBought = preferences.getBoolean(STATE_USER_SHOW_IS_BOUGHT, false);
+			movieName = preferences.getString(STATE_USER_SHOW_MOVIE_NAME, "-");
+			showTime = preferences.getString(STATE_USER_SHOW_TIME, "-");
+			complexAddress = preferences.getString(STATE_USER_SHOW_COMPLEX_ADDRESS,
+					"-");
+			qrstring = preferences.getString(STATE_USER_SHOW_QR_STRING, "-");
 
-		DetailUserShow userShow = new DetailUserShow(id, isBought, movieName,
-				showTime, complexAddress, qrstring, price);
+			DetailUserShow userShow = new DetailUserShow(id, isBought, movieName,
+					showTime, complexAddress, qrstring, price);
 
-		seatsStream = preferences.getString(STATE_USER_SHOW_SEATS, "");
-		for (String seatString : seatsStream
-				.split(SEPARATOR_STATE_USER_SHOW_SEATS)) {
-			String pair[] = seatString
-					.split(SEPARATOR_STATE_USER_ITEM_SHOW_SEATS);
-			if (2 == pair.length) {
-				userShow.addSeat(Integer.parseInt(pair[0]),
-						Integer.parseInt(pair[1]));
+			seatsStream = preferences.getString(STATE_USER_SHOW_SEATS, "");
+			for (String seatString : seatsStream
+					.split(SEPARATOR_STATE_USER_SHOW_SEATS)) {
+				String pair[] = seatString
+						.split(SEPARATOR_STATE_USER_ITEM_SHOW_SEATS);
+				if (2 == pair.length) {
+					userShow.addSeat(Integer.parseInt(pair[0]),
+							Integer.parseInt(pair[1]));
+				}
 			}
+			this.userShow = userShow;
+		} catch (Exception e) {
+			this.userShow = null;
 		}
-		this.userShow = userShow;
-
 	}
 
 	private boolean shouldRetrieveUserShow() {

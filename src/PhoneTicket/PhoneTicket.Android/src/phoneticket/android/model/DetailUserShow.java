@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public class DetailUserShow implements IDetailUserShow {
 
-	private int id;
+	private String id;
 	private boolean isBought;
 	private int showPrice;
 	private String movieTitle;
@@ -52,7 +52,7 @@ public class DetailUserShow implements IDetailUserShow {
 		}
 	}
 
-	public DetailUserShow(int id, boolean isBought, String movieName,
+	public DetailUserShow(String id, boolean isBought, String movieName,
 			String showTime, String complexAddress, String qrstring,
 			int showPrice) {
 
@@ -66,7 +66,7 @@ public class DetailUserShow implements IDetailUserShow {
 	}
 
 	@Override
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 

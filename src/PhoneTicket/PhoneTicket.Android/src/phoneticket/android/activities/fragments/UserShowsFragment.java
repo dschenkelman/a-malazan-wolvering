@@ -154,13 +154,13 @@ public class UserShowsFragment extends RoboFragment implements
 			for (String itemStream : items) {
 				String values[] = itemStream
 						.split(STATE_SHOWS_SEPARATOR_PROPERTIES);
-				int id = 0;
+				String id = "a000aaaa-a000-a000-a0a0-a00a0aaa0a00";
 				boolean isBought = true;
 				String movieName = "";
 				String showTime = "";
 				String complexAddress = "";
 				if (0 < values.length)
-					id = Integer.parseInt(values[0]);
+					id = values[0];
 				if (1 < values.length)
 					isBought = Boolean.parseBoolean(values[1]);
 				if (2 < values.length)
@@ -274,7 +274,7 @@ public class UserShowsFragment extends RoboFragment implements
 
 		@Override
 		public long getItemId(int position) {
-			return ((IMyShow) (myShows.toArray()[position])).getId();
+			return position;
 		}
 
 		@Override

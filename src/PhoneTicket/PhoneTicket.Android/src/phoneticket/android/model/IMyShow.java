@@ -2,7 +2,7 @@ package phoneticket.android.model;
 
 public interface IMyShow {
 
-	int getId();
+	String getId();
 
 	boolean isBought();
 

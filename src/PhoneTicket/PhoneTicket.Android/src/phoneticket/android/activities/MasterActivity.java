@@ -473,7 +473,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	@Override
 	public void onShowDetailUserShowAction(IMyShow userShow) {
 		Bundle bundle = new Bundle();
-		bundle.putInt(DetailUserShowFragment.USER_SHOW_INFO, userShow.getId());
+		bundle.putString(DetailUserShowFragment.USER_SHOW_INFO, userShow.getId());
 		changeToDetailUserShowFragment(bundle);
 	}
 
