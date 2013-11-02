@@ -16,11 +16,11 @@ public class MockRetrieveUserShowInfoService extends
 
 	private IRetrieveUserShowInfoServiceDelegate delegate;
 	private boolean fakeTimeout;
-	private int id;
+	private String id;
 
 	@Override
 	public void retrieveUserShowInfo(
-			IRetrieveUserShowInfoServiceDelegate delegate, int userShowId) {
+			IRetrieveUserShowInfoServiceDelegate delegate, String userShowId) {
 		fakeTimeout = false;
 		this.delegate = delegate;
 		this.id = userShowId;
@@ -49,9 +49,9 @@ public class MockRetrieveUserShowInfoService extends
 	private IDetailUserShow createMocks() {
 		IDetailUserShow detail = new IDetailUserShow() {
 			@Override
-			public int getId() { return id; }
+			public String getId() { return id; }
 			@Override
-			public boolean isBought() { return 0 == (id % 2); }
+			public boolean isBought() { return true; }
 			@Override
 			public String getMovieTitle() { return "Aviones"; }
 			@Override

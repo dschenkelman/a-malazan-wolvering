@@ -9,7 +9,7 @@ public class RetrieveUserShowInfoServiceProxy implements
 
 	@Override
 	public void retrieveUserShowInfo(
-			IRetrieveUserShowInfoServiceDelegate delegate, int userShowId) {
+			IRetrieveUserShowInfoServiceDelegate delegate, String userShowId) {
 		(new MockRetrieveUserShowInfoService()).retrieveUserShowInfo(delegate,
 				userShowId);
 	}

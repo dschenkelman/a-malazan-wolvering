@@ -44,8 +44,8 @@ public class MockRetrieveMyShowsService extends
 		Collection<IMyShow> myShows = new ArrayList<IMyShow>();
 		myShows.add(new IMyShow() {
 			@Override
-			public int getId() {
-				return 1;
+			public String getId() {
+				return "a605dbea-e543-e311-b7f1-f24d6fcc4a00";
 			}
 			@Override
 			public boolean isBought() {
@@ -66,8 +66,8 @@ public class MockRetrieveMyShowsService extends
 		});
 		myShows.add(new IMyShow() {
 			@Override
-			public int getId() {
-				return 2;
+			public String getId() {
+				return "a605dbea-e543-e311-b7f1-f24d6fcc4a01";
 			}
 			@Override
 			public boolean isBought() {
@@ -88,8 +88,8 @@ public class MockRetrieveMyShowsService extends
 		});
 		myShows.add(new IMyShow() {
 			@Override
-			public int getId() {
-				return 3;
+			public String getId() {
+				return "a605dbea-e543-e311-b7f1-f24d6fcc4a02";
 			}
 			@Override
 			public boolean isBought() {

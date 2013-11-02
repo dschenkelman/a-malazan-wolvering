@@ -2,18 +2,18 @@ package phoneticket.android.model;
 
 public class MyShow implements IMyShow{
 	
-	private int id;
+	private String id;
 	private boolean isBought;
-	private String showTime;
-	private String movieName;
+	private String showDateAndTime;
+	private String movieTitle;
 	private String complexAddress;
 
-	public MyShow(int id, boolean isBought, String movieName,
+	public MyShow(String id, boolean isBought, String movieName,
 			String showTime, String complexAddress) {
 		this.id = id;
 		this.isBought = isBought;
-		this.showTime = showTime;
-		this.movieName = movieName;
+		this.showDateAndTime = showTime;
+		this.movieTitle = movieName;
 		this.complexAddress = complexAddress;
 	}
 
@@ -24,16 +24,16 @@ public class MyShow implements IMyShow{
 
 	@Override
 	public String getShowDateAndTime() {
-		return showTime;
+		return showDateAndTime;
 	}
 
 	@Override
 	public String getMovieTitle() {
-		return movieName;
+		return movieTitle;
 	}
 
 	@Override
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
