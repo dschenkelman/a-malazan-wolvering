@@ -6,6 +6,7 @@
     using System.Linq;
 
     using PhoneTicket.Web.Data;
+    using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Models;
     using System.Threading.Tasks;
 
@@ -41,6 +42,13 @@
         public async Task<IEnumerable<Show>> GetForMovieAsync(int movieId)
         {
             return await this.repositories.Shows.Filter(s => s.MovieId == movieId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Show>> GetWithinNextHourForMovieAsync(int movieId)
+        {
+            var futureTimeInArgentina = DateTimeHelpers.DateTimeInArgentina.AddHours(1);
+
+            return await this.repositories.Shows.Filter(s => s.MovieId == movieId && futureTimeInArgentina > s.Date).ToListAsync();
         }
 
         public async Task DeleteAsync(int showId)

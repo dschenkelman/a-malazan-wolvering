@@ -6,6 +6,7 @@
     using System.Web.Http;
 
     using PhoneTicket.Web.Helpers;
+    using PhoneTicket.Web.Models;
     using PhoneTicket.Web.Services;
     using PhoneTicket.Web.ViewModels.Api;
 
@@ -16,10 +17,13 @@
 
         private readonly IShowService showService;
 
-        public MoviesController(IMovieService movieService, IShowService showService)
+        private readonly IOperationService operationService;
+
+        public MoviesController(IMovieService movieService, IShowService showService, IOperationService operationService)
         {
             this.movieService = movieService;
             this.showService = showService;
+            this.operationService = operationService;
         }
 
         [HttpGet]
@@ -41,10 +45,28 @@
         [HttpGet("{id}/weeklyShows")]
         public async Task<IEnumerable<ShowsPerComplexViewModel>> WeekShowsForMovie(int id)
         {
-            var shows = await this.showService.GetForMovieAsync(id);
+            var withinNextHourShows = await this.showService.GetWithinNextHourForMovieAsync(id);
 
-            var groupedShows = shows
-                .Where(s => s.Date >= DateTimeHelpers.DateTimeInArgentina && s.Date < DateTimeHelpers.DateTimeInArgentina.AddDays(7) && s.IsAvailable)
+            var operationsToDelete = await this.operationService.GetReservationsForShowsAsync(withinNextHourShows.Select(s => s.Id).ToArray());
+
+            var toDelete = operationsToDelete as Operation[] ?? operationsToDelete.ToArray();
+            foreach (var operation in toDelete)
+            {
+                // cascades to delete seats
+                await this.operationService.DeleteAsync(operation.Number);
+            }
+
+            foreach (int showId in toDelete.Select(o => o.ShowId))
+            {
+                await this.showService.ManageAvailabilityAsync(showId);
+            }
+
+            var weeklyShows = await this.showService.GetForMovieAsync(id);
+            
+            var groupedShows = weeklyShows
+                .Where(s => s.Date >= DateTimeHelpers.DateTimeInArgentina
+                        && s.Date < DateTimeHelpers.DateTimeInArgentina.AddDays(7) 
+                        && s.IsAvailable)
                 .OrderBy(s => s.Room.Complex.Id)
                 .ThenBy(s => s.Date)
                 .Select(s => new

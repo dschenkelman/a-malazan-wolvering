@@ -11,6 +11,7 @@
         Task UpdateAsync(Show show);
         Task Add(params Show[] shows);
         Task<IEnumerable<Show>> GetForMovieAsync(int movieId);
+        Task<IEnumerable<Show>> GetWithinNextHourForMovieAsync(int movieId);
         Task DeleteAsync(int showId);
         Task ChangeAvailability(int showId);
         Task<IEnumerable<OccupiedSeat>> GetOccupiedSeats(int showId);
