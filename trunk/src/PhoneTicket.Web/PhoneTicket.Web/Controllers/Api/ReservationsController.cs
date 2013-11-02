@@ -25,7 +25,7 @@
 
         [Authorize]
         [HttpPost("")]
-        public async Task<HttpResponseMessage> NewReservation(NewOperationViewModel newOperationViewModel)
+        public async Task<Guid> NewReservation(NewOperationViewModel newOperationViewModel)
         {
             return await this.NewOperation(newOperationViewModel, OperationType.Reservation);
         }

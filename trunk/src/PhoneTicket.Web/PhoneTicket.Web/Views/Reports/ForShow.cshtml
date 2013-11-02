@@ -2,51 +2,60 @@
 @model PhoneTicket.Web.ViewModels.ShowSeatMapViewModel
 
 @{
-    ViewBag.Title = "ForShow";
+    ViewBag.Title = "Entradas vendidas y reservas por función";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div style="float: right">
+    @Html.ActionLink("Ver PDF", "ForShowPdf", new { showId = @Model.ShowId })
+</div>
 
 <h2>Entradas vendidas y reservas por función</h2>
 
 <div class="row">
     <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-6">Complejo:</div>
-            <div class="col-md-6">@Model.Complex</div>
-        </div>
+        <label>Complejo:</label>
+        <span>@Model.Complex</span>
     </div>
     <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-6">Película:</div>
-            <div class="col-md-6">@Model.Movie</div>
-        </div>
+        <label>Película:</label>
+        <span>@Model.Movie</span>
     </div>
     <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-6">Función:</div>
-            <div class="col-md-6">@Model.Show</div>
-        </div>
+        <label>Función:</label>
+        <span>@Model.Show</span>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-6">Vendidos:</div>
-            <div class="col-md-6">@Model.ReportShowSeats.Purchased</div>
-        </div>
+        <label>Vendidos:</label>
+        <span>@Model.ReportShowSeats.Purchased</span>
     </div>
     <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-6">Reservados:</div>
-            <div class="col-md-6">@Model.ReportShowSeats.Reserved</div>
-        </div>
+        <label>Reservados:</label>
+        <span>@Model.ReportShowSeats.Reserved</span>
     </div>
     <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-6">Vacíos:</div>
-            <div class="col-md-6">@Model.ReportShowSeats.Free</div>
-        </div>
+        <label>Vacíos:</label>
+        <span>@Model.ReportShowSeats.Free</span>
+    </div>
+</div>
+
+<h3>Referencias</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        <img width="4.15%" src="@Url.Content("~/Images/purchased.png")"/>
+        <span>Vendido</span>
+    </div>
+    <div class="col-md-12">
+        <img width="4.15%" src="@Url.Content("~/Images/reserved.png")"/>
+        <span>Reservado</span>
+    </div>
+    <div class="col-md-12">
+        <img width="4.15%" src="@Url.Content("~/Images/empty.png")"/>
+        <span>Vacío</span>
     </div>
 </div>
 
@@ -61,7 +70,7 @@
     <div class="row">
         @foreach (var cell in row)
         {
-            <div style="display: inline;" >
+            <div style="display: inline;">
                 @if (cell == ReportSeatState.Free)
                 {
                     <img width="4.15%" src="@Url.Content("~/Images/empty.png")"/>   
@@ -76,7 +85,7 @@
                 }
                 @if (cell == ReportSeatState.NoSeat)
                 {
-                    <img width="4.15%" style="margin-left: 0; margin-right: 0" src="@Url.Content("~/Images/noSeat.png")"/>
+                    <img width="4.15%" src="@Url.Content("~/Images/noSeat.png")"/>
                 }
             </div>
         }

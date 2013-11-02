@@ -48,6 +48,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.0-rc1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextSharp.5.4.4\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="MessagingToolkit.QRCode">
       <HintPath>..\packages\MessagingToolkit.QRCode.1.3.0\lib\MessagingToolkit.QRCode.dll</HintPath>
     </Reference>
@@ -221,6 +224,7 @@
     <Compile Include="Controllers\Api\ReservationsController.cs" />
     <Compile Include="Controllers\Api\ShowsController.cs" />
     <Compile Include="Controllers\Api\UsersController.cs" />
+    <Compile Include="Controllers\BaseReportsController.cs" />
     <Compile Include="Controllers\DiscountsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
@@ -545,6 +549,7 @@
     </Content>
     <Compile Include="Templates\OperationEmailTemplate.Context.cs" />
     <Content Include="Views\Reports\ForShow.cshtml" />
+    <Content Include="Views\Reports\ForShowPdf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

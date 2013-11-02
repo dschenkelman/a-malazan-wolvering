@@ -1,0 +1,82 @@
+﻿@using PhoneTicket.Web.Models
+@model PhoneTicket.Web.ViewModels.ShowSeatMapViewModel
+
+@{
+    Layout = null;
+}
+
+<img src="@Url.Content("~/Images/logo.png")" height="50px"/>
+
+<h2>Entradas vendidas y reservas por función</h2>
+
+<table>
+    <tr>
+        <td>
+            Complejo: @Model.Complex
+        </td>
+        <td>
+            Película: @Model.Movie
+        </td>
+        <td>
+            Función: @Model.Show
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Vendidos: @Model.ReportShowSeats.Purchased
+        </td>
+        <td>
+            Reservados: @Model.ReportShowSeats.Reserved
+        </td>
+        <td>
+            Vacíos: @Model.ReportShowSeats.Free
+        </td>
+    </tr>
+</table>
+
+<h3>Referencias</h3>
+<table>
+    <tr>
+        <td><img width="20%" src="@Url.Content("~/Images/purchased.png")"/>Vendido</td>
+    </tr>
+    <tr>
+        <td><img width="20%" src="@Url.Content("~/Images/reserved.png")"/>Reservado</td>
+    </tr>
+    <tr>
+        <td><img width="20%" src="@Url.Content("~/Images/empty.png")"/>Vacío</td>
+    </tr>
+</table>
+
+<div style="color: red; text-align: center; margin: 10px 0 10px 0">
+        PANTALLA
+</div>
+
+<table>
+@foreach (var row in Model.ReportShowSeats.Seats)
+{
+    <tr>
+        @foreach (var cell in row)
+        {
+            <td>
+                @if (cell == ReportSeatState.Free)
+                {
+                    <img width="20%" src="@Url.Content("~/Images/empty.png")"/>   
+                }
+                @if (cell == ReportSeatState.Purchased)
+                {
+                    <img width="20%" src="@Url.Content("~/Images/purchased.png")"/>   
+                }
+                @if (cell == ReportSeatState.Reserved)
+                {
+                    <img width="20%" src="@Url.Content("~/Images/reserved.png")"/>
+                }
+                @if (cell == ReportSeatState.NoSeat)
+                {
+                    <img width="20%" style="margin-left: 0; margin-right: 0" src="@Url.Content("~/Images/noSeat.png")"/>
+                }
+            </td>
+        }
+    </tr>
+}
+    
+</table>

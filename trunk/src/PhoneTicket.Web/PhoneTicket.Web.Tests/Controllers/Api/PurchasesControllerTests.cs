@@ -9,6 +9,7 @@
     using System.Security.Principal;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Web.Http;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -71,9 +72,19 @@
 
             var controller = this.CreateController();
 
-            var response = await controller.NewPurchase(operationVm);
+            bool exceptionThrown = false;
 
-            Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode);
+            try
+            {
+                var response = await controller.NewPurchase(operationVm);
+            }
+            catch (HttpResponseException e)
+            {
+                Assert.AreEqual(HttpStatusCode.Conflict, e.Response.StatusCode);
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
 
             this.operationService.Verify(os => os.GetAsync(It.IsAny<Expression<Func<Operation, bool>>>()), Times.Once());
         }
@@ -162,7 +173,7 @@
 
             Thread.CurrentPrincipal = oldPrincipal;
 
-            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.AreEqual(newOperationId, response);
 
             this.mockRepository.VerifyAll();
         }
