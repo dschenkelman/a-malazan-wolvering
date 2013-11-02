@@ -10,4 +10,6 @@ public interface IDiscountSelectedListener {
 
 	public void discountUnSelected(DiscountCountable discount);
 
+	public boolean discountPosible(DiscountCountable discount);
+
 }

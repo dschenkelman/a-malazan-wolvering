@@ -35,82 +35,87 @@ public class DiscountAdapter extends ArrayAdapter<DiscountCountable> {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		final DiscountHolder holder;
-		View row = convertView;
-		if (row == null) {
-			final DiscountCountable discount = discounts.get(position);
-			LayoutInflater inflater = ((Activity) getContext())
-					.getLayoutInflater();
-			row = inflater.inflate(R.layout.row_discount, parent, false);
+		final DiscountHolder holder = new DiscountHolder();
 
-			holder = new DiscountHolder();
-			holder.checkBox = (CheckBox) row
-					.findViewById(R.id.discountCheckBox);
-			holder.plusDiscountButton = (Button) row
-					.findViewById(R.id.plusDiscountCount);
-			holder.decreaseDiscountButton = (Button) row
-					.findViewById(R.id.decreaseDiscountCount);
-			holder.discountsCount = (TextView) row
-					.findViewById(R.id.discountCount);
-			holder.discountDescription = (TextView) row
-					.findViewById(R.id.discountDescription);
+		LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+		View row = inflater.inflate(R.layout.row_discount, parent, false);
+		final DiscountCountable discount = discounts.get(position);
 
-			holder.plusDiscountButton.setEnabled(holder.checkBox.isChecked());
-			holder.decreaseDiscountButton.setEnabled(holder.checkBox
-					.isChecked());
-			holder.discountsCount.setText(String.valueOf(discount.getCount()));
-			holder.discountDescription.setText(discount.getDescription());
-			holder.plusDiscountButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					discount.plusCount();
-					if (discountSelectedListener.discountIncrease(discount)) {
+		holder.checkBox = (CheckBox) row.findViewById(R.id.discountCheckBox);
+		holder.plusDiscountButton = (Button) row
+				.findViewById(R.id.plusDiscountCount);
+		holder.decreaseDiscountButton = (Button) row
+				.findViewById(R.id.decreaseDiscountCount);
+		holder.discountsCount = (TextView) row.findViewById(R.id.discountCount);
+		holder.discountDescription = (TextView) row
+				.findViewById(R.id.discountDescription);
+
+		holder.checkBox.setChecked(discount.isSelected());
+		holder.checkBox.setEnabled(discountSelectedListener
+				.discountPosible(discount) || discount.isSelected());
+		holder.plusDiscountButton.setEnabled(holder.checkBox.isChecked());
+		holder.decreaseDiscountButton.setEnabled(holder.checkBox.isChecked());
+		holder.discountsCount.setText(String.valueOf(discount.getCount()));
+		holder.discountDescription.setText(discount.getDescription());
+		holder.plusDiscountButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				discount.plusCount();
+				if (discountSelectedListener.discountIncrease(discount)) {
+					holder.discountsCount.setText(String.valueOf(discount
+							.getCount()));
+				} else {
+					Toast t = Toast.makeText(getContext(),
+							"No es posible aumentar la promoción",
+							Toast.LENGTH_SHORT);
+					t.show();
+					discount.decreaseCount();
+				}
+				notifyDataSetChanged();
+			}
+		});
+
+		holder.decreaseDiscountButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (discount.getCount() > 0) {
+					discount.decreaseCount();
+					holder.discountsCount.setText(String.valueOf(discount
+							.getCount()));
+					discountSelectedListener.discountDecrease(discount);
+				}
+				notifyDataSetChanged();
+			}
+		});
+		holder.checkBox
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							discount.clearCount();
+							discount.plusCount();
+							if (!discountSelectedListener
+									.discountIncrease(discount)) {
+								discount.decreaseCount();
+								isChecked = false;
+								holder.checkBox.setChecked(isChecked);
+							}
+						} else {
+							discountSelectedListener
+									.discountUnSelected(discount);
+							discount.clearCount();
+						}
 						holder.discountsCount.setText(String.valueOf(discount
 								.getCount()));
-					} else {
-						Toast t = Toast.makeText(getContext(),
-								"No es posible aumentar la promoción",
-								Toast.LENGTH_SHORT);
-						t.show();
-						discount.decreaseCount();
+						holder.plusDiscountButton.setEnabled(isChecked);
+						holder.decreaseDiscountButton.setEnabled(isChecked);
+						discount.select(isChecked);
+						notifyDataSetChanged();
 					}
-				}
-			});
+				});
 
-			holder.decreaseDiscountButton
-					.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							if (discount.getCount() > 0) {
-								discount.decreaseCount();
-								holder.discountsCount.setText(String
-										.valueOf(discount.getCount()));
-								discountSelectedListener
-										.discountDecrease(discount);
-							}
-						}
-					});
-			holder.checkBox
-					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							if (!isChecked) {
-								discountSelectedListener
-										.discountUnSelected(discount);
-							}
-							holder.discountsCount.setText("0");
-							holder.plusDiscountButton.setEnabled(isChecked);
-							holder.decreaseDiscountButton.setEnabled(isChecked);
-							discount.clearCount();
-							discount.select(isChecked);
-						}
-					});
-
-			row.setTag(holder);
-		} else {
-			holder = (DiscountHolder) row.getTag();
-		}
+		row.setTag(holder);
 		return row;
 	}
 

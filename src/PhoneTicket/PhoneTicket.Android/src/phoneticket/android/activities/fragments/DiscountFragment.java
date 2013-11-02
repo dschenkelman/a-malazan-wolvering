@@ -344,6 +344,22 @@ public class DiscountFragment extends RoboFragment implements
 	}
 
 	@Override
+	public boolean discountPosible(DiscountCountable discount) {
+		switch (discount.getType()) {
+		case TWO_PAID_ONE: {
+			return remainChairWithoutDiscount >= 2;
+		}
+		case PRICE: {
+			return remainChairWithoutDiscount >= 1;
+		}
+		case PERCENTAGE: {
+			return remainChairWithoutDiscount >= 1;
+		}
+		}
+		return false;
+	}
+
+	@Override
 	public void discountUnSelected(DiscountCountable discount) {
 		TextView totalText = (TextView) getView().findViewById(R.id.total);
 		Double total = Double.valueOf(String.valueOf(totalText.getText()));
