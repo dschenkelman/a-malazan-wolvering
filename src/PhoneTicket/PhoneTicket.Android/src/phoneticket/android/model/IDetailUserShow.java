@@ -12,4 +12,6 @@ public interface IDetailUserShow extends IMyShow {
 
 	int getShowPrice(boolean whitDiscount);
 
+	void setId(String showId);
+
 }

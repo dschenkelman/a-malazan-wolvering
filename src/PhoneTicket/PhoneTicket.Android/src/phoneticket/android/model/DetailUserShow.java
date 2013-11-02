@@ -136,7 +136,7 @@ public class DetailUserShow implements IDetailUserShow {
 
 	@Override
 	public String getQRString() {
-		return qrstring;
+		return id;
 	}
 
 	@Override
@@ -183,5 +183,10 @@ public class DetailUserShow implements IDetailUserShow {
 			aux[seats.length] = seat;
 			seats = aux;
 		}
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
 	}
 }

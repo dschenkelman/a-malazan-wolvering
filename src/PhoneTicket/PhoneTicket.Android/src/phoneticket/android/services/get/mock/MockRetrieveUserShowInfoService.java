@@ -85,6 +85,9 @@ public class MockRetrieveUserShowInfoService extends
 			public int getShowPrice(boolean withDiscount) {
 				return 100;
 			}
+			@Override
+			public void setId(String showId) {
+			}
 		};
 		return detail;
 	}
