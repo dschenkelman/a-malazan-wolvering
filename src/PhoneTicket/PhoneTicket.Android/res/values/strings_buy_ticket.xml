@@ -9,8 +9,8 @@
     <string name="buy_ticket_hint_card_type">Medio de pago *</string>
     <string name="buy_ticket_hint_buy_button">Realizar compra</string>
     
-    <string name="validator_invalid_creditcardnumber">Número de tarjeta consta de 16 números.</string>
+    <string name="validator_invalid_creditcardnumber">Formato valido: 0000-0000-0000-0000</string>
     <string name="validator_invalid_securitynumber">Código de seguridad consta de tres números.</string>
-    <string name="validator_invalid_vencimiento">Vencimiento DD/MM invalidos.</string>
+    <string name="validator_invalid_vencimiento">Formato valido: DD/MM/AAAA</string>
     
 </resources>

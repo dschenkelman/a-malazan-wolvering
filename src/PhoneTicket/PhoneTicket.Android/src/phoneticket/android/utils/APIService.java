@@ -77,4 +77,8 @@ public class APIService {
 			String reservationId) {
 		return baseAPIURL() + "reservations/" + reservationId + "/confirm";
 	}
+
+	public static String getRetrieveCreditCardsServiceGetURL() {
+		return baseAPIURL() + "creditCards";
+	}
 }
