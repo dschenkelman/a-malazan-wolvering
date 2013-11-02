@@ -85,6 +85,9 @@ public class MasterActivity extends RoboFragmentActivity implements
 	private IOnUserShowChangesListener listener;
 
 	private IOnPurchaseDataResultListener purchaseResultListener;
+
+	private ICalendarDataSource calendarDataSource;
+
 	private Ticket ticket;
 
 	@Override
@@ -367,6 +370,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		twitterMessage = "Voy a CINEMAR. Visita www.cinemar.com.ar";
 		DetailUserShowFragment userShowFragment = new DetailUserShowFragment();
 		purchaseResultListener = userShowFragment;
+		calendarDataSource = userShowFragment;
 		userShowFragment.setArguments(userShowData);
 		changeFragment(userShowFragment, true, DetailUserShowFragment.TAG);
 	}
@@ -419,13 +423,27 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	protected void onCalendarButtonAction() {
-		// TODO
+		if (null != calendarDataSource) {
+			Intent intent = new Intent(Intent.ACTION_EDIT);
+			intent.setType("vnd.android.cursor.item/event");
+			intent.putExtra("beginTime",
+					calendarDataSource.getStartDateInMilliseconds());
+			intent.putExtra("allDay", false);
+			// intent.putExtra("rrule", "FREQ=YEARLY");
+			intent.putExtra("endTime",
+					calendarDataSource.getStartDateInMilliseconds()
+							+ calendarDataSource.getDurationInMilliseconds());
+			intent.putExtra("title", calendarDataSource.getEventTitle());
+			startActivity(intent);
+		}
 	}
 
 	private void facebookMovieAction() {
 		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
-				.setLink(facebookUrl).setApplicationName("PhoneTicket")
-				.setDescription("Vamos a ver esta película a Cinemar").build();
+				.setLink(facebookUrl)
+				.setApplicationName("PhoneTicket")
+				.setDescription("Vamos a ver esta película a Cinemar")
+				.build();
 		if (uiHelper != null)
 			uiHelper.trackPendingDialogCall(shareDialog.present());
 	}
@@ -600,7 +618,14 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	public interface IOnUserShowChangesListener {
 		void userShowCanceled(IDetailUserShow userShow);
+	}
 
+	public interface ICalendarDataSource {
+		String getEventTitle();
+
+		long getStartDateInMilliseconds();
+
+		int getDurationInMilliseconds();
 	}
 
 	@Override

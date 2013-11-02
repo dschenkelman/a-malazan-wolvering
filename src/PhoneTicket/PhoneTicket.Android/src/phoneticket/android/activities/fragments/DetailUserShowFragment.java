@@ -1,9 +1,16 @@
 package phoneticket.android.activities.fragments;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.BuyTicketsActivity;
+import phoneticket.android.activities.MasterActivity.ICalendarDataSource;
 import phoneticket.android.activities.MasterActivity.IOnPurchaseDataResultListener;
 import phoneticket.android.activities.QRCodeActivity;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
@@ -44,7 +51,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 		IRetrieveUserShowInfoServiceDelegate,
 		IConfirmShowReserveCancelationDialogDelegate,
 		ICancelUserShowServiceDelegate, IOnPurchaseDataResultListener,
-		IConfirmReservationServiceDelegate {
+		IConfirmReservationServiceDelegate, ICalendarDataSource {
 
 	public static final String TAG = "DetailUserShowFragment.tag";
 	public static final String USER_SHOW_INFO = "usershow.info";
@@ -88,8 +95,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 		showId = getArguments()
 				.getString(DetailUserShowFragment.USER_SHOW_INFO);
-		isBought = getArguments()
-				.getBoolean(DetailUserShowFragment.USER_SHOW_INFO_IS_BOUGHT);
+		isBought = getArguments().getBoolean(
+				DetailUserShowFragment.USER_SHOW_INFO_IS_BOUGHT);
 
 		return view;
 	}
@@ -502,7 +509,6 @@ public class DetailUserShowFragment extends RoboFragment implements
 				}
 			};
 			dialog.show(getFragmentManager(), "dialog.message");
-			
 
 			SharedPreferences.Editor editor = getActivity().getPreferences(0)
 					.edit();
@@ -533,6 +539,34 @@ public class DetailUserShowFragment extends RoboFragment implements
 			};
 			dialog.show(getFragmentManager(), "dialog.error");
 		}
+	}
+
+	@Override
+	public String getEventTitle() {
+		return "Función de " + userShow.getMovieTitle() + " en CINEMAR";
+	}
+
+	@Override
+	public long getStartDateInMilliseconds() {
+		try {
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+
+			SimpleDateFormat sdf = new SimpleDateFormat(
+					"yyyy'/'dd'/'MM mm:HH'Hs'");
+			Date date = sdf.parse(year + "/" + userShow.getShowDateAndTime());
+			Calendar cal = Calendar.getInstance(Locale.getDefault());
+
+			cal.setTime(date);
+			return cal.getTimeInMillis();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int getDurationInMilliseconds() {
+		return userShow.getShowDuration() * 60 * 1000;
 	}
 
 }

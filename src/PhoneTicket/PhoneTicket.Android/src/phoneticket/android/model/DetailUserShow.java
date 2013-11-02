@@ -197,4 +197,9 @@ public class DetailUserShow implements IDetailUserShow {
 	public void setBought() {
 		isBought = true;
 	}
+
+	@Override
+	public int getShowDuration() {
+		return 90;
+	}
 }
