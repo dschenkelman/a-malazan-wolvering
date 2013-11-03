@@ -520,7 +520,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		DiscountFragment discountFragment = new DiscountFragment();
 		this.purchaseResultListener = discountFragment;
 		discountFragment.setArguments(bundle);
-		changeFragment(discountFragment, false);
+		changeFragment(discountFragment, true);
 
 	}
 

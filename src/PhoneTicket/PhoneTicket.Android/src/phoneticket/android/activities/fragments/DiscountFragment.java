@@ -16,12 +16,14 @@ import phoneticket.android.activities.MasterActivity.IOnPurchaseDataResultListen
 import phoneticket.android.activities.fragments.dialogs.ErrorDialogFragment;
 import phoneticket.android.activities.fragments.dialogs.ProgressDialog;
 import phoneticket.android.activities.fragments.dialogs.SuccessTicketSentDialogFragment;
+import phoneticket.android.activities.interfaces.IDetailUserShowListener;
 import phoneticket.android.activities.interfaces.IDiscountSelectedListener;
 import phoneticket.android.activities.interfaces.IToMovieListListener;
 import phoneticket.android.adapter.DiscountAdapter;
 import phoneticket.android.model.ArmChair;
 import phoneticket.android.model.Discount;
 import phoneticket.android.model.DiscountCountable;
+import phoneticket.android.model.MyShow;
 import phoneticket.android.model.PostedArmChair;
 import phoneticket.android.model.PostedDiscounts;
 import phoneticket.android.model.PurchaseTicket;
@@ -87,6 +89,8 @@ public class DiscountFragment extends RoboFragment implements
 	private IToMovieListListener toMovieListListener;
 	private boolean ticketSent;
 	private ProgressDialog progressDialog;
+	private IDetailUserShowListener detailListener;
+	private boolean isPurchase;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,6 +144,7 @@ public class DiscountFragment extends RoboFragment implements
 		super.onAttach(activity);
 		try {
 			this.toMovieListListener = (IToMovieListListener) activity;
+			this.detailListener = (IDetailUserShowListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IShareButtonsVisibilityListener");
@@ -148,6 +153,7 @@ public class DiscountFragment extends RoboFragment implements
 
 	protected void onReservationButtonAction() {
 		if (this.lessThanOneHourToShow()) {
+			this.isPurchase = false;
 			showProgressDialog();
 			if (!this.ticketSent) {
 				reservationService.reserveTicket(this, createReserveTicket());
@@ -176,6 +182,7 @@ public class DiscountFragment extends RoboFragment implements
 		} else {
 			showProgressDialog();
 			if (!this.ticketSent) {
+				this.isPurchase = true;
 				this.purchaseService.purchaseTicket(this,
 						createPurchaseTicket());
 			} else {
@@ -275,28 +282,30 @@ public class DiscountFragment extends RoboFragment implements
 	}
 
 	private void fieldDiscountsList(Collection<Discount> discounts) {
-		RelativeLayout error = (RelativeLayout) getView().findViewById(
-				R.id.errorViewContainer);
-		error.setVisibility(RelativeLayout.GONE);
-		RelativeLayout loading = (RelativeLayout) getView().findViewById(
-				R.id.loadingDataLayout);
-		loading.setVisibility(RelativeLayout.GONE);
-		ListView discountsListView = (ListView) getView().findViewById(
-				R.id.discounts);
-		discountsListView.setVisibility(ListView.VISIBLE);
-		if (this.discountsBaseInfo == null) {
-			discountsBaseInfo = new ArrayList<DiscountCountable>();
-			for (Discount discount : discounts) {
-				DiscountCountable discountCountable = new DiscountCountable(
-						discount);
-				discountsBaseInfo.add(discountCountable);
+		if (!ignoreServicesCallbacks) {
+			RelativeLayout error = (RelativeLayout) getView().findViewById(
+					R.id.errorViewContainer);
+			error.setVisibility(RelativeLayout.GONE);
+			RelativeLayout loading = (RelativeLayout) getView().findViewById(
+					R.id.loadingDataLayout);
+			loading.setVisibility(RelativeLayout.GONE);
+			ListView discountsListView = (ListView) getView().findViewById(
+					R.id.discounts);
+			discountsListView.setVisibility(ListView.VISIBLE);
+			if (this.discountsBaseInfo == null) {
+				discountsBaseInfo = new ArrayList<DiscountCountable>();
+				for (Discount discount : discounts) {
+					DiscountCountable discountCountable = new DiscountCountable(
+							discount);
+					discountsBaseInfo.add(discountCountable);
+				}
 			}
+			DiscountAdapter discountAdapter = new DiscountAdapter(
+					getActivity(), R.id.discountRow, discountsBaseInfo);
+			discountAdapter.setDiscountSelectedListener(this);
+			discountsListView.setAdapter(discountAdapter);
+			discountAdapter.notifyDataSetChanged();
 		}
-		DiscountAdapter discountAdapter = new DiscountAdapter(getActivity(),
-				R.id.discountRow, discountsBaseInfo);
-		discountAdapter.setDiscountSelectedListener(this);
-		discountsListView.setAdapter(discountAdapter);
-		discountAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -508,7 +517,9 @@ public class DiscountFragment extends RoboFragment implements
 
 	@Override
 	public void onClick(DialogInterface arg0, int arg1) {
-		goToMovieList();
+		detailListener.onShowDetailUserShowAction(new MyShow(uuid,
+				this.isPurchase, this.ticket.getMovieTitle(), this.ticket
+						.getFunctionTime(), this.ticket.getCinemaAddress()));
 	}
 
 	private void goToMovieList() {
