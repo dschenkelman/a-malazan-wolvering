@@ -4,6 +4,9 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.LoginActivity;
+import phoneticket.android.activities.fragments.dialogs.ConfirmLogoutDialogFragment;
+import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
+import phoneticket.android.activities.fragments.dialogs.ConfirmLogoutDialogFragment.IConfirmLogoutDialogFragmentDelegate;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.activities.interfaces.IUserShowsListener;
@@ -15,6 +18,7 @@ import roboguice.fragment.RoboFragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,8 +30,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class UserFragment extends RoboFragment implements
-		IRetrieveUserInfoServiceDelegate {
+		IRetrieveUserInfoServiceDelegate, IConfirmLogoutDialogFragmentDelegate {
 
+	public static final String TAG = "UserFragment.tag";
+	
 	@Inject
 	private IRetrieveUserInfoService userInfoService;
 
@@ -152,8 +158,8 @@ public class UserFragment extends RoboFragment implements
 	}
 
 	protected void onLogoutAction() {
-		UserManager.getInstance().logoutUser();
-		showLoginLayoutVisibility();
+		ConfirmLogoutDialogFragment dialog = new ConfirmLogoutDialogFragment();
+		dialog.show(getFragmentManager(), "dialog.logout.confirmation");
 	}
 
 	protected void onLoadDataAction() {
@@ -266,5 +272,11 @@ public class UserFragment extends RoboFragment implements
 			return;
 		}
 		showErrorLayoutVisibility();
+	}
+
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		UserManager.getInstance().logoutUser();
+		showLoginLayoutVisibility();
 	}
 }
