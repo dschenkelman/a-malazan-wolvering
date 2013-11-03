@@ -1,0 +1,67 @@
+﻿@using PhoneTicket.Web.ViewModels
+@model SalesPerMoviePdfViewModel
+
+@{
+    Layout = null;
+}
+
+<img src="@Url.Content("~/Images/logo.png")" height="50px"/>
+
+<h2>Entradas más vendidas por película</h2>
+
+<table>
+    <tr>
+        <td>
+            Desde: 2013-11-01
+        </td>
+        <td>
+            Hasta: 2013-11-03
+        </td>
+        <td>
+            Complejos: Todos
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>Película</th>
+        <th>Entradas vendidas</th>
+        <th>Complejo</th>
+    </tr>
+    <tr>
+        <td>
+            El Conjuro
+        </td>
+        <td>
+            500
+        </td>
+        <td>
+            Microcentro, Belgrano
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Corazón de León
+        </td>
+        <td>
+            300
+        </td>
+        <td>
+            Microcentro, Belgrano
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Dragon Ball Z
+        </td>
+        <td>
+            200
+        </td>
+        <td>
+            Microcentro, Belgrano
+        </td>
+    </tr>
+</table>
+
+<img src="@Url.Content(Model.ChartRelativePath)" width="500"/>
