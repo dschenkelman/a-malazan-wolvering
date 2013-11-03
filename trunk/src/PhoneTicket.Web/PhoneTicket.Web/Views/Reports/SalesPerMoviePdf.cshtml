@@ -1,11 +1,11 @@
 ﻿@using PhoneTicket.Web.ViewModels
-@model SalesPerMoviePdfViewModel
+@model SalesPerMovieViewModel
 
 @{
     Layout = null;
 }
 
-<img src="@Url.Content("~/Images/logo.png")" height="50px"/>
+<img src="@Url.Content("~/Images/logo.png")" height="50"/>
 
 <h2>Entradas más vendidas por película</h2>
 
@@ -21,7 +21,7 @@
 </table>
 
 @if (Model.MovieSales.Any())
-{ 
+{
     <table>
         <tr>
             <th>Película</th>
@@ -42,6 +42,10 @@
             </tr>
         }
     </table>
+    <img src="@Url.Content(Model.ChartPath)" width="500"/>
+}
+else
+{
+    <h3>No hay datos para mostrar</h3>
 }
 
-<img src="@Url.Content(Model.ChartRelativePath)" width="500"/>
