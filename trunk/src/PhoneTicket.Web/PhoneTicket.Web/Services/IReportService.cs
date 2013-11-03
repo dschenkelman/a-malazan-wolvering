@@ -11,6 +11,6 @@
     {
         Task<ReportShowSeats> GetReportSeatsAsync(int showId);
 
-        Task<IEnumerable<MovieSalesViewModel>> GetSalesPerMovieReport(DateTime beginDate, DateTime endDate);
+        Task<IEnumerable<MovieSalesViewModel>> GetSalesPerMovieReport(DateTime beginDate, DateTime endDate, int complexId);
     }
 }

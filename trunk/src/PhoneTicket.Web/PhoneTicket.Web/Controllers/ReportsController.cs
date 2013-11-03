@@ -88,7 +88,7 @@
                 return this.View(searchParameters);
             }
 
-            var salesPerMovie = await this.reportService.GetSalesPerMovieReport(searchParameters.FromDate, searchParameters.ToDate);
+            var salesPerMovie = await this.reportService.GetSalesPerMovieReport(searchParameters.FromDate, searchParameters.ToDate, searchParameters.ComplexId);
 
             var relativePath = this.GenerateChart(salesPerMovie);
 
@@ -109,8 +109,7 @@
                 return this.View("SalesPerMovie", searchParameters);
             }
 
-            // get from UI
-            var salesPerMovie = await this.reportService.GetSalesPerMovieReport(searchParameters.FromDate, searchParameters.ToDate);
+            var salesPerMovie = await this.reportService.GetSalesPerMovieReport(searchParameters.FromDate, searchParameters.ToDate, searchParameters.ComplexId);
 
             var relativePath = this.GenerateChart(salesPerMovie);
 
