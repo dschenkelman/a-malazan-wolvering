@@ -3,9 +3,11 @@ package phoneticket.android.activities.fragments;
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.interfaces.IRibbonChangeMenuListener;
 import phoneticket.android.model.ICinema;
 import phoneticket.android.services.get.IRetrieveCinemaInfoService;
 import phoneticket.android.services.get.IRetrieveCinemaInfoServiceDelegate;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ public class DetailCinemaFragment extends RoboFragment implements
 	private boolean ignoreServicesCallbacks;
 
 	private int cinemaId;
+	private IRibbonChangeMenuListener ribbonListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +78,7 @@ public class DetailCinemaFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		ribbonListener.setOnCinemasMenu();
 		ignoreServicesCallbacks = false;
 		cinemaInfoService.retrieveCinemaInfo(this, cinemaId);
 	}
@@ -83,6 +87,17 @@ public class DetailCinemaFragment extends RoboFragment implements
 	public void onPause() {
 		super.onPause();
 		ignoreServicesCallbacks = true;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			ribbonListener = (IRibbonChangeMenuListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IRibbonChangeMenuListener");
+		}
 	}
 
 	private void onRefreshCinemasInfoAction() {

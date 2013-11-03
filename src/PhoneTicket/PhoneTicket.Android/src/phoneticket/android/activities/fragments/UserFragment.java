@@ -6,6 +6,7 @@ import phoneticket.android.R;
 import phoneticket.android.activities.LoginActivity;
 import phoneticket.android.activities.fragments.dialogs.ConfirmLogoutDialogFragment;
 import phoneticket.android.activities.fragments.dialogs.ConfirmLogoutDialogFragment.IConfirmLogoutDialogFragmentDelegate;
+import phoneticket.android.activities.interfaces.IRibbonChangeMenuListener;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.activities.interfaces.IUserShowsListener;
@@ -42,6 +43,8 @@ public class UserFragment extends RoboFragment implements
 	private IShareButtonsVisibilityListener shareButtonsVisibilityListener;
 	private IShareActionListener shareActionListener;
 
+	private IRibbonChangeMenuListener ribbonListener;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class UserFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		ribbonListener.setOnUserMenu();
 		ignoreServicesCallbacks = false;
 
 		if (UserManager.getInstance().isUserLoged()) {
@@ -133,6 +136,12 @@ public class UserFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IShareButtonsVisibilityListener");
+		}
+		try {
+			ribbonListener = (IRibbonChangeMenuListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IRibbonChangeMenuListener");
 		}
 	}
 

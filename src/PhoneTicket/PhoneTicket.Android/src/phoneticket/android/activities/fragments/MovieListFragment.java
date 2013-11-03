@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IOnMovielistItemSelectedListener;
+import phoneticket.android.activities.interfaces.IRibbonChangeMenuListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.adapter.ImageAdapter;
 import phoneticket.android.model.IMovieListItem;
@@ -42,6 +43,8 @@ public class MovieListFragment extends RoboFragment implements
 	private boolean ignoreServicesCallbacks;
 	private List<IMovieListItem> movies;
 
+	private IRibbonChangeMenuListener ribbonListener;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class MovieListFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		ribbonListener.setOnMoviesMenu();
 		ignoreServicesCallbacks = false;
 
 		shareButonVisibilityListener.hideFacebookShareButton();
@@ -219,6 +223,12 @@ public class MovieListFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IOnMovielistItemSelectedListener");
+		}
+		try {
+			ribbonListener = (IRibbonChangeMenuListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IRibbonChangeMenuListener");
 		}
 	}
 }

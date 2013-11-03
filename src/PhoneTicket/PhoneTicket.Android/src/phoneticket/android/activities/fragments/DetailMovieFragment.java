@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IFunctionSelectionListener;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
+import phoneticket.android.activities.interfaces.IRibbonChangeMenuListener;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.model.IFunction;
@@ -79,6 +80,7 @@ public class DetailMovieFragment extends RoboFragment implements
 	private IShareActionListener shareActionListener;
 
 	private IFunctionSelectionListener functionSelectionListener;
+	private IRibbonChangeMenuListener ribbonListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,6 +125,7 @@ public class DetailMovieFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		ribbonListener.setOnMoviesMenu();
 		ignoreServicesCallbacks = false;
 
 		SharedPreferences preferences = getActivity().getPreferences(0);
@@ -477,6 +480,12 @@ public class DetailMovieFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IShareActionListener");
+		}
+		try {
+			ribbonListener = (IRibbonChangeMenuListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IRibbonChangeMenuListener");
 		}
 	}
 }
