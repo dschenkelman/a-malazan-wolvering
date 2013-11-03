@@ -1,6 +1,5 @@
 package phoneticket.android.services.get;
 
-import java.util.Collection;
 import java.util.List;
 
 import phoneticket.android.model.CreditCard;

@@ -66,7 +66,7 @@ public class DiscountAdapter extends ArrayAdapter<DiscountCountable> {
 							.getCount()));
 				} else {
 					Toast t = Toast.makeText(getContext(),
-							"No es posible aumentar la promoción",
+							"No se pueden seleccionar más promociones",
 							Toast.LENGTH_SHORT);
 					t.show();
 					discount.decreaseCount();

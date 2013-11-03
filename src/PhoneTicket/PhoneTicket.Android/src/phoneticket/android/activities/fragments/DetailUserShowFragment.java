@@ -29,6 +29,7 @@ import phoneticket.android.services.get.IRetrieveUserShowInfoService;
 import phoneticket.android.services.get.IRetrieveUserShowInfoServiceDelegate;
 import phoneticket.android.services.post.IConfirmReservationService;
 import phoneticket.android.services.post.IConfirmReservationServiceDelegate;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -546,6 +547,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 		return "Función de " + userShow.getMovieTitle() + " en CINEMAR";
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	@Override
 	public long getStartDateInMilliseconds() {
 		try {

@@ -5,7 +5,6 @@ import com.google.inject.Inject;
 import phoneticket.android.R;
 import phoneticket.android.activities.LoginActivity;
 import phoneticket.android.activities.fragments.dialogs.ConfirmLogoutDialogFragment;
-import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
 import phoneticket.android.activities.fragments.dialogs.ConfirmLogoutDialogFragment.IConfirmLogoutDialogFragmentDelegate;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
