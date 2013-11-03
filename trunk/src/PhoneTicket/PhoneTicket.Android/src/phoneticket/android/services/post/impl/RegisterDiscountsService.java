@@ -38,7 +38,7 @@ public class RegisterDiscountsService extends PostService implements
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		if (connectionSuccess) {
-			if (201 != statusLine.getStatusCode()) {
+			if (200 != statusLine.getStatusCode()) {
 				delegate.registerDiscountsFinishWithError(this,
 						statusLine.getStatusCode());
 			} else {
@@ -53,8 +53,7 @@ public class RegisterDiscountsService extends PostService implements
 
 	@Override
 	protected String generatePostBodyObject() {
-		String jsonString = new Gson()
-				.toJson(postObject, PostedDiscounts.class);
+		String jsonString = new Gson().toJson(postObject);
 		return jsonString;
 	}
 }

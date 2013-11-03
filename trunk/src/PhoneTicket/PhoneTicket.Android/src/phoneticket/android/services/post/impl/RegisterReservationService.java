@@ -36,7 +36,7 @@ public class RegisterReservationService extends PostService implements
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		if (connectionSuccess) {
-			if (201 != statusLine.getStatusCode()) {
+			if (200 != statusLine.getStatusCode()) {
 				delegate.reserveTicketFinishWithError(this,
 						statusLine.getStatusCode());
 			} else {

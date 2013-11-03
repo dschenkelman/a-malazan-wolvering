@@ -26,7 +26,7 @@ import phoneticket.android.activities.interfaces.IArmChairsSelected;
 import phoneticket.android.activities.fragments.UserShowsFragment;
 import phoneticket.android.activities.interfaces.IDetailUserShowListener;
 import phoneticket.android.activities.interfaces.IFunctionSelectionListener;
-import phoneticket.android.activities.interfaces.IOnMovieSelected;
+import phoneticket.android.activities.interfaces.IToMovieListListener;
 import phoneticket.android.activities.interfaces.IUserShowsActionListener;
 import phoneticket.android.activities.interfaces.IUserShowsListener;
 import phoneticket.android.activities.interfaces.IOnCinemaSelectedListener;
@@ -64,7 +64,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		IOnMovielistItemSelectedListener, IShareButtonsVisibilityListener,
 		IShareActionListener, IFunctionSelectionListener, IArmChairsSelected,
 		IUserShowsListener, IDetailUserShowListener, IUserShowsActionListener,
-		IOnMovieSelected {
+		IToMovieListListener {
 
 	public static final int PURCHASE_DATA_REQUEST_CODE = 12;
 	public static final int PURCHASE_DATA_RESULT_CODE_OK = 45789;
@@ -97,13 +97,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 		UserManager.initialize(getPreferences(0));
 
-		MovieListFragment firstFragment = new MovieListFragment();
-
-		FragmentTransaction transaction = getSupportFragmentManager()
-				.beginTransaction().add(R.id.fragment_container, firstFragment);
-		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-		transaction.addToBackStack(null);
-		transaction.commit();
+		toMovieList();
 
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
 
@@ -285,7 +279,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideTwitterShareButton();
 		hideCalendarButton();
 		MovieListFragment movielistFragment = new MovieListFragment();
-		changeFragment(movielistFragment, false);
+		changeFragment(movielistFragment, true);
 		if (actionTitle != null)
 			actionTitle.setText(R.string.ribbon_menu_movielist);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
@@ -296,7 +290,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideTwitterShareButton();
 		hideCalendarButton();
 		CinemasFragment cinemasFragment = new CinemasFragment();
-		changeFragment(cinemasFragment, false);
+		changeFragment(cinemasFragment, true);
 		if (actionTitle != null)
 			actionTitle.setText(R.string.ribbon_menu_cinemas);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_cinemas;
@@ -312,7 +306,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideCalendarButton();
 		twitterMessage = "Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar";
 		UserFragment userFragment = new UserFragment();
-		changeFragment(userFragment, false);
+		changeFragment(userFragment, true);
 		if (actionTitle != null)
 			actionTitle.setText(R.string.ribbon_menu_user);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;
@@ -440,10 +434,8 @@ public class MasterActivity extends RoboFragmentActivity implements
 
 	private void facebookMovieAction() {
 		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
-				.setLink(facebookUrl)
-				.setApplicationName("PhoneTicket")
-				.setDescription("Vamos a ver esta película a Cinemar")
-				.build();
+				.setLink(facebookUrl).setApplicationName("PhoneTicket")
+				.setDescription("Vamos a ver esta película a Cinemar").build();
 		if (uiHelper != null)
 			uiHelper.trackPendingDialogCall(shareDialog.present());
 	}
@@ -634,10 +626,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 	}
 
 	@Override
-	public void onMovieSelected(int movieId, String movieTitle) {
-		Bundle movieData = new Bundle();
-		movieData.putInt(DetailMovieFragment.EXTRA_MOVIE_ID, movieId);
-		movieData.putString(DetailMovieFragment.EXTRA_MOVIE_TITLE, movieTitle);
-		changeToDetailMovieFragment(movieData, false);
+	public void toMovieList() {
+		this.changeToMovieListFragment();
 	}
 }
