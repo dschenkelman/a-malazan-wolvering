@@ -8,6 +8,8 @@ import com.throrinstudio.android.common.libs.validator.validator.NotEmptyValidat
 import com.throrinstudio.android.common.libs.validator.validator.RegExpValidator;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.dialog.ConfirmBackActionDialogFragment;
+import phoneticket.android.activities.dialog.ConfirmBackActionDialogFragment.IConfirmBackActionDialogDelegate;
 import phoneticket.android.model.CreditCard;
 import phoneticket.android.services.get.IRetrieveCreditCardsServise;
 import phoneticket.android.services.get.IRetrieveCreditCardsServiseDelegate;
@@ -30,7 +32,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 
 public class BuyTicketsActivity extends RoboFragmentActivity implements
-		IRetrieveCreditCardsServiseDelegate {
+		IRetrieveCreditCardsServiseDelegate, IConfirmBackActionDialogDelegate {
 
 	public static final String EXTRA_RESULT_PURCHASE_CARD_NUMBER = "extra.buyticket.cardnumber";
 	public static final String EXTRA_RESULT_PURCHASE_SECURIRY_NUMBER = "extra.buyticket.securittnumber";
@@ -92,6 +94,12 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 	public void onPause() {
 		super.onPause();
 		ignoreServices = true;
+	}
+	
+	@Override
+	public void onBackPressed() {
+		ConfirmBackActionDialogFragment confirmDialog = new ConfirmBackActionDialogFragment();
+		confirmDialog.show(getSupportFragmentManager(), "dialog.confirm");
 	}
 
 	private void createPurchaseForm() {
@@ -232,5 +240,10 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 		if (false == ignoreServices) {
 			showErrorLayout();
 		}
+	}
+
+	@Override
+	public void onDialogPositiveClick() {
+		finish();
 	}
 }

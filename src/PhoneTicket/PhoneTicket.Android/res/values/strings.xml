@@ -8,6 +8,8 @@
     <string name="movieListButton">Ver lista de peliculas</string>
     <string name="mainLogoutButton">Cerrar sesión</string>
     <string name="errorDialogContinue">Continuar</string>
+    <string name="confirmDialogGoBack">Salir</string>
+    <string name="confirmDialogStay">Permanecer</string>
     <string name="messageDialogContinue">Continuar</string>
     <string name="defaulErrorMessage">Error al comunicarse con el Servidor</string>
 
