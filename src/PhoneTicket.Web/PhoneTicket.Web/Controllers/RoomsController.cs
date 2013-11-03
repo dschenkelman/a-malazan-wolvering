@@ -128,12 +128,10 @@
         public async Task<ActionResult> Edit(int roomId)
         {
             var room = await this.roomService.GetAsync(roomId);
-            var availableComplexes = await this.complexService.ListAsync(room.ComplexId);
-
             var userCanEdit = this.currentUserRole.IsAdmin();
 
             var roomViewModel = ListRoomViewModel.FromRoom(room, userCanEdit);
-            roomViewModel.AvailableComplexes = availableComplexes;
+            roomViewModel.RoomFileParsed = room.File;
 
             return this.View(roomViewModel);
         }
@@ -145,8 +143,6 @@
             var existingRoom = await this.roomService.GetAsync(updatedRoom.Id);
 
             existingRoom.Name = updatedRoom.Name;
-            existingRoom.ComplexId = updatedRoom.ComplexId;
-            existingRoom.Capacity = updatedRoom.Capacity;
 
             await this.roomService.UpdateAsync(existingRoom);
 

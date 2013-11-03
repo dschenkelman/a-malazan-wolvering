@@ -23,7 +23,7 @@
         <legend>Editar Función</legend>
         <ol>
             <li>
-                <label for="Date">Fecha</label>
+                <label for="Date">Fecha *</label>
                 @Html.TextBoxFor(m => m.Date , new { @readonly="readonly" })
                 @Html.ValidationMessageFor(m => m.Date)
             </li>
@@ -31,9 +31,9 @@
                 <div class="hoursandminutes">
                     <table class="center">
                         <tr>
-                            <th><label for="Hour">Hora</label></th>
+                            <th><label for="Hour">Hora *</label></th>
                             <th> </th>
-                            <th><label for="Minutes">Minutos</label></th>
+                            <th><label for="Minutes">Minutos *</label></th>
                         </tr>
                         <tr>
                             <th>@Html.EditorFor(m => m.Hour)</th>
@@ -48,17 +48,17 @@
                 @Html.ValidationMessageFor(m => m.Minutes)
             </li>
             <li>
-                <label for="AvailableMovies">Película</label>
+                <label for="AvailableMovies">Película *</label>
                 @Html.DropDownListFor(m => m.MovieId, Model.AvailableMovies, "Seleccione Una")
                 @Html.ValidationMessageFor(m => m.MovieId)
             </li>
             <li>
-                <label for="AvailableRooms">Sala</label>
+                <label for="AvailableRooms">Sala *</label>
                 @Html.DropDownListFor(m => m.RoomId, Model.AvailableRooms, "Seleccione Una")
                 @Html.ValidationMessageFor(m => m.RoomId)
             </li>
             <li>
-                <label for="Price">Precio</label>
+                <label for="Price">Precio *</label>
                 @Html.EditorFor(m => m.Price)
                 @Html.ValidationMessageFor(m => m.Price)
             </li>
@@ -66,6 +66,8 @@
         <input id="save" type="submit" value="Guardar Cambios" />
     </fieldset>
 }
+
+<h4> * - Campo Obligatorio</h4>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")

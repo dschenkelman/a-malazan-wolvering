@@ -31,6 +31,8 @@
         [Required]
         public HttpPostedFileBase RoomFile { get; set; }
 
+        public string RoomFileParsed { get; set; }
+
         public static ListRoomViewModel FromRoom(Room room, bool userCanEdit)
         {
             var vm = new ListRoomViewModel
@@ -40,7 +42,7 @@
                 ComplexName = room.Complex.Name,
                 ComplexId = room.ComplexId,
                 CanEdit = userCanEdit,
-                Capacity = room.Capacity
+                Capacity = room.Capacity,
             };
 
             return vm;
