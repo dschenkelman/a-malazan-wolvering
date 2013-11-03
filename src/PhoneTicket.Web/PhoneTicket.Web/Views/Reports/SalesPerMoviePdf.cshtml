@@ -11,57 +11,37 @@
 
 <table>
     <tr>
-        <td>
-            Desde: 2013-11-01
+        <td>Desde: 2013-11-01
         </td>
-        <td>
-            Hasta: 2013-11-03
+        <td>Hasta: 2013-11-03
         </td>
-        <td>
-            Complejos: Todos
+        <td>Complejos: Todos
         </td>
     </tr>
 </table>
 
-<table>
-    <tr>
-        <th>Película</th>
-        <th>Entradas vendidas</th>
-        <th>Complejo</th>
-    </tr>
-    <tr>
-        <td>
-            El Conjuro
-        </td>
-        <td>
-            500
-        </td>
-        <td>
-            Microcentro, Belgrano
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Corazón de León
-        </td>
-        <td>
-            300
-        </td>
-        <td>
-            Microcentro, Belgrano
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Dragon Ball Z
-        </td>
-        <td>
-            200
-        </td>
-        <td>
-            Microcentro, Belgrano
-        </td>
-    </tr>
-</table>
+@if (Model.MovieSales.Any())
+{ 
+    <table>
+        <tr>
+            <th>Película</th>
+            <th>Entradas vendidas</th>
+            <th>Complejo</th>
+        </tr>
+        @foreach (var movieSales in Model.MovieSales)
+        {
+            <tr>
+                <td>
+                    @movieSales.Movie
+                </td>
+                <td>
+                    @movieSales.Sales
+                </td>
+                <td>Microcentro, Belgrano
+                </td>
+            </tr>
+        }
+    </table>
+}
 
 <img src="@Url.Content(Model.ChartRelativePath)" width="500"/>
