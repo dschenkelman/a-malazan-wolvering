@@ -1,6 +1,6 @@
 package phoneticket.android.activities.fragments.dialogs;
 
-import phoneticket.android.activities.fragments.DetailUserShowFragment;
+import phoneticket.android.activities.fragments.UserFragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,25 +9,25 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-public class ConfirmShowReserveCancelationDialogFragment extends DialogFragment {
+public class ConfirmLogoutDialogFragment extends DialogFragment {
 
-	public interface IConfirmShowReserveCancelationDialogDelegate {
+	public interface IConfirmLogoutDialogFragmentDelegate {
 		public void onDialogPositiveClick(DialogFragment dialog);
 	}
 
-	private IConfirmShowReserveCancelationDialogDelegate delegate;
+	private IConfirmLogoutDialogFragmentDelegate delegate;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		builder.setMessage("¿Esta seguro que desea cancelar la reserva?")
+		builder.setMessage("¿Desea cerrar la sesión?")
 				.setTitle("Confirme la operación")
-				.setPositiveButton("Continuar",
+				.setPositiveButton("Aceptar",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								if (null != delegate)
-									delegate.onDialogPositiveClick(ConfirmShowReserveCancelationDialogFragment.this);
+									delegate.onDialogPositiveClick(ConfirmLogoutDialogFragment.this);
 							}
 						}).setNegativeButton("Cancelar", null);
 		return builder.create();
@@ -38,14 +38,12 @@ public class ConfirmShowReserveCancelationDialogFragment extends DialogFragment 
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			delegate = (IConfirmShowReserveCancelationDialogDelegate) getFragmentManager()
-					.findFragmentByTag(DetailUserShowFragment.TAG);
+			delegate = (IConfirmLogoutDialogFragmentDelegate) getFragmentManager()
+					.findFragmentByTag(UserFragment.TAG);
 		} catch (ClassCastException e) {
-			throw new ClassCastException(
-					activity.toString()
-							+ " must implement "
-							+ IConfirmShowReserveCancelationDialogDelegate.class
-									.toString());
+			throw new ClassCastException(activity.toString()
+					+ " must implement "
+					+ IConfirmLogoutDialogFragmentDelegate.class.toString());
 		}
 	}
 }

@@ -306,7 +306,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideCalendarButton();
 		twitterMessage = "Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar";
 		UserFragment userFragment = new UserFragment();
-		changeFragment(userFragment, true);
+		changeFragment(userFragment, true, UserFragment.TAG);
 		if (actionTitle != null)
 			actionTitle.setText(R.string.ribbon_menu_user);
 		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;

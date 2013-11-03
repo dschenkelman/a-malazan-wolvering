@@ -14,7 +14,7 @@ public class SuccessTicketSentDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		builder.setTitle("OK").setMessage("Acción Realizada con éxito")
+		builder.setTitle("OK").setMessage("Acción realizada con éxito")
 				.setPositiveButton("Continuar", this.listener);
 		return builder.create();
 	}
