@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/discountCount"
         android:layout_toRightOf="@+id/discountCheckBox"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/discountCount"
@@ -28,7 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_toLeftOf="@+id/plusDiscountCount"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:id="@+id/plusDiscountCount"
