@@ -472,7 +472,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\ListShows.css" />
     <Content Include="Content\Reports.css" />
-    <Content Include="Content\Report.less" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />

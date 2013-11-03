@@ -52,16 +52,31 @@
             return reportShowSeats;
         }
 
-        public async Task<IEnumerable<MovieSalesViewModel>> GetSalesPerMovieReport(DateTime beginDate, DateTime endDate)
+        public async Task<IEnumerable<MovieSalesViewModel>> GetSalesPerMovieReport(DateTime beginDate, DateTime endDate, int complexId)
         {
-            var data = await this.repositories.Operations.Filter(o => beginDate < o.Date && o.Date < endDate)
+            var basicQuery = this.repositories.Operations.Filter(o => beginDate < o.Date && o.Date < endDate);
+
+            string complexes;
+
+            if (complexId != 0)
+            {
+                basicQuery = basicQuery.Where(o => o.Show.Room.ComplexId == complexId);
+
+                complexes = (await this.repositories.Complexes.GetByKeyValuesAsync(complexId)).Name;
+            }
+            else
+            {
+                complexes = string.Join(", ", (await this.repositories.Complexes.AllAsync()).Select(c => c.Name));
+            }
+
+            var data = await basicQuery
                 .Select(o => new { o.OccupiedSeats.Count, o.Show.Movie.Title })
                 .GroupBy(o => o.Title)
                 .Select(g => new { g.Key, Sum = g.Sum(a => a.Count) })
                 .OrderByDescending(a => a.Sum)
                 .ToListAsync();
 
-            return data.Select(d => new MovieSalesViewModel { Movie = d.Key, Sales = d.Sum });
+            return data.Select(d => new MovieSalesViewModel { Movie = d.Key, Sales = d.Sum, Complexes = complexes });
         }
     }
 }

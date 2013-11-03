@@ -5,5 +5,7 @@
         public string Movie { get; set; }
 
         public int Sales { get; set; }
+
+        public string Complexes { get; set; }
     }
 }
