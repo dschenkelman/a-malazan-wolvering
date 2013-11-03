@@ -5,7 +5,7 @@ public class User implements IUser {
 	private String firstName;
 	private String lastName;
 	private String emailAddress;
-	private int dni;
+	private int id;
 	private String birthday;
 	private String cellPhoneNumber;
 	private String password;
@@ -15,7 +15,7 @@ public class User implements IUser {
 		firstName = name;
 		this.lastName = lastName;
 		emailAddress = email;
-		this.dni = dni;
+		this.id = dni;
 		this.birthday = birthday;
 		this.cellPhoneNumber = cellPhone;
 		this.password = password;
@@ -25,7 +25,7 @@ public class User implements IUser {
 		firstName = "";
 		lastName = "";
 		emailAddress = email;
-		dni = id;
+		this.id = id;
 		birthday = "";
 		cellPhoneNumber = "";
 		this.password = password;
@@ -48,7 +48,7 @@ public class User implements IUser {
 
 	@Override
 	public int getDni() {
-		return dni;
+		return id;
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class User implements IUser {
 				+ ((birthday == null) ? 0 : birthday.hashCode());
 		result = prime * result
 				+ ((cellPhoneNumber == null) ? 0 : cellPhoneNumber.hashCode());
-		result = prime * result + dni;
+		result = prime * result + id;
 		result = prime * result
 				+ ((emailAddress == null) ? 0 : emailAddress.hashCode());
 		result = prime * result
@@ -105,7 +105,7 @@ public class User implements IUser {
 				return false;
 		} else if (!cellPhoneNumber.equals(other.cellPhoneNumber))
 			return false;
-		if (dni != other.dni)
+		if (id != other.id)
 			return false;
 		if (emailAddress == null) {
 			if (other.emailAddress != null)

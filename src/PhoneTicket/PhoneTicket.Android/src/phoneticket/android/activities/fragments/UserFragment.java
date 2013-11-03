@@ -153,8 +153,7 @@ public class UserFragment extends RoboFragment implements
 				|| 0 == user.getLastName().length();
 		result = result || null == user.getEmail()
 				|| 0 == user.getEmail().length();
-		result = result || null == user.getBirthday()
-				|| 0 == user.getBirthday().length();
+		result = result || null == user.getBirthday();
 		result = result || null == user.getCellPhone()
 				|| 0 == user.getCellPhone().length();
 		return result;
@@ -195,6 +194,13 @@ public class UserFragment extends RoboFragment implements
 		emailView.setText(null != user.getEmail() ? user.getEmail() : "-");
 		birthdayView.setText(null != user.getBirthday() ? user.getBirthday()
 				: "-");
+		if (null != user.getBirthday()) {
+			if (0 == user.getBirthday().length()) {
+				birthdayView.setVisibility(TextView.GONE);
+			}
+		} else {
+			birthdayView.setVisibility(TextView.GONE);
+		}
 		mobilePhoneView.setText(null != user.getCellPhone() ? user
 				.getCellPhone() : "-");
 	}

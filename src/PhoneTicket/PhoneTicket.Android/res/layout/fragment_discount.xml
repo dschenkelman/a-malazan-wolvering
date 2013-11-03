@@ -6,47 +6,54 @@
     <TextView
         android:id="@+id/filmInfo"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/cinemaAddress"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/filmInfo" />
+        android:layout_below="@+id/filmInfo"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/armChairs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cinemaAddress" />
+        android:layout_below="@+id/cinemaAddress"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/amountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/armChairs"
-        android:text="@string/total_sin_promociones" />
+        android:text="@string/total_sin_promociones"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/armChairs"
-        android:layout_toRightOf="@+id/amountText" />
+        android:layout_toRightOf="@+id/amountText"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/totalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amountText"
-        android:text="@string/precio_final_text" />
+        android:text="@string/precio_final_text"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amountText"
-        android:layout_toRightOf="@+id/totalText" />
+        android:layout_toRightOf="@+id/totalText"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <View
         android:id="@+id/line"
@@ -63,7 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/line"
         android:layout_margin="5dp"
-        android:text="@string/promociones" />
+        android:text="@string/promociones"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
         android:id="@+id/discountsLayout"
