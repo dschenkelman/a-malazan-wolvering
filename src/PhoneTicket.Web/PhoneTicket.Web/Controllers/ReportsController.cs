@@ -90,7 +90,7 @@
 
             var salesPerMovie = await this.reportService.GetSalesPerMovieReport(searchParameters.FromDate, searchParameters.ToDate, searchParameters.ComplexId);
 
-            var relativePath = this.GenerateChart(salesPerMovie);
+            var relativePath = this.GenerateChartSalesPerMovie(salesPerMovie);
 
             var viewModel = new SalesPerMovieViewModel { Complexes = complexes, MovieSales = salesPerMovie, ChartPath = relativePath };
 
@@ -111,7 +111,7 @@
 
             var salesPerMovie = await this.reportService.GetSalesPerMovieReport(searchParameters.FromDate, searchParameters.ToDate, searchParameters.ComplexId);
 
-            var relativePath = this.GenerateChart(salesPerMovie);
+            var relativePath = this.GenerateChartSalesPerMovie(salesPerMovie);
 
             var absolutePath = this.HttpContext.Server.MapPath(relativePath);
 
@@ -122,7 +122,7 @@
             return result;
         }
 
-        private string GenerateChart(IEnumerable<MovieSalesViewModel> salesPerMovie)
+        private string GenerateChartSalesPerMovie(IEnumerable<MovieSalesViewModel> salesPerMovie)
         {
             var id = Guid.NewGuid();
 
@@ -162,20 +162,91 @@
             return chartRelativePath;
         }
 
-        public async Task<ActionResult> BestShowTimesSellersPdf()
+        public async Task<ActionResult> BestShowTimesSellers()
         {
-            // get from UI
-            var complexName = "Belgrano";
-            var fromDate = DateTime.MinValue;
-            var toDate = DateTime.MaxValue;
+            var complexes = (await this.complexService.GetAsync())
+                .Select(c => new SelectListItem { Selected = false, Text = c.Name, Value = c.Id.ToString() });
 
-            var shows = await this.showService.GetShowsBetweenDates(fromDate, toDate);
+            var viewModel = new BestShowTimesSellersViewModel { Complexes = complexes };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BestShowTimesSellers(BestShowTimesSellersViewModel searchParameters)
+        {
+            var complexes = (await this.complexService.GetAsync())
+                .Select(c => new SelectListItem { Selected = false, Text = c.Name, Value = c.Id.ToString() });
+
+            if (!ModelState.IsValid)
+            {
+                searchParameters.Complexes = complexes;
+                return this.View(searchParameters);
+            }
+
+            var viewModel = await this.BestShowTimesSellersViewModel(searchParameters, complexes);
+
+            return this.View(viewModel);
+        }
+
+        public async Task<ActionResult> BestShowTimesSellersPdf(BestShowTimesSellersViewModel searchParameters)
+        {
+            var complexes = (await this.complexService.GetAsync())
+                .Select(c => new SelectListItem { Selected = false, Text = c.Name, Value = c.Id.ToString() });
+
+            if (!ModelState.IsValid)
+            {
+                searchParameters.Complexes = complexes;
+                return this.View("BestShowTimesSellers",searchParameters);
+            }
+
+            var viewModel = await this.BestShowTimesSellersViewModel(searchParameters, complexes);
+
+            var absolutePath = this.HttpContext.Server.MapPath(viewModel.ChartPath);
+
+            viewModel.ChartPath = absolutePath;
+
+            var result = this.ViewPdf(viewModel);
+
+            System.IO.File.Delete(absolutePath);
+
+            return result;
+        }
+
+        private async Task<BestShowTimesSellersViewModel> BestShowTimesSellersViewModel(BestShowTimesSellersViewModel searchParameters, IEnumerable<SelectListItem> complexes)
+        {
+            var complex = await this.complexService.GetAsync(searchParameters.ComplexId);
+
+            var shows = await this.showService.GetShowsBetweenDates(searchParameters.FromDate, searchParameters.ToDate);
 
             var groupedShows =
-                shows.Where(s => s.Room.Complex.Name == complexName)
+                shows.Where(s => s.Room.Complex.Id == searchParameters.ComplexId)
                      .GroupBy(s => s.Date.ToString("HH:mm"))
                      .OrderByDescending(gs => gs.Sum(s => s.Operations.Sum(o => o.OccupiedSeats.Count())));
 
+            var relativePath = this.GenerateBestShowTimesSellersChart(groupedShows);
+
+            var viewModel = new BestShowTimesSellersViewModel
+            {
+                ChartPath = relativePath,
+                ShowTimesInfo = groupedShows.Select(gs => new ShowTimeTicketCountViewModel
+                {
+                    Time = gs.Key,
+                    TicketCount = gs.Sum(s => s.Operations.Sum(o => o.OccupiedSeats.Count())),
+                    MovieCount = gs.Select(s => s.Movie.Title).Distinct().Count()
+                }
+                                                   ),
+                ComplexName = complex.Name,
+                From = searchParameters.FromDate.ToString("yyyy-MM-dd"),
+                To = searchParameters.ToDate.ToString("yyyy-MM-dd"),
+                Complexes = complexes,
+            };
+
+            return viewModel;
+        }
+
+        private string GenerateBestShowTimesSellersChart(IOrderedEnumerable<IGrouping<string, Models.Show>> groupedShows)
+        {
             var showTimes = groupedShows.Select(gs => gs.Key).Take(10).ToArray();
             var ticketsPerShowTimeTopTen =
                 groupedShows.Select(gs => gs.Sum(s => s.Operations.Sum(o => o.OccupiedSeats.Count())))
@@ -183,15 +254,23 @@
                             .ToArray();
 
             var id = Guid.NewGuid();
-            var chartRelativePath = string.Format("~/Images/{0}.png", id);
-            var absolutePath = HttpContext.Server.MapPath(chartRelativePath);
-            var chart = new System.Web.UI.DataVisualization.Charting.Chart();
 
-            chart.ChartAreas.Add(new ChartArea());
+            var tempDirPath = this.HttpContext.Server.MapPath(TempImageDir);
+
+            if (!Directory.Exists(tempDirPath))
+            {
+                Directory.CreateDirectory(TempImageDir);
+            }
+
+            var chartRelativePath = string.Format("{0}/{1}.png", TempImageDir, id);
+            var absolutePath = this.HttpContext.Server.MapPath(chartRelativePath);
+            var chart = new Chart { BackColor = Color.Transparent };
+
+            chart.ChartAreas.Add(new ChartArea() { BackColor = Color.Transparent });
 
             chart.Series.Add(new Series("Data"));
             chart.Series["Data"].ChartType = SeriesChartType.Column;
-            chart.Series["Data"].Font = new System.Drawing.Font("Trebuchet MS", 16, System.Drawing.FontStyle.Regular);
+            chart.Series["Data"].Font = new System.Drawing.Font("Trebuchet MS", 14, System.Drawing.FontStyle.Regular);
             chart.Series["Data"].Points.DataBindXY(showTimes, ticketsPerShowTimeTopTen);
 
             chart.Legends.Add("Legend");
@@ -206,38 +285,7 @@
                 chart.SaveImage(stream, ChartImageFormat.Png);
             }
 
-            var result =
-                this.ViewPdf(
-                    new BestShowTimesSellersPdf
-                        {
-                            ChartRelativePath = absolutePath,
-                            ShowTimesInfo =
-                                groupedShows.Select(
-                                    gs =>
-                                    new ShowTimeTicketCountViewModel
-                                        {
-                                            Time = gs.Key,
-                                            TicketCount =
-                                                gs.Sum(
-                                                    s =>
-                                                    s.Operations.Sum(
-                                                        o =>
-                                                        o.OccupiedSeats
-                                                         .Count())),
-                                            MovieCount =
-                                                gs.Select(
-                                                    s => s.Movie.Title)
-                                                  .Distinct()
-                                                  .Count()
-                                        }),
-                            ComplexName = complexName,
-                            FromDate = fromDate.ToString("yyyy-MM-dd"),
-                            ToDate = toDate.ToString("yyyy-MM-dd"),
-                        });
-
-            System.IO.File.Delete(absolutePath);
-
-            return result;
+            return chartRelativePath;
         }
     }
 }

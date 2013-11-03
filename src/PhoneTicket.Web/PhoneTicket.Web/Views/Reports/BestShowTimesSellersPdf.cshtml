@@ -1,5 +1,5 @@
 ﻿@using PhoneTicket.Web.ViewModels
-@model BestShowTimesSellersPdf
+@model BestShowTimesSellersViewModel
 
 @{
     Layout = null;
@@ -11,8 +11,8 @@
 <br />
 <table>
     <tr>
-        <td>Desde: @Model.FromDate</td>
-        <td>Hasta: @Model.ToDate</td>
+        <td>Desde: @Model.From</td>
+        <td>Hasta: @Model.To</td>
         <td>Complejo: @Model.ComplexName</td>
     </tr>
 </table>
@@ -34,6 +34,10 @@
             </tr>
         }
     </table>
+    <br />
+    <img src="@Url.Content(Model.ChartPath)" width="500"/>
 }
-<br />
-<img src="@Url.Content(Model.ChartRelativePath)" width="500"/>
+else
+{
+    <h3>No hay datos para mostrar</h3>
+}
