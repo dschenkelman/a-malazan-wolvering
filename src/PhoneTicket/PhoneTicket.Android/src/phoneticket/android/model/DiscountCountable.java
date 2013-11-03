@@ -2,6 +2,10 @@ package phoneticket.android.model;
 
 public class DiscountCountable extends Discount {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int count;
 	private boolean selected;
 

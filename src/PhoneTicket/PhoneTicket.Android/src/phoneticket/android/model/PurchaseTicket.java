@@ -1,6 +1,5 @@
 package phoneticket.android.model;
 
-import java.util.Date;
 import java.util.List;
 
 public class PurchaseTicket {
@@ -9,18 +8,18 @@ public class PurchaseTicket {
 
 	private String creditCardNumber;
 	private String creditCardSecurityCode;
-	private Date creditCardExpirationDate;
+	private String creditCardExpiration;
 	private int creditCardCompanyId;
 
 	public PurchaseTicket(int showId, List<PostedArmChair> armChairs,
 			String creditCardNumber, String creditCardSecurityCode,
-			Date creditCardExpirationDate, int creditCardCompanyId) {
+			String creditCardExpirationDate, int creditCardCompanyId) {
 		super();
 		this.showId = showId;
 		this.armChairs = armChairs;
 		this.creditCardNumber = creditCardNumber;
 		this.creditCardSecurityCode = creditCardSecurityCode;
-		this.creditCardExpirationDate = creditCardExpirationDate;
+		this.creditCardExpiration = creditCardExpirationDate;
 		this.creditCardCompanyId = creditCardCompanyId;
 	}
 
@@ -32,8 +31,8 @@ public class PurchaseTicket {
 		return creditCardSecurityCode;
 	}
 
-	public Date getCreditCardExpirationDate() {
-		return creditCardExpirationDate;
+	public String getCreditCardExpiration() {
+		return creditCardExpiration;
 	}
 
 	public int getCreditCardCompanyId() {

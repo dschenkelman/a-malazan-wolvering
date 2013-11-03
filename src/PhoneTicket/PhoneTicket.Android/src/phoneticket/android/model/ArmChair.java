@@ -1,7 +1,13 @@
 package phoneticket.android.model;
 
-public class ArmChair {
+import java.io.Serializable;
 
+public class ArmChair implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int OCUPADA = 1;
 	public static final int LIBRE = 2;
 	public static final int SELECCIONADA = 3;

@@ -1,18 +1,23 @@
 package phoneticket.android.activities.fragments;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.inject.Inject;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.BuyTicketsActivity;
 import phoneticket.android.activities.MasterActivity.IOnPurchaseDataResultListener;
-import phoneticket.android.activities.fragments.dialogs.ErrorOnTicketReservationDialogFragment;
+import phoneticket.android.activities.fragments.dialogs.ErrorDialogFragment;
+import phoneticket.android.activities.fragments.dialogs.ProgressDialog;
 import phoneticket.android.activities.fragments.dialogs.SuccessTicketSentDialogFragment;
 import phoneticket.android.activities.interfaces.IDiscountSelectedListener;
-import phoneticket.android.activities.interfaces.IOnMovieSelected;
+import phoneticket.android.activities.interfaces.IToMovieListListener;
 import phoneticket.android.adapter.DiscountAdapter;
 import phoneticket.android.model.ArmChair;
 import phoneticket.android.model.Discount;
@@ -43,6 +48,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import roboguice.fragment.RoboFragment;
 
 public class DiscountFragment extends RoboFragment implements
@@ -55,6 +61,7 @@ public class DiscountFragment extends RoboFragment implements
 	private static final int TWO_PAID_ONE = 0;
 	private static final int PRICE = 1;
 	private static final int PERCENTAGE = 2;
+	private static final long ONE_HOUR = 3600 * 1000;
 	public static String TICKET = "ticket";
 	public static String ARM_CHAIRS_SELECTED = "armchairs.selected";
 
@@ -77,7 +84,9 @@ public class DiscountFragment extends RoboFragment implements
 	private int cardType;
 	private ArrayList<DiscountCountable> discountsBaseInfo;
 	private String uuid;
-	private IOnMovieSelected movieSelectedListener;
+	private IToMovieListListener toMovieListListener;
+	private boolean ticketSent;
+	private ProgressDialog progressDialog;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,7 +126,7 @@ public class DiscountFragment extends RoboFragment implements
 				.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						goToMovie();
+						goToMovieList();
 					}
 				});
 
@@ -130,7 +139,7 @@ public class DiscountFragment extends RoboFragment implements
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			this.movieSelectedListener = (IOnMovieSelected) activity;
+			this.toMovieListListener = (IToMovieListListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IShareButtonsVisibilityListener");
@@ -138,8 +147,19 @@ public class DiscountFragment extends RoboFragment implements
 	}
 
 	protected void onReservationButtonAction() {
-		ReserveTicket ticket = createReserveTicket();
-		reservationService.reserveTicket(this, ticket);
+		if (this.lessThanOneHourToShow()) {
+			showProgressDialog();
+			if (!this.ticketSent) {
+				reservationService.reserveTicket(this, createReserveTicket());
+			} else {
+				onTicketSent();
+			}
+		} else {
+			Toast t = Toast.makeText(getActivity(),
+					"Falta menos de una hora para el comienzo de la función",
+					Toast.LENGTH_SHORT);
+			t.show();
+		}
 	}
 
 	private ReserveTicket createReserveTicket() {
@@ -154,15 +174,21 @@ public class DiscountFragment extends RoboFragment implements
 			Intent intent = new Intent(getActivity(), BuyTicketsActivity.class);
 			startActivityForResult(intent, 31);
 		} else {
-			this.purchaseService.purchaseTicket(this, createPurchaseTicket());
+			showProgressDialog();
+			if (!this.ticketSent) {
+				this.purchaseService.purchaseTicket(this,
+						createPurchaseTicket());
+			} else {
+				onTicketSent();
+			}
 		}
 	}
 
 	private PurchaseTicket createPurchaseTicket() {
-		// TODO vencimiento y tipo
 		PurchaseTicket purchaseTicket = new PurchaseTicket(
 				this.ticket.getFunctionId(), this.createPostArmChairs(),
-				this.cardNumber, this.securityNumber, null, 1);
+				this.cardNumber, this.securityNumber, this.vencimiento,
+				this.cardType);
 		return purchaseTicket;
 	}
 
@@ -206,13 +232,19 @@ public class DiscountFragment extends RoboFragment implements
 				.valueOf(armChairsSelected.size() * ticket.getPrice()));
 		((TextView) getView().findViewById(R.id.total)).setText(String
 				.valueOf(armChairsSelected.size() * ticket.getPrice()));
+		((Button) getView().findViewById(R.id.reservarButton)).setEnabled(this
+				.lessThanOneHourToShow());
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		ignoreServicesCallbacks = false;
-		retrieveDiscountsInfo();
+		if (this.discountsBaseInfo != null) {
+			this.fieldDiscountsList(null);
+		} else {
+			retrieveDiscountsInfo();
+		}
 	}
 
 	private void retrieveDiscountsInfo() {
@@ -252,11 +284,13 @@ public class DiscountFragment extends RoboFragment implements
 		ListView discountsListView = (ListView) getView().findViewById(
 				R.id.discounts);
 		discountsListView.setVisibility(ListView.VISIBLE);
-		discountsBaseInfo = new ArrayList<DiscountCountable>();
-		for (Discount discount : discounts) {
-			DiscountCountable discountCountable = new DiscountCountable(
-					discount);
-			discountsBaseInfo.add(discountCountable);
+		if (this.discountsBaseInfo == null) {
+			discountsBaseInfo = new ArrayList<DiscountCountable>();
+			for (Discount discount : discounts) {
+				DiscountCountable discountCountable = new DiscountCountable(
+						discount);
+				discountsBaseInfo.add(discountCountable);
+			}
 		}
 		DiscountAdapter discountAdapter = new DiscountAdapter(getActivity(),
 				R.id.discountRow, discountsBaseInfo);
@@ -393,27 +427,29 @@ public class DiscountFragment extends RoboFragment implements
 		this.securityNumber = securityNumber;
 		this.vencimiento = expiration;
 		this.cardType = companyId;
+		onPurchaseAction();
 	}
 
 	@Override
 	public void purchaseTicketFinish(IRegisterPurchaseService service,
 			String uuid) {
-		this.uuid = uuid;
+		this.uuid = uuid.replaceAll("\"", "");
+		this.ticketSent = true;
 		this.onTicketSent();
 	}
 
 	@Override
 	public void reserveTicketFinish(IRegisterReservationService service,
 			String uuid) {
-		this.uuid = uuid;
+		this.uuid = uuid.replaceAll("\"", "");
+		this.ticketSent = true;
 		this.onTicketSent();
 	}
 
 	private void onTicketSent() {
 		List<PostedDiscounts> discounts = this.getDiscountsSelected();
-		this.discountsService.registerDiscounts(this, discounts, this.uuid);
 		if (discounts.size() > 0) {
-
+			this.discountsService.registerDiscounts(this, discounts, this.uuid);
 		} else {
 			this.createSuccessTicketSentDialog();
 		}
@@ -427,31 +463,40 @@ public class DiscountFragment extends RoboFragment implements
 	@Override
 	public void purchaseTicketFinishWithError(IRegisterPurchaseService service,
 			int statusCode) {
-		ErrorOnTicketReservationDialogFragment dialog = new ErrorOnTicketReservationDialogFragment();
-		dialog.show(getFragmentManager(), "dialog.error.ticketreservation");
+		this.ticketSent = false;
+		hideProgressDialog();
+		ErrorDialogFragment dialog = new ErrorDialogFragment();
+		dialog.setMessage("Error comprando el ticket. Intente Nuevamente");
+		dialog.show(getFragmentManager(), "dialog.error.ticketpurchase");
 	}
 
 	@Override
 	public void reserveTicketFinishWithError(
 			IRegisterReservationService service, int statusCode) {
-		ErrorOnTicketReservationDialogFragment dialog = new ErrorOnTicketReservationDialogFragment();
+		this.ticketSent = false;
+		hideProgressDialog();
+		ErrorDialogFragment dialog = new ErrorDialogFragment();
+		dialog.setMessage("Error reservando el ticket. Intente Nuevamente");
 		dialog.show(getFragmentManager(), "dialog.error.ticketreservation");
 	}
 
 	@Override
 	public void registerDiscountsFinishWithError(
 			IRegisterDiscountsService service, int statusCode) {
-		this.createSuccessTicketSentDialog();
+		hideProgressDialog();
+		ErrorDialogFragment dialog = new ErrorDialogFragment();
+		dialog.setMessage("Error registrando las promociones. Intente Nuevamente");
+		dialog.show(getFragmentManager(), "dialog.error.ticketreservation");
 	}
 
 	private void createSuccessTicketSentDialog() {
+		hideProgressDialog();
 		SuccessTicketSentDialogFragment dialog = new SuccessTicketSentDialogFragment();
 		dialog.setListener(this);
 		dialog.show(getFragmentManager(), "dialog.success.ticketsent");
 	}
 
 	private List<PostedDiscounts> getDiscountsSelected() {
-
 		List<PostedDiscounts> discountsSelected = new ArrayList<PostedDiscounts>();
 		for (DiscountCountable discount : this.discountsBaseInfo) {
 			if (discount.isSelected())
@@ -463,12 +508,36 @@ public class DiscountFragment extends RoboFragment implements
 
 	@Override
 	public void onClick(DialogInterface arg0, int arg1) {
-		goToMovie();
+		goToMovieList();
 	}
 
-	private void goToMovie() {
-		movieSelectedListener.onMovieSelected(ticket.getMovieId(),
-				ticket.getMovieTitle());
+	private void goToMovieList() {
+		toMovieListListener.toMovieList();
 	}
 
+	private void showProgressDialog() {
+		if (this.progressDialog == null) {
+			this.progressDialog = new ProgressDialog();
+			this.progressDialog.show(getFragmentManager(), "progress.dialog");
+		}
+	}
+
+	private void hideProgressDialog() {
+		if (this.progressDialog != null)
+			this.progressDialog.dismiss();
+	}
+
+	private boolean lessThanOneHourToShow() {
+		try {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",
+					Locale.ENGLISH);
+			Date show = df.parse(this.ticket.getFunctionDay() + " "
+					+ this.ticket.getFunctionTime() + ":00");
+			Date now = new Date();
+			return (show.getTime() - now.getTime()) > (ONE_HOUR);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
