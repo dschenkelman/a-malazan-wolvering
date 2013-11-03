@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import phoneticket.android.R;
 import phoneticket.android.activities.interfaces.IArmChairsSelected;
+import phoneticket.android.activities.interfaces.IRibbonChangeMenuListener;
 import phoneticket.android.adapter.ArmChairAdapter;
 import phoneticket.android.adapter.ArmChairAdapter.ArmChairHolder;
 import phoneticket.android.model.ArmChair;
@@ -53,6 +54,7 @@ public class RoomFragment extends RoboFragment implements
 	private int lastColumn;
 	private int firstRow;
 	private int lastRow;
+	private IRibbonChangeMenuListener ribbonListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,6 +124,7 @@ public class RoomFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		ribbonListener.setOnMoviesMenu();
 		ignoreServicesCallbacks = false;
 		retreiveRoomInfo();
 	}
@@ -140,6 +143,12 @@ public class RoomFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IShareButtonsVisibilityListener");
+		}
+		try {
+			ribbonListener = (IRibbonChangeMenuListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IRibbonChangeMenuListener");
 		}
 	}
 

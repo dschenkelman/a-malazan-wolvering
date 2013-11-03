@@ -18,6 +18,7 @@ import phoneticket.android.activities.fragments.dialogs.ProgressDialog;
 import phoneticket.android.activities.fragments.dialogs.SuccessTicketSentDialogFragment;
 import phoneticket.android.activities.interfaces.IDetailUserShowListener;
 import phoneticket.android.activities.interfaces.IDiscountSelectedListener;
+import phoneticket.android.activities.interfaces.IRibbonChangeMenuListener;
 import phoneticket.android.activities.interfaces.IToMovieListListener;
 import phoneticket.android.adapter.DiscountAdapter;
 import phoneticket.android.model.ArmChair;
@@ -91,6 +92,7 @@ public class DiscountFragment extends RoboFragment implements
 	private ProgressDialog progressDialog;
 	private IDetailUserShowListener detailListener;
 	private boolean isPurchase;
+	private IRibbonChangeMenuListener ribbonListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -148,6 +150,12 @@ public class DiscountFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IShareButtonsVisibilityListener");
+		}
+		try {
+			ribbonListener = (IRibbonChangeMenuListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IRibbonChangeMenuListener");
 		}
 	}
 
@@ -246,6 +254,7 @@ public class DiscountFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		ribbonListener.setOnMoviesMenu();
 		ignoreServicesCallbacks = false;
 		if (this.discountsBaseInfo != null) {
 			this.fieldDiscountsList(null);

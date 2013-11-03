@@ -15,6 +15,7 @@ import phoneticket.android.activities.MasterActivity.IOnPurchaseDataResultListen
 import phoneticket.android.activities.QRCodeActivity;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment;
 import phoneticket.android.activities.fragments.dialogs.ConfirmShowReserveCancelationDialogFragment.IConfirmShowReserveCancelationDialogDelegate;
+import phoneticket.android.activities.interfaces.IRibbonChangeMenuListener;
 import phoneticket.android.activities.interfaces.IShareActionListener;
 import phoneticket.android.activities.interfaces.IShareButtonsVisibilityListener;
 import phoneticket.android.activities.interfaces.IUserShowsActionListener;
@@ -87,6 +88,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 	private IShareButtonsVisibilityListener shareButtonsVisibilityListener;
 	private IShareActionListener shareActionListener;
 	private IUserShowsActionListener userShowStateListener;
+	private IRibbonChangeMenuListener ribbonListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,6 +107,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		ribbonListener.setOnUserMenu();
 		ignoreServicesCallbacks = false;
 
 		loadDetailUserShow();
@@ -161,6 +164,12 @@ public class DetailUserShowFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IUserShowsActionListener");
+		}
+		try {
+			ribbonListener = (IRibbonChangeMenuListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IRibbonChangeMenuListener");
 		}
 	}
 

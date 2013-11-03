@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 import phoneticket.android.R;
 import phoneticket.android.activities.MasterActivity.IOnUserShowChangesListener;
 import phoneticket.android.activities.interfaces.IDetailUserShowListener;
+import phoneticket.android.activities.interfaces.IRibbonChangeMenuListener;
 import phoneticket.android.model.IDetailUserShow;
 import phoneticket.android.model.IMyShow;
 import phoneticket.android.model.MyShow;
@@ -49,6 +50,7 @@ public class UserShowsFragment extends RoboFragment implements
 	private Collection<IMyShow> myShows;
 
 	private IDetailUserShowListener detailListener;
+	private IRibbonChangeMenuListener ribbonListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +63,7 @@ public class UserShowsFragment extends RoboFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		ribbonListener.setOnUserMenu();
 		ignoreServicesCallbacks = false;
 
 		getMyShows();
@@ -103,6 +106,12 @@ public class UserShowsFragment extends RoboFragment implements
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement IDetailUserShowListener");
+		}
+		try {
+			ribbonListener = (IRibbonChangeMenuListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IRibbonChangeMenuListener");
 		}
 	}
 

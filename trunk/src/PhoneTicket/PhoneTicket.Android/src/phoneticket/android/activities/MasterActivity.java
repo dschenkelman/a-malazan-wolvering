@@ -26,6 +26,7 @@ import phoneticket.android.activities.interfaces.IArmChairsSelected;
 import phoneticket.android.activities.fragments.UserShowsFragment;
 import phoneticket.android.activities.interfaces.IDetailUserShowListener;
 import phoneticket.android.activities.interfaces.IFunctionSelectionListener;
+import phoneticket.android.activities.interfaces.IRibbonChangeMenuListener;
 import phoneticket.android.activities.interfaces.IToMovieListListener;
 import phoneticket.android.activities.interfaces.IUserShowsActionListener;
 import phoneticket.android.activities.interfaces.IUserShowsListener;
@@ -64,7 +65,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		IOnMovielistItemSelectedListener, IShareButtonsVisibilityListener,
 		IShareActionListener, IFunctionSelectionListener, IArmChairsSelected,
 		IUserShowsListener, IDetailUserShowListener, IUserShowsActionListener,
-		IToMovieListListener {
+		IToMovieListListener, IRibbonChangeMenuListener {
 
 	public static final int PURCHASE_DATA_REQUEST_CODE = 12;
 	public static final int PURCHASE_DATA_RESULT_CODE_OK = 45789;
@@ -280,9 +281,6 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideCalendarButton();
 		MovieListFragment movielistFragment = new MovieListFragment();
 		changeFragment(movielistFragment, true);
-		if (actionTitle != null)
-			actionTitle.setText(R.string.ribbon_menu_movielist);
-		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
 	}
 
 	public void changeToCinemasFragment() {
@@ -291,9 +289,6 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideCalendarButton();
 		CinemasFragment cinemasFragment = new CinemasFragment();
 		changeFragment(cinemasFragment, true);
-		if (actionTitle != null)
-			actionTitle.setText(R.string.ribbon_menu_cinemas);
-		ribbonMenuItemIdSelected = R.id.ribbon_menu_cinemas;
 	}
 
 	public void changeToUserFragment() {
@@ -307,9 +302,6 @@ public class MasterActivity extends RoboFragmentActivity implements
 		twitterMessage = "Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar";
 		UserFragment userFragment = new UserFragment();
 		changeFragment(userFragment, true, UserFragment.TAG);
-		if (actionTitle != null)
-			actionTitle.setText(R.string.ribbon_menu_user);
-		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;
 	}
 
 	private void changeToDetailMovieFragment(Bundle movieData,
@@ -628,5 +620,26 @@ public class MasterActivity extends RoboFragmentActivity implements
 	@Override
 	public void toMovieList() {
 		this.changeToMovieListFragment();
+	}
+
+	@Override
+	public void setOnUserMenu() {
+		ribbonMenuItemIdSelected = R.id.ribbon_menu_user;
+		if (actionTitle != null)
+			actionTitle.setText(R.string.ribbon_menu_user);
+	}
+
+	@Override
+	public void setOnMoviesMenu() {
+		ribbonMenuItemIdSelected = R.id.ribbon_menu_movielist;
+		if (actionTitle != null)
+			actionTitle.setText(R.string.ribbon_menu_movielist);
+	}
+
+	@Override
+	public void setOnCinemasMenu() {
+		ribbonMenuItemIdSelected = R.id.ribbon_menu_cinemas;
+		if (actionTitle != null)
+			actionTitle.setText(R.string.ribbon_menu_cinemas);
 	}
 }
