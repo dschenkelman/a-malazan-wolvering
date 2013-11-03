@@ -1,0 +1,91 @@
+﻿@model PhoneTicket.Web.ViewModels.SalesPerMovieViewModel
+
+@{
+    ViewBag.Title = "Entradas más vendidas por película";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/themes/base/css")
+<link href="~/Content/Reports.css" rel="stylesheet" type="text/css" />
+
+<div style="float: right">
+    <a id="pdfView" href="#">Ver PDF</a>
+</div>
+<h2>Entradas más vendidas por película</h2>
+
+@using (Html.BeginForm("SalesPerMovie", "Reports", FormMethod.Post, new { id = "search" }))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <label>Desde:</label>
+            @Html.TextBoxFor(m => m.From, new { style = "width: 200px" })
+        </div>
+        <div class="col-md-4">
+            <label>Hasta:</label>
+            @Html.TextBoxFor(m => m.To, new { style = "width: 200px" })
+        </div>
+        <div class="col-md-4">
+            <label>Complejo:</label>
+            @Html.DropDownListFor(m => m.ComplexId, Model.Complexes)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            @Html.ValidationMessageFor(m => m.From)
+        </div>
+        <div class="col-md-4">
+            @Html.ValidationMessageFor(m => m.To)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <input id="generate" type="submit" value="Generar" />
+        </div>
+    </div>
+}
+
+@if (Model.MovieSales != null)
+{
+    <div class="center">
+        @if (Model.MovieSales.Any())
+        { 
+            <table>
+                <tr>
+                    <th>Película</th>
+                    <th>Entradas vendidas</th>
+                    <th>Complejo</th>
+                </tr>
+                @foreach (var movieSales in Model.MovieSales)
+                {
+                    <tr>
+                        <td>
+                            @movieSales.Movie
+                        </td>
+                        <td>
+                            @movieSales.Sales
+                        </td>
+                        <td>Microcentro,Belgrano</td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+    <div class="center">
+        @if (Model.MovieSales.Any())
+        {
+            <img src="@Url.Content(Model.ChartPath)"/>
+        }
+    </div>
+    if (!Model.MovieSales.Any())
+    {
+        <text><h3>No hay datos para mostrar</h3></text>
+    }
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Scripts/app/SalesPerMovie.js")
+}

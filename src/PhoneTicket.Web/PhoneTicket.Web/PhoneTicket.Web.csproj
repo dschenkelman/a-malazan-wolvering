@@ -368,7 +368,7 @@
     <Compile Include="ViewModels\MovieSalesViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />
-    <Compile Include="ViewModels\SalesPerMoviePdfViewModel.cs" />
+    <Compile Include="ViewModels\SalesPerMovieViewModel.cs" />
     <Compile Include="ViewModels\ShowReadOnlyViewModel.cs" />
     <Compile Include="Models\ShowSeats.cs" />
     <Compile Include="ViewModels\ShowSeatMapViewModel.cs" />
@@ -462,6 +462,7 @@
     <Content Include="Scripts\app\EditShows.js" />
     <Content Include="Scripts\app\Movies.js" />
     <Content Include="Scripts\app\CreateShows.js" />
+    <Content Include="Scripts\app\SalesPerMovie.js" />
     <Content Include="Scripts\app\Users.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -471,6 +472,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\ListShows.css" />
     <Content Include="Content\Reports.css" />
+    <Content Include="Content\Report.less" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -557,9 +559,11 @@
     <Content Include="Views\Reports\ForShowPdf.cshtml" />
     <Content Include="Views\Reports\SalesPerMoviePdf.cshtml" />
     <Content Include="Views\Reports\BestShowTimesSellersPdf.cshtml" />
+    <Content Include="Views\Reports\SalesPerMovie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\tmp\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
