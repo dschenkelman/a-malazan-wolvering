@@ -364,6 +364,7 @@
     <Compile Include="ViewModels\ListShowsByMovieViewModel.cs" />
     <Compile Include="ViewModels\ListShowViewModel.cs" />
     <Compile Include="ViewModels\MovieReadOnlyViewModel.cs" />
+    <Compile Include="ViewModels\MovieSalesViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />
     <Compile Include="ViewModels\SalesPerMoviePdfViewModel.cs" />

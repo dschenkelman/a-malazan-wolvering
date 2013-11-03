@@ -3,6 +3,7 @@
     using System;
     using System.Drawing;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
     using System.Web.UI.DataVisualization.Charting;
@@ -59,8 +60,11 @@
             return viewModel;
         }
 
-        public Task<ActionResult> SalesPerMoviePdf()
+        public async Task<ActionResult> SalesPerMoviePdf()
         {
+            // get from UI
+            var salesPerMovie = await this.reportService.GetSalesPerMovieReport(DateTime.MinValue, DateTime.MaxValue);
+
             var id = Guid.NewGuid();
             var chartRelativePath = string.Format("~/Images/{0}.png", id);
             var absolutePath = HttpContext.Server.MapPath(chartRelativePath);
@@ -73,9 +77,7 @@
             chart.Series["Data"]["PieLabelStyle"] = "Inside";
             chart.Series["Data"].Font = new System.Drawing.Font("Trebuchet MS", 16, System.Drawing.FontStyle.Regular);
             chart.Series["Data"]["PieLineColor"] = "Black";
-            chart.Series["Data"].Points.DataBindXY(
-                new [] { "Dragon Ball Z", "El Conjuro", "Corazon de Leon" },
-                new [] { 200, 500, 300 });
+            chart.Series["Data"].Points.DataBindXY(salesPerMovie.Select(spm => spm.Movie).ToArray(), salesPerMovie.Select(spm => spm.Sales).ToArray());
 
             chart.Legends.Add("Legend");
             chart.Series["Data"].Label = "#VAL";
@@ -89,11 +91,11 @@
                 chart.SaveImage(stream, ChartImageFormat.Png);
             }
 
-            var result = this.ViewPdf(new SalesPerMoviePdfViewModel { ChartRelativePath = absolutePath});
+            var result = this.ViewPdf(new SalesPerMoviePdfViewModel { ChartRelativePath = absolutePath, MovieSales = salesPerMovie });
 
             System.IO.File.Delete(absolutePath);
 
-            return Task.FromResult(result);
+            return result;
         }
     }
 }

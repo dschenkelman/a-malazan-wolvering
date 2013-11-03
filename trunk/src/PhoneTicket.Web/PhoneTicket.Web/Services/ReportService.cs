@@ -1,11 +1,14 @@
 ﻿namespace PhoneTicket.Web.Services
 {
+    using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
 
     using PhoneTicket.Web.Data;
     using PhoneTicket.Web.Models;
+    using PhoneTicket.Web.ViewModels;
 
     public class ReportService : IReportService
     {
@@ -47,6 +50,18 @@
             }
 
             return reportShowSeats;
+        }
+
+        public async Task<IEnumerable<MovieSalesViewModel>> GetSalesPerMovieReport(DateTime beginDate, DateTime endDate)
+        {
+            var data = await this.repositories.Operations.Filter(o => beginDate < o.Date && o.Date < endDate)
+                .Select(o => new { o.OccupiedSeats.Count, o.Show.Movie.Title })
+                .GroupBy(o => o.Title)
+                .Select(g => new { g.Key, Sum = g.Sum(a => a.Count) })
+                .OrderByDescending(a => a.Sum)
+                .ToListAsync();
+
+            return data.Select(d => new MovieSalesViewModel { Movie = d.Key, Sales = d.Sum });
         }
     }
 }
