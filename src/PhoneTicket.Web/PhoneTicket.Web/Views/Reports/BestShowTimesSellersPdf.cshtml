@@ -1,0 +1,39 @@
+﻿@using PhoneTicket.Web.ViewModels
+@model BestShowTimesSellersPdf
+
+@{
+    Layout = null;
+}
+
+<img src="@Url.Content("~/Images/logo.png")" height="50px"/>
+
+<h2>Horarios más vendidos</h2>
+<br />
+<table>
+    <tr>
+        <td>Desde: @Model.FromDate</td>
+        <td>Hasta: @Model.ToDate</td>
+        <td>Complejo: @Model.ComplexName</td>
+    </tr>
+</table>
+<br />
+@if (Model.ShowTimesInfo.Any())
+{
+    <table>
+        <tr>
+            <th>Horario</th>
+            <th>Cantidad de tickets vendidos</th>
+            <th>Cantidad de películas diferentes</th>
+        </tr>
+        @foreach (var showTimes in Model.ShowTimesInfo)
+        {
+            <tr>
+                <td>@showTimes.Time</td>
+                <td>@showTimes.TicketCount</td>
+                <td>@showTimes.MovieCount</td>
+            </tr>
+        }
+    </table>
+}
+<br />
+<img src="@Url.Content(Model.ChartRelativePath)" width="500"/>

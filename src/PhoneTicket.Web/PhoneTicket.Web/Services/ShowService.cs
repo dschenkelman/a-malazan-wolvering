@@ -51,6 +51,11 @@
             return await this.repositories.Shows.Filter(s => s.MovieId == movieId && futureTimeInArgentina > s.Date).ToListAsync();
         }
 
+        public async Task<IEnumerable<Show>> GetShowsBetweenDates(DateTime fromDate, DateTime toDate)
+        {
+            return await this.repositories.Shows.Filter(s => s.Date >= fromDate && s.Date <= toDate).ToListAsync();
+        }
+
         public async Task DeleteAsync(int showId)
         {
             await this.repositories.Shows.DeleteAsync(showId);

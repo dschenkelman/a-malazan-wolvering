@@ -97,5 +97,64 @@
 
             return result;
         }
+
+        public async Task<ActionResult> BestShowTimesSellersPdf()
+        {
+            // get from UI
+            var complexName = "Belgrano";
+            var fromDate = DateTime.MinValue;
+            var toDate = DateTime.MaxValue;
+            
+            var shows = await this.showService.GetShowsBetweenDates(fromDate, toDate);
+
+            var groupedShows = shows
+                                .Where(s => s.Room.Complex.Name == complexName)
+                                .GroupBy(s => s.Date.ToString("HH:mm"))
+                                .OrderByDescending(gs => gs.Sum(s => s.Operations.Sum(o => o.OccupiedSeats.Count())));
+                                
+
+            var showTimes = groupedShows.Select(gs => gs.Key).Take(10).ToArray();
+            var ticketsPerShowTimeTopTen = groupedShows.Select(gs => gs.Sum(s => s.Operations.Sum(o => o.OccupiedSeats.Count()))).Take(10).ToArray();
+
+            var id = Guid.NewGuid();
+            var chartRelativePath = string.Format("~/Images/{0}.png", id);
+            var absolutePath = HttpContext.Server.MapPath(chartRelativePath);
+            var chart = new System.Web.UI.DataVisualization.Charting.Chart();
+
+            chart.ChartAreas.Add(new ChartArea());
+
+            chart.Series.Add(new Series("Data"));
+            chart.Series["Data"].ChartType = SeriesChartType.Column;
+            chart.Series["Data"].Font = new System.Drawing.Font("Trebuchet MS", 16, System.Drawing.FontStyle.Regular);
+            chart.Series["Data"].Points.DataBindXY(showTimes, ticketsPerShowTimeTopTen);
+
+            chart.Legends.Add("Legend");
+            chart.Series["Data"].Label = "#VAL";
+            chart.Series["Data"].LegendText = "#Tickets Vendidos";
+            chart.Legends[0].Enabled = true;
+            chart.Width = 800;
+            chart.Height = 450;
+
+            using (var stream = new FileStream(absolutePath, FileMode.Create))
+            {
+                chart.SaveImage(stream, ChartImageFormat.Png);
+            }
+
+            var result = this.ViewPdf(new BestShowTimesSellersPdf
+                                    {
+                                        ChartRelativePath = absolutePath,
+                                        ShowTimesInfo = groupedShows.Select(gs => new ShowTimeTicketCountViewModel{ Time = gs.Key, 
+                                                                                                                    TicketCount = gs.Sum(s => s.Operations.Sum(o => o.OccupiedSeats.Count())),
+                                                                                                                    MovieCount = gs.Select(s => s.Movie.Title).Distinct().Count()}),
+                                        ComplexName = complexName,
+                                        FromDate = fromDate.ToString("yyyy-MM-dd"),
+                                        ToDate = toDate.ToString("yyyy-MM-dd"),
+                                    }
+            );
+
+            System.IO.File.Delete(absolutePath);
+
+            return result;
+        }
     }
 }
