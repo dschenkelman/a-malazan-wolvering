@@ -83,6 +83,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0-rc1\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -365,6 +366,7 @@
     <Compile Include="ViewModels\MovieReadOnlyViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ListUserViewModel.cs" />
+    <Compile Include="ViewModels\SalesPerMoviePdfViewModel.cs" />
     <Compile Include="ViewModels\ShowReadOnlyViewModel.cs" />
     <Compile Include="Models\ShowSeats.cs" />
     <Compile Include="ViewModels\ShowSeatMapViewModel.cs" />
@@ -550,6 +552,7 @@
     <Compile Include="Templates\OperationEmailTemplate.Context.cs" />
     <Content Include="Views\Reports\ForShow.cshtml" />
     <Content Include="Views\Reports\ForShowPdf.cshtml" />
+    <Content Include="Views\Reports\SalesPerMoviePdf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
