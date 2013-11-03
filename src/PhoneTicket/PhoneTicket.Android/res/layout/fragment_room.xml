@@ -9,8 +9,7 @@
         android:id="@+id/cinemaAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/movieName"
-        android:textSize="20sp" />
+        android:layout_below="@+id/movieName" />
 
     <View
         android:id="@+id/line"
@@ -27,16 +26,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/cinemaAddress"
         android:layout_alignParentRight="true"
-        android:gravity="right"
-        android:textSize="20sp" />
+        android:gravity="right" />
 
     <TextView
         android:id="@+id/movieName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="20sp" />
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/armChairText"
@@ -44,8 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/line"
-        android:text="@string/butacas"
-        android:textSize="20sp" />
+        android:text="@string/butacas" />
 
     <TextView
         android:id="@+id/armChairSelected"
@@ -53,8 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/line"
         android:layout_toLeftOf="@+id/armChairText"
-        android:text="@string/initial_armchair_count"
-        android:textSize="20sp" />
+        android:text="@string/initial_armchair_count" />
 
     <LinearLayout
         android:id="@+id/room"
@@ -83,8 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/selection_finished"
-            android:textSize="20sp" />
+            android:text="@string/selection_finished" />
     </RelativeLayout>
 
 </RelativeLayout>

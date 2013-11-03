@@ -6,54 +6,47 @@
     <TextView
         android:id="@+id/filmInfo"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/cinemaAddress"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/filmInfo"
-        android:textSize="20sp" />
+        android:layout_below="@+id/filmInfo" />
 
     <TextView
         android:id="@+id/armChairs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cinemaAddress"
-        android:textSize="20sp" />
+        android:layout_below="@+id/cinemaAddress" />
 
     <TextView
         android:id="@+id/amountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/armChairs"
-        android:text="@string/total_sin_promociones"
-        android:textSize="20sp" />
+        android:text="@string/total_sin_promociones" />
 
     <TextView
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/armChairs"
-        android:layout_toRightOf="@+id/amountText"
-        android:textSize="20sp" />
+        android:layout_toRightOf="@+id/amountText" />
 
     <TextView
         android:id="@+id/totalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amountText"
-        android:text="@string/precio_final_text"
-        android:textSize="20sp" />
+        android:text="@string/precio_final_text" />
 
     <TextView
         android:id="@+id/total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amountText"
-        android:layout_toRightOf="@+id/totalText"
-        android:textSize="20sp" />
+        android:layout_toRightOf="@+id/totalText" />
 
     <View
         android:id="@+id/line"
@@ -70,8 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/line"
         android:layout_margin="5dp"
-        android:text="@string/promociones"
-        android:textSize="20sp" />
+        android:text="@string/promociones" />
 
     <LinearLayout
         android:id="@+id/discountsLayout"
