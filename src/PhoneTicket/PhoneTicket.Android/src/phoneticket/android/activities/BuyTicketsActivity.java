@@ -11,8 +11,11 @@ import phoneticket.android.R;
 import phoneticket.android.activities.dialog.ConfirmBackActionDialogFragment;
 import phoneticket.android.activities.dialog.ConfirmBackActionDialogFragment.IConfirmBackActionDialogDelegate;
 import phoneticket.android.model.CreditCard;
+import phoneticket.android.model.User;
 import phoneticket.android.services.get.IRetrieveCreditCardsServise;
 import phoneticket.android.services.get.IRetrieveCreditCardsServiseDelegate;
+import phoneticket.android.services.get.IRetrieveUserInfoService;
+import phoneticket.android.services.get.IRetrieveUserInfoServiceDelegate;
 import phoneticket.android.utils.UserManager;
 import phoneticket.android.validator.IFormValidator;
 import roboguice.activity.RoboFragmentActivity;
@@ -32,7 +35,8 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 
 public class BuyTicketsActivity extends RoboFragmentActivity implements
-		IRetrieveCreditCardsServiseDelegate, IConfirmBackActionDialogDelegate {
+		IRetrieveCreditCardsServiseDelegate, IConfirmBackActionDialogDelegate,
+		IRetrieveUserInfoServiceDelegate {
 
 	public static final String EXTRA_RESULT_PURCHASE_CARD_NUMBER = "extra.buyticket.cardnumber";
 	public static final String EXTRA_RESULT_PURCHASE_SECURIRY_NUMBER = "extra.buyticket.securittnumber";
@@ -43,6 +47,8 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 	private IFormValidator purchaseForm;
 	@Inject
 	private IRetrieveCreditCardsServise service;
+	@Inject
+	private IRetrieveUserInfoService userInfoService;
 
 	private boolean ignoreServices;
 	private CreditCard selectedCreditCard;
@@ -73,10 +79,23 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 				.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						onRetrieveCreditCardsAction();
+						retrieveInformation();
 					}
 				});
-		onRetrieveCreditCardsAction();
+
+		retrieveInformation();
+	}
+
+	private void retrieveInformation() {
+		if (shouldRetrieveUserInfo()) {
+			retrieveUserInfoAction();
+		} else {
+			onRetrieveCreditCardsAction();
+		}		
+	}
+
+	private void retrieveUserInfoAction() {
+		userInfoService.retrieveUserInfo(this);
 	}
 
 	protected void onRetrieveCreditCardsAction() {
@@ -95,7 +114,7 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 		super.onPause();
 		ignoreServices = true;
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		ConfirmBackActionDialogFragment confirmDialog = new ConfirmBackActionDialogFragment();
@@ -175,6 +194,20 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 		selectedCreditCard = creditCard;
 	}
 
+	private boolean shouldRetrieveUserInfo() {
+		User user = UserManager.getInstance().getLogedUser();
+		boolean result = null == user.getFirstName()
+				|| 0 == user.getFirstName().length();
+		result = result || null == user.getLastName()
+				|| 0 == user.getLastName().length();
+		result = result || null == user.getEmail()
+				|| 0 == user.getEmail().length();
+		result = result || null == user.getBirthday();
+		result = result || null == user.getCellPhone()
+				|| 0 == user.getCellPhone().length();
+		return result;
+	}
+
 	private void showErrorLayout() {
 		layoutVisibility(LinearLayout.VISIBLE, RelativeLayout.GONE,
 				ScrollView.GONE);
@@ -245,5 +278,21 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 	@Override
 	public void onDialogPositiveClick() {
 		finish();
+	}
+
+	@Override
+	public void retrieveUserInfoFinish(
+			IRetrieveUserInfoService retrieveUserInfoService) {
+		if (false == ignoreServices) {
+			onRetrieveCreditCardsAction();
+		}
+	}
+
+	@Override
+	public void retrieveUserInfoFinishWithError(
+			IRetrieveUserInfoService retrieveUserInfoService, int errorCode) {
+		if (false == ignoreServices) {
+			showErrorLayout();
+		}
 	}
 }
