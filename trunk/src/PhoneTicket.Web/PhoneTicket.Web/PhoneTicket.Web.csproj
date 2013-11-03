@@ -353,7 +353,7 @@
     <Compile Include="ViewModels\Api\ConfirmReservationViewModel.cs" />
     <Compile Include="ViewModels\Api\UserInformationViewModel.cs" />
     <Compile Include="ViewModels\Api\UserOperationsViewModel.cs" />
-    <Compile Include="ViewModels\BestShowTimesSellersPdf.cs" />
+    <Compile Include="ViewModels\BestShowTimesSellers.cs" />
     <Compile Include="ViewModels\DiscountViewModel.cs" />
     <Compile Include="ViewModels\CreateShowsViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
@@ -458,6 +458,7 @@
     <Content Include="Images\noSeat.png" />
     <Content Include="Images\purchased.png" />
     <Content Include="Images\reserved.png" />
+    <Content Include="Scripts\app\BestShowTimesSellers.js" />
     <Content Include="Scripts\app\CreateDiscount.js" />
     <Content Include="Scripts\app\EditShows.js" />
     <Content Include="Scripts\app\Movies.js" />
@@ -559,6 +560,7 @@
     <Content Include="Views\Reports\SalesPerMoviePdf.cshtml" />
     <Content Include="Views\Reports\BestShowTimesSellersPdf.cshtml" />
     <Content Include="Views\Reports\SalesPerMovie.cshtml" />
+    <Content Include="Views\Reports\BestShowTimesSellers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
