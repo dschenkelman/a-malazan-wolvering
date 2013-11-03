@@ -282,33 +282,6 @@
         }
 
         [TestMethod]
-        public async Task ShouldSetAvailableComplexesToListReturnedFromComplexesServiceWhenCallingEdit()
-        {
-            const int ComplexId = 100;
-            const int RoomId = 100;
-            var room = new Room()
-            {
-                Id = RoomId,
-                Name = string.Empty,
-                ComplexId = ComplexId,
-                Complex = new Complex { Name = string.Empty },
-                Capacity = 0,
-            };
-
-            var complexes = new List<SelectListItem>();
-            this.roomService.Setup(ms => ms.GetAsync(RoomId)).Returns(Task.FromResult(room));
-
-            this.complexService.Setup(rs => rs.ListAsync(ComplexId)).Returns(Task.FromResult<IEnumerable<SelectListItem>>(complexes)).Verifiable();
-
-            var controller = this.CreateController();
-
-            var result = (ViewResult)await controller.Edit(RoomId);
-
-            this.complexService.Verify(rs => rs.ListAsync(RoomId), Times.Once());
-            Assert.AreSame(complexes, ((ListRoomViewModel)result.Model).AvailableComplexes);
-        }
-
-        [TestMethod]
         public async Task ShouldSetModelToRoomRetrievedFromServiceWhenCallingEdit()
         {
             const bool canEdit = true;
@@ -353,7 +326,7 @@
                 Capacity = 0,
             };
 
-            var existingRoom = new Room { Id = RoomId };
+            var existingRoom = new Room { Id = RoomId, ComplexId = ComplexId };
 
             var controller = this.CreateController();
 
@@ -368,8 +341,7 @@
             this.roomService.Verify(
                 rs => rs.UpdateAsync(It.Is<Room>(r =>
                     r.Id == RoomId
-                    && r.ComplexId == ComplexId
-                    && r.Capacity == updatedRoom.Capacity)),
+                    && r.ComplexId == ComplexId)),
                 Times.Once());
         }
 

@@ -20,7 +20,7 @@
         <legend>Editar película</legend>
         <ol>
             <li>
-                @Html.LabelFor(m => m.Title)
+                <label for="Title">Título *</label>
                 @Html.EditorFor(m => m.Title)
                 @Html.ValidationMessageFor(m => m.Title)
             </li>
@@ -28,33 +28,37 @@
                 <table id="table1">
                     <tr>
                         <td>
-                            @Html.LabelFor(m => m.DurationInMinutes)
+                            <label for="DurationInMinutes">Duración (en minutos) *</label>
                             @Html.EditorFor(m => m.DurationInMinutes)
                             @Html.ValidationMessageFor(m => m.DurationInMinutes)
                         </td>
                         <td>
-                            <label for="Genre">Género</label>
+                            <label for="Genre">Género *</label>
                             @Html.DropDownList("MovieGenreType")
                         </td>
                         <td>
-                            <label for="Rating">Clasificación</label>
+                            <label for="Rating">Clasificación *</label>
                             @Html.DropDownList("MovieRatingType")
                         </td>
                     </tr>
                 </table>
             </li>
             <li>
-                <label for="Synopsis">Sinópsis</label>
+                <label for="Synopsis">Sinópsis *</label>
                 @Html.TextAreaFor(m => m.Synopsis, new { @class = "text-box.multi-line" })
+            </li>
+            <li>
                 @Html.ValidationMessageFor(m => m.Synopsis)
             </li>
             <li>
-                @Html.LabelFor(m => m.TrailerUrl)
+                <label for="TrailerUrl">Url de trailer *</label>
                 @Html.EditorFor(m => m.TrailerUrl)
+            </li>
+            <li>
                 @Html.ValidationMessageFor(m => m.TrailerUrl)
             </li>
             <li>
-                @Html.LabelFor(m => m.ImageUrl)
+                <label for="TrailerUrl">Url de imágen *</label>
                 <table id="table2">
                     <tr>
                         <td style="width:90%">@Html.EditorFor(m => m.ImageUrl)</td>
@@ -72,6 +76,8 @@
         <input type="submit" value="Guardar Cambios" />
     </fieldset>
 }
+
+<h4> * - Campo Obligatorio</h4>
 
 @section scripts
 {

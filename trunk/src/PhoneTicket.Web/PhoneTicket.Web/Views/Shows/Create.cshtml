@@ -18,7 +18,7 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12">
-                <label for="beginDate">Fecha comienzo:</label>
+                <label for="beginDate">Fecha comienzo *:</label>
                 <input type="text" id="beginDate" />
             </div>
         </div>
@@ -31,7 +31,7 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12">
-                <label for="endDate">Fecha fin:</label>
+                <label for="endDate">Fecha fin *:</label>
                 <input type="text" id="endDate" />
             </div>
         </div>
@@ -46,11 +46,11 @@
 
 <div class="row">
     <div class="col-md-6">
-        <label for="movie">Película:</label>
+        <label for="movie">Película *:</label>
         <select id="movie"></select>
     </div>
     <div class="col-md-6">
-        <label for="complex">Complejo:</label>
+        <label for="complex">Complejo *:</label>
         <select id="complex"></select>
     </div>
 </div>
@@ -59,7 +59,7 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-2">
-                <label>Días</label>
+                <label>Días *</label>
             </div>
             <div class="col-md-3">
                 <input id="monday" type="checkbox" checked="checked" />
@@ -102,7 +102,7 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-12">
-                    <label>Hora:</label>
+                    <label>Hora *:</label>
                     <input id="hour1" class="hour spinner" type="text" />
                     <span>:</span>
                     <input id="minutes1" class="minutes spinner" type="text" />
@@ -116,7 +116,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <label>Sala:</label>
+            <label>Sala *:</label>
             <select class="rooms"></select>
         </div>
     </div>
@@ -133,7 +133,7 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-12">
-                <label for="price">Precio:</label>
+                <label for="price">Precio *:</label>
                 <input type="text" class="spinner" id="price" value="@Model" />
             </div>
         </div>
@@ -150,6 +150,8 @@
         <button id="create" class="btn btn-primary">Crear</button>
     </div>
 </div>
+
+<h4> * - Campo Obligatorio</h4>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")

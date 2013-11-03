@@ -17,31 +17,31 @@
         <legend>Información</legend>
         @Html.HiddenFor(m => m.Id)
 
-        <label>Descripción</label>
+        <label>Descripción *</label>
         <div class="editor-field">
             @Html.EditorFor(model => model.Description)
             @Html.ValidationMessageFor(model => model.Description)
         </div>
 
-        <label>Tipo</label>
+        <label>Tipo *</label>
         <div class="editor-field">
             @Html.DropDownListFor(vm => vm.Type, Model.DiscountTypes)
             @Html.ValidationMessageFor(m => m.Type)
         </div>
         
-        <label>Valor</label>
+        <label>Valor *</label>
         <div class="editor-field">
             @Html.EditorFor(model => model.Value)
             @Html.ValidationMessageFor(model => model.Value)
         </div>
 
-        <label>Desde</label>
+        <label>Desde *</label>
         <div>
             @Html.EditorFor(model => model.StartDate)
             @Html.ValidationMessageFor(model => model.StartDate)
         </div>
 
-        <label>Hasta</label>
+        <label>Hasta *</label>
         <div class="editor-field">
             @Html.EditorFor(model => model.EndDate)
             @Html.ValidationMessageFor(model => model.EndDate)
@@ -52,6 +52,8 @@
         </p>
     </fieldset>
 }
+
+<h4> * - Campo Obligatorio</h4>
 
 <div>
     @Html.ActionLink("Volver a la lista", "Index")
