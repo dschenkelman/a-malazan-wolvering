@@ -12,5 +12,7 @@
         public int TicketCount { get; set; }
 
         public int MovieCount { get; set; }
+
+        public string Complexes { get; set; }
     }
 }

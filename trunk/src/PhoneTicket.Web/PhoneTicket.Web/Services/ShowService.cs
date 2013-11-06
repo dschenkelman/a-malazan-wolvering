@@ -9,6 +9,7 @@
     using PhoneTicket.Web.Helpers;
     using PhoneTicket.Web.Models;
     using System.Threading.Tasks;
+    using PhoneTicket.Web.ViewModels;
 
     public class ShowService: IShowService, IDisposable
     {
@@ -51,9 +52,36 @@
             return await this.repositories.Shows.Filter(s => s.MovieId == movieId && futureTimeInArgentina > s.Date).ToListAsync();
         }
 
-        public async Task<IEnumerable<Show>> GetShowsBetweenDates(DateTime fromDate, DateTime toDate)
+        public async Task<IEnumerable<ShowTimeTicketCountViewModel>> GetShowsBetweenDates(DateTime fromDate, DateTime toDate, int complexId)
         {
-            return await this.repositories.Shows.Filter(s => s.Date >= fromDate && s.Date <= toDate).ToListAsync();
+            var basicQuery = this.repositories.Shows.Filter(s => s.Date >= fromDate && s.Date <= toDate);
+
+            string complexes;
+
+            if (complexId != 0)
+            {
+                basicQuery = basicQuery.Where(s => s.Room.ComplexId == complexId);
+
+                complexes = (await this.repositories.Complexes.GetByKeyValuesAsync(complexId)).Name;
+            }
+            else
+            {
+                complexes = string.Join(", ", (await this.repositories.Complexes.AllAsync()).Select(c => c.Name));
+            }
+
+            var shows = await basicQuery.ToListAsync();
+
+            var data = shows
+                .GroupBy(s => s.Date.ToString("HH:mm"))
+                .Select(g => new
+                {
+                    g.Key,
+                    TicketCount = g.Sum(a => a.Operations.Sum(o => o.OccupiedSeats.Count())),
+                    MovieCount = g.Select(a => a.Movie.Title).Distinct().Count()
+                })
+                .OrderByDescending(a => a.MovieCount);
+
+            return data.Select(d => new ShowTimeTicketCountViewModel { Time = d.Key, MovieCount = d.MovieCount, TicketCount = d.TicketCount, Complexes = complexes });
         }
 
         public async Task DeleteAsync(int showId)
