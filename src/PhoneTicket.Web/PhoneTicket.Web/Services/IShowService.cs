@@ -5,6 +5,7 @@
 
     using PhoneTicket.Web.Models;
     using System;
+    using PhoneTicket.Web.ViewModels;
 
     public interface IShowService
     {
@@ -13,7 +14,7 @@
         Task Add(params Show[] shows);
         Task<IEnumerable<Show>> GetForMovieAsync(int movieId);
         Task<IEnumerable<Show>> GetWithinNextHourForMovieAsync(int movieId);
-        Task<IEnumerable<Show>> GetShowsBetweenDates(DateTime fromDate, DateTime toDate);
+        Task<IEnumerable<ShowTimeTicketCountViewModel>> GetShowsBetweenDates(DateTime fromDate, DateTime toDate, int complexId);
         Task DeleteAsync(int showId);
         Task ChangeAvailability(int showId);
         Task<IEnumerable<OccupiedSeat>> GetOccupiedSeats(int showId);

@@ -165,7 +165,8 @@
         public async Task<ActionResult> BestShowTimesSellers()
         {
             var complexes = (await this.complexService.GetAsync())
-                .Select(c => new SelectListItem { Selected = false, Text = c.Name, Value = c.Id.ToString() });
+                .Select(c => new SelectListItem { Selected = false, Text = c.Name, Value = c.Id.ToString() })
+                .Concat(new[] { new SelectListItem { Selected = true, Text = "Todos", Value = "0" } });
 
             var viewModel = new BestShowTimesSellersViewModel { Complexes = complexes };
 
@@ -175,8 +176,9 @@
         [HttpPost]
         public async Task<ActionResult> BestShowTimesSellers(BestShowTimesSellersViewModel searchParameters)
         {
-            var complexes = (await this.complexService.GetAsync())
-                .Select(c => new SelectListItem { Selected = false, Text = c.Name, Value = c.Id.ToString() });
+            var complexes = new[] { new SelectListItem { Selected = searchParameters.ComplexId == 0, Text = "Todos", Value = "0" } }
+                .Concat((await this.complexService.GetAsync())
+                    .Select(c => new SelectListItem { Selected = searchParameters.ComplexId == c.Id, Text = c.Name, Value = c.Id.ToString() }));
 
             if (!ModelState.IsValid)
             {
@@ -191,8 +193,9 @@
 
         public async Task<ActionResult> BestShowTimesSellersPdf(BestShowTimesSellersViewModel searchParameters)
         {
-            var complexes = (await this.complexService.GetAsync())
-                .Select(c => new SelectListItem { Selected = false, Text = c.Name, Value = c.Id.ToString() });
+            var complexes = new[] { new SelectListItem { Selected = searchParameters.ComplexId == 0, Text = "Todos", Value = "0" } }
+                .Concat((await this.complexService.GetAsync())
+                    .Select(c => new SelectListItem { Selected = searchParameters.ComplexId == c.Id, Text = c.Name, Value = c.Id.ToString() }));
 
             if (!ModelState.IsValid)
             {
@@ -215,28 +218,14 @@
 
         private async Task<BestShowTimesSellersViewModel> BestShowTimesSellersViewModel(BestShowTimesSellersViewModel searchParameters, IEnumerable<SelectListItem> complexes)
         {
-            var complex = await this.complexService.GetAsync(searchParameters.ComplexId);
-
-            var shows = await this.showService.GetShowsBetweenDates(searchParameters.FromDate, searchParameters.ToDate);
-
-            var groupedShows =
-                shows.Where(s => s.Room.Complex.Id == searchParameters.ComplexId)
-                     .GroupBy(s => s.Date.ToString("HH:mm"))
-                     .OrderByDescending(gs => gs.Sum(s => s.Operations.Sum(o => o.OccupiedSeats.Count())));
+            var groupedShows = await this.showService.GetShowsBetweenDates(searchParameters.FromDate, searchParameters.ToDate, searchParameters.ComplexId);
 
             var relativePath = this.GenerateBestShowTimesSellersChart(groupedShows);
 
             var viewModel = new BestShowTimesSellersViewModel
             {
                 ChartPath = relativePath,
-                ShowTimesInfo = groupedShows.Select(gs => new ShowTimeTicketCountViewModel
-                {
-                    Time = gs.Key,
-                    TicketCount = gs.Sum(s => s.Operations.Sum(o => o.OccupiedSeats.Count())),
-                    MovieCount = gs.Select(s => s.Movie.Title).Distinct().Count()
-                }
-                                                   ),
-                ComplexName = complex.Name,
+                ShowTimesInfo = groupedShows,
                 From = searchParameters.FromDate.ToString("yyyy-MM-dd"),
                 To = searchParameters.ToDate.ToString("yyyy-MM-dd"),
                 Complexes = complexes,
@@ -245,13 +234,10 @@
             return viewModel;
         }
 
-        private string GenerateBestShowTimesSellersChart(IOrderedEnumerable<IGrouping<string, Models.Show>> groupedShows)
+        private string GenerateBestShowTimesSellersChart(IEnumerable<ShowTimeTicketCountViewModel> groupedShows)
         {
-            var showTimes = groupedShows.Select(gs => gs.Key).Take(10).ToArray();
-            var ticketsPerShowTimeTopTen =
-                groupedShows.Select(gs => gs.Sum(s => s.Operations.Sum(o => o.OccupiedSeats.Count())))
-                            .Take(10)
-                            .ToArray();
+            var showTimes = groupedShows.Select(gs => gs.Time).Take(10).ToArray();
+            var ticketsPerShowTime = groupedShows.Select(gs => gs.TicketCount).Take(10).ToArray();
 
             var id = Guid.NewGuid();
 
@@ -266,12 +252,13 @@
             var absolutePath = this.HttpContext.Server.MapPath(chartRelativePath);
             var chart = new Chart { BackColor = Color.Transparent };
 
-            chart.ChartAreas.Add(new ChartArea() { BackColor = Color.Transparent });
+            chart.ChartAreas.Add(new ChartArea() { BackColor = Color.Transparent, Name = "BarChart" });
 
             chart.Series.Add(new Series("Data"));
             chart.Series["Data"].ChartType = SeriesChartType.Column;
-            chart.Series["Data"].Font = new System.Drawing.Font("Trebuchet MS", 14, System.Drawing.FontStyle.Regular);
-            chart.Series["Data"].Points.DataBindXY(showTimes, ticketsPerShowTimeTopTen);
+            chart.ChartAreas["BarChart"].AxisY.LabelStyle.Font = new System.Drawing.Font("Tahoma", 10, FontStyle.Regular);
+            chart.ChartAreas["BarChart"].AxisX.LabelStyle.Font = new System.Drawing.Font("Tahoma", 10, FontStyle.Regular);
+            chart.Series["Data"].Points.DataBindXY(showTimes, ticketsPerShowTime);
 
             chart.Legends.Add("Legend");
             chart.Series["Data"].Label = "#VAL";

@@ -9,33 +9,45 @@
 
 <h2>Horarios más vendidos</h2>
 <br />
+
 <table>
     <tr>
         <td>Desde: @Model.From</td>
         <td>Hasta: @Model.To</td>
-        <td>Complejo: @Model.ComplexName</td>
+        @if (Model.ShowTimesInfo.Any())
+        {
+            <td>Complejo: @Model.ShowTimesInfo.First().Complexes</td>
+        }
+        
     </tr>
 </table>
-<br />
+
 @if (Model.ShowTimesInfo.Any())
 {
+    <br />
+    
+    <img src="@Url.Content(Model.ChartPath)" width="500"/>
+    
+    <br />
+    
     <table>
         <tr>
             <th>Horario</th>
-            <th>Cantidad de tickets vendidos</th>
             <th>Cantidad de películas diferentes</th>
+            <th>Cantidad de tickets vendidos</th>
+            <th>Complejo</th>
         </tr>
         @foreach (var showTimes in Model.ShowTimesInfo)
         {
             <tr>
                 <td>@showTimes.Time</td>
-                <td>@showTimes.TicketCount</td>
                 <td>@showTimes.MovieCount</td>
+                <td>@showTimes.TicketCount</td>
+                <td>@showTimes.Complexes</td>
             </tr>
         }
     </table>
-    <br />
-    <img src="@Url.Content(Model.ChartPath)" width="500"/>
+    
 }
 else
 {

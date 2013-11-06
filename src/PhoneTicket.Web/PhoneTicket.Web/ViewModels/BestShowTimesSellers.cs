@@ -1,30 +1,30 @@
 ﻿namespace PhoneTicket.Web.ViewModels
 {
-    using Newtonsoft.Json;
-    using PhoneTicket.Web.Properties;
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
 
-    public class BestShowTimesSellersViewModel
+    using Newtonsoft.Json;
+
+    using System.ComponentModel.DataAnnotations;
+
+    using PhoneTicket.Web.Properties;
+
+    public class BestShowTimesSellersViewModel : IValidatableObject
     {
-        [UIHint("DropDownList")]
-        [Required(ErrorMessage = "Seleccione un complejo")]
-        public int ComplexId { get; set; }
-
-        public string ComplexName { get; set; }
-
-        public IEnumerable<SelectListItem> Complexes { get; set; }
-
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
         public string From { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredField", ErrorMessageResourceType = typeof(Resources), ErrorMessage = null)]
         public string To { get; set; }
 
+        public int ComplexId { get; set; }
+
+        public IEnumerable<SelectListItem> Complexes { get; set; }
+
+        public string ComplexesNames { get; set; }
+
+        [JsonIgnore]
         public IEnumerable<ShowTimeTicketCountViewModel> ShowTimesInfo { get; set; }
 
         [JsonIgnore]

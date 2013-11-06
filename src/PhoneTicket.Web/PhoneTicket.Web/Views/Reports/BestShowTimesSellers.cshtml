@@ -11,7 +11,6 @@
 <div style="float: right">
     <a id="pdfView" href="#">Ver PDF</a>
 </div>
-
 <h2>Horarios más vendidos</h2>
 
 @using (Html.BeginForm("BestShowTimesSellers", "Reports", FormMethod.Post, new { id = "search" }))
@@ -37,9 +36,6 @@
         <div class="col-md-4">
             @Html.ValidationMessageFor(m => m.To)
         </div>
-        <div class="col-md-4">
-            @Html.ValidationMessageFor(m => m.ComplexId)
-        </div>
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -50,32 +46,39 @@
 
 @if (Model.ShowTimesInfo != null)
 {
-    <div class="center">
-        @if (Model.ShowTimesInfo.Any())
-        {
-            <table>
-                <tr>
-                    <th>Horario</th>
-                    <th>Cantidad de tickets vendidos</th>
-                    <th>Cantidad de películas diferentes</th>
-                </tr>
-                @foreach (var showTimes in Model.ShowTimesInfo)
-                {
-                    <tr>
-                        <td>@showTimes.Time</td>
-                        <td>@showTimes.TicketCount</td>
-                        <td>@showTimes.MovieCount</td>
-                    </tr>
-                }
-            </table>
-        }
-    </div>
+    <br />
+    <hr>
     <div class="center">
         @if (Model.ShowTimesInfo.Any())
         {
             <img src="@Url.Content(Model.ChartPath)"/>
         }
     </div>
+    <br />
+    <hr>
+    <div class="center">
+        @if (Model.ShowTimesInfo.Any())
+        {
+            <table>
+                <tr>
+                    <th>Horario</th>
+                    <th>Cantidad de películas diferentes</th>
+                    <th>Cantidad de tickets vendidos</th>
+                    <th>Complejo</th>
+                </tr>
+                @foreach (var showTimes in Model.ShowTimesInfo)
+                {
+                    <tr>
+                        <td>@showTimes.Time</td>
+                        <td>@showTimes.MovieCount</td>
+                        <td>@showTimes.TicketCount</td>
+                        <td>@showTimes.Complexes</td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+
     if (!Model.ShowTimesInfo.Any())
     {
         <text><h3>No hay datos para mostrar</h3></text>
