@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/phoneticker_background" >
 
 	<LinearLayout
 		android:id="@+id/errorLoadingDataView" 
@@ -81,59 +82,107 @@
 	       	android:layout_height="wrap_content"
 	       	android:orientation="vertical" >
 		
+		    <TextView
+				android:id="@+id/nameTitleTextView" 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:text="Nombre:"
+			    android:textColor="@color/phoneticker_title_text" />
+		    			
 			<TextView
 				android:id="@+id/nameTextView" 
 			    android:layout_margin="4dp"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceMedium" />
-		    	        
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:textColor="@color/phoneticker_data_text" />
+
 			<TextView
-		      		android:id="@+id/dniTextView" 
-			    android:layout_margin="4dp"
+		      	android:id="@+id/dniTitleTextView" 
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceMedium" />
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:text="DNI:"
+			    android:textColor="@color/phoneticker_title_text" />
 			
 			<TextView
-		      		android:id="@+id/emailTextView" 
+		      	android:id="@+id/dniTextView" 
 			    android:layout_margin="4dp"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceMedium" />
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:textColor="@color/phoneticker_data_text" />
 			
 			<TextView
-		      		android:id="@+id/birthdayTextView" 
+		      	android:id="@+id/emailTitleTextView" 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:text="E-mail:"
+			    android:textColor="@color/phoneticker_title_text" />
+			
+			<TextView
+		      	android:id="@+id/emailTextView" 
 			    android:layout_margin="4dp"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceMedium" />
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:textColor="@color/phoneticker_data_text" />
+			
+			<TextView
+		      	android:id="@+id/birthdayTitleTextView" 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:text="Fecha de nacimiento:"
+			    android:textColor="@color/phoneticker_title_text" />
 		
 			<TextView
-		      		android:id="@+id/mobilePhoneTextView" 
+		      	android:id="@+id/birthdayTextView" 
 			    android:layout_margin="4dp"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceMedium" />
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:textColor="@color/phoneticker_data_text" />
+			
+			<TextView
+		      	android:id="@+id/mobileTitlePhoneTextView" 
+			    android:layout_margin="4dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:text="Teléfono:"
+			    android:textColor="@color/phoneticker_title_text" />
+		
+			<TextView
+		      	android:id="@+id/mobilePhoneTextView" 
+			    android:layout_margin="4dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+			    android:textColor="@color/phoneticker_data_text" />
 			
 			<View
-		              android:layout_width="fill_parent"
-		              android:layout_height="2dp"
-		              android:layout_marginBottom="4dp"
-		              android:layout_marginTop="4dp"
-		              android:background="@android:color/black" />
+				android:layout_width="fill_parent"
+				android:layout_height="2dp"
+				android:layout_marginBottom="4dp"
+				android:layout_marginTop="4dp"
+				android:background="@color/phoneticker_separator_bar" />
 		
 			<Button
-		              android:id="@+id/buyedAndReservedFunctionsButton"
-		              android:layout_width="fill_parent"
-		              android:layout_height="wrap_content"
-		              android:text="@string/buyedAndReservedFunctions" />
+				android:id="@+id/buyedAndReservedFunctionsButton"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/buyedAndReservedFunctions"
+			    android:textColor="@color/phoneticker_button_text" />
 			
 			<Button
-		              android:id="@+id/logoutButton"
-		              android:layout_width="fill_parent"
-		              android:layout_height="wrap_content"
-		              android:text="@string/logoutButton" />
+				android:id="@+id/logoutButton"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/logoutButton"
+			    android:textColor="@color/phoneticker_button_text" />
 			
 		</LinearLayout>
         

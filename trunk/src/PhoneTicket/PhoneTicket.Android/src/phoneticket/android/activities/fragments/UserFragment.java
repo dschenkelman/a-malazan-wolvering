@@ -180,6 +180,8 @@ public class UserFragment extends RoboFragment implements
 		TextView dniView = (TextView) getView().findViewById(R.id.dniTextView);
 		TextView emailView = (TextView) getView().findViewById(
 				R.id.emailTextView);
+		TextView birthdayTitleView = (TextView) getView().findViewById(
+				R.id.birthdayTitleTextView);
 		TextView birthdayView = (TextView) getView().findViewById(
 				R.id.birthdayTextView);
 		TextView mobilePhoneView = (TextView) getView().findViewById(
@@ -197,9 +199,11 @@ public class UserFragment extends RoboFragment implements
 		if (null != user.getBirthday()) {
 			if (0 == user.getBirthday().length()) {
 				birthdayView.setVisibility(TextView.GONE);
+				birthdayTitleView.setVisibility(TextView.GONE);
 			}
 		} else {
 			birthdayView.setVisibility(TextView.GONE);
+			birthdayTitleView.setVisibility(TextView.GONE);
 		}
 		mobilePhoneView.setText(null != user.getCellPhone() ? user
 				.getCellPhone() : "-");
