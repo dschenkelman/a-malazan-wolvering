@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="horizontal|vertical" >
+    android:scrollbars="horizontal|vertical"
+    android:background="@color/phoneticker_background" >
 
     <LinearLayout
         android:layout_width="wrap_content"

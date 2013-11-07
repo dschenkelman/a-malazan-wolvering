@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/white"
-    tools:context="phoneticket.android.activities.MasterActivity" >
+    tools:context="phoneticket.android.activities.MasterActivity"
+    android:background="@color/phoneticker_background" >
 
     <FrameLayout
         android:id="@+id/fragment_container"

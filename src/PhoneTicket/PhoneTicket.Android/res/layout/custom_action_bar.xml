@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:layout_gravity="fill_horizontal"
     android:orientation="horizontal"
-    android:focusable="true" >
+    android:focusable="true"
+    android:background="@color/phoneticker_navigation_bar_background" >
     
     <ImageButton
         android:id="@+id/ribbonMenuButton"
@@ -23,7 +24,7 @@
         android:layout_toRightOf="@+id/ribbonMenuButton"
         android:gravity="center"
         android:text="@string/action_default_title"
-        android:textColor="@android:color/white"
+        android:textColor="@color/phoneticker_navigation_bar_text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     
     <ImageButton

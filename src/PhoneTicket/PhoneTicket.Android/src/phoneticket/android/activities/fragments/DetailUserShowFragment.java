@@ -452,7 +452,8 @@ public class DetailUserShowFragment extends RoboFragment implements
 	@Override
 	public void cancelUserShowFinished(ICancelUserShowService delegate) {
 		if (false == ignoreServicesCallbacks) {
-			userShowStateListener.onCanceledUserShowAction(userShow);
+			if (null != userShowStateListener)
+				userShowStateListener.onCanceledUserShowAction(userShow);
 		}
 	}
 

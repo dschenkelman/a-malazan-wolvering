@@ -3,5 +3,18 @@
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    
+    <color name="phoneticker_background">#d1cfcd</color>
+    
+    <color name="phoneticker_data_text">#754c23</color>
+    <color name="phoneticker_title_text">#bc131a</color>
+    
+    <color name="phoneticker_button_text">#bc131a</color>
+    <color name="phoneticker_button_background">#d17921</color>
+    
+    <color name="phoneticker_separator_bar">#454343</color>
+    
+    <color name="phoneticker_navigation_bar_background">#d17921</color>
+    <color name="phoneticker_navigation_bar_text">#bc131a</color>
 
 </resources>
