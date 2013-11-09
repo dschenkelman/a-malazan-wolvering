@@ -29,6 +29,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -371,6 +372,7 @@ public class DetailMovieFragment extends RoboFragment implements
 
 				for (final IFunction function : dayFunctions) {
 					TextView tv = new TextView(getActivity());
+					tv.setTextColor(Color.parseColor("#bc131a"));
 					tv.setPadding(8, 8, 8, 8);
 					tv.setLines(1);
 					tv.setText(function.getTime());

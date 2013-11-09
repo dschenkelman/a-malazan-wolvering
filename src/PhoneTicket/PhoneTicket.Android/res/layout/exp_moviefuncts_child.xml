@@ -9,7 +9,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp" />
+        android:paddingBottom="5dp"
+     	android:textColor="@color/phoneticker_data_text" />
     
 	<LinearLayout
 	    android:id="@+id/timeLinearLayout"
@@ -22,6 +23,6 @@
 		android:layout_width="fill_parent"
 		android:layout_height="1dp" 
 		android:layout_margin="0dp"
-		android:background="@android:color/darker_gray"/>
+		android:background="@color/phoneticker_separator_bar"/>
     
 </LinearLayout>

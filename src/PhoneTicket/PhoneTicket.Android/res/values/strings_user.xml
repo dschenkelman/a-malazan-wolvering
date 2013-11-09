@@ -8,4 +8,10 @@
     <string name="errorLoadingData">Error al descargar datos del usuario. Intente nuevamente.</string>
     <string name="reloadDataButton">Volver a intentar</string>
 
+    <string name="userNameTitle">Nombre:</string>
+    <string name="userDniTitle">DNI:</string>
+    <string name="userEmailTitle">E-mail:</string>
+    <string name="userPhoneTitle">Teléfono</string>
+    <string name="userBirthdayTitle">Fecha de nacimiento</string>
+    
 </resources>

@@ -28,7 +28,9 @@
 	        android:id="@+id/titleTextView"
 	        android:layout_width="wrap_content"
 	        android:layout_height="fill_parent"
-	        android:gravity="center" />
+	        android:gravity="center"
+    		android:textAppearance="?android:attr/textAppearanceMedium"
+     		android:textColor="@color/phoneticker_title_text" />
 	    
         <ImageButton
 	        android:id="@+id/goToCinema"
@@ -46,6 +48,6 @@
 		android:layout_width="fill_parent"
 		android:layout_height="1dp" 
 		android:layout_margin="0dp"
-		android:background="@android:color/black"/>
+		android:background="@color/phoneticker_separator_bar" />
     
 </LinearLayout>
