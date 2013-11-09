@@ -74,27 +74,35 @@
                     await this.occupiedSeatsService.CreateAsync(newSeat);
                 }
 
-                var show = await this.ShowService.GetAsync(operation.ShowId);
-
-                var template = new OperationEmailTemplate(user, operation, show);
-
-                var message = this.emailService.CreateMessage(
-                    "[CinemAR] Confirmación de operación", template.TransformText(), user.EmailAddress);
-
-                var encoder = new QRCodeEncoder();
-                using (var bitmap = encoder.Encode(operation.Number.ToString()))
+                try
                 {
-                    using (var stream = new MemoryStream())
+                    var show = await this.ShowService.GetAsync(operation.ShowId);
+
+                    var template = new OperationEmailTemplate(user, operation, show);
+
+                    var message = this.emailService.CreateMessage(
+                        "[CinemAR] Confirmación de operación", template.TransformText(), user.EmailAddress);
+
+                    var encoder = new QRCodeEncoder();
+                    using (var bitmap = encoder.Encode(operation.Number.ToString()))
                     {
-                        bitmap.Save(stream, ImageFormat.Bmp);
+                        using (var stream = new MemoryStream())
+                        {
+                            bitmap.Save(stream, ImageFormat.Bmp);
 
-                        stream.Seek(0, SeekOrigin.Begin);
+                            stream.Seek(0, SeekOrigin.Begin);
 
-                        message.Attachments.Add(new Attachment(stream, new ContentType("image/bmp") { Name = "CodigoQR" }));
+                            message.Attachments.Add(new Attachment(stream, new ContentType("image/bmp") { Name = "CodigoQR" }));
 
-                        await this.emailService.SendAsync(message);
+                            await this.emailService.SendAsync(message);
+                        }
                     }
                 }
+                catch (SmtpException e)
+                {
+                    // error sending e-mail, nothing we can do since we are using gmail and it thinks it's spam
+                }
+                
 
                 return operationId;
             }
