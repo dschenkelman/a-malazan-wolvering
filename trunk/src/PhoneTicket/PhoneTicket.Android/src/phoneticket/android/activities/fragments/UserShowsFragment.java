@@ -231,7 +231,7 @@ public class UserShowsFragment extends RoboFragment implements
 	private void createMyShowsLayout() {
 		ListView myShowsList = (ListView) getView().findViewById(
 				R.id.myShowsListView);
-
+		
 		MyShowsAdapter myShowsAdapater = null;
 		if (null == myShowsList.getAdapter()) {
 			myShowsAdapater = new MyShowsAdapter(getActivity(), getId());
