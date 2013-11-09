@@ -125,9 +125,9 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 	private void createPurchaseForm() {
 		EditText firstName = (EditText) findViewById(R.id.firstNameEditText);
 		EditText lastName = (EditText) findViewById(R.id.lastNameEditText);
-		EditText cardNumber = (EditText) findViewById(R.id.cardNumberEditText);
+		EditText cardNumber = (EditText) findViewById(R.id.creditCardEditText);
 		EditText securityNumber = (EditText) findViewById(R.id.securityCodeEditText);
-		EditText expiration = (EditText) findViewById(R.id.vencimientoEditText);
+		EditText expiration = (EditText) findViewById(R.id.expirationEditText);
 
 		Validate firstNameValidate = new Validate(firstName);
 		Validate lastNameValidate = new Validate(lastName);
@@ -239,9 +239,9 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 	protected void onBuyAction() {
 		EditText firstName = (EditText) findViewById(R.id.firstNameEditText);
 		EditText lastName = (EditText) findViewById(R.id.lastNameEditText);
-		EditText cardNumber = (EditText) findViewById(R.id.cardNumberEditText);
+		EditText cardNumber = (EditText) findViewById(R.id.creditCardEditText);
 		EditText securityNumber = (EditText) findViewById(R.id.securityCodeEditText);
-		EditText expiration = (EditText) findViewById(R.id.vencimientoEditText);
+		EditText expiration = (EditText) findViewById(R.id.expirationEditText);
 		
 		InputMethodManager imm = (InputMethodManager)getSystemService( Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(firstName.getWindowToken(), 0);
