@@ -67,7 +67,6 @@
         <item>Z</item>
     </string-array>
 
-    <string name="title_activity_buy_tickets">Compra con tarjeta</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="total_sin_promociones">Total Sin Promociones: $</string>
