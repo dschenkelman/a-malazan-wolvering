@@ -24,14 +24,16 @@
                 android:text="@string/error_message_activity_cinemas"
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/black" />
+				android:textColor="@color/phoneticker_title_text" />
 
             <Button
                 android:id="@+id/refreshViewButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/error_button_activity_movie_list" />
+                android:text="@string/error_button_activity_movie_list"
+				android:textColor="@color/phoneticker_button_text" />
+            
         </RelativeLayout>
 
         <RelativeLayout
@@ -48,7 +50,8 @@
                 android:layout_margin="4dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/loadingInfo"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+				android:textColor="@color/phoneticker_title_text" />
 
             <ProgressBar
                 android:id="@+id/downloadingDataProgressBar"
@@ -70,33 +73,36 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/defaultCinemaName"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textColor="@color/phoneticker_title_text" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:background="@android:color/black" />
+                android:background="@color/phoneticker_separator_bar" />
             
             <TextView
                 android:id="@+id/cinemaAddress"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/defaultCinemaAddress" />
+                android:text="@string/defaultCinemaAddress"
+				android:textColor="@color/phoneticker_data_text" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:background="@android:color/black" />
+                android:background="@color/phoneticker_separator_bar" />
                         
             <Button
                 android:id="@+id/showInGoogleMaps"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="@string/showInMapCinemaButton" />
+                android:text="@string/showInMapCinemaButton"
+				android:textColor="@color/phoneticker_button_text" />
             
         </LinearLayout>
     </LinearLayout>
