@@ -91,7 +91,7 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 			retrieveUserInfoAction();
 		} else {
 			onRetrieveCreditCardsAction();
-		}		
+		}
 	}
 
 	private void retrieveUserInfoAction() {
@@ -132,7 +132,7 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 		Validate lastNameValidate = new Validate(lastName);
 		Validate cardNumberValidate = new Validate(cardNumber);
 		Validate securityNumberValidate = new Validate(securityNumber);
-		Validate vencimientoValidate = new Validate(expiration);
+		Validate expirationValidate = new Validate(expiration);
 
 		Context context = getApplicationContext();
 
@@ -140,7 +140,7 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 		lastNameValidate.addValidator(new NotEmptyValidator(context));
 		cardNumberValidate.addValidator(new NotEmptyValidator(context));
 		securityNumberValidate.addValidator(new NotEmptyValidator(context));
-		vencimientoValidate.addValidator(new NotEmptyValidator(context));
+		expirationValidate.addValidator(new NotEmptyValidator(context));
 
 		RegExpValidator creditCardValidator = new RegExpValidator(context,
 				R.string.validator_invalid_creditcardnumber);
@@ -152,20 +152,29 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 		securityNumberValidator.setPattern("[0-9]{3}");
 		securityNumberValidate.addValidator(securityNumberValidator);
 
-		RegExpValidator vencimientoValidator = new RegExpValidator(context,
-				R.string.validator_invalid_vencimiento);
-		String longMonths = "((0?[1-9])|([1-2]?[0-9])|(3[0-1]))/(([0]?[13578])|(1[02]))/[0-9]{4}";
-		String shortMonths = "((0?[1-9])|([1-2]?[0-9])|(30))/(([0]?[469])|(11))/[0-9]{4}";
-		String feb = "((0?[1-9])|([1-2]?[0-9]))/(([0]?[2])|(11))/[0-9]{4}";
-		vencimientoValidator.setPattern("(" + longMonths + ")|(" + shortMonths
-				+ ")|(" + feb + ")");
-		vencimientoValidate.addValidator(vencimientoValidator);
-
+		RegExpValidator expirationValidator = new RegExpValidator(context,
+				R.string.validator_invalid_expiration);
+		/*
+		 * String longMonths =
+		 * "((0?[1-9])|([1-2]?[0-9])|(3[0-1]))/(([0]?[13578])|(1[02]))/[0-9]{4}"
+		 * ; String shortMonths =
+		 * "((0?[1-9])|([1-2]?[0-9])|(30))/(([0]?[469])|(11))/[0-9]{4}"; String
+		 * feb = "((0?[1-9])|([1-2]?[0-9]))/(([0]?[2])|(11))/[0-9]{4}";
+		 * vencimientoValidator.setPattern("(" + longMonths + ")|(" +
+		 * shortMonths + ")|(" + feb + ")");
+		 */
+		expirationValidator.setPattern("((0[1-9])|([1-9])|(1[0-2]))/[0-9]{4}");
+		expirationValidate.addValidator(expirationValidator);
+		
+		RegExpValidator expirationYearValidator = new RegExpValidator(context,
+				R.string.validator_invalid_expiration_year);
+		expirationYearValidator.setPattern("((1[1-2])/2013|(((0[1-9])|([1-9])|(1[0-2]))/((201[4-9])|(20[2-9][0-9]))))");
+		expirationValidate.addValidator(expirationYearValidator);
 		purchaseForm.addValidates(firstNameValidate);
 		purchaseForm.addValidates(lastNameValidate);
 		purchaseForm.addValidates(cardNumberValidate);
 		purchaseForm.addValidates(securityNumberValidate);
-		purchaseForm.addValidates(vencimientoValidate);
+		purchaseForm.addValidates(expirationValidate);
 	}
 
 	private void createCreditCardPicker(List<CreditCard> creditCards) {
@@ -238,15 +247,15 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 		if (purchaseForm.validate()) {
 			EditText cardNumber = (EditText) findViewById(R.id.cardNumberEditText);
 			EditText securityNumber = (EditText) findViewById(R.id.securityCodeEditText);
-			EditText vencimiento = (EditText) findViewById(R.id.vencimientoEditText);
+			EditText expiration = (EditText) findViewById(R.id.vencimientoEditText);
 
 			Intent resultData = new Intent();
 			resultData.putExtra(EXTRA_RESULT_PURCHASE_CARD_NUMBER, cardNumber
 					.getText().toString());
 			resultData.putExtra(EXTRA_RESULT_PURCHASE_SECURIRY_NUMBER,
 					securityNumber.getText().toString());
-			resultData.putExtra(EXTRA_RESULT_PURCHASE_EXPIRATION, vencimiento
-					.getText().toString());
+			resultData.putExtra(EXTRA_RESULT_PURCHASE_EXPIRATION, "01/"
+					+ expiration.getText().toString());
 			resultData.putExtra(EXTRA_RESULT_PURCHASE_COMPANY_ID,
 					selectedCreditCard.getId());
 			setResult(MasterActivity.PURCHASE_DATA_RESULT_CODE_OK, resultData);
