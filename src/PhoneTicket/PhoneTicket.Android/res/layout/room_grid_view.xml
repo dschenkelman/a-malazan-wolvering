@@ -6,6 +6,7 @@
     android:horizontalSpacing="1dp"
     android:numColumns="22"
     android:scrollbarStyle="outsideOverlay"
+    android:background="@color/phoneticker_background"
     android:scrollbars="vertical"
     android:stretchMode="columnWidth"
     android:verticalScrollbarPosition="right"
