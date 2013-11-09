@@ -765,3 +765,8 @@ span.field-value {
 .welcome-subtitle {
     color: #4359A3
 }
+
+/* fixes */
+div.editor-field{
+    margin-bottom: 10px;
+}
