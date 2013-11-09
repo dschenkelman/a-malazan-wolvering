@@ -33,6 +33,11 @@
         {
             get
             {
+                if (this.From == null)
+                {
+                    return DateTime.MinValue; 
+                }
+
                 return DateTime.Parse(this.From);
             } 
         }

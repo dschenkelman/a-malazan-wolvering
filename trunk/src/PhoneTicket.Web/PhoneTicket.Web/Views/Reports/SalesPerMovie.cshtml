@@ -46,6 +46,15 @@
 
 @if (Model.MovieSales != null)
 {
+    <hr />
+    
+    <div class="center">
+        @if (Model.MovieSales.Any())
+        {
+            <img src="@Url.Content(Model.ChartPath)"/>
+        }
+    </div>
+    
     <div class="center">
         @if (Model.MovieSales.Any())
         { 
@@ -68,12 +77,6 @@
                     </tr>
                 }
             </table>
-        }
-    </div>
-    <div class="center">
-        @if (Model.MovieSales.Any())
-        {
-            <img src="@Url.Content(Model.ChartPath)"/>
         }
     </div>
     if (!Model.MovieSales.Any())
