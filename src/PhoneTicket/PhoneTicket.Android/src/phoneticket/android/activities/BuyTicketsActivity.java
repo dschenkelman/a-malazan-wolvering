@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -154,15 +155,6 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 
 		RegExpValidator expirationValidator = new RegExpValidator(context,
 				R.string.validator_invalid_expiration);
-		/*
-		 * String longMonths =
-		 * "((0?[1-9])|([1-2]?[0-9])|(3[0-1]))/(([0]?[13578])|(1[02]))/[0-9]{4}"
-		 * ; String shortMonths =
-		 * "((0?[1-9])|([1-2]?[0-9])|(30))/(([0]?[469])|(11))/[0-9]{4}"; String
-		 * feb = "((0?[1-9])|([1-2]?[0-9]))/(([0]?[2])|(11))/[0-9]{4}";
-		 * vencimientoValidator.setPattern("(" + longMonths + ")|(" +
-		 * shortMonths + ")|(" + feb + ")");
-		 */
 		expirationValidator.setPattern("((0[1-9])|([1-9])|(1[0-2]))/[0-9]{4}");
 		expirationValidate.addValidator(expirationValidator);
 		
@@ -170,6 +162,7 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 				R.string.validator_invalid_expiration_year);
 		expirationYearValidator.setPattern("((1[1-2])/2013|(((0[1-9])|([1-9])|(1[0-2]))/((201[4-9])|(20[2-9][0-9]))))");
 		expirationValidate.addValidator(expirationYearValidator);
+		
 		purchaseForm.addValidates(firstNameValidate);
 		purchaseForm.addValidates(lastNameValidate);
 		purchaseForm.addValidates(cardNumberValidate);
@@ -244,10 +237,20 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 	}
 
 	protected void onBuyAction() {
+		EditText firstName = (EditText) findViewById(R.id.firstNameEditText);
+		EditText lastName = (EditText) findViewById(R.id.lastNameEditText);
+		EditText cardNumber = (EditText) findViewById(R.id.cardNumberEditText);
+		EditText securityNumber = (EditText) findViewById(R.id.securityCodeEditText);
+		EditText expiration = (EditText) findViewById(R.id.vencimientoEditText);
+		
+		InputMethodManager imm = (InputMethodManager)getSystemService( Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(firstName.getWindowToken(), 0);
+		imm.hideSoftInputFromWindow(lastName.getWindowToken(), 0);
+		imm.hideSoftInputFromWindow(cardNumber.getWindowToken(), 0);
+		imm.hideSoftInputFromWindow(securityNumber.getWindowToken(), 0);
+		imm.hideSoftInputFromWindow(expiration.getWindowToken(), 0);
+		
 		if (purchaseForm.validate()) {
-			EditText cardNumber = (EditText) findViewById(R.id.cardNumberEditText);
-			EditText securityNumber = (EditText) findViewById(R.id.securityCodeEditText);
-			EditText expiration = (EditText) findViewById(R.id.vencimientoEditText);
 
 			Intent resultData = new Intent();
 			resultData.putExtra(EXTRA_RESULT_PURCHASE_CARD_NUMBER, cardNumber
