@@ -109,6 +109,8 @@ public class LoginActivity extends RoboFragmentActivity implements
 			hideKeyboard();
 			showProgressDialog();
 			LoginUser loginUser = createLoginUser();
+			UserManager.getInstance().setCredentials(loginUser.getEmail(),
+					loginUser.getPassword());
 			service.authUser(this, loginUser);
 		}
 	}
@@ -149,8 +151,6 @@ public class LoginActivity extends RoboFragmentActivity implements
 		hideProgressDialog();
 		Intent resultData = new Intent();
 		setResult(MasterActivity.LOGIN_RESULT_CODE_OK, resultData);
-		UserManager.getInstance().setCredentials(user.getEmail(),
-				user.getPassword());
 		finish();
 	}
 
