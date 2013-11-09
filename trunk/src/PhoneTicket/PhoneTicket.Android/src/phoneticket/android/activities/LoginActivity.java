@@ -19,10 +19,15 @@ import phoneticket.android.utils.UserManager;
 import phoneticket.android.validator.IFormValidator;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectResource;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 
@@ -52,7 +57,34 @@ public class LoginActivity extends RoboFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		setupActionBar();
 		createLoginForm();
+	}
+
+	/**
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setupActionBar() {
+		ActionBar actionBar = getActionBar();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+				&& actionBar != null) {
+
+			actionBar.setDisplayHomeAsUpEnabled(false);
+			actionBar.setDisplayShowTitleEnabled(false);
+			actionBar.setDisplayUseLogoEnabled(false);
+			actionBar.setDisplayShowHomeEnabled(false);
+			actionBar.setDisplayShowCustomEnabled(true);
+
+			LayoutInflater inflator = (LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View v = inflator.inflate(R.layout.default_action_bar, null);
+			((TextView) v.findViewById(R.id.actionTitle))
+					.setText(getResources().getString(
+							R.string.title_activity_login));
+
+			actionBar.setCustomView(v);
+		}
 	}
 
 	private void createLoginForm() {
@@ -77,8 +109,6 @@ public class LoginActivity extends RoboFragmentActivity implements
 			hideKeyboard();
 			showProgressDialog();
 			LoginUser loginUser = createLoginUser();
-			UserManager.getInstance().setCredentials(loginUser.getEmail(),
-					loginUser.getPassword());
 			service.authUser(this, loginUser);
 		}
 	}
@@ -119,6 +149,8 @@ public class LoginActivity extends RoboFragmentActivity implements
 		hideProgressDialog();
 		Intent resultData = new Intent();
 		setResult(MasterActivity.LOGIN_RESULT_CODE_OK, resultData);
+		UserManager.getInstance().setCredentials(user.getEmail(),
+				user.getPassword());
 		finish();
 	}
 

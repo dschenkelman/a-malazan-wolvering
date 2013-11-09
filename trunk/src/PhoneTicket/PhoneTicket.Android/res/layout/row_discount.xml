@@ -18,19 +18,21 @@
         android:id="@+id/discountDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/discountCount"
         android:layout_toRightOf="@+id/discountCheckBox"
-        android:layout_centerVertical="true"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <TextView
         android:id="@+id/discountCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:layout_toLeftOf="@+id/plusDiscountCount"
-        android:layout_centerVertical="true"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <Button
         android:id="@+id/plusDiscountCount"
@@ -40,6 +42,7 @@
         android:layout_toLeftOf="@+id/decreaseDiscountCount"
         android:contentDescription="@string/plus_discount"
         android:text="@string/plus"
+        android:textColor="@color/phoneticker_button_text"
         android:textSize="15sp" />
 
     <Button
@@ -49,6 +52,7 @@
         android:layout_alignParentRight="true"
         android:contentDescription="@string/decrease_discount"
         android:text="@string/less"
+        android:textColor="@color/phoneticker_button_text"
         android:textSize="15sp" />
 
 </RelativeLayout>

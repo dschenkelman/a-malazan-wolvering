@@ -8,21 +8,43 @@
         android:id="@+id/filmInfo"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/phoneticker_title_text" />
+
+    <TextView
+        android:id="@+id/cinemaAddressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/filmInfo"
+        android:text="@string/direccion"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_title_text" />
 
     <TextView
         android:id="@+id/cinemaAddress"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/filmInfo"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_toRightOf="@+id/cinemaAddressText"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
+
+    <TextView
+        android:id="@+id/armChairsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cinemaAddressText"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_title_text" />
 
     <TextView
         android:id="@+id/armChairs"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cinemaAddress"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_below="@+id/cinemaAddressText"
+        android:layout_toRightOf="@+id/armChairsText"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <TextView
         android:id="@+id/amountText"
@@ -30,15 +52,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/armChairs"
         android:text="@string/total_sin_promociones"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_title_text" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/armChairs"
+        android:layout_toRightOf="@+id/amountText"
+        android:text="@string/price"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <TextView
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/armChairs"
-        android:layout_toRightOf="@+id/amountText"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_toRightOf="@+id/price"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <TextView
         android:id="@+id/totalText"
@@ -46,15 +80,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/amountText"
         android:text="@string/precio_final_text"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_title_text" />
+
+    <TextView
+        android:id="@+id/tatolPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amountText"
+        android:layout_toRightOf="@+id/totalText"
+        android:text="@string/price"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <TextView
         android:id="@+id/total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amountText"
-        android:layout_toRightOf="@+id/totalText"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_toRightOf="@+id/tatolPrice"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <View
         android:id="@+id/line"
@@ -63,7 +109,7 @@
         android:layout_below="@+id/totalText"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
-        android:background="@android:color/black" />
+        android:background="@color/phoneticker_separator_bar" />
 
     <TextView
         android:id="@+id/discountsText"
@@ -72,7 +118,8 @@
         android:layout_below="@+id/line"
         android:layout_margin="5dp"
         android:text="@string/promociones"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_title_text" />
 
     <LinearLayout
         android:id="@+id/discountsLayout"
@@ -85,6 +132,7 @@
             android:id="@+id/discounts"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:background="@color/phoneticker_background"
             android:visibility="gone" >
         </ListView>
     </LinearLayout>
@@ -105,19 +153,22 @@
                 android:id="@+id/cancelarButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cancelar" />
+                android:text="@string/cancelar"
+                android:textColor="@color/phoneticker_button_text" />
 
             <Button
                 android:id="@+id/purchaseButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/comprar" />
+                android:text="@string/comprar"
+                android:textColor="@color/phoneticker_button_text" />
 
             <Button
                 android:id="@+id/reservarButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reservar" />
+                android:text="@string/reservar"
+                android:textColor="@color/phoneticker_button_text" />
         </LinearLayout>
     </RelativeLayout>
 

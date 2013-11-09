@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_horizontal"
+    android:background="@color/phoneticker_navigation_bar_background"
+    android:focusable="true"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/actionTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="left|center_vertical"
+        android:padding="5dp"
+        android:text="@string/action_default_title"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_navigation_bar_text" />
+
+</RelativeLayout>

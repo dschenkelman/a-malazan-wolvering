@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/error_obteniendo_informacion"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/phoneticker_data_text" />
 
     <Button
         android:id="@+id/refreshViewButton"

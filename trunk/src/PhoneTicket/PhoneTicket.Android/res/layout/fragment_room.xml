@@ -2,15 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@color/phoneticker_background" >
+    android:background="@color/phoneticker_background"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/cinemaAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/movieName"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <View
         android:id="@+id/line"
@@ -29,7 +30,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <TextView
         android:id="@+id/movieName"
@@ -38,7 +40,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/movieDay"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_title_text" />
 
     <TextView
         android:id="@+id/armChairText"
@@ -47,7 +50,8 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/line"
         android:text="@string/butacas"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <TextView
         android:id="@+id/armChairSelected"
@@ -56,7 +60,8 @@
         android:layout_below="@+id/line"
         android:layout_toLeftOf="@+id/armChairText"
         android:text="@string/initial_armchair_count"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/phoneticker_data_text" />
 
     <LinearLayout
         android:id="@+id/room"
@@ -85,7 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/selection_finished" />
+            android:text="@string/selection_finished"
+            android:textColor="@color/phoneticker_button_text" />
     </RelativeLayout>
 
 </RelativeLayout>

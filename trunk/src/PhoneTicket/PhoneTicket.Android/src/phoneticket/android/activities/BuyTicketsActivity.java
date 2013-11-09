@@ -19,9 +19,13 @@ import phoneticket.android.services.get.IRetrieveUserInfoServiceDelegate;
 import phoneticket.android.utils.UserManager;
 import phoneticket.android.validator.IFormValidator;
 import roboguice.activity.RoboFragmentActivity;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -34,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class BuyTicketsActivity extends RoboFragmentActivity implements
 		IRetrieveCreditCardsServiseDelegate, IConfirmBackActionDialogDelegate,
@@ -60,6 +65,7 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 		setContentView(R.layout.activity_buy_tickets);
 
 		createPurchaseForm();
+		setupActionBar();
 
 		EditText firstName = (EditText) findViewById(R.id.firstNameEditText);
 		EditText lastName = (EditText) findViewById(R.id.lastNameEditText);
@@ -85,6 +91,32 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 				});
 
 		retrieveInformation();
+	}
+
+	/**
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setupActionBar() {
+		ActionBar actionBar = getActionBar();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+				&& actionBar != null) {
+
+			actionBar.setDisplayHomeAsUpEnabled(false);
+			actionBar.setDisplayShowTitleEnabled(false);
+			actionBar.setDisplayUseLogoEnabled(false);
+			actionBar.setDisplayShowHomeEnabled(false);
+			actionBar.setDisplayShowCustomEnabled(true);
+
+			LayoutInflater inflator = (LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View v = inflator.inflate(R.layout.default_action_bar, null);
+			((TextView) v.findViewById(R.id.actionTitle))
+					.setText(getResources().getString(
+							R.string.title_activity_buy_tickets));
+
+			actionBar.setCustomView(v);
+		}
 	}
 
 	private void retrieveInformation() {
@@ -157,12 +189,13 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 				R.string.validator_invalid_expiration);
 		expirationValidator.setPattern("((0[1-9])|([1-9])|(1[0-2]))/[0-9]{4}");
 		expirationValidate.addValidator(expirationValidator);
-		
+
 		RegExpValidator expirationYearValidator = new RegExpValidator(context,
 				R.string.validator_invalid_expiration_year);
-		expirationYearValidator.setPattern("((1[1-2])/2013|(((0[1-9])|([1-9])|(1[0-2]))/((201[4-9])|(20[2-9][0-9]))))");
+		expirationYearValidator
+				.setPattern("((1[1-2])/2013|(((0[1-9])|([1-9])|(1[0-2]))/((201[4-9])|(20[2-9][0-9]))))");
 		expirationValidate.addValidator(expirationYearValidator);
-		
+
 		purchaseForm.addValidates(firstNameValidate);
 		purchaseForm.addValidates(lastNameValidate);
 		purchaseForm.addValidates(cardNumberValidate);
@@ -242,14 +275,14 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 		EditText cardNumber = (EditText) findViewById(R.id.creditCardEditText);
 		EditText securityNumber = (EditText) findViewById(R.id.securityCodeEditText);
 		EditText expiration = (EditText) findViewById(R.id.expirationEditText);
-		
-		InputMethodManager imm = (InputMethodManager)getSystemService( Context.INPUT_METHOD_SERVICE);
+
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(firstName.getWindowToken(), 0);
 		imm.hideSoftInputFromWindow(lastName.getWindowToken(), 0);
 		imm.hideSoftInputFromWindow(cardNumber.getWindowToken(), 0);
 		imm.hideSoftInputFromWindow(securityNumber.getWindowToken(), 0);
 		imm.hideSoftInputFromWindow(expiration.getWindowToken(), 0);
-		
+
 		if (purchaseForm.validate()) {
 
 			Intent resultData = new Intent();
