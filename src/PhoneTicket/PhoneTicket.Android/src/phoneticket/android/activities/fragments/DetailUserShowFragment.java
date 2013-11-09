@@ -89,10 +89,12 @@ public class DetailUserShowFragment extends RoboFragment implements
 	private IShareActionListener shareActionListener;
 	private IUserShowsActionListener userShowStateListener;
 	private IRibbonChangeMenuListener ribbonListener;
+	private boolean confirmingReservation;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		confirmingReservation = false;
 		View view = inflater.inflate(R.layout.fragment_detail_user_shows,
 				container, false);
 
@@ -112,11 +114,14 @@ public class DetailUserShowFragment extends RoboFragment implements
 
 		loadDetailUserShow();
 
-		if (shouldRetrieveUserShow()) {
-			onRetrieveUserShowAction();
-		} else {
-			populateUserShowView();
-			showUserShowListLayout();
+		if (!confirmingReservation) {
+			if (shouldRetrieveUserShow()) {
+				onRetrieveUserShowAction();
+				showLoadingLayout();
+			} else {
+				populateUserShowView();
+				showUserShowListLayout();
+			}
 		}
 
 		((Button) getView().findViewById(R.id.reloadDataButton))
@@ -493,6 +498,7 @@ public class DetailUserShowFragment extends RoboFragment implements
 	@Override
 	public void onPurchaseDataResult(String cardNumber, String securityNumber,
 			String expiration, int cardCompany) {
+		confirmingReservation = true;
 		showConfirmingLayout();
 		confirmService.confirmReservation(this, new CreditCardData(cardNumber,
 				securityNumber, cardCompany, expiration), showId);

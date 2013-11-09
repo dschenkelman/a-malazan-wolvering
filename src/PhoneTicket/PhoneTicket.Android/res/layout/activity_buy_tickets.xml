@@ -88,7 +88,7 @@
 	        	android:textColor="@color/phoneticker_data_text" />
 	
 	        <EditText
-	            android:id="@+id/cardNumberEditText"
+	            android:id="@+id/creditCardEditText"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:ems="10"
@@ -109,7 +109,7 @@
 	        	android:textColor="@color/phoneticker_data_text" />
 	
 	        <EditText
-	            android:id="@+id/vencimientoEditText"
+	            android:id="@+id/expirationEditText"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:ems="10"
@@ -120,7 +120,8 @@
 	        <Spinner
 	            android:id="@+id/cardCompanySppiner"
 			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content" />
+			    android:layout_height="wrap_content"
+	        	android:textColor="@color/phoneticker_data_text" />
 	
 	        <Button
 	            android:id="@+id/buyButton"
