@@ -11,19 +11,21 @@
 		android:layout_height="wrap_content"
 		android:orientation="vertical" >
 	    
-       <TextView
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_margin="4dp"
-           android:gravity="center_vertical|center_horizontal"
-           android:text="@string/errorLoadingDetailUserShowData"
-           android:textSize="15sp" />
+	    <TextView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="4dp"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:text="@string/errorLoadingDetailUserShowData"
+	        android:textSize="15sp"
+	        android:textColor="@color/phoneticker_title_text" />
 
 	    <Button
 	        android:id="@+id/reloadDataButton"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:text="@string/reloadDataButton" />
+	        android:text="@string/reloadDataButton"
+	        android:textColor="@color/phoneticker_button_text" />
 	  
 	</LinearLayout>
 
@@ -41,7 +43,8 @@
 	        android:layout_margin="4dp"
 	        android:gravity="center_vertical|center_horizontal"
 	        android:text="@string/loadingInfo"
-	        android:textSize="15sp" />
+	        android:textSize="15sp"
+	        android:textColor="@color/phoneticker_title_text" />
 	
 	    <ProgressBar
 	        android:id="@+id/downloadingDataProgressBar"
@@ -66,75 +69,80 @@
    	            android:id="@+id/movieNameAndShowTimeTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceMedium" 
-   	            android:text="Aviones - 15/9/13 16:00 Hs" />
+			    android:textAppearance="?android:attr/textAppearanceLarge"
+	        	android:textColor="@color/phoneticker_title_text" />
 
    	        <TextView
    	            android:id="@+id/complexAddressTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceMedium" 
-   	            android:text="Belgrano 856 y Juramento" />
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+	        	android:textColor="@color/phoneticker_data_text" />
 
    	        <TextView
    	            android:id="@+id/showPriceTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceMedium" 
-   	            android:text="Precio final: $100" />
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+	        	android:textColor="@color/phoneticker_data_text" />
    	        
    	        <TextView
    	            android:id="@+id/placesCountTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
-			    android:textAppearance="?android:attr/textAppearanceMedium" 
-   	            android:text="5 Entradas" />
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+	        	android:textColor="@color/phoneticker_data_text" />
    	        
    	        <TextView
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
 			    android:textAppearance="?android:attr/textAppearanceMedium" 
-   	            android:text="Promociones:" />
+   	            android:text="@string/discountsTitle"
+	        	android:textColor="@color/phoneticker_title_text" />
    	           	        
    	        <TextView
    	            android:id="@+id/discountsTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
    	            android:paddingLeft="10dp"
-			    android:textAppearance="?android:attr/textAppearanceMedium" 
-   	            android:text="1 2x1 cablevision\n3 precio fijo" />
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+	        	android:textColor="@color/phoneticker_data_text" />
    	        
    	        <TextView
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
 			    android:textAppearance="?android:attr/textAppearanceMedium" 
-   	            android:text="Butacas:" />
+   	            android:text="@string/seatsTitle"
+	        	android:textColor="@color/phoneticker_title_text" />
    	        
    	        <TextView
    	            android:id="@+id/placesCodesTextView"
    	            android:layout_width="wrap_content"
    	            android:layout_height="wrap_content"
    	            android:paddingLeft="10dp"
-			    android:textAppearance="?android:attr/textAppearanceMedium" 
-   	            android:text="G9 G10 G11 G12 G13" />
+			    android:textAppearance="?android:attr/textAppearanceMedium"
+	        	android:textColor="@color/phoneticker_data_text" />
    	        
 		    <Button
 		        android:id="@+id/cancelShowButton"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
-		        android:text="@string/cancelShowButton" />
+		        android:text="@string/cancelShowButton"
+	        	android:textColor="@color/phoneticker_button_text" />
 
 		    <Button
 		        android:id="@+id/boughtShowButton"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
-		        android:text="@string/boughtShowButton" />
+		        android:text="@string/boughtShowButton"
+	        	android:textColor="@color/phoneticker_button_text" />
 		  
 		    <Button
 		        android:id="@+id/qrCodeButton"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
-		        android:text="@string/qrCodeButton" />
+		        android:text="@string/qrCodeButton"
+	        	android:textColor="@color/phoneticker_button_text" />
 		  
    	    </LinearLayout>
    	    
