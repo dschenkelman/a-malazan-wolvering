@@ -13,6 +13,7 @@
         android:layout_margin="4dp"
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/loadingInfo"
+        android:textColor="@color/phoneticker_data_text"
         android:textSize="15sp" />
 
     <ProgressBar

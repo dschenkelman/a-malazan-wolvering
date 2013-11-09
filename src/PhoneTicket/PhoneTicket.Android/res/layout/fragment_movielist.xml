@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@color/phoneticker_background" >
+    android:background="@color/phoneticker_background"
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/errorViewContainer"
@@ -19,14 +19,15 @@
             android:text="@string/error_message_activity_movie_list"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/phoneticker_data_text" />
 
         <Button
             android:id="@+id/refreshViewButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/error_button_activity_movie_list" />
+            android:text="@string/error_button_activity_movie_list"
+            android:textColor="@color/phoneticker_button_text" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -43,6 +44,7 @@
             android:layout_margin="4dp"
             android:gravity="center_vertical|center_horizontal"
             android:text="@string/loadingInfo"
+            android:textColor="@color/phoneticker_data_text"
             android:textSize="15sp" />
 
         <ProgressBar
@@ -57,6 +59,7 @@
         android:id="@+id/gridview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@color/phoneticker_background"
         android:gravity="center"
         android:horizontalSpacing="1dp"
         android:numColumns="auto_fit"

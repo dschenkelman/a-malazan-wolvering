@@ -238,10 +238,10 @@ public class DiscountFragment extends RoboFragment implements
 		for (ArmChair armChair : armChairsSelected) {
 			armChairs += armChair.getRow() + armChair.getColumn() + " ";
 		}
-		((TextView) getView().findViewById(R.id.cinemaAddress)).setText(ticket
-				.getCinemaAddress());
-		((TextView) getView().findViewById(R.id.armChairs))
-				.setText(armChairsSelected.size() + " Butacas: " + armChairs);
+		((TextView) getView().findViewById(R.id.armChairsText))
+				.setText(armChairsSelected.size() + " Butacas: ");
+
+		((TextView) getView().findViewById(R.id.armChairs)).setText(armChairs);
 
 		((TextView) getView().findViewById(R.id.amount)).setText(String
 				.valueOf(armChairsSelected.size() * ticket.getPrice()));

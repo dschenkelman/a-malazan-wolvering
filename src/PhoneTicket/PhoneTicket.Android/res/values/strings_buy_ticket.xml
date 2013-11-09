@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="title_activity_buy_tickets">Datos de la compra</string>
-    
     <string name="buy_ticket_hint_first_name">Nombre *</string>
     <string name="buy_ticket_hint_last_name">Apellido *</string>
     <string name="buy_ticket_hint_card_number">Numero de tarjeta *</string>
@@ -10,10 +9,9 @@
     <string name="buy_ticket_hint_vencimiento">Fecha de vencimiento *</string>
     <string name="buy_ticket_hint_card_type">Medio de pago *</string>
     <string name="buy_ticket_hint_buy_button">Realizar compra</string>
-    
     <string name="validator_invalid_creditcardnumber">Formato valido: 0000#8211;0000#8211;0000#8211;0000</string>
     <string name="validator_invalid_securitynumber">Código de seguridad consta de tres números.</string>
     <string name="validator_invalid_expiration">Formato valido: MM/AAAA</string>
     <string name="validator_invalid_expiration_year">Fecha invalida</string>
-    
+
 </resources>

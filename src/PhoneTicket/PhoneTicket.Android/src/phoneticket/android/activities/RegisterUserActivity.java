@@ -24,14 +24,19 @@ import phoneticket.android.services.post.IRegisterUserServiceDelegate;
 import phoneticket.android.validator.IFormValidator;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectResource;
+import android.os.Build;
 import android.os.Bundle;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class RegisterUserActivity extends RoboFragmentActivity implements
 		IRegisterUserServiceDelegate, IMessageDialogDataSource,
@@ -60,6 +65,33 @@ public class RegisterUserActivity extends RoboFragmentActivity implements
 		setContentView(R.layout.activity_register_user);
 
 		createValidationForm();
+		setupActionBar();
+	}
+
+	/**
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setupActionBar() {
+		ActionBar actionBar = getActionBar();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+				&& actionBar != null) {
+
+			actionBar.setDisplayHomeAsUpEnabled(false);
+			actionBar.setDisplayShowTitleEnabled(false);
+			actionBar.setDisplayUseLogoEnabled(false);
+			actionBar.setDisplayShowHomeEnabled(false);
+			actionBar.setDisplayShowCustomEnabled(true);
+
+			LayoutInflater inflator = (LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View v = inflator.inflate(R.layout.default_action_bar, null);
+			((TextView) v.findViewById(R.id.actionTitle))
+					.setText(getResources().getString(
+							R.string.title_activity_register_user));
+
+			actionBar.setCustomView(v);
+		}
 	}
 
 	private void createValidationForm() {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="title_activity_login">Ingreso</string>
-    
+    <string name="title_activity_register">Registro</string>
     <string name="loginInputEmail">E-mail</string>
     <string name="loginInputPassword">Contraseña</string>
     <string name="loginLoginButton">Ingresar</string>
     <string name="loginRegisterButton">Registrarse</string>
-    
+
 </resources>

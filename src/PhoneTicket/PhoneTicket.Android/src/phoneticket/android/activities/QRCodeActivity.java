@@ -6,10 +6,17 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
 import phoneticket.android.R;
+import android.os.Build;
 import android.os.Bundle;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class QRCodeActivity extends Activity {
 
@@ -19,7 +26,7 @@ public class QRCodeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_qrcode);
-		
+		setupActionBar();
 		String content = getIntent().getStringExtra(EXTRA_QR_STRING);
 		if (null != content) {
 			if (0 != content.length()) {
@@ -28,12 +35,13 @@ public class QRCodeActivity extends Activity {
 				try {
 					BarcodeFormat barcodeFormat = BarcodeFormat.QR_CODE;
 
-			        int width = 300;
-			        int height = 300;
+					int width = 300;
+					int height = 300;
 
-			        MultiFormatWriter barcodeWriter = new MultiFormatWriter();
-			        BitMatrix bitMatrix = barcodeWriter.encode(content, barcodeFormat, width, height);
-			        
+					MultiFormatWriter barcodeWriter = new MultiFormatWriter();
+					BitMatrix bitMatrix = barcodeWriter.encode(content,
+							barcodeFormat, width, height);
+
 					int[] pixels = new int[width * height];
 					for (int y = 0; y < height; y++) {
 						int offset = y * width;
@@ -53,4 +61,31 @@ public class QRCodeActivity extends Activity {
 			}
 		}
 	}
+
+	/**
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setupActionBar() {
+		ActionBar actionBar = getActionBar();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+				&& actionBar != null) {
+
+			actionBar.setDisplayHomeAsUpEnabled(false);
+			actionBar.setDisplayShowTitleEnabled(false);
+			actionBar.setDisplayUseLogoEnabled(false);
+			actionBar.setDisplayShowHomeEnabled(false);
+			actionBar.setDisplayShowCustomEnabled(true);
+
+			LayoutInflater inflator = (LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View v = inflator.inflate(R.layout.default_action_bar, null);
+			((TextView) v.findViewById(R.id.actionTitle))
+					.setText(getResources().getString(
+							R.string.title_activity_qrcode));
+
+			actionBar.setCustomView(v);
+		}
+	}
+
 }
