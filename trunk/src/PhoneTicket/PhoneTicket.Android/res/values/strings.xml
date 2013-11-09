@@ -80,5 +80,6 @@
     <string name="less">-</string>
     <string name="cancelar">Cancelar</string>
     <string name="title_activity_qrcode">Código QR</string>
+    <string name="qrDescription">Código QR</string>
 
 </resources>

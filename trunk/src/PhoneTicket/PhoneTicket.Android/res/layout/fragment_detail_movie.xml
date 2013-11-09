@@ -23,7 +23,8 @@
                 android:layout_centerInParent="true"
                 android:layout_margin="4dp"
                 android:text="@string/loadingInfo"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+	        	android:textColor="@color/phoneticker_title_text" />
 
             <ProgressBar
                 android:id="@+id/downloadingDataProgressBar"
@@ -38,7 +39,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/downloadingDataProgressBar"
-                android:text="@string/refreshMovieData" />
+                android:text="@string/refreshMovieData"
+	        	android:textColor="@color/phoneticker_button_text" />
+            
         </RelativeLayout>
 
         <LinearLayout
@@ -69,35 +72,45 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="@string/detailMovieDefaultTitle" />
+                        android:text="@string/detailMovieDefaultTitle"
+			    		android:textAppearance="?android:attr/textAppearanceLarge"
+	        			android:textColor="@color/phoneticker_title_text" />
 
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="2dp"
                         android:layout_margin="4dp"
-                        android:background="@android:color/black" />
+                        android:background="@color/phoneticker_separator_bar" />
 
                     <TextView
                         android:id="@+id/movieGendreText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="@string/detailMovieDefaultGendre" />
+                        android:text="@string/detailMovieDefaultGendre"
+			    		android:textAppearance="?android:attr/textAppearanceMedium"
+	        			android:textColor="@color/phoneticker_data_text" />
 
                     <TextView
                         android:id="@+id/movieDurationText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="@string/detailMovieDefaultDuration" />
+                        android:text="@string/detailMovieDefaultDuration"
+			    		android:textAppearance="?android:attr/textAppearanceMedium"
+	        			android:textColor="@color/phoneticker_data_text" />
 
                     <TextView
                         android:id="@+id/movieClasificationText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:text="@string/detailMovieDefaultClasification" />
+                        android:text="@string/detailMovieDefaultClasification"
+			    		android:textAppearance="?android:attr/textAppearanceMedium"
+	        			android:textColor="@color/phoneticker_data_text" />
+                    
                 </LinearLayout>
+                
             </LinearLayout>
 
             <View
@@ -105,40 +118,45 @@
                 android:layout_height="2dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:background="@android:color/black" />
+                android:background="@color/phoneticker_separator_bar" />
 
             <TextView
                 android:id="@+id/movieSynopsisText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/detailMovieDefaultSynopsis" />
+                android:text="@string/detailMovieDefaultSynopsis"
+	    		android:textAppearance="?android:attr/textAppearanceMedium"
+       			android:textColor="@color/phoneticker_data_text" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:background="@android:color/black" />
+                android:background="@color/phoneticker_separator_bar" />
 
             <Button
                 android:id="@+id/watchTrailerButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/watchTrailer" />
+                android:text="@string/watchTrailer"
+       			android:textColor="@color/phoneticker_button_text" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:background="@android:color/black" />
+                android:background="@color/phoneticker_separator_bar" />
 
             <LinearLayout
                 android:id="@+id/functionsLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
+            
         </LinearLayout>
+        
     </LinearLayout>
 
 </ScrollView>
