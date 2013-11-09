@@ -17,11 +17,11 @@
 {
     <div class="row">
         <div class="col-md-4">
-            <label>Desde:</label>
+            <label>Desde *:</label>
             @Html.TextBoxFor(m => m.From, new { style = "width: 200px" })
         </div>
         <div class="col-md-4">
-            <label>Hasta:</label>
+            <label>Hasta *:</label>
             @Html.TextBoxFor(m => m.To, new { style = "width: 200px" })
         </div>
         <div class="col-md-4">
@@ -41,6 +41,9 @@
         <div class="col-md-6">
             <input id="generate" type="submit" value="Generar" />
         </div>
+    </div>
+    <div>
+        <h4> * - Campo Obligatorio</h4>
     </div>
 }
 
