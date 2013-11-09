@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "Reportes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reportes</h2>
+<ul id="reports">
+    <li>@Html.ActionLink("Horarios más vendidos", "BestShowTimesSellers", "Reports", new {style = "font-size: 20px"})</li>
+    <li>@Html.ActionLink("Entradas más vendidas por película", "SalesPerMovie", "Reports", new {style = "font-size: 20px"})</li>
+</ul>
