@@ -1,14 +1,20 @@
 package phoneticket.android.services.get.impl;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import com.google.gson.Gson;
 
 import phoneticket.android.model.IMyShow;
@@ -39,7 +45,7 @@ public class RetrieveMyShowsService extends GetService implements
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		Collection<IMyShow> myShows = new ArrayList<IMyShow>();
+		List<IMyShow> myShows = new ArrayList<IMyShow>();
 		if (!isStatusOk || hasCLientProtocolRecieveException || null == result) {
 			delegate.retrieveMyShowsServiceFinishedWithError(this, null == statusLine ? 1 : statusLine.getStatusCode());
 		} else {
@@ -54,6 +60,24 @@ public class RetrieveMyShowsService extends GetService implements
 						myShows.add(myShow);
 					}
 				}
+				Collections.sort(myShows, new Comparator<IMyShow>() {
+					@SuppressLint("SimpleDateFormat")
+					@Override
+					public int compare(IMyShow lhs, IMyShow rhs) {
+						SimpleDateFormat sdf = new SimpleDateFormat(
+								"dd'/'MM mm:HH'Hs'");
+						Date ldate = null;
+						Date rdate = null;
+						try {
+							ldate = sdf.parse(lhs.getShowDateAndTime());
+							rdate = sdf.parse(rhs.getShowDateAndTime());
+						} catch (ParseException e) {
+							e.printStackTrace();
+							return 0;
+						}
+						return ldate.compareTo(rdate);
+					}
+				});
 				delegate.retrieveMyShowsServiceFinished(this, myShows);
 			} catch (JSONException e) {
 				e.printStackTrace();

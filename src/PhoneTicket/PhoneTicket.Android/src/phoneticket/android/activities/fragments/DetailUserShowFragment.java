@@ -567,7 +567,6 @@ public class DetailUserShowFragment extends RoboFragment implements
 					"yyyy'/'dd'/'MM mm:HH'Hs'");
 			Date date = sdf.parse(year + "/" + userShow.getShowDateAndTime());
 			Calendar cal = Calendar.getInstance(Locale.getDefault());
-
 			cal.setTime(date);
 			return cal.getTimeInMillis();
 		} catch (ParseException e) {
