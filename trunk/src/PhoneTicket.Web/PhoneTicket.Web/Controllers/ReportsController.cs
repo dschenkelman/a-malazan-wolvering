@@ -32,6 +32,11 @@
             this.complexService = complexService;
         }
 
+        public ActionResult Index()
+        {
+            return this.View();
+        }
+
         public async Task<ActionResult> ForShow(int showId)
         {
             var viewModel = await this.GetReportForShow(showId);
