@@ -2,11 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
 
-    <solid android:color="#ffffff" />
+    <solid android:color="#d1cfcd" />
 
     <stroke
         android:width="3dp"
-        android:color="#ffffff" />
+        android:color="#d1cfcd" />
 
     <padding
         android:bottom="1dp"
