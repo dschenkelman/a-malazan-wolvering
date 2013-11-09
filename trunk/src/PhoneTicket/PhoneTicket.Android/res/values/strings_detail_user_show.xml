@@ -5,5 +5,7 @@
     <string name="cancelShowButton">Cancelar Reserva</string>
     <string name="boughtShowButton">Realizar compra</string>
     <string name="qrCodeButton">Ver código QR</string>
-    
+    <string name="discountsTitle">Promociones:</string>
+    <string name="seatsTitle">Butacas:</string>
+
 </resources>

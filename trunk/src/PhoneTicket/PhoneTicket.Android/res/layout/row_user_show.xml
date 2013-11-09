@@ -6,10 +6,11 @@
     <ImageView
         android:id="@+id/userShowIcon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_centerVertical="true"
         android:padding="4dp"
-        android:src="@drawable/ic_user_show_bought" />
+        android:src="@drawable/ic_user_show_bought"
+        android:contentDescription="@string/userShowImageDescription" />
 
     <LinearLayout
 		android:id="@+id/textLayout"
@@ -24,7 +25,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
         	android:padding="1dp"
-	        android:text="------" />
+	        android:textColor="@color/phoneticker_data_text" />
 	
 	    <TextView
 	        android:id="@+id/userShowMovieName"
@@ -32,14 +33,14 @@
 	        android:layout_height="wrap_content"
 		    android:textAppearance="?android:attr/textAppearanceMedium" 
         	android:padding="1dp"
-	        android:text="------" />
+	        android:textColor="@color/phoneticker_title_text" />
 	
 	    <TextView
 	        android:id="@+id/userShowCinemaAddress"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
         	android:padding="1dp"
-	        android:text="------" />
+	        android:textColor="@color/phoneticker_data_text" />
         
     </LinearLayout>
 			

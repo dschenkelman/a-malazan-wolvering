@@ -11,19 +11,21 @@
 		android:layout_height="wrap_content"
 		android:orientation="vertical" >
 	    
-       <TextView
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_margin="4dp"
-           android:gravity="center_vertical|center_horizontal"
-           android:text="@string/errorLoadingMyShowData"
-           android:textSize="15sp" />
+	    <TextView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="4dp"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:text="@string/errorLoadingMyShowData"
+	        android:textSize="15sp"
+	        android:textColor="@color/phoneticker_title_text" />
 
 	    <Button
 	        android:id="@+id/reloadDataButton"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:text="@string/reloadDataButton" />
+	        android:text="@string/reloadDataButton"
+	        android:textColor="@color/phoneticker_button_text" />
 	  
 	</LinearLayout>
 
@@ -41,7 +43,8 @@
 	        android:layout_margin="4dp"
 	        android:gravity="center_vertical|center_horizontal"
 	        android:text="@string/loadingInfo"
-	        android:textSize="15sp" />
+	        android:textSize="15sp"
+	        android:textColor="@color/phoneticker_title_text" />
 	
 	    <ProgressBar
 	        android:id="@+id/downloadingDataProgressBar"

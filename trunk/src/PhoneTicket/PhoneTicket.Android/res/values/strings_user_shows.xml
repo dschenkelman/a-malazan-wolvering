@@ -2,5 +2,6 @@
 <resources>
     
     <string name="errorLoadingMyShowData">Error al descargar datos de las funciones. Intente nuevamente.</string>
+    <string name="userShowImageDescription">Image</string>
     
 </resources>
