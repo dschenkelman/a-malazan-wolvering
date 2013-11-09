@@ -15,19 +15,21 @@
 		android:layout_height="wrap_content"
 		android:orientation="vertical" >
 	    
-       <TextView
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_margin="4dp"
-           android:gravity="center_vertical|center_horizontal"
-           android:text="@string/errorLoadingCreditCardsData"
-           android:textSize="15sp" />
+	    <TextView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="4dp"
+	        android:gravity="center_vertical|center_horizontal"
+	        android:text="@string/errorLoadingCreditCardsData"
+	        android:textSize="15sp"
+	        android:textColor="@color/phoneticker_title_text" />
 
 	    <Button
 	        android:id="@+id/reloadDataButton"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:text="@string/reloadDataButton" />
+	        android:text="@string/reloadDataButton"
+	        android:textColor="@color/phoneticker_button_text" />
 	  
 	</LinearLayout>
 
@@ -45,7 +47,8 @@
 	        android:layout_margin="4dp"
 	        android:gravity="center_vertical|center_horizontal"
 	        android:text="@string/loadingInfo"
-	        android:textSize="15sp" />
+	        android:textSize="15sp"
+	        android:textColor="@color/phoneticker_title_text" />
 	
 	    <ProgressBar
 	        android:id="@+id/downloadingDataProgressBar"
@@ -72,7 +75,8 @@
 	            android:layout_height="wrap_content"
 	            android:ems="10"
 	            android:inputType="textPersonName"
-	            android:hint="@string/buy_ticket_hint_first_name" />
+	            android:hint="@string/buy_ticket_hint_first_name"
+	        	android:textColor="@color/phoneticker_data_text" />
 	
 	        <EditText
 	            android:id="@+id/lastNameEditText"
@@ -80,7 +84,8 @@
 	            android:layout_height="wrap_content"
 	            android:ems="10"
 	            android:inputType="textPersonName"
-	            android:hint="@string/buy_ticket_hint_last_name"  />
+	            android:hint="@string/buy_ticket_hint_last_name"
+	        	android:textColor="@color/phoneticker_data_text" />
 	
 	        <EditText
 	            android:id="@+id/cardNumberEditText"
@@ -88,7 +93,8 @@
 	            android:layout_height="wrap_content"
 	            android:ems="10"
 	            android:inputType="text"
-	            android:hint="@string/buy_ticket_hint_card_number" >
+	            android:hint="@string/buy_ticket_hint_card_number"
+	        	android:textColor="@color/phoneticker_data_text" >
 	
 	            <requestFocus />
 	        </EditText>
@@ -99,7 +105,8 @@
 	            android:layout_height="wrap_content"
 	            android:ems="10"
 	            android:inputType="number"
-	            android:hint="@string/buy_ticket_hint_security_code" />
+	            android:hint="@string/buy_ticket_hint_security_code"
+	        	android:textColor="@color/phoneticker_data_text" />
 	
 	        <EditText
 	            android:id="@+id/vencimientoEditText"
@@ -107,7 +114,8 @@
 	            android:layout_height="wrap_content"
 	            android:ems="10"
 	            android:inputType="date"
-	            android:hint="@string/buy_ticket_hint_vencimiento" />
+	            android:hint="@string/buy_ticket_hint_vencimiento"
+	        	android:textColor="@color/phoneticker_data_text" />
 	
 	        <Spinner
 	            android:id="@+id/cardCompanySppiner"
@@ -118,7 +126,8 @@
 	            android:id="@+id/buyButton"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:text="@string/buy_ticket_hint_buy_button" />
+	            android:text="@string/buy_ticket_hint_buy_button"
+	        	android:textColor="@color/phoneticker_button_text" />
 	
 	    </LinearLayout>
 	
