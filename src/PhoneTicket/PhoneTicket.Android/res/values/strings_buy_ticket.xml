@@ -13,6 +13,7 @@
     
     <string name="validator_invalid_creditcardnumber">Formato valido: 0000#8211;0000#8211;0000#8211;0000</string>
     <string name="validator_invalid_securitynumber">Código de seguridad consta de tres números.</string>
-    <string name="validator_invalid_vencimiento">Formato valido: DD/MM/AAAA</string>
+    <string name="validator_invalid_expiration">Formato valido: MM/AAAA</string>
+    <string name="validator_invalid_expiration_year">Fecha incorrecta</string>
     
 </resources>
