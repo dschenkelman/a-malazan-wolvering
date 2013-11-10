@@ -9,7 +9,7 @@
 
     public class NewUserViewModel
     {
-        public int Dni { get; set; }
+        public int Id { get; set; }
 
         public string EmailAddress { get; set; }
 
@@ -33,7 +33,7 @@
                        {
                            BirthDate = result ? parsed : (DateTime?)null, 
                            CellPhoneNumber = this.CellPhoneNumber, 
-                           Id = this.Dni,
+                           Id = this.Id,
                            FirstName = this.FirstName,
                            LastName = this.LastName, 
                            EmailAddress = this.EmailAddress,

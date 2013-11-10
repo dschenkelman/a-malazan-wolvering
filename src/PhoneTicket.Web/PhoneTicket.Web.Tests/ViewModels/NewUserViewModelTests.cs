@@ -30,7 +30,7 @@
                                     EmailAddress = emailAddress,
                                     FirstName = firstName,
                                     LastName = lastName,
-                                    Dni = dni,
+                                    Id = dni,
                                     Password = password
                                 };
 
@@ -67,7 +67,7 @@
                 EmailAddress = emailAddress,
                 FirstName = firstName,
                 LastName = lastName,
-                Dni = dni,
+                Id = dni,
                 Password = password
             };
 
@@ -92,7 +92,7 @@
                 EmailAddress = emailAddress,
                 FirstName = firstName,
                 LastName = lastName,
-                Dni = dni,
+                Id = dni,
                 Password = password
             };
 
@@ -119,7 +119,7 @@
                 EmailAddress = emailAddress,
                 FirstName = firstName,
                 LastName = lastName,
-                Dni = dni,
+                Id = dni,
                 Password = password
             };
 
@@ -146,7 +146,7 @@
                 EmailAddress = emailAddress,
                 FirstName = firstName,
                 LastName = lastName,
-                Dni = dni,
+                Id = dni,
                 Password = password
             };
 

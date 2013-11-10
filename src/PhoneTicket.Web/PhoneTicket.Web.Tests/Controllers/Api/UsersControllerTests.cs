@@ -55,7 +55,7 @@
                                     {
                                         BirthDate = birthDate.ToString("yyyy/MM/dd"),
                                         CellPhoneNumber = CellPhoneNumber,
-                                        Dni = Id,
+                                        Id = Id,
                                         EmailAddress = Email,
                                         FirstName = FirstName,
                                         LastName = LastName,
@@ -103,7 +103,7 @@
             {
                 BirthDate = birthDate.ToString("yyyy/MM/dd"),
                 CellPhoneNumber = CellPhoneNumber,
-                Dni = Id,
+                Id = Id,
                 EmailAddress = Email,
                 FirstName = FirstName,
                 LastName = LastName,
@@ -206,7 +206,7 @@
                 controller.Create(
                     new NewUserViewModel
                         {
-                            Dni = UserId,
+                            Id = UserId,
                             EmailAddress = UserEmail,
                             Password = "password",
                             BirthDate = "2013/05/04",
@@ -257,7 +257,7 @@
             {
                 BirthDate = birthDate.ToString("yyyy/MM/dd"),
                 CellPhoneNumber = CellPhoneNumber,
-                Dni = Id,
+                Id = Id,
                 EmailAddress = Email,
                 FirstName = FirstName,
                 LastName = LastName,
