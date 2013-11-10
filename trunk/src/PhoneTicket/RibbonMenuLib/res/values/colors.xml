@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="rbm_menu_background">#d17921</color>
-    <color name="rbm_item_text_color">#bc131a</color>
+    <color name="rbm_menu_background">#454343</color>
+    <color name="rbm_item_text_color">#d1cfcd</color>
 
 </resources>
