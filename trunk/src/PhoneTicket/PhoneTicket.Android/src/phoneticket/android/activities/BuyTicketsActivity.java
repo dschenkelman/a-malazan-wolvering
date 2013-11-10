@@ -90,6 +90,7 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 					}
 				});
 
+		showLoadingLayout();
 		retrieveInformation();
 	}
 
@@ -329,6 +330,13 @@ public class BuyTicketsActivity extends RoboFragmentActivity implements
 	public void retrieveUserInfoFinish(
 			IRetrieveUserInfoService retrieveUserInfoService) {
 		if (false == ignoreServices) {
+			EditText firstName = (EditText) findViewById(R.id.firstNameEditText);
+			EditText lastName = (EditText) findViewById(R.id.lastNameEditText);
+
+			firstName.setText(UserManager.getInstance().getLogedUser()
+					.getFirstName());
+			lastName.setText(UserManager.getInstance().getLogedUser().getLastName());
+			
 			onRetrieveCreditCardsAction();
 		}
 	}
