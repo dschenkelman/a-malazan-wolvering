@@ -72,6 +72,7 @@
             var shows = await basicQuery.ToListAsync();
 
             var data = shows
+                .Where(s => s.Operations.Count() > 0)
                 .GroupBy(s => s.Date.ToString("HH:mm"))
                 .Select(g => new
                 {
@@ -79,7 +80,8 @@
                     TicketCount = g.Sum(a => a.Operations.Sum(o => o.OccupiedSeats.Count())),
                     MovieCount = g.Select(a => a.Movie.Title).Distinct().Count()
                 })
-                .OrderByDescending(a => a.MovieCount);
+                .OrderBy(a => a.Key)
+                .OrderByDescending(a => a.TicketCount);
 
             return data.Select(d => new ShowTimeTicketCountViewModel { Time = d.Key, MovieCount = d.MovieCount, TicketCount = d.TicketCount, Complexes = complexes });
         }
