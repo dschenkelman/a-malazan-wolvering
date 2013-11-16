@@ -54,7 +54,7 @@
 
         public async Task<IEnumerable<MovieSalesViewModel>> GetSalesPerMovieReport(DateTime beginDate, DateTime endDate, int complexId)
         {
-            var basicQuery = this.repositories.Operations.Filter(o => beginDate < o.Date && o.Date < endDate);
+            var basicQuery = this.repositories.Operations.Filter(o => beginDate < o.Show.Date && o.Show.Date < endDate && o.Type != OperationType.Reservation);
 
             string complexes;
 
