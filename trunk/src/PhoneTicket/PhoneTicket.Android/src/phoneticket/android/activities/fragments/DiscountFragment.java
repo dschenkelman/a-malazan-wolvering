@@ -560,4 +560,8 @@ public class DiscountFragment extends RoboFragment implements
 		}
 		return false;
 	}
+
+	public List<DiscountCountable> getDiscountsBaseInfo() {
+		return this.discountsBaseInfo;
+	}
 }

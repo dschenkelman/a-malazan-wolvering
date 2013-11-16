@@ -19,6 +19,8 @@ import org.robolectric.shadows.ShadowIntent;
 import org.robolectric.shadows.ShadowPreferenceManager;
 
 import phoneticket.android.R;
+import phoneticket.android.activities.BuyTicketsActivity;
+import phoneticket.android.activities.LoginActivity;
 import phoneticket.android.activities.MasterActivity;
 import phoneticket.android.activities.fragments.DetailCinemaFragment;
 import phoneticket.android.activities.fragments.DetailMovieFragment;
@@ -32,6 +34,7 @@ import phoneticket.android.services.get.mock.MockRetrieveMovieFunctionsService;
 import phoneticket.android.services.get.mock.MockRetrieveMovieInfoService;
 import phoneticket.android.utils.UserManager;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
@@ -148,7 +151,10 @@ public class DetailMovieTest {
 
 		ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
 		Intent intent = shadowActivity.getNextStartedActivity();
+		ComponentName c = intent.getComponent();
+		String call = c.getClassName();
 		assertNotNull(intent);
+		Assert.assertEquals(LoginActivity.class.getName(), call);
 	}
 
 	@Test
