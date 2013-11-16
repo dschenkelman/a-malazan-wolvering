@@ -72,12 +72,12 @@
             var shows = await basicQuery.ToListAsync();
 
             var data = shows
-                .Where(s => s.Operations.Count() > 0)
+                .Where(s => s.Operations.Where(o => o.Type != OperationType.Reservation).Count() > 0)
                 .GroupBy(s => s.Date.ToString("HH:mm"))
                 .Select(g => new
                 {
                     g.Key,
-                    TicketCount = g.Sum(a => a.Operations.Sum(o => o.OccupiedSeats.Count())),
+                    TicketCount = g.Sum(a => a.Operations.Where(o => o.Type != OperationType.Reservation).Sum(o => o.OccupiedSeats.Count())),
                     MovieCount = g.Select(a => a.Movie.Title).Distinct().Count()
                 })
                 .OrderBy(a => a.Key)
