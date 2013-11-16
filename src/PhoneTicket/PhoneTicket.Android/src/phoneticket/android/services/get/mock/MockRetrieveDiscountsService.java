@@ -11,10 +11,12 @@ import phoneticket.android.services.get.IRetrieveDiscountsServiceDelegate;
 public class MockRetrieveDiscountsService extends
 		AsyncTask<String, String, String> implements IRetrieveDiscountService {
 	private IRetrieveDiscountsServiceDelegate delegate;
+	private List<Discount> discounts;
 
 	@Override
 	public void retrieveDiscounts(IRetrieveDiscountsServiceDelegate delegate) {
 		this.delegate = delegate;
+		discounts = this.getDiscounts();
 		execute("");
 	}
 
@@ -30,7 +32,6 @@ public class MockRetrieveDiscountsService extends
 
 	@Override
 	protected void onPostExecute(String result) {
-		List<Discount> discounts = this.getDiscounts();
 		delegate.retrieveDiscountsFinish(this, discounts);
 		// delegate.retrieveDiscountsFinishWithError(this, 5);
 	}
@@ -47,5 +48,9 @@ public class MockRetrieveDiscountsService extends
 		discounts.add(discount3);
 
 		return discounts;
+	}
+
+	public List<Discount> getDiscountsSent() {
+		return this.discounts;
 	}
 }

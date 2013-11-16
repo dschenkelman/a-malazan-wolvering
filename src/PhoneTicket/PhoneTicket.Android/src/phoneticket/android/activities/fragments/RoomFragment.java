@@ -245,9 +245,12 @@ public class RoomFragment extends RoboFragment implements
 					armChair.liberar();
 					selectedArmChair.remove(armChair);
 				}
-				ArmChairHolder holder = (ArmChairHolder) v.getTag();
-				holder.getArmChairView().setState(armChair.getState());
-				armChairsCount.setText(String.valueOf(selectedArmChair.size()));
+				if (v != null) {
+					ArmChairHolder holder = (ArmChairHolder) v.getTag();
+					holder.getArmChairView().setState(armChair.getState());
+					armChairsCount.setText(String.valueOf(selectedArmChair
+							.size()));
+				}
 			}
 		});
 		armChairsCount.setText(String.valueOf(selectedArmChair.size()));

@@ -76,4 +76,8 @@ public class Ticket implements Serializable {
 		return this.price;
 	}
 
+	public void setFunctionDay(String functionDay) {
+		this.functionDay = functionDay;
+	}
+
 }

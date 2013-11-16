@@ -7,8 +7,8 @@ public class RetrieveRoomInfoServiceProxy implements IRetrieveRoomInfoService {
 
 	@Override
 	public void retrieveRoomInfo(IRetrieveRoomInfoServiceDelegate delegate,
-			int roomId) {
-		(new RetrieveRoomInfoService()).retrieveRoomInfo(delegate, roomId);
+			int functionId) {
+		(new RetrieveRoomInfoService()).retrieveRoomInfo(delegate, functionId);
 	}
 
 }

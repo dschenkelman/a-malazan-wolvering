@@ -1,5 +1,6 @@
 package phoneticket.android.services.get;
 
 public interface IRetrieveRoomInfoService {
-	void retrieveRoomInfo(IRetrieveRoomInfoServiceDelegate delegate, int roomId);
+	void retrieveRoomInfo(IRetrieveRoomInfoServiceDelegate delegate,
+			int functionId);
 }
