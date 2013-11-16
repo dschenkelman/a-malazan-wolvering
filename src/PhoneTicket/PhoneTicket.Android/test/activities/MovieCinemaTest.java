@@ -1,6 +1,5 @@
 package activities;
 
-import junit.framework.Assert;
 import module.TestModule;
 
 import org.junit.Before;
@@ -15,12 +14,9 @@ import org.robolectric.RobolectricTestRunner;
 import phoneticket.android.R;
 import phoneticket.android.activities.MasterActivity;
 import phoneticket.android.activities.fragments.CinemasFragment;
-import phoneticket.android.activities.fragments.DetailCinemaFragment;
 import phoneticket.android.services.get.IRetrieveCinemaInfoService;
 import phoneticket.android.services.get.IRetrieveCinemaListService;
 import phoneticket.android.services.get.IRetrieveMovieListService;
-import phoneticket.android.services.get.mock.MockRetrieveCinemaListService;
-import android.widget.ListView;
 
 @RunWith(RobolectricTestRunner.class)
 public class MovieCinemaTest {
@@ -62,23 +58,6 @@ public class MovieCinemaTest {
 	public void detailMovieActivityCallRetrieveMovieListServiceOnCreate() {
 		Mockito.verify(cinemaListService, Mockito.times(1)).retrieveCinemaList(
 				fragment);
-	}
-
-	@Test
-	public void detailMovieChangeFragmentOnItemClick() {
-		ListView cinemaListView = (ListView) fragment.getView().findViewById(
-				R.id.cinemaList);
-
-		new MockRetrieveCinemaListService().retrieveCinemaList(fragment);
-
-		cinemaListView.getOnItemClickListener().onItemClick(null, null, 0, 0);
-
-		Assert.assertEquals(
-				DetailCinemaFragment.class.getCanonicalName(),
-				activity.getSupportFragmentManager()
-						.findFragmentById(R.id.fragment_container).getClass()
-						.getCanonicalName());
-
 	}
 
 	@Test
