@@ -244,7 +244,7 @@ public class CinemasFragment extends RoboFragment implements
 				.findViewById(R.id.loadingDataLayout);
 		LinearLayout dataLayout = (LinearLayout) getActivity().findViewById(
 				R.id.cinemaList);
-		RelativeLayout errorContainer = (RelativeLayout) getActivity()
+		LinearLayout errorContainer = (LinearLayout) getActivity()
 				.findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(RelativeLayout.GONE);
 		dataLayout.setVisibility(LinearLayout.GONE);
@@ -256,7 +256,7 @@ public class CinemasFragment extends RoboFragment implements
 				.findViewById(R.id.loadingDataLayout);
 		LinearLayout dataLayout = (LinearLayout) getActivity().findViewById(
 				R.id.cinemaList);
-		RelativeLayout errorContainer = (RelativeLayout) getActivity()
+		LinearLayout errorContainer = (LinearLayout) getActivity()
 				.findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(RelativeLayout.VISIBLE);
 		dataLayout.setVisibility(LinearLayout.GONE);
@@ -268,7 +268,7 @@ public class CinemasFragment extends RoboFragment implements
 				.findViewById(R.id.loadingDataLayout);
 		LinearLayout dataLayout = (LinearLayout) getActivity().findViewById(
 				R.id.cinemaList);
-		RelativeLayout errorContainer = (RelativeLayout) getActivity()
+		LinearLayout errorContainer = (LinearLayout) getActivity()
 				.findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(RelativeLayout.GONE);
 		dataLayout.setVisibility(LinearLayout.VISIBLE);

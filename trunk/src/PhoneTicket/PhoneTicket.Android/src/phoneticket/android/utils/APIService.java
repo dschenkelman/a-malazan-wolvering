@@ -2,7 +2,7 @@ package phoneticket.android.utils;
 
 public class APIService {
 
-	static private String host = "https://phoneticket.apphb.com";
+	static private String host = "https://phoneticket.apphb.com"; //"https://Damian-PC:44300";//
 
 	public static String baseAPIURL() {
 		return host + "/API/";
