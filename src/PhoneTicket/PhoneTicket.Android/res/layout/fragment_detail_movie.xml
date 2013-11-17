@@ -148,7 +148,13 @@
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/phoneticker_separator_bar" />
-
+            
+            <ProgressBar
+                android:id="@+id/downloadingFunctionsProgressBar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loadingInfo" />
+            
             <LinearLayout
                 android:id="@+id/functionsLayout"
                 android:layout_width="wrap_content"

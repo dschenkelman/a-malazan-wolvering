@@ -25,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
@@ -176,7 +177,7 @@ public class MovieListFragment extends RoboFragment implements
 				.findViewById(R.id.loadingDataLayout);
 		GridView dataLayout = (GridView) getActivity().findViewById(
 				R.id.gridview);
-		RelativeLayout errorContainer = (RelativeLayout) getActivity()
+		LinearLayout errorContainer = (LinearLayout) getActivity()
 				.findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(RelativeLayout.GONE);
 		dataLayout.setVisibility(GridView.GONE);
@@ -188,7 +189,7 @@ public class MovieListFragment extends RoboFragment implements
 				.findViewById(R.id.loadingDataLayout);
 		GridView dataLayout = (GridView) getActivity().findViewById(
 				R.id.gridview);
-		RelativeLayout errorContainer = (RelativeLayout) getActivity()
+		LinearLayout errorContainer = (LinearLayout) getActivity()
 				.findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(RelativeLayout.VISIBLE);
 		dataLayout.setVisibility(GridView.GONE);
@@ -200,7 +201,7 @@ public class MovieListFragment extends RoboFragment implements
 				.findViewById(R.id.loadingDataLayout);
 		GridView dataLayout = (GridView) getActivity().findViewById(
 				R.id.gridview);
-		RelativeLayout errorContainer = (RelativeLayout) getActivity()
+		LinearLayout errorContainer = (LinearLayout) getActivity()
 				.findViewById(R.id.errorViewContainer);
 		errorContainer.setVisibility(RelativeLayout.GONE);
 		dataLayout.setVisibility(GridView.VISIBLE);

@@ -146,10 +146,15 @@ public class DiscountFragment extends RoboFragment implements
 		super.onAttach(activity);
 		try {
 			this.toMovieListListener = (IToMovieListListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement IToMovieListListener");
+		}
+		try {
 			this.detailListener = (IDetailUserShowListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
-					+ " must implement IShareButtonsVisibilityListener");
+					+ " must implement IDetailUserShowListener");
 		}
 		try {
 			ribbonListener = (IRibbonChangeMenuListener) activity;
