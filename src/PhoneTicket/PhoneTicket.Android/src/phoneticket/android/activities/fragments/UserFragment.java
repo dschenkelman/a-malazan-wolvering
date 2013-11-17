@@ -85,6 +85,15 @@ public class UserFragment extends RoboFragment implements
 				onLogoutAction();
 			}
 		});
+		
+		Button logoutButtonOnError = (Button) getView()
+				.findViewById(R.id.logoutButtonOnError);
+		logoutButtonOnError.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				doLogoutAction();
+			}
+		});
 
 		Button reloadDataButton = (Button) getView().findViewById(
 				R.id.reloadDataButton);
@@ -167,6 +176,11 @@ public class UserFragment extends RoboFragment implements
 	protected void onLogoutAction() {
 		ConfirmLogoutDialogFragment dialog = new ConfirmLogoutDialogFragment();
 		dialog.show(getFragmentManager(), "dialog.logout.confirmation");
+	}
+
+	protected void doLogoutAction() {
+		UserManager.getInstance().logoutUser();
+		showLoginLayoutVisibility();
 	}
 
 	protected void onLoadDataAction() {
@@ -294,7 +308,6 @@ public class UserFragment extends RoboFragment implements
 
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
-		UserManager.getInstance().logoutUser();
-		showLoginLayoutVisibility();
+		doLogoutAction();
 	}
 }

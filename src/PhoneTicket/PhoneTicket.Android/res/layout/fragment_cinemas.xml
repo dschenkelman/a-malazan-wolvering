@@ -4,32 +4,31 @@
     android:layout_height="match_parent"
     android:background="@color/phoneticker_background" >
 
-    <RelativeLayout
-        android:id="@+id/errorViewContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+   	<LinearLayout
+		android:id="@+id/errorViewContainer" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
         android:visibility="gone" >
-
-        <TextView
+	    
+	    <TextView
             android:id="@+id/errorMessage"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="4dp"
+	        android:gravity="center_vertical|center_horizontal"
             android:text="@string/error_message_activity_cinemas"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:textSize="15sp"
 	        android:textColor="@color/phoneticker_title_text" />
 
-        <Button
-            android:id="@+id/refreshViewButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+	    <Button
+	        android:id="@+id/refreshViewButton"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
             android:text="@string/error_button_activity_movie_list"
 	        android:textColor="@color/phoneticker_button_text" />
-        
-    </RelativeLayout>
+	    
+	</LinearLayout>
 
     <RelativeLayout
         android:id="@+id/loadingDataLayout"
