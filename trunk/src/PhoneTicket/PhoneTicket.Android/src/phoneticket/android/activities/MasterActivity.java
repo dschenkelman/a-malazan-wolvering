@@ -185,6 +185,11 @@ public class MasterActivity extends RoboFragmentActivity implements
 			uiHelper.onDestroy();
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+	}
+
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
 	 */
@@ -280,7 +285,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideTwitterShareButton();
 		hideCalendarButton();
 		MovieListFragment movielistFragment = new MovieListFragment();
-		changeFragment(movielistFragment, true);
+		changeFragment(movielistFragment, false);
 	}
 
 	public void changeToCinemasFragment() {
@@ -288,7 +293,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideTwitterShareButton();
 		hideCalendarButton();
 		CinemasFragment cinemasFragment = new CinemasFragment();
-		changeFragment(cinemasFragment, true);
+		changeFragment(cinemasFragment, false);
 	}
 
 	public void changeToUserFragment() {
@@ -301,7 +306,7 @@ public class MasterActivity extends RoboFragmentActivity implements
 		hideCalendarButton();
 		twitterMessage = "Soy usuario de CINEMAR, Unite!. Visita www.cinemar.com.ar";
 		UserFragment userFragment = new UserFragment();
-		changeFragment(userFragment, true, UserFragment.TAG);
+		changeFragment(userFragment, false, UserFragment.TAG);
 	}
 
 	private void changeToDetailMovieFragment(Bundle movieData,

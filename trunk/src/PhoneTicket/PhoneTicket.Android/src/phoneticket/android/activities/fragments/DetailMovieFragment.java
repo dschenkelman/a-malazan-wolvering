@@ -43,6 +43,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -308,6 +309,11 @@ public class DetailMovieFragment extends RoboFragment implements
 		if (ignoreServicesCallbacks) {
 			return;
 		}
+
+		ProgressBar pb = (ProgressBar) getView().findViewById(
+				R.id.downloadingFunctionsProgressBar);
+		pb.setVisibility(ProgressBar.GONE);
+		
 		functionsLayout.removeAllViews();
 		int index = 0;
 		for (final IMovieFunctions movieFunctions : moviesFunctions) {
@@ -453,6 +459,9 @@ public class DetailMovieFragment extends RoboFragment implements
 	public void retrieveMovieFunctionsFinishWithError(
 			IRetrieveMovieFunctionsService service, Integer errorCode) {
 		if (ignoreServicesCallbacks) {
+			ProgressBar pb = (ProgressBar) getView().findViewById(
+					R.id.downloadingFunctionsProgressBar);
+			pb.setVisibility(ProgressBar.GONE);
 			return;
 		}
 	}
