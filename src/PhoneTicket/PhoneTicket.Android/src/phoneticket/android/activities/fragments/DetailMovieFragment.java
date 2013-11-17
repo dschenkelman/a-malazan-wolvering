@@ -313,7 +313,7 @@ public class DetailMovieFragment extends RoboFragment implements
 		ProgressBar pb = (ProgressBar) getView().findViewById(
 				R.id.downloadingFunctionsProgressBar);
 		pb.setVisibility(ProgressBar.GONE);
-		
+
 		functionsLayout.removeAllViews();
 		int index = 0;
 		for (final IMovieFunctions movieFunctions : moviesFunctions) {
@@ -412,7 +412,7 @@ public class DetailMovieFragment extends RoboFragment implements
 
 			// header listeners
 			final int headerIndex = index;
-			ImageButton expandContract = (ImageButton) headerView
+			final ImageButton expandContract = (ImageButton) headerView
 					.findViewById(R.id.expandContractButton);
 			expandContract.setOnClickListener(new OnClickListener() {
 				@Override
@@ -426,6 +426,9 @@ public class DetailMovieFragment extends RoboFragment implements
 						expandedGroupsIds.add(id);
 						isExpanded = true;
 					}
+					expandContract
+							.setImageResource(isExpanded ? R.drawable.acordeon_minus_button
+									: R.drawable.acordeon_plus_button);
 					for (View child : childViews) {
 						child.setVisibility(isExpanded ? View.VISIBLE
 								: View.GONE);
