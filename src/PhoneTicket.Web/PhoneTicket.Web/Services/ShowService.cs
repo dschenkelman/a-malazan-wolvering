@@ -54,7 +54,9 @@
 
         public async Task<IEnumerable<ShowTimeTicketCountViewModel>> GetShowsBetweenDates(DateTime fromDate, DateTime toDate, int complexId)
         {
-            var basicQuery = this.repositories.Shows.Filter(s => s.Date >= fromDate && s.Date <= toDate);
+            var endDate = toDate.AddDays(1);
+
+            var basicQuery = this.repositories.Shows.Filter(s => s.Date >= fromDate && s.Date < endDate);
 
             string complexes;
 
